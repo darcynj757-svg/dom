@@ -132,7 +132,7 @@ function HouseModel({ progress }: { progress: number }) {
     const size = new THREE.Vector3();
     box.getSize(size);
     const maxDim = Math.max(size.x, size.y, size.z);
-    const s = maxDim > 0 ? 7 / maxDim : 1;
+    const s = maxDim > 0 ? 5.5 / maxDim : 1;
     const center = new THREE.Vector3();
     box.getCenter(center);
     return { normScale: s, centerOffset: center };
@@ -154,7 +154,7 @@ function HouseModel({ progress }: { progress: number }) {
     groupRef.current.scale.setScalar(s);
     groupRef.current.position.y = -1 + progress;
     // Slight fixed angle so the house shows its side — "немного боком"
-    groupRef.current.rotation.y = Math.PI * 0.18;
+    groupRef.current.rotation.y = Math.PI * 0.08;
   });
 
   return (
@@ -173,8 +173,8 @@ function Scene({ progress }: { progress: number }) {
   useFrame(() => {
     // Camera orbits from front (0°) to ~45° side as user scrolls
     const angle = progress * Math.PI * 0.25;
-    camera.position.x = Math.sin(angle) * 5;
-    camera.position.z = Math.cos(angle) * 5;
+    camera.position.x = Math.sin(angle) * 6.5;
+    camera.position.z = Math.cos(angle) * 6.5;
     camera.position.y = 1.5 + progress * 0.8;
     camera.lookAt(0, 0.3, 0);
   });
