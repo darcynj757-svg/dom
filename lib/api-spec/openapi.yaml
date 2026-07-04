@@ -10,6 +10,10 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: projects
+    description: Construction project catalog
+  - name: contact
+    description: Contact / lead requests
 paths:
   /healthz:
     get:
@@ -24,6 +28,121 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /projects:
+    get:
+      operationId: listProjects
+      tags: [projects]
+      summary: List projects with optional filters
+      parameters:
+        - name: category
+          in: query
+          schema:
+            $ref: "#/components/schemas/ProjectCategory"
+        - name: material
+          in: query
+          schema:
+            type: string
+        - name: minArea
+          in: query
+          schema:
+            type: number
+        - name: maxArea
+          in: query
+          schema:
+            type: number
+        - name: minPrice
+          in: query
+          schema:
+            type: number
+        - name: maxPrice
+          in: query
+          schema:
+            type: number
+        - name: floors
+          in: query
+          schema:
+            type: integer
+        - name: featured
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+  /projects/filters:
+    get:
+      operationId: getProjectFilters
+      tags: [projects]
+      summary: Get available filter facets (materials, area/price ranges)
+      responses:
+        "200":
+          description: Filter facets
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectFilters"
+
+  /projects/{id}:
+    get:
+      operationId: getProject
+      tags: [projects]
+      summary: Get a single project by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+
+  /stats:
+    get:
+      operationId: getCompanyStats
+      tags: [projects]
+      summary: Company stats for the homepage (years, built count, etc.)
+      responses:
+        "200":
+          description: Company stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyStats"
+
+  /contact-requests:
+    post:
+      operationId: createContactRequest
+      tags: [contact]
+      summary: Submit a contact / lead request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactRequestInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactRequest"
+
 components:
   schemas:
     HealthStatus:
@@ -33,4 +152,88 @@ components:
           type: string
       required:
         - status
+
+    ProjectCategory:
+      type: string
+      enum: [house, bathhouse]
+
+    Project:
+      type: object
+      required:
+        - id
+        - title
+        - category
+        - material
+        - area
+        - floors
+        - bedrooms
+        - price
+        - description
+        - features
+        - imageUrl
+        - gallery
+        - featured
+        - createdAt
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        category:
+          $ref: "#/components/schemas/ProjectCategory"
+        material: { type: string }
+        area: { type: number }
+        floors: { type: integer }
+        bedrooms: { type: integer }
+        price: { type: number }
+        description: { type: string }
+        features:
+          type: array
+          items: { type: string }
+        imageUrl: { type: string }
+        gallery:
+          type: array
+          items: { type: string }
+        featured: { type: boolean }
+        createdAt: { type: string, format: date-time }
+
+    ProjectFilters:
+      type: object
+      required: [materials, minArea, maxArea, minPrice, maxPrice, maxFloors]
+      properties:
+        materials:
+          type: array
+          items: { type: string }
+        minArea: { type: number }
+        maxArea: { type: number }
+        minPrice: { type: number }
+        maxPrice: { type: number }
+        maxFloors: { type: integer }
+
+    CompanyStats:
+      type: object
+      required: [yearsOnMarket, projectsBuilt, happyClients, teamSize]
+      properties:
+        yearsOnMarket: { type: integer }
+        projectsBuilt: { type: integer }
+        happyClients: { type: integer }
+        teamSize: { type: integer }
+
+    ContactRequestInput:
+      type: object
+      required: [name, phone]
+      properties:
+        name: { type: string, minLength: 1 }
+        phone: { type: string, minLength: 1 }
+        message: { type: ["string", "null"] }
+        projectId: { type: ["integer", "null"] }
+
+    ContactRequest:
+      type: object
+      required: [id, name, phone, message, projectId, createdAt]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        phone: { type: string }
+        message: { type: ["string", "null"] }
+        projectId: { type: ["integer", "null"] }
+        createdAt: { type: string, format: date-time }
 

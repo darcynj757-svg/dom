@@ -1,0 +1,38 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "b92y3DAq-Jbs_m_Qn1aGs"
+uri = "file://attached_assets/generated_images/house_timber_modern.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "I1MprbBtKdzLdE2y6pGaq"
+uri = "file://attached_assets/generated_images/house_brick_classic.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "5i2MyV__X6_3M470lgVUY"
+uri = "file://attached_assets/generated_images/house_frame_scandinavian.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "OwQPW5nht0v6hfXznOFM1"
+uri = "file://attached_assets/generated_images/bathhouse_log_traditional.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "Oo2ZS0_XFPOqJMvjhSv2y"
+uri = "file://attached_assets/generated_images/bathhouse_modern_black.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "vxOjyQ0KPX5PbrWifkiPZ"
+uri = "file://attached_assets/generated_images/bathhouse_lake_rustic.png"
+type = "image"
+title = "generated_image"
