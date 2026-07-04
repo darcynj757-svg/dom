@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,900&family=Fraunces:opsz,wght@9..144,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -38,6 +38,7 @@
 
   --font-sans: 'Plus Jakarta Sans', sans-serif;
   --font-serif: 'Fraunces', serif;
+  --font-display: 'Playfair Display', serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -46,22 +47,20 @@
 }
 
 :root {
-  --background: 38 18% 97%;   /* warm white #F9F7F4 */
-  --foreground: 0 0% 9%;      /* near-black #171717 */
+  --background: 38 18% 97%;
+  --foreground: 0 0% 9%;
   --card: 0 0% 100%;
   --card-foreground: 0 0% 9%;
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 9%;
 
-  /* Primary: black */
   --primary: 0 0% 10%;
   --primary-foreground: 0 0% 98%;
 
-  /* Secondary: sand — dark text for contrast (≥7:1) */
-  --secondary: 38 32% 58%;    /* hsl→ #B69D72 warm sand */
+  --secondary: 38 32% 58%;
   --secondary-foreground: 0 0% 9%;
 
-  --muted: 38 16% 91%;        /* light sand #EDEAE3 */
+  --muted: 38 16% 91%;
   --muted-foreground: 0 0% 42%;
 
   --accent: 38 32% 58%;
@@ -70,7 +69,7 @@
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 38 20% 83%;       /* sandy border #DDD5C6 */
+  --border: 38 20% 83%;
   --input: 38 20% 83%;
   --ring: 0 0% 10%;
 
@@ -78,14 +77,14 @@
 }
 
 .dark {
-  --background: 0 0% 8%;      /* #141414 */
-  --foreground: 38 15% 95%;   /* warm off-white */
+  --background: 0 0% 8%;
+  --foreground: 38 15% 95%;
   --card: 0 0% 11%;
   --card-foreground: 38 15% 95%;
   --popover: 0 0% 11%;
   --popover-foreground: 38 15% 95%;
 
-  --primary: 38 32% 62%;      /* sand becomes primary accent in dark */
+  --primary: 38 32% 62%;
   --primary-foreground: 0 0% 8%;
 
   --secondary: 0 0% 88%;
@@ -114,5 +113,52 @@
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif font-medium tracking-tight;
+  }
+}
+
+/* ─── Liquid Glass utilities ─────────────────────────────────────── */
+@layer utilities {
+  /* Base glass — works on both dark and light backgrounds */
+  .glass {
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  /* Stronger glass for cards on light backgrounds */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(32px) saturate(1.8);
+    -webkit-backdrop-filter: blur(32px) saturate(1.8);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  /* Navbar glass — adapts to background */
+  .glass-nav {
+    background: rgba(249, 247, 244, 0.75);
+    backdrop-filter: blur(20px) saturate(1.8);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Glass over dark/video background */
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Display font */
+  .font-display {
+    font-family: 'Playfair Display', serif;
   }
 }
