@@ -1,91 +1,57 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Environment, ContactShadows } from "@react-three/drei";
+import { Environment, ContactShadows, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-// A simple procedural house that builds itself based on a progress value (0 to 1)
-function BuildingHouse({ progress }: { progress: number }) {
-  const foundationRef = useRef<THREE.Mesh>(null!);
-  const wallsRef = useRef<THREE.Group>(null!);
-  const roofRef = useRef<THREE.Group>(null!);
-  const detailsRef = useRef<THREE.Group>(null!);
+const MODEL_URL = `${import.meta.env.BASE_URL}house.glb`.replace(/\/+/g, "/").replace(":/", "://");
+
+// Preload so it's ready when the component mounts
+useGLTF.preload(MODEL_URL);
+
+function HouseModel({ progress }: { progress: number }) {
+  const groupRef = useRef<THREE.Group>(null!);
+  const { scene } = useGLTF(MODEL_URL);
+
+  const clonedScene = useMemo(() => {
+    const clone = scene.clone(true);
+    clone.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    return clone;
+  }, [scene]);
+
+  // Compute bounding box once and normalise the model
+  const { scale: normScale, centerOffset } = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(clonedScene);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const targetSize = 4; // desired world-unit span
+    const s = maxDim > 0 ? targetSize / maxDim : 1;
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    return { scale: s, centerOffset: center };
+  }, [clonedScene]);
 
   useFrame(() => {
-    // 0.0 - 0.25: Foundation rises
-    const pFoundation = Math.min(Math.max(progress * 4, 0), 1);
-    if (foundationRef.current) {
-      foundationRef.current.position.y = -0.5 + pFoundation * 0.5;
-      foundationRef.current.scale.y = Math.max(pFoundation, 0.01);
-    }
-
-    // 0.25 - 0.6: Walls appear and rise
-    const pWalls = Math.min(Math.max((progress - 0.25) * (1 / 0.35), 0), 1);
-    if (wallsRef.current) {
-      wallsRef.current.position.y = -1 + pWalls * 1;
-      wallsRef.current.scale.y = Math.max(pWalls, 0.01);
-      wallsRef.current.visible = pWalls > 0;
-    }
-
-    // 0.6 - 0.85: Roof drops down
-    const pRoof = Math.min(Math.max((progress - 0.6) * (1 / 0.25), 0), 1);
-    if (roofRef.current) {
-      roofRef.current.position.y = 3 - pRoof * 1.5;
-      roofRef.current.scale.setScalar(Math.max(pRoof, 0.01));
-      roofRef.current.visible = pRoof > 0;
-    }
-
-    // 0.85 - 1.0: Windows/Door pop in
-    const pDetails = Math.min(Math.max((progress - 0.85) * (1 / 0.15), 0), 1);
-    if (detailsRef.current) {
-      detailsRef.current.scale.setScalar(Math.max(pDetails, 0.01));
-      detailsRef.current.visible = pDetails > 0;
-    }
+    if (!groupRef.current) return;
+    // Ease in: scale from 0 to normScale, rise from below
+    const easedProgress = progress < 0.001 ? 0 : progress;
+    const s = normScale * easedProgress;
+    groupRef.current.scale.setScalar(Math.max(s, 0.0001));
+    groupRef.current.position.y = -1 + easedProgress * 1;
   });
 
   return (
-    <group position={[0, -0.5, 0]}>
-      {/* Foundation */}
-      <mesh ref={foundationRef} position={[0, 0, 0]} receiveShadow castShadow>
-        <boxGeometry args={[4.2, 0.2, 3.2]} />
-        <meshStandardMaterial color="#888888" roughness={0.9} />
-      </mesh>
-
-      {/* Walls */}
-      <group ref={wallsRef} position={[0, 0.1, 0]}>
-        <mesh position={[0, 0.9, 0]} receiveShadow castShadow>
-          <boxGeometry args={[4, 1.8, 3]} />
-          <meshStandardMaterial color="#D4C4A8" roughness={0.7} />
-        </mesh>
-      </group>
-
-      {/* Roof */}
-      <group ref={roofRef} position={[0, 2, 0]}>
-        <mesh position={[0, 0, 0]} receiveShadow castShadow rotation={[0, 0, 0]}>
-          <coneGeometry args={[3, 1.5, 4]} />
-          <meshStandardMaterial color="#3A403C" roughness={0.8} />
-        </mesh>
-      </group>
-
-      {/* Details (Door, Windows) */}
-      <group ref={detailsRef} position={[0, 0.1, 0]}>
-        {/* Door */}
-        <mesh position={[0, 0.6, 1.51]} receiveShadow castShadow>
-          <boxGeometry args={[0.8, 1.2, 0.1]} />
-          <meshStandardMaterial color="#5C3A21" roughness={0.6} />
-        </mesh>
-        
-        {/* Window 1 */}
-        <mesh position={[-1.2, 1, 1.51]} receiveShadow castShadow>
-          <boxGeometry args={[0.8, 0.8, 0.1]} />
-          <meshStandardMaterial color="#A8C9D4" roughness={0.2} metalness={0.8} />
-        </mesh>
-        
-        {/* Window 2 */}
-        <mesh position={[1.2, 1, 1.51]} receiveShadow castShadow>
-          <boxGeometry args={[0.8, 0.8, 0.1]} />
-          <meshStandardMaterial color="#A8C9D4" roughness={0.2} metalness={0.8} />
-        </mesh>
-      </group>
+    <group ref={groupRef}>
+      {/* Centre the model on its own bounding box */}
+      <primitive
+        object={clonedScene}
+        position={[-centerOffset.x, -centerOffset.y, -centerOffset.z]}
+      />
     </group>
   );
 }
@@ -94,25 +60,32 @@ function Scene({ progress }: { progress: number }) {
   const { camera } = useThree();
 
   useFrame(() => {
-    // Slowly rotate the camera around the house as it builds
-    camera.position.x = Math.sin(progress * Math.PI * 0.5) * 6;
-    camera.position.z = Math.cos(progress * Math.PI * 0.5) * 6;
+    // Orbit the camera as the model builds
+    const angle = progress * Math.PI * 0.5;
+    camera.position.x = Math.sin(angle) * 7;
+    camera.position.z = Math.cos(angle) * 7;
+    camera.position.y = 2 + progress * 1;
     camera.lookAt(0, 0.5, 0);
   });
 
   return (
     <>
-      <Environment preset="city" />
-      <ambientLight intensity={0.4} />
-      <directionalLight 
-        position={[10, 10, 5]} 
-        intensity={1} 
-        castShadow 
-        shadow-mapSize-width={1024} 
-        shadow-mapSize-height={1024} 
+      <Environment preset="forest" />
+      <ambientLight intensity={0.5} />
+      <directionalLight
+        position={[10, 12, 6]}
+        intensity={1.4}
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+        shadow-camera-far={30}
+        shadow-camera-near={0.1}
       />
-      <BuildingHouse progress={progress} />
-      <ContactShadows position={[0, -0.49, 0]} opacity={0.5} scale={10} blur={2} far={4} />
+      <directionalLight position={[-8, 6, -4]} intensity={0.4} />
+      <Suspense fallback={null}>
+        <HouseModel progress={progress} />
+      </Suspense>
+      <ContactShadows position={[0, -1, 0]} opacity={0.6} scale={12} blur={2.5} far={6} />
     </>
   );
 }
@@ -148,8 +121,12 @@ export default function ScrollHouse({ progress }: { progress: number }) {
       {webglSupported && (
         <Canvas
           shadows
-          camera={{ position: [0, 2, 6], fov: 45 }}
-          gl={{ failIfMajorPerformanceCaveat: false, antialias: true, powerPreference: "default" }}
+          camera={{ position: [0, 2, 7], fov: 42 }}
+          gl={{
+            failIfMajorPerformanceCaveat: false,
+            antialias: true,
+            powerPreference: "default",
+          }}
           onCreated={({ gl }) => {
             gl.domElement.addEventListener(
               "webglcontextlost",
