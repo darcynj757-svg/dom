@@ -90,12 +90,9 @@ function BuildingHouse({ progress }: { progress: number }) {
   );
 }
 
-function Scene({ scrollY }: { scrollY: number }) {
+function Scene({ progress }: { progress: number }) {
   const { camera } = useThree();
-  
-  // Calculate progress based on scroll position (0 to 1 over first 1000px)
-  const progress = Math.min(Math.max(scrollY / 800, 0), 1);
-  
+
   useFrame(() => {
     // Slowly rotate the camera around the house as it builds
     camera.position.x = Math.sin(progress * Math.PI * 0.5) * 6;
@@ -133,25 +130,21 @@ function hasWebGL() {
   }
 }
 
-export default function ScrollHouse() {
-  const [scrollY, setScrollY] = useState(0);
+export default function ScrollHouse({ progress }: { progress: number }) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
 
   useEffect(() => {
     setWebglSupported(hasWebGL());
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   if (webglSupported === false) {
     return (
-      <div className="w-full h-[600px] md:h-[800px] sticky top-[72px] -z-10 pointer-events-none bg-gradient-to-b from-muted/40 to-background" />
+      <div className="absolute inset-0 -z-10 pointer-events-none bg-gradient-to-b from-muted/40 to-background" />
     );
   }
 
   return (
-    <div className="w-full h-[600px] md:h-[800px] sticky top-[72px] -z-10 pointer-events-none">
+    <div className="absolute inset-0 -z-10 pointer-events-none">
       {webglSupported && (
         <Canvas
           shadows
@@ -165,7 +158,7 @@ export default function ScrollHouse() {
             );
           }}
         >
-          <Scene scrollY={scrollY} />
+          <Scene progress={progress} />
         </Canvas>
       )}
     </div>

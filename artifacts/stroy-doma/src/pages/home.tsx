@@ -1,6 +1,6 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "wouter";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { useGetCompanyStats, useListProjects } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Hammer, ShieldCheck, Sparkles, Users } from "lucide-react";
@@ -74,43 +74,62 @@ export default function Home() {
   const { data: stats } = useGetCompanyStats();
   const { data: featured } = useListProjects({ featured: true });
   const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroTextOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const heroTextY = useTransform(scrollYProgress, [0, 0.5], [0, -60]);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end end"] });
+
+  // House assembles over the first 70% of the hero scroll, then holds fully built
+  // for the remaining 30% before releasing smoothly into the content below.
+  const [houseProgress, setHouseProgress] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    setHouseProgress(Math.min(Math.max(v / 0.7, 0), 1));
+  });
+
+  const heroTextOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const heroTextY = useTransform(scrollYProgress, [0, 0.35], [0, -60]);
+  const heroSceneOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.9]);
 
   return (
     <div>
-      <section ref={heroRef} className="relative">
-        <ScrollHouse />
-        <motion.div
-          style={{ opacity: heroTextOpacity, y: heroTextY }}
-          className="absolute inset-x-0 top-0 h-[600px] md:h-[800px] flex flex-col items-center justify-center text-center px-4 pointer-events-none"
-        >
-          <span className="text-xs md:text-sm uppercase tracking-[0.3em] text-secondary font-medium mb-4">
-            Строительство домов и бань под ключ
-          </span>
-          <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-medium max-w-4xl leading-[1.05]">
-            Дом строится на ваших глазах —{" "}
-            <span className="text-primary">прокрутите вниз</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground">
-            От фундамента до крыши. Мы возводим деревянные, каркасные и кирпичные дома,
-            а также бани — надёжно, в срок, с гарантией.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4 justify-center pointer-events-auto">
-            <Button asChild size="lg" className="rounded-full px-8">
-              <Link href="/projects">
-                Смотреть проекты <ArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="rounded-full px-8">
-              <Link href="/contacts">Оставить заявку</Link>
-            </Button>
-          </div>
-        </motion.div>
+      <section ref={heroRef} className="relative h-[250vh]">
+        <div className="sticky top-[72px] md:top-[84px] h-[calc(100vh-72px)] md:h-[calc(100vh-84px)] overflow-hidden">
+          <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
+            <ScrollHouse progress={houseProgress} />
+          </motion.div>
+          <motion.div
+            style={{ opacity: heroTextOpacity, y: heroTextY }}
+            className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none"
+          >
+            <span className="text-xs md:text-sm uppercase tracking-[0.3em] text-secondary font-medium mb-4">
+              Строительство домов и бань под ключ
+            </span>
+            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-medium max-w-4xl leading-[1.05]">
+              Дом строится на ваших глазах —{" "}
+              <span className="text-primary">прокрутите вниз</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground">
+              От фундамента до крыши. Мы возводим деревянные, каркасные и кирпичные дома,
+              а также бани — надёжно, в срок, с гарантией.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4 justify-center pointer-events-auto">
+              <Button asChild size="lg" className="rounded-full px-8">
+                <Link href="/projects">
+                  Смотреть проекты <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="rounded-full px-8">
+                <Link href="/contacts">Оставить заявку</Link>
+              </Button>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
-      <section className="relative z-10 bg-background py-20 md:py-28 border-t border-border">
+      <motion.section
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="relative z-10 bg-background py-20 md:py-28 border-t border-border"
+      >
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
             <StatCard value={stats?.yearsOnMarket ?? 0} suffix=" лет" label="на рынке" />
@@ -119,7 +138,7 @@ export default function Home() {
             <StatCard value={stats?.teamSize ?? 0} suffix="" label="мастеров в команде" />
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <section className="py-20 md:py-28 bg-muted/40">
         <div className="container mx-auto px-4 md:px-6">
