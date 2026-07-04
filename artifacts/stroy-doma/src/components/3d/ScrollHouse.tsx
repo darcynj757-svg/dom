@@ -171,12 +171,12 @@ function Scene({ progress }: { progress: number }) {
   const { camera } = useThree();
 
   useFrame(() => {
-    // Camera orbits from front (0°) to ~45° side as user scrolls
-    const angle = progress * Math.PI * 0.25;
-    camera.position.x = Math.sin(angle) * 6.5;
-    camera.position.z = Math.cos(angle) * 6.5;
-    camera.position.y = 1.5 + progress * 0.8;
-    camera.lookAt(0, 0.3, 0);
+    // Camera orbits from front (0°) to ~30° as user scrolls — matches screenshot angle
+    const angle = progress * Math.PI * 0.17;
+    camera.position.x = Math.sin(angle) * 6;
+    camera.position.z = Math.cos(angle) * 6;
+    camera.position.y = 1.2 + progress * 0.6;
+    camera.lookAt(0, 0.2, 0);
   });
 
   return (

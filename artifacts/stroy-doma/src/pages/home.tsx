@@ -96,7 +96,7 @@ export default function Home() {
           </motion.div>
           <motion.div
             style={{ opacity: heroTextOpacity, y: heroTextY }}
-            className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none"
+            className="absolute inset-0 flex flex-col items-center justify-start pt-10 md:pt-14 text-center px-4 pointer-events-none"
           >
             <span className="text-xs md:text-sm uppercase tracking-[0.3em] text-secondary font-medium mb-4">
               Строительство домов и бань под ключ
