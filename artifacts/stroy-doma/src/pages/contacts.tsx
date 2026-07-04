@@ -1,28 +1,28 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useCreateContactRequest } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Contacts() {
   const { toast } = useToast();
-  const mutation = useCreateContactRequest();
   const [form, setForm] = useState({ name: "", phone: "", message: "" });
+  const [isPending, setIsPending] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    mutation.mutate(
-      { data: { name: form.name, phone: form.phone, message: form.message || null, projectId: null } },
-      {
-        onSuccess: () => {
-          toast({ title: "Заявка отправлена", description: "Мы свяжемся с вами в ближайшее время." });
-          setForm({ name: "", phone: "", message: "" });
-        },
-      },
-    );
+    setIsPending(true);
+    // Simulate submit
+    setTimeout(() => {
+      setIsPending(false);
+      toast({
+        title: "Заявка отправлена",
+        description: "Мы свяжемся с вами в ближайшее время.",
+      });
+      setForm({ name: "", phone: "", message: "" });
+    }, 800);
   }
 
   return (
@@ -40,24 +40,50 @@ export default function Contacts() {
           Свяжитесь с нами
         </h1>
         <p className="mt-4 text-muted-foreground">
-          Расскажите о вашем участке и пожеланиях — мы подберём проект и рассчитаем стоимость.
+          Мы открыты для общения и консультаций. Воспользуйтесь удобным для вас
+          способом связи.
         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {/* Contact info */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="space-y-6"
+          className="space-y-4"
         >
           {[
-            { icon: Phone, title: "Телефон", value: "+7 (800) 123-45-67" },
-            { icon: Mail, title: "Email", value: "info@stroydom.ru" },
-            { icon: MapPin, title: "Адрес", value: "г. Москва, ул. Строителей, д. 15, офис 404" },
-            { icon: Clock, title: "Режим работы", value: "Пн–Сб: 9:00–19:00" },
+            {
+              icon: MapPin,
+              title: "Адрес",
+              value: "634024, Россия, г. Томск, ул. Профсоюзная, 2/67, стр. 3",
+            },
+            {
+              icon: Phone,
+              title: "Офис",
+              value: "+7 (3822) 33-44-39",
+            },
+            {
+              icon: User,
+              title: "Директор Серебряков Павел Михайлович",
+              value: "+7 (952) 88-00-973",
+            },
+            {
+              icon: Mail,
+              title: "Email",
+              value: "mail@kedr-tomsk.ru",
+            },
+            {
+              icon: Clock,
+              title: "Режим работы",
+              value: "Пн–Пт: 9:00–18:00, Сб: 10:00–16:00",
+            },
           ].map((item) => (
-            <div key={item.title} className="flex items-start gap-4 p-6 rounded-2xl border border-border bg-card">
+            <div
+              key={item.title}
+              className="flex items-start gap-4 p-6 rounded-2xl border border-border bg-card"
+            >
               <item.icon className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
               <div>
                 <div className="text-sm text-muted-foreground">{item.title}</div>
@@ -67,13 +93,16 @@ export default function Contacts() {
           ))}
         </motion.div>
 
+        {/* Form */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
           className="rounded-2xl border border-border bg-card p-8"
         >
-          <h2 className="font-serif text-2xl font-medium mb-6">Оставить заявку</h2>
+          <h2 className="font-serif text-2xl font-medium mb-6">
+            Оставить заявку
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               placeholder="Ваше имя"
@@ -93,8 +122,13 @@ export default function Contacts() {
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
             />
-            <Button type="submit" className="w-full rounded-full" size="lg" disabled={mutation.isPending}>
-              {mutation.isPending ? "Отправка..." : "Отправить заявку"}
+            <Button
+              type="submit"
+              className="w-full rounded-full"
+              size="lg"
+              disabled={isPending}
+            >
+              {isPending ? "Отправка..." : "Отправить заявку"}
             </Button>
           </form>
         </motion.div>
