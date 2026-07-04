@@ -1,55 +1,164 @@
 import { useRef, useEffect, useState, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, ContactShadows, useGLTF } from "@react-three/drei";
+import { Environment, ContactShadows } from "@react-three/drei";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 
-const MODEL_URL = `${import.meta.env.BASE_URL}house.glb`.replace(/\/+/g, "/").replace(":/", "://");
+const MODEL_URL = `${import.meta.env.BASE_URL}house.glb`
+  .replace(/([^:])\/\//g, "$1/");
 
-// Preload so it's ready when the component mounts
-useGLTF.preload(MODEL_URL);
+// ---------------------------------------------------------------------------
+// KHR_materials_pbrSpecularGlossiness plugin
+// Removed from Three.js core in r156. This plugin converts specular-glossiness
+// materials to MeshStandardMaterial so embedded textures render correctly.
+// ---------------------------------------------------------------------------
+class GLTFSpecularGlossinessExtension {
+  name = "KHR_materials_pbrSpecularGlossiness";
+  parser: any;
+
+  constructor(parser: any) {
+    this.parser = parser;
+  }
+
+  getMaterialType(materialIndex: number) {
+    const mat = this.parser.json.materials?.[materialIndex];
+    if (!mat?.extensions?.[this.name]) return null;
+    return THREE.MeshStandardMaterial;
+  }
+
+  extendMaterialParams(
+    materialIndex: number,
+    materialParams: Record<string, unknown>,
+  ) {
+    const mat = this.parser.json.materials?.[materialIndex];
+    if (!mat?.extensions?.[this.name]) return Promise.resolve();
+
+    const ext = mat.extensions[this.name] as {
+      diffuseFactor?: number[];
+      diffuseTexture?: { index: number };
+      specularFactor?: number[];
+      glossinessFactor?: number;
+    };
+
+    const pending: Promise<unknown>[] = [];
+
+    // diffuseFactor → color  (GLTF values are in linear; THREE.Color + SRGBColorSpace converts)
+    if (ext.diffuseFactor) {
+      const [r, g, b, a = 1] = ext.diffuseFactor;
+      materialParams.color = new THREE.Color(r, g, b);
+      if (a < 1) {
+        materialParams.opacity = a;
+        materialParams.transparent = true;
+      }
+    }
+
+    // diffuseTexture → map (sRGB colour texture)
+    if (ext.diffuseTexture) {
+      pending.push(
+        this.parser.assignTexture(
+          materialParams,
+          "map",
+          ext.diffuseTexture,
+          THREE.SRGBColorSpace,
+        ),
+      );
+    }
+
+    // glossinessFactor → roughness (inverted)
+    materialParams.roughness = 1.0 - (ext.glossinessFactor ?? 1.0);
+
+    // specularFactor → metalness approximation via luminance
+    if (ext.specularFactor) {
+      const [sr, sg, sb] = ext.specularFactor;
+      materialParams.metalness = Math.min(
+        0.2126 * sr + 0.7152 * sg + 0.0722 * sb,
+        1.0,
+      );
+    } else {
+      materialParams.metalness = 0.0;
+    }
+
+    return Promise.all(pending);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// We load directly with GLTFLoader (bypassing useLoader cache) so the plugin
+// is guaranteed to be registered before .load() runs.
+// Module-level cache so the result lives outside React state — this is the
+// correct pattern for Suspense: throw the in-flight promise, return the
+// cached value once resolved.
+// ---------------------------------------------------------------------------
+
+let _gltf: GLTF | null = null;
+let _error: unknown = null;
+let _suspendPromise: Promise<void> | null = null;
+
+function getGltfPromise(): Promise<void> {
+  if (!_suspendPromise) {
+    _suspendPromise = new Promise<void>((resolve, reject) => {
+      const loader = new GLTFLoader();
+      loader.register((parser) => new GLTFSpecularGlossinessExtension(parser));
+      loader.load(
+        MODEL_URL,
+        (gltf) => {
+          _gltf = gltf;
+          resolve();
+        },
+        undefined,
+        (err) => { _error = err; reject(err); },
+      );
+    });
+  }
+  return _suspendPromise;
+}
+
+/** Suspense-compatible hook — throws while loading, returns when ready. */
+function useGltfWithPlugin(): GLTF {
+  if (_error) throw _error;
+  if (_gltf) return _gltf;
+  throw getGltfPromise(); // Suspend
+}
+
+// ---------------------------------------------------------------------------
 
 function HouseModel({ progress }: { progress: number }) {
   const groupRef = useRef<THREE.Group>(null!);
-  const { scene } = useGLTF(MODEL_URL);
+  const gltf = useGltfWithPlugin();
 
-  const clonedScene = useMemo(() => {
-    const clone = scene.clone(true);
-    clone.traverse((child) => {
+  const { normScale, centerOffset } = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(gltf.scene);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const s = maxDim > 0 ? 4 / maxDim : 1;
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    return { normScale: s, centerOffset: center };
+  }, [gltf.scene]);
+
+  // Enable shadows on all meshes once (stable ref, no re-clone needed)
+  useEffect(() => {
+    gltf.scene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         child.castShadow = true;
         child.receiveShadow = true;
       }
     });
-    return clone;
-  }, [scene]);
-
-  // Compute bounding box once and normalise the model
-  const { scale: normScale, centerOffset } = useMemo(() => {
-    const box = new THREE.Box3().setFromObject(clonedScene);
-    const size = new THREE.Vector3();
-    box.getSize(size);
-    const maxDim = Math.max(size.x, size.y, size.z);
-    const targetSize = 4; // desired world-unit span
-    const s = maxDim > 0 ? targetSize / maxDim : 1;
-    const center = new THREE.Vector3();
-    box.getCenter(center);
-    return { scale: s, centerOffset: center };
-  }, [clonedScene]);
+  }, [gltf.scene]);
 
   useFrame(() => {
     if (!groupRef.current) return;
-    // Ease in: scale from 0 to normScale, rise from below
-    const easedProgress = progress < 0.001 ? 0 : progress;
-    const s = normScale * easedProgress;
-    groupRef.current.scale.setScalar(Math.max(s, 0.0001));
-    groupRef.current.position.y = -1 + easedProgress * 1;
+    const s = normScale * Math.max(progress, 0.0001);
+    groupRef.current.scale.setScalar(s);
+    groupRef.current.position.y = -1 + progress;
   });
 
   return (
     <group ref={groupRef}>
-      {/* Centre the model on its own bounding box */}
       <primitive
-        object={clonedScene}
+        object={gltf.scene}
         position={[-centerOffset.x, -centerOffset.y, -centerOffset.z]}
       />
     </group>
@@ -60,11 +169,10 @@ function Scene({ progress }: { progress: number }) {
   const { camera } = useThree();
 
   useFrame(() => {
-    // Orbit the camera as the model builds
     const angle = progress * Math.PI * 0.5;
     camera.position.x = Math.sin(angle) * 7;
     camera.position.z = Math.cos(angle) * 7;
-    camera.position.y = 2 + progress * 1;
+    camera.position.y = 2 + progress;
     camera.lookAt(0, 0.5, 0);
   });
 
@@ -108,6 +216,8 @@ export default function ScrollHouse({ progress }: { progress: number }) {
 
   useEffect(() => {
     setWebglSupported(hasWebGL());
+    // Kick off the GLTF load immediately so it's ready when the canvas mounts
+    getGltfPromise();
   }, []);
 
   if (webglSupported === false) {
