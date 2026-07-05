@@ -102,9 +102,11 @@ function Scene({
     const { minY, maxY } = boundsRef.current;
     const midY = (minY + maxY) * 0.5;
 
-    // Camera orbits from front (0°) to ~30° as user scrolls — matches screenshot angle
+    // Camera orbits from front (0°) to ~30° as user scrolls — matches screenshot angle.
+    // Once the house is fully built (progress → 1) the camera eases in slightly closer.
     const angle = progress * Math.PI * 0.17;
-    const dist = 9;
+    const zoomT = easeOutCubic(Math.max(0, (progress - 0.85) / 0.15)); // 0→1 over last 15% of scroll
+    const dist = 9 - zoomT * 1.8; // 9 → 7.2 when complete
     camera.position.x = Math.sin(angle) * dist;
     camera.position.z = Math.cos(angle) * dist;
     // Keep camera well above house mid-point so the roof is always in frame
@@ -113,9 +115,10 @@ function Scene({
 
     const buildT = easeOutCubic(Math.min(Math.max(progress, 0), 1));
     const buffer = (maxY - minY) * 0.18 || 0.3;
-    // Start at minY so the foundation slab is visible from the very first frame;
-    // end past maxY so the roof is fully revealed without clipping.
-    clipPlane.constant = THREE.MathUtils.lerp(minY, maxY + buffer, buildT);
+    // Start below minY so nothing is visible at progress=0 (avoids floor triangles
+    // poking through before the build animation begins); end past maxY so the
+    // roof is fully revealed without clipping.
+    clipPlane.constant = THREE.MathUtils.lerp(minY - buffer, maxY + buffer, buildT);
   });
 
   return (
