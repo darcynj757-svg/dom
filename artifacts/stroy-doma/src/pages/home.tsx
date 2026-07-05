@@ -97,7 +97,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="inline-block px-5 py-1.5 rounded-full glass text-white/90 text-xs md:text-sm uppercase tracking-[0.25em] font-semibold mb-8"
+            className="inline-block px-5 py-1.5 rounded-full glass text-white/90 text-xs md:text-sm tracking-[0.25em] font-semibold mb-8"
           >
             Строительство деревянных домов под ключ
           </motion.span>
