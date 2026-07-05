@@ -60,6 +60,18 @@ uri = "file://attached_assets/generated_images/kt_house_logo_v2.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "zda2Kwmb9xXczxMjjZ5FB"
+uri = "file://attached_assets/generated_images/kt_house_logo_v3.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "iH0a8BJexzC10Akv_cSoE"
+uri = "file://attached_assets/generated_images/kt_house_logo_v4.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
@@ -95,3 +107,15 @@ id = "A62Wke5xaxRpELalrHYte"
 uri = "file://attached_assets/generated_images/kt_house_logo_v2.png"
 type = "image"
 title = "Логотип КТ — дом в объёме"
+
+[[outputs]]
+id = "hxrchRAtRhRhASuLJfKDV"
+uri = "file://attached_assets/generated_images/kt_house_logo_v4.png"
+type = "image"
+title = "Вариант 4 — чёткий дом, плоский силуэт"
+
+[[outputs]]
+id = "OEkZV96qZWXGlNScsChw-"
+uri = "file://attached_assets/generated_images/kt_house_logo_v3.png"
+type = "image"
+title = "Вариант 3 — изометрический объём"
