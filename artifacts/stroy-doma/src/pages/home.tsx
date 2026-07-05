@@ -72,6 +72,7 @@ export default function Home() {
   const heroSceneOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.9]);
   const labelOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
+
   const featured = PROJECTS.filter((p) => p.featured).slice(0, 3);
 
   return (
@@ -152,24 +153,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Block 1.5: Branded video ────────────────────────────────────────── */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8 }}
-        className="relative w-full bg-[#1c1a17]"
-        style={{ height: "clamp(360px, 56vw, 680px)" }}
-      >
-        <iframe
-          src="/house-build-video/"
-          title="КедрДом — видео"
-          className="absolute inset-0 w-full h-full border-0"
-          loading="lazy"
-          allow="autoplay"
-        />
-      </motion.section>
-
       {/* ── Block 2: 3D house scroll ────────────────────────────────────────── */}
       <section ref={houseRef} className="relative h-[250vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
@@ -188,8 +171,6 @@ export default function Home() {
             </p>
             <p className="mt-1 text-muted-foreground text-sm">прокрутите вниз</p>
           </motion.div>
-          {/* Fade the 3D canvas into the background at the bottom so it
-              doesn't collide visually with the stats section below */}
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background pointer-events-none z-20" />
         </div>
       </section>
