@@ -36,3 +36,9 @@ id = "vxOjyQ0KPX5PbrWifkiPZ"
 uri = "file://attached_assets/generated_images/bathhouse_lake_rustic.png"
 type = "image"
 title = "generated_image"
+
+[[generated]]
+id = "ZethSYce5II910uR0fECV"
+uri = "file://attached_assets/generated_images/minimalist_modern_logo_icon_b080.png"
+type = "image"
+title = "generated_image"

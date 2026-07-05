@@ -1,8 +1,9 @@
 import { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
-import { Building2, Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import logoIcon from "@/assets/logo-icon.png";
 
 const NAV_LINKS = [
   { href: "/", label: "Главная" },
@@ -41,15 +42,15 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
             <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 ${
               isHome && !isScrolled
-                ? "bg-white/15 border border-white/30 text-white"
-                : "bg-primary text-primary-foreground"
+                ? "bg-white/15 border border-white/30"
+                : "bg-primary"
             }`}>
-              <Building2 className="w-5 h-5" />
+              <img src={logoIcon} alt="Kedr Tomsk" className="w-6 h-6 object-contain" />
             </div>
             <span className={`font-display text-lg font-bold tracking-tight transition-colors duration-300 ${
               isHome && !isScrolled ? "text-white" : "text-foreground"
             }`}>
-              КедрДом
+              Kedr Tomsk
             </span>
           </Link>
 
