@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, useMemo, useCallback, Suspense, useLayoutE
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows } from "@react-three/drei";
 import * as THREE from "three";
-import { useGltfWithPlugin, hasWebGL } from "./houseLoader";
+import { useGltfWithPlugin, hasWebGL, cloneGltfScene } from "./houseLoader";
 import { getGltfPromise } from "./houseLoader";
 
 function easeOutCubic(t: number) {
@@ -22,9 +22,13 @@ function HouseModel({
 }) {
   const groupRef = useRef<THREE.Group>(null!);
   const gltf = useGltfWithPlugin();
+  // Independent clone — the cached gltf.scene is shared with other
+  // simultaneously-mounted canvases (e.g. HeroHouseFlight), and an
+  // Object3D can only belong to one parent at a time.
+  const scene = useMemo(() => cloneGltfScene(gltf.scene), [gltf.scene]);
 
   const { normScale, centerOffset } = useMemo(() => {
-    const box = new THREE.Box3().setFromObject(gltf.scene);
+    const box = new THREE.Box3().setFromObject(scene);
     const size = new THREE.Vector3();
     box.getSize(size);
     const maxDim = Math.max(size.x, size.y, size.z);
@@ -32,13 +36,13 @@ function HouseModel({
     const center = new THREE.Vector3();
     box.getCenter(center);
     return { normScale: s, centerOffset: center };
-  }, [gltf.scene]);
+  }, [scene]);
 
   // Enable shadows + assign the shared clipping plane to every material once.
   useLayoutEffect(() => {
     if (!groupRef.current) return;
 
-    gltf.scene.traverse((child) => {
+    scene.traverse((child) => {
       const mesh = child as THREE.Mesh;
       if (mesh.isMesh) {
         mesh.castShadow = true;
@@ -61,7 +65,7 @@ function HouseModel({
 
     const box = new THREE.Box3().setFromObject(groupRef.current);
     onBounds({ minY: box.min.y, maxY: box.max.y });
-  }, [gltf.scene, normScale, clipPlane, onBounds]);
+  }, [scene, normScale, clipPlane, onBounds]);
 
   useFrame(() => {
     if (!groupRef.current) return;
@@ -72,7 +76,7 @@ function HouseModel({
   return (
     <group ref={groupRef}>
       <primitive
-        object={gltf.scene}
+        object={scene}
         position={[-centerOffset.x, -centerOffset.y, -centerOffset.z]}
       />
     </group>

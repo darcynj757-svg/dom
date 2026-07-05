@@ -124,6 +124,28 @@ export function useGltfWithPlugin(): GLTF {
   throw getGltfPromise(); // Suspend
 }
 
+/**
+ * Deep-clones a GLTF scene graph, including materials, so each consuming
+ * component (e.g. HeroHouseFlight and ScrollHouse, mounted simultaneously)
+ * gets its own independent Object3D + material instances. THREE.Object3D
+ * can only have one parent at a time — sharing the cached `gltf.scene`
+ * directly across multiple live Canvases causes each mount to steal the
+ * model away from the others, and mutating shared materials' clippingPlanes
+ * would cross-contaminate every instance's reveal animation.
+ */
+export function cloneGltfScene(scene: THREE.Object3D): THREE.Object3D {
+  const clone = scene.clone(true);
+  clone.traverse((child) => {
+    const mesh = child as THREE.Mesh;
+    if (mesh.isMesh) {
+      mesh.material = Array.isArray(mesh.material)
+        ? mesh.material.map((m) => (m as THREE.Material).clone())
+        : (mesh.material as THREE.Material).clone();
+    }
+  });
+  return clone;
+}
+
 export function hasWebGL() {
   try {
     const canvas = document.createElement("canvas");

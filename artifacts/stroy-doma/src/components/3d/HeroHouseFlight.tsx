@@ -2,7 +2,7 @@ import { useRef, useEffect, useMemo, useState, useCallback, Suspense, useLayoutE
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows } from "@react-three/drei";
 import * as THREE from "three";
-import { useGltfWithPlugin, getGltfPromise, hasWebGL } from "./houseLoader";
+import { useGltfWithPlugin, getGltfPromise, hasWebGL, cloneGltfScene } from "./houseLoader";
 
 // ---------------------------------------------------------------------------
 // Autoplaying, looping hero animation: the camera swoops in toward the house
@@ -35,9 +35,13 @@ function HouseModel({
 }) {
   const groupRef = useRef<THREE.Group>(null!);
   const gltf = useGltfWithPlugin();
+  // Independent clone — the cached gltf.scene is shared with other
+  // simultaneously-mounted canvases (e.g. ScrollHouse), and an
+  // Object3D can only belong to one parent at a time.
+  const scene = useMemo(() => cloneGltfScene(gltf.scene), [gltf.scene]);
 
   const { normScale, centerOffset } = useMemo(() => {
-    const box = new THREE.Box3().setFromObject(gltf.scene);
+    const box = new THREE.Box3().setFromObject(scene);
     const size = new THREE.Vector3();
     box.getSize(size);
     const maxDim = Math.max(size.x, size.y, size.z);
@@ -45,12 +49,12 @@ function HouseModel({
     const center = new THREE.Vector3();
     box.getCenter(center);
     return { normScale: s, centerOffset: center };
-  }, [gltf.scene]);
+  }, [scene]);
 
   useLayoutEffect(() => {
     if (!groupRef.current) return;
 
-    gltf.scene.traverse((child) => {
+    scene.traverse((child) => {
       const mesh = child as THREE.Mesh;
       if (mesh.isMesh) {
         mesh.castShadow = true;
@@ -72,12 +76,12 @@ function HouseModel({
 
     const box = new THREE.Box3().setFromObject(groupRef.current);
     onBounds({ minY: box.min.y, maxY: box.max.y });
-  }, [gltf.scene, normScale, onBounds]);
+  }, [scene, normScale, onBounds]);
 
   return (
     <group ref={groupRef}>
       <primitive
-        object={gltf.scene}
+        object={scene}
         position={[-centerOffset.x, -centerOffset.y, -centerOffset.z]}
       />
     </group>
