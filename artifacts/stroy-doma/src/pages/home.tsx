@@ -170,6 +170,9 @@ export default function Home() {
             </p>
             <p className="mt-1 text-muted-foreground text-sm">прокрутите вниз</p>
           </motion.div>
+          {/* Fade the 3D canvas into the background at the bottom so it
+              doesn't collide visually with the stats section below */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background pointer-events-none z-20" />
         </div>
       </section>
 

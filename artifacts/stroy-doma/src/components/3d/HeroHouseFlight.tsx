@@ -129,11 +129,11 @@ function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bou
     // Camera swoop: start high & distant, settle at a comfortable angle that
     // shows the full house (base to ridge) with margin on all sides.
     const angleStart = -1.15;
-    const angleEnd   = 0.55;
-    const distStart  = 24;
-    const distEnd    = 13;
-    const heightStart = midY + 7;
-    const heightEnd   = midY + 3.8;
+    const angleEnd   = 0.5;
+    const distStart  = 26;
+    const distEnd    = 16;
+    const heightStart = midY + 8;
+    const heightEnd   = midY + 4.5;
 
     const drift  = holdT * 0.18;
     const angle  = THREE.MathUtils.lerp(angleStart, angleEnd, cameraEase) + drift;

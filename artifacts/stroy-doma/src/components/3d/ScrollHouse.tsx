@@ -58,9 +58,14 @@ function HouseModel({
     });
 
     groupRef.current.scale.setScalar(normScale);
-    groupRef.current.position.set(0, -1, 0);
+    groupRef.current.position.set(0, 0, 0);
     // Slight fixed angle so the house shows its side — "немного боком"
     groupRef.current.rotation.y = Math.PI * 0.08;
+    groupRef.current.updateMatrixWorld(true);
+
+    // Lift so base sits at Y = 0, house floats in upper half of view
+    const box0 = new THREE.Box3().setFromObject(groupRef.current);
+    groupRef.current.position.setY(-box0.min.y);
     groupRef.current.updateMatrixWorld(true);
 
     const box = new THREE.Box3().setFromObject(groupRef.current);
@@ -69,8 +74,8 @@ function HouseModel({
 
   useFrame(() => {
     if (!groupRef.current) return;
-    // Gentle rise as the build progresses, on top of the clip reveal.
-    groupRef.current.position.y = -1 + progress * 0.35;
+    // Gentle rise as the build progresses — base stays near Y=0, slight lift.
+    groupRef.current.position.y = progress * 0.3;
   });
 
   return (
@@ -97,16 +102,20 @@ function Scene({
   const { camera } = useThree();
 
   useFrame(() => {
+    const { minY, maxY } = boundsRef.current;
+    const midY = (minY + maxY) * 0.5;
+
     // Camera orbits from front (0°) to ~30° as user scrolls — matches screenshot angle
     const angle = progress * Math.PI * 0.17;
-    camera.position.x = Math.sin(angle) * 6;
-    camera.position.z = Math.cos(angle) * 6;
-    camera.position.y = 1.2 + progress * 0.6;
-    camera.lookAt(0, 0.2, 0);
+    const dist = 9;
+    camera.position.x = Math.sin(angle) * dist;
+    camera.position.z = Math.cos(angle) * dist;
+    // Keep camera well above house mid-point so the roof is always in frame
+    camera.position.y = midY + 2.5 + progress * 0.4;
+    camera.lookAt(0, midY, 0);
 
     const buildT = easeOutCubic(Math.min(Math.max(progress, 0), 1));
-    const { minY, maxY } = boundsRef.current;
-    const buffer = (maxY - minY) * 0.06 || 0.1;
+    const buffer = (maxY - minY) * 0.18 || 0.3;
     clipPlane.constant = THREE.MathUtils.lerp(minY - buffer, maxY + buffer, buildT);
   });
 
@@ -127,7 +136,7 @@ function Scene({
       <Suspense fallback={null}>
         <HouseModel progress={progress} clipPlane={clipPlane} onBounds={onBounds} />
       </Suspense>
-      <ContactShadows position={[0, -1, 0]} opacity={0.6} scale={12} blur={2.5} far={6} />
+      <ContactShadows position={[0, -0.02, 0]} opacity={0.6} scale={12} blur={2.5} far={6} />
     </>
   );
 }
@@ -163,7 +172,7 @@ export default function ScrollHouse({ progress }: { progress: number }) {
       {webglSupported && (
         <Canvas
           shadows
-          camera={{ position: [0, 2, 7], fov: 42 }}
+          camera={{ position: [0, 5, 9], fov: 42 }}
           gl={{
             localClippingEnabled: true,
             failIfMajorPerformanceCaveat: false,
