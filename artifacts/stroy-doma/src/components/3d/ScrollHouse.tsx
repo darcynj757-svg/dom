@@ -103,10 +103,10 @@ function Scene({
   useFrame(() => {
     // Camera orbits from front (0°) to ~30° as user scrolls — matches screenshot angle
     const angle = progress * Math.PI * 0.17;
-    camera.position.x = Math.sin(angle) * 7;
-    camera.position.z = Math.cos(angle) * 7;
-    camera.position.y = 3.0 + progress * 0.5;
-    camera.lookAt(0, 2.0, 0);
+    camera.position.x = Math.sin(angle) * 6.5;
+    camera.position.z = Math.cos(angle) * 6.5;
+    camera.position.y = 0.3 + progress * 0.4;
+    camera.lookAt(0, 2.5, 0);
 
     const buildT = easeOutCubic(Math.min(Math.max(progress, 0), 1));
     const { minY, maxY } = boundsRef.current;
