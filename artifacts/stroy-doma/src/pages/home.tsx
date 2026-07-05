@@ -4,8 +4,8 @@ import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-mot
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Hammer, ShieldCheck, Sparkles, Users } from "lucide-react";
 import ScrollHouse from "@/components/3d/ScrollHouse";
-import HeroHouseFlight from "@/components/3d/HeroHouseFlight";
 import { PROJECTS } from "@/data/projects";
+import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_1783258178155.mp4";
 
 const STATS = [
   { value: 25, suffix: " лет", label: "на рынке" },
@@ -79,7 +79,14 @@ export default function Home() {
     <div>
       {/* ── Block 1: 3D House-Build Hero ───────────────────────────────────── */}
       <section className="relative h-screen min-h-[600px] overflow-hidden bg-[#1c1a17]">
-        <HeroHouseFlight />
+        <video
+          src={heroVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
 
         {/* Gradient overlay — heavier at top and bottom, lighter in middle */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
