@@ -45,7 +45,7 @@ export function Navbar() {
                 ? "bg-white/15 border border-white/30"
                 : "bg-primary"
             }`}>
-              <img src={logoIcon} alt="Kedr Tomsk" className="w-6 h-6 object-contain" />
+              <img src={logoIcon} alt="Kedr Tomsk" className="w-full h-full object-contain p-0.5" />
             </div>
             <span className={`font-display text-lg font-bold tracking-tight transition-colors duration-300 ${
               isHome && !isScrolled ? "text-white" : "text-foreground"
@@ -153,8 +153,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="space-y-4 md:col-span-1">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground">
-                <Building2 className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+                <img src={logoIcon} alt="КедрДом" className="w-full h-full object-contain p-0.5" />
               </div>
               <span className="font-display text-2xl font-bold tracking-tight text-white">КедрДом</span>
             </Link>
