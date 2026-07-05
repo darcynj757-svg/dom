@@ -106,8 +106,8 @@ export default function Home() {
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.35 }}
-            className="font-display font-black text-white leading-[1.05] max-w-5xl"
-            style={{ fontSize: "clamp(2.2rem, 6.5vw, 80px)" }}
+            className="font-display font-black text-white leading-[1.05] max-w-6xl"
+            style={{ fontSize: "clamp(2rem, 5.6vw, 80px)" }}
           >
             Строим ваш дом из кедра,<br />
             <span className="italic text-amber-300">пока вы строите</span><br />
