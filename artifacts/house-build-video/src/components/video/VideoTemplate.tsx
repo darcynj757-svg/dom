@@ -1,28 +1,14 @@
-// Video Template - Replace ReplitLoadingScene with your scenes
+// Video Template — КедрДом branded scene
 
-import { useVideoPlayer } from '@/lib/video';
 import { AnimatePresence } from 'framer-motion';
 
-import { ReplitLoadingScene } from './ReplitLoadingScene';
-
-const SCENE_DURATIONS = {
-  loading: 99999999,
-};
+import { KedrDomScene } from './KedrDomScene';
 
 export default function VideoTemplate() {
-  const { currentScene } = useVideoPlayer({
-    durations: SCENE_DURATIONS,
-  });
-
   return (
-    <div
-      className="w-full h-screen overflow-hidden relative"
-      style={{ backgroundColor: 'var(--color-bg-light)' }}
-    >
-      {/* mode="wait" = sequential, "sync" = simultaneous, "popLayout" = new snaps in while old animates out */}
+    <div className="w-full h-screen overflow-hidden relative" style={{ background: '#1c1a17' }}>
       <AnimatePresence>
-        {/* Replace this with your scenes */}
-        {currentScene === 0 && <ReplitLoadingScene key="loading" />}
+        <KedrDomScene key="kedrdom" />
       </AnimatePresence>
     </div>
   );

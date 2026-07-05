@@ -152,6 +152,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Block 1.5: Branded video ────────────────────────────────────────── */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="relative w-full bg-[#1c1a17]"
+        style={{ height: "clamp(360px, 56vw, 680px)" }}
+      >
+        <iframe
+          src="/house-build-video/"
+          title="КедрДом — видео"
+          className="absolute inset-0 w-full h-full border-0"
+          loading="lazy"
+          allow="autoplay"
+        />
+      </motion.section>
+
       {/* ── Block 2: 3D house scroll ────────────────────────────────────────── */}
       <section ref={houseRef} className="relative h-[250vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
