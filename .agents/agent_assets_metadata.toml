@@ -48,6 +48,18 @@ uri = "file://attached_assets/generated_images/house_line_logo.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "IbKl48tCN4SIHIAqt666w"
+uri = "file://attached_assets/generated_images/kt_house_logo.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "l1sEqPq6a1IbnOz7mWvHQ"
+uri = "file://attached_assets/generated_images/kt_house_logo_v2.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
@@ -77,3 +89,9 @@ id = "wjXJYuRN2A0OMWStCUUrB"
 uri = "file://attached_assets/generated_images/house_line_logo.png"
 type = "image"
 title = "Логотип дома (линии)"
+
+[[outputs]]
+id = "A62Wke5xaxRpELalrHYte"
+uri = "file://attached_assets/generated_images/kt_house_logo_v2.png"
+type = "image"
+title = "Логотип КТ — дом в объёме"
