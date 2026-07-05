@@ -74,6 +74,15 @@ function HouseModel({
     groupRef.current.rotation.y = Math.PI * 0.1;
     groupRef.current.updateMatrixWorld(true);
 
+    // First pass — measure where the house sits
+    const box0 = new THREE.Box3().setFromObject(groupRef.current);
+    // Lift so the base is at Y = GROUND_Y, giving the camera clear room above and below
+    const GROUND_Y = 1.2;
+    const liftY = GROUND_Y - box0.min.y;
+    groupRef.current.position.setY(liftY);
+    groupRef.current.updateMatrixWorld(true);
+
+    // Second pass — report the final bounds (after lift)
     const box = new THREE.Box3().setFromObject(groupRef.current);
     onBounds({ minY: box.min.y, maxY: box.max.y });
   }, [scene, normScale, onBounds]);
@@ -113,24 +122,27 @@ function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bou
       cameraEase = 1 - eased;
     }
 
-    // Camera swoop path — from a high, distant angle down into a close
-    // resting shot, with a slow orbit drift during the hold.
-    const angleStart = -1.15;
-    const angleEnd = 0.55;
-    const distStart = 22;
-    const distEnd = 10.5;
-    const heightStart = 9.0;
-    const heightEnd = 3.2;
+    const { minY, maxY } = boundsRef.current;
+    // Dynamic house centre — camera always looks at mid-height
+    const midY = (minY + maxY) * 0.5;
 
-    const drift = holdT * 0.18;
-    const angle = THREE.MathUtils.lerp(angleStart, angleEnd, cameraEase) + drift;
-    const dist = THREE.MathUtils.lerp(distStart, distEnd, cameraEase);
+    // Camera swoop: start high & distant, settle at a comfortable angle that
+    // shows the full house (base to ridge) with margin on all sides.
+    const angleStart = -1.15;
+    const angleEnd   = 0.55;
+    const distStart  = 24;
+    const distEnd    = 13;
+    const heightStart = midY + 7;
+    const heightEnd   = midY + 3.8;
+
+    const drift  = holdT * 0.18;
+    const angle  = THREE.MathUtils.lerp(angleStart, angleEnd, cameraEase) + drift;
+    const dist   = THREE.MathUtils.lerp(distStart,  distEnd,  cameraEase);
     const height = THREE.MathUtils.lerp(heightStart, heightEnd, cameraEase);
 
     camera.position.set(Math.sin(angle) * dist, height, Math.cos(angle) * dist);
-    camera.lookAt(0, 1.4, 0);
+    camera.lookAt(0, midY, 0);
 
-    const { minY, maxY } = boundsRef.current;
     const buffer = (maxY - minY) * 0.18 || 0.3;
     clipPlane.constant = THREE.MathUtils.lerp(minY - buffer, maxY + buffer, buildT);
   });
@@ -161,7 +173,7 @@ export default function HeroHouseFlight() {
       {webglSupported && (
         <Canvas
           shadows
-          camera={{ position: [0, 8.6, 21], fov: 45 }}
+          camera={{ position: [0, 12, 24], fov: 42 }}
           gl={{
             localClippingEnabled: true,
             antialias: true,
@@ -196,7 +208,7 @@ export default function HeroHouseFlight() {
             <HouseModel onBounds={handleBounds} />
           </Suspense>
           <ClipAndCameraRig boundsRef={boundsRef} />
-          <ContactShadows position={[0, -0.02, 0]} opacity={0.55} scale={16} blur={2.2} far={7} />
+          <ContactShadows position={[0, 1.18, 0]} opacity={0.55} scale={16} blur={2.2} far={7} />
         </Canvas>
       )}
     </div>
