@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "b92y3DAq-Jbs_m_Qn1aGs"
@@ -42,3 +41,27 @@ id = "ZethSYce5II910uR0fECV"
 uri = "file://attached_assets/generated_images/minimalist_modern_logo_icon_b080.png"
 type = "image"
 title = "generated_image"
+
+[[outputs]]
+id = "KPABw7oJC3lRynusju4M6"
+uri = "file://attached_assets/image_search/logo_2.png"
+type = "image"
+title = "Villa Building Construction Logo"
+
+[[outputs]]
+id = "mthBpIIf2Ffi0ofITGtTI"
+uri = "file://attached_assets/image_search/logo_3.png"
+type = "image"
+title = "Two Building Construction Logo"
+
+[[outputs]]
+id = "Spe0RZwPoJkzdJ8gq-L-y"
+uri = "file://attached_assets/image_search/logo_4.png"
+type = "image"
+title = "Строительство дома — логотип и символ"
+
+[[outputs]]
+id = "HTizChxMrU7K_jtdVc5ue"
+uri = "file://attached_assets/image_search/logo_6.png"
+type = "image"
+title = "Modern Log Cabin — деревянный дом"
