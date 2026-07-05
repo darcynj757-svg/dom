@@ -136,7 +136,14 @@ function Scene({
       <Suspense fallback={null}>
         <HouseModel progress={progress} clipPlane={clipPlane} onBounds={onBounds} />
       </Suspense>
-      <ContactShadows position={[0, -0.02, 0]} opacity={0.6} scale={12} blur={2.5} far={6} />
+      {/* Shadow fades in as the house builds: barely-there at start, solid at finish */}
+      <ContactShadows
+        position={[0, -0.02, 0]}
+        opacity={0.1 + progress * 0.5}
+        scale={10}
+        blur={1.4}
+        far={5}
+      />
     </>
   );
 }
