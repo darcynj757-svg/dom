@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-mot
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Hammer, ShieldCheck, Sparkles, Users } from "lucide-react";
 import ScrollHouse from "@/components/3d/ScrollHouse";
+import HeroHouseFlight from "@/components/3d/HeroHouseFlight";
 import { PROJECTS } from "@/data/projects";
 
 const STATS = [
@@ -75,16 +76,9 @@ export default function Home() {
 
   return (
     <div>
-      {/* ── Block 1: Video Hero ─────────────────────────────────────────────── */}
-      <section className="relative h-screen min-h-[600px] overflow-hidden">
-        <video
-          autoPlay muted loop playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          poster="https://picsum.photos/seed/construction/1920/1080"
-        >
-          <source src="https://videos.pexels.com/video-files/17506765/17506765-uhd_2560_1440_24fps.mp4" type="video/mp4" />
-          <source src="https://videos.pexels.com/video-files/5348784/5348784-hd_1920_1080_30fps.mp4" type="video/mp4" />
-        </video>
+      {/* ── Block 1: 3D House-Build Hero ───────────────────────────────────── */}
+      <section className="relative h-screen min-h-[600px] overflow-hidden bg-[#1c1a17]">
+        <HeroHouseFlight />
 
         {/* Gradient overlay — heavier at top and bottom, lighter in middle */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />

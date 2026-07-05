@@ -1,0 +1,200 @@
+import { useRef, useEffect, useMemo, useState, useCallback, Suspense, useLayoutEffect } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { ContactShadows } from "@react-three/drei";
+import * as THREE from "three";
+import { useGltfWithPlugin, getGltfPromise, hasWebGL } from "./houseLoader";
+
+// ---------------------------------------------------------------------------
+// Autoplaying, looping hero animation: the camera swoops in toward the house
+// while it assembles from the foundation up (via a rising clipping plane),
+// holds on the finished house, then rewinds quickly before looping.
+// ---------------------------------------------------------------------------
+
+const BUILD_MS = 4200;
+const HOLD_MS = 2200;
+const REWIND_MS = 1500;
+const CYCLE_MS = BUILD_MS + HOLD_MS + REWIND_MS;
+
+function easeOutCubic(t: number) {
+  return 1 - Math.pow(1 - t, 3);
+}
+function easeInCubic(t: number) {
+  return t * t * t;
+}
+
+// Shared plane instance — its `constant` is mutated every frame to reveal
+// the model bottom-up. Starts far below so nothing renders until ready.
+const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), -1000);
+
+type Bounds = { minY: number; maxY: number };
+
+function HouseModel({
+  onBounds,
+}: {
+  onBounds: (bounds: Bounds) => void;
+}) {
+  const groupRef = useRef<THREE.Group>(null!);
+  const gltf = useGltfWithPlugin();
+
+  const { normScale, centerOffset } = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(gltf.scene);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const s = maxDim > 0 ? 5.5 / maxDim : 1;
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    return { normScale: s, centerOffset: center };
+  }, [gltf.scene]);
+
+  useLayoutEffect(() => {
+    if (!groupRef.current) return;
+
+    gltf.scene.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (mesh.isMesh) {
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+        mats.forEach((m) => {
+          const mat = m as THREE.Material;
+          mat.clippingPlanes = [clipPlane];
+          mat.clipShadows = true;
+          mat.needsUpdate = true;
+        });
+      }
+    });
+
+    groupRef.current.scale.setScalar(normScale);
+    groupRef.current.position.set(0, 0, 0);
+    groupRef.current.rotation.y = Math.PI * 0.1;
+    groupRef.current.updateMatrixWorld(true);
+
+    const box = new THREE.Box3().setFromObject(groupRef.current);
+    onBounds({ minY: box.min.y, maxY: box.max.y });
+  }, [gltf.scene, normScale, onBounds]);
+
+  return (
+    <group ref={groupRef}>
+      <primitive
+        object={gltf.scene}
+        position={[-centerOffset.x, -centerOffset.y, -centerOffset.z]}
+      />
+    </group>
+  );
+}
+
+function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bounds> }) {
+  const { camera } = useThree();
+
+  useFrame(({ clock }) => {
+    const t = (clock.getElapsedTime() * 1000) % CYCLE_MS;
+
+    let buildT: number;
+    let cameraEase: number;
+    let holdT = 0;
+
+    if (t < BUILD_MS) {
+      const localT = t / BUILD_MS;
+      buildT = easeOutCubic(localT);
+      cameraEase = buildT;
+    } else if (t < BUILD_MS + HOLD_MS) {
+      buildT = 1;
+      cameraEase = 1;
+      holdT = (t - BUILD_MS) / HOLD_MS;
+    } else {
+      const localT = (t - BUILD_MS - HOLD_MS) / REWIND_MS;
+      const eased = easeInCubic(localT);
+      buildT = 1 - eased;
+      cameraEase = 1 - eased;
+    }
+
+    // Camera swoop path — from a high, distant angle down into a close
+    // resting shot, with a slow orbit drift during the hold.
+    const angleStart = -1.15;
+    const angleEnd = 0.5;
+    const distStart = 21;
+    const distEnd = 8.2;
+    const heightStart = 8.6;
+    const heightEnd = 1.75;
+
+    const drift = holdT * 0.2;
+    const angle = THREE.MathUtils.lerp(angleStart, angleEnd, cameraEase) + drift;
+    const dist = THREE.MathUtils.lerp(distStart, distEnd, cameraEase);
+    const height = THREE.MathUtils.lerp(heightStart, heightEnd, cameraEase);
+
+    camera.position.set(Math.sin(angle) * dist, height, Math.cos(angle) * dist);
+    camera.lookAt(0, 0.6, 0);
+
+    const { minY, maxY } = boundsRef.current;
+    const buffer = (maxY - minY) * 0.06 || 0.1;
+    clipPlane.constant = THREE.MathUtils.lerp(minY - buffer, maxY + buffer, buildT);
+  });
+
+  return null;
+}
+
+export default function HeroHouseFlight() {
+  const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
+  const boundsRef = useRef<Bounds>({ minY: -0.2, maxY: 3.4 });
+
+  const handleBounds = useCallback((bounds: Bounds) => {
+    boundsRef.current = bounds;
+  }, []);
+
+  useEffect(() => {
+    setWebglSupported(hasWebGL());
+    // Kick off the GLTF load immediately so it's ready as soon as possible
+    getGltfPromise();
+  }, []);
+
+  if (webglSupported === false) {
+    return <div className="absolute inset-0 bg-gradient-to-b from-neutral-800 to-neutral-950" />;
+  }
+
+  return (
+    <div className="absolute inset-0 bg-[#1c1a17]">
+      {webglSupported && (
+        <Canvas
+          shadows
+          camera={{ position: [0, 8.6, 21], fov: 45 }}
+          gl={{
+            localClippingEnabled: true,
+            antialias: true,
+            failIfMajorPerformanceCaveat: false,
+            powerPreference: "default",
+          }}
+          onCreated={({ gl }) => {
+            gl.localClippingEnabled = true;
+            gl.domElement.addEventListener(
+              "webglcontextlost",
+              (e) => e.preventDefault(),
+              false,
+            );
+          }}
+        >
+          <color attach="background" args={["#1c1a17"]} />
+          <fog attach="fog" args={["#1c1a17", 15, 34]} />
+          <hemisphereLight args={["#cfe0ff", "#3a2f22", 0.7]} />
+          <ambientLight intensity={0.4} />
+          <directionalLight
+            position={[10, 14, 6]}
+            intensity={1.8}
+            castShadow
+            shadow-mapSize-width={1024}
+            shadow-mapSize-height={1024}
+            shadow-camera-far={40}
+            shadow-camera-near={0.1}
+          />
+          <directionalLight position={[-10, 6, -6]} intensity={0.5} />
+          <pointLight position={[0, 5, 8]} intensity={0.4} color="#ffdcb0" />
+          <Suspense fallback={null}>
+            <HouseModel onBounds={handleBounds} />
+          </Suspense>
+          <ClipAndCameraRig boundsRef={boundsRef} />
+          <ContactShadows position={[0, -0.02, 0]} opacity={0.55} scale={16} blur={2.2} far={7} />
+        </Canvas>
+      )}
+    </div>
+  );
+}
