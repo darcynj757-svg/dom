@@ -92,7 +92,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
 
         {/* Hero content */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-20">
           <motion.span
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -106,12 +106,12 @@ export default function Home() {
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.35 }}
-            className="font-display font-black text-white leading-[1.02] max-w-5xl"
-            style={{ fontSize: "clamp(2.8rem, 8vw, 7rem)" }}
+            className="font-display font-black text-white leading-[1.05] max-w-5xl"
+            style={{ fontSize: "clamp(2.2rem, 6.5vw, 5.5rem)" }}
           >
-            Дом из кедра —<br />
-            <span className="italic text-amber-300">надёжно, в срок,</span><br />
-            с гарантией
+            Строим ваш дом из кедра,<br />
+            <span className="italic text-amber-300">пока вы строите</span><br />
+            свою жизнь
           </motion.h1>
 
           <motion.p
@@ -120,7 +120,7 @@ export default function Home() {
             transition={{ duration: 0.7, delay: 0.55 }}
             className="mt-7 max-w-lg text-base md:text-lg text-white/75 font-medium"
           >
-            Рубленные дома и дома из профилированного бруса по всей России с 2001 года.
+            Рубленые дома из кругляка и дома из профилированного бруса под ключ — по всей России с 2001 года.
           </motion.p>
 
           <motion.div
