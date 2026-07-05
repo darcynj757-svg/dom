@@ -32,7 +32,7 @@ function HouseModel({
     const size = new THREE.Vector3();
     box.getSize(size);
     const maxDim = Math.max(size.x, size.y, size.z);
-    const s = maxDim > 0 ? 4.2 / maxDim : 1;
+    const s = maxDim > 0 ? 5.5 / maxDim : 1;
     const center = new THREE.Vector3();
     box.getCenter(center);
     return { normScale: s, centerOffset: center };
@@ -58,13 +58,9 @@ function HouseModel({
     });
 
     groupRef.current.scale.setScalar(normScale);
-    groupRef.current.position.set(0, 0, 0);
+    groupRef.current.position.set(0, -1, 0);
+    // Slight fixed angle so the house shows its side — "немного боком"
     groupRef.current.rotation.y = Math.PI * 0.08;
-    groupRef.current.updateMatrixWorld(true);
-
-    // Lift so base sits at Y = 0
-    const box0 = new THREE.Box3().setFromObject(groupRef.current);
-    groupRef.current.position.setY(-box0.min.y);
     groupRef.current.updateMatrixWorld(true);
 
     const box = new THREE.Box3().setFromObject(groupRef.current);
@@ -73,8 +69,8 @@ function HouseModel({
 
   useFrame(() => {
     if (!groupRef.current) return;
-    // Gentle rise as the build progresses
-    groupRef.current.position.y = 0 + progress * 0.2;
+    // Gentle rise as the build progresses, on top of the clip reveal.
+    groupRef.current.position.y = -1 + progress * 0.35;
   });
 
   return (
@@ -103,15 +99,14 @@ function Scene({
   useFrame(() => {
     // Camera orbits from front (0°) to ~30° as user scrolls — matches screenshot angle
     const angle = progress * Math.PI * 0.17;
-    camera.position.x = Math.sin(angle) * 6.5;
-    camera.position.z = Math.cos(angle) * 6.5;
-    camera.position.y = 0.3 + progress * 0.4;
-    camera.lookAt(0, 2.5, 0);
+    camera.position.x = Math.sin(angle) * 6;
+    camera.position.z = Math.cos(angle) * 6;
+    camera.position.y = 1.2 + progress * 0.6;
+    camera.lookAt(0, 0.2, 0);
 
     const buildT = easeOutCubic(Math.min(Math.max(progress, 0), 1));
     const { minY, maxY } = boundsRef.current;
-    // 22% buffer ensures the roof ridge is fully revealed at progress=1
-    const buffer = (maxY - minY) * 0.22 || 0.4;
+    const buffer = (maxY - minY) * 0.06 || 0.1;
     clipPlane.constant = THREE.MathUtils.lerp(minY - buffer, maxY + buffer, buildT);
   });
 
@@ -132,7 +127,7 @@ function Scene({
       <Suspense fallback={null}>
         <HouseModel progress={progress} clipPlane={clipPlane} onBounds={onBounds} />
       </Suspense>
-      <ContactShadows position={[0, -0.02, 0]} opacity={0.45} scale={12} blur={2.5} far={6} />
+      <ContactShadows position={[0, -1, 0]} opacity={0.6} scale={12} blur={2.5} far={6} />
     </>
   );
 }
