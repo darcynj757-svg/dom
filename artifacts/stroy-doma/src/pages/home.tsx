@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Hammer, ShieldCheck, Sparkles, Users } from "lucide-react";
 import ScrollHouse from "@/components/3d/ScrollHouse";
 import { PROJECTS } from "@/data/projects";
-import heroGif from "@assets/cedar_log_mansion_flythrough_16s.gif";
+import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_compressed.mp4";
 
 const STATS = [
   { value: 25, suffix: " лет", label: "на рынке" },
@@ -79,9 +79,12 @@ export default function Home() {
     <div>
       {/* ── Block 1: 3D House-Build Hero ───────────────────────────────────── */}
       <section className="relative h-screen min-h-[600px] overflow-hidden bg-[#1c1a17]">
-        <img
-          src={heroGif}
-          alt="Строительство деревянного дома"
+        <video
+          src={heroVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
           className="absolute inset-0 w-full h-full object-cover"
         />
 
