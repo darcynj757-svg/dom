@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background rounded square -->
+  <rect x="4" y="4" width="504" height="504" rx="110" ry="110" fill="#6E7276" stroke="#4E5255" stroke-width="8"/>
+
+  <g stroke="#EDEDED" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+
+    <!-- ── LEFT TREE ── -->
+    <!-- Trunk -->
+    <line x1="132" y1="380" x2="132" y2="345"/>
+    <!-- Tier 3 (bottom, widest) -->
+    <polyline points="96,345 132,300 168,345"/>
+    <!-- Tier 2 -->
+    <polyline points="104,308 132,268 160,308"/>
+    <!-- Tier 1 (top, narrowest) -->
+    <polyline points="113,273 132,240 151,273"/>
+
+    <!-- ── RIGHT TREE ── -->
+    <!-- Trunk -->
+    <line x1="380" y1="380" x2="380" y2="345"/>
+    <!-- Tier 3 -->
+    <polyline points="344,345 380,300 416,345"/>
+    <!-- Tier 2 -->
+    <polyline points="352,308 380,268 408,308"/>
+    <!-- Tier 1 -->
+    <polyline points="361,273 380,240 399,273"/>
+
+    <!-- ── HOUSE BODY ── -->
+    <!-- Left wall (front-left face) -->
+    <polygon points="196,255 256,288 256,348 196,315"/>
+    <!-- Right wall (front-right face) -->
+    <polygon points="256,288 316,255 316,315 256,348"/>
+
+    <!-- ── ROOF ── -->
+    <!-- Ridge peak line (isometric) -->
+    <!-- Left roof slope: left-top-left(196,255), peak-front(226,210), peak-back(286,210), right-top-left(256,288) -->
+    <polygon points="196,255 226,210 286,210 256,288"/>
+    <!-- Right roof slope: right-top-left(256,288), peak-back(286,210), right-top-right(316,255) -->
+    <polygon points="256,288 286,210 316,255"/>
+
+    <!-- ── DOOR (left face) ── -->
+    <rect x="215" y="305" width="22" height="43" rx="2"/>
+
+    <!-- ── WINDOW left face ── -->
+    <rect x="199" y="268" width="16" height="16" rx="1"/>
+
+    <!-- ── WINDOW right face ── -->
+    <rect x="274" y="268" width="16" height="16" rx="1"/>
+
+    <!-- ── STILTS / GROUND LINES ── -->
+    <line x1="196" y1="315" x2="196" y2="385"/>
+    <line x1="316" y1="315" x2="316" y2="385"/>
+    <line x1="256" y1="348" x2="256" y2="385"/>
+
+    <!-- Ground horizontal -->
+    <line x1="140" y1="385" x2="372" y2="385"/>
+
+  </g>
+</svg>
