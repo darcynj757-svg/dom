@@ -191,19 +191,20 @@ export default function HeroHouseFlight() {
         >
           <color attach="background" args={["#1c1a17"]} />
           <fog attach="fog" args={["#1c1a17", 15, 34]} />
-          <hemisphereLight args={["#cfe0ff", "#3a2f22", 0.7]} />
-          <ambientLight intensity={0.4} />
+          <hemisphereLight args={["#e8f4ff", "#5a4a38", 1.2]} />
+          <ambientLight intensity={1.0} />
           <directionalLight
             position={[10, 14, 6]}
-            intensity={1.8}
+            intensity={2.8}
             castShadow
             shadow-mapSize-width={1024}
             shadow-mapSize-height={1024}
             shadow-camera-far={40}
             shadow-camera-near={0.1}
           />
-          <directionalLight position={[-10, 6, -6]} intensity={0.5} />
-          <pointLight position={[0, 5, 8]} intensity={0.4} color="#ffdcb0" />
+          <directionalLight position={[-10, 6, -6]} intensity={1.0} />
+          <directionalLight position={[0, 4, 12]} intensity={0.8} />
+          <pointLight position={[0, 5, 8]} intensity={0.8} color="#ffdcb0" />
           <Suspense fallback={null}>
             <HouseModel onBounds={handleBounds} />
           </Suspense>

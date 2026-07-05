@@ -72,11 +72,8 @@ function HouseModel({
     onBounds({ minY: box.min.y, maxY: box.max.y });
   }, [scene, normScale, clipPlane, onBounds]);
 
-  useFrame(() => {
-    if (!groupRef.current) return;
-    // Gentle rise as the build progresses — base stays near Y=0, slight lift.
-    groupRef.current.position.y = progress * 0.3;
-  });
+  // House stays fixed on the ground — clip plane handles the build reveal.
+  useFrame(() => { /* no-op: position is set once in useLayoutEffect */ });
 
   return (
     <group ref={groupRef}>
@@ -116,23 +113,26 @@ function Scene({
 
     const buildT = easeOutCubic(Math.min(Math.max(progress, 0), 1));
     const buffer = (maxY - minY) * 0.18 || 0.3;
-    clipPlane.constant = THREE.MathUtils.lerp(minY - buffer, maxY + buffer, buildT);
+    // Start at minY so the foundation slab is visible from the very first frame;
+    // end past maxY so the roof is fully revealed without clipping.
+    clipPlane.constant = THREE.MathUtils.lerp(minY, maxY + buffer, buildT);
   });
 
   return (
     <>
-      <hemisphereLight args={["#cfe0ff", "#3a2f22", 0.7]} />
-      <ambientLight intensity={0.4} />
+      <hemisphereLight args={["#e8f4ff", "#5a4a38", 1.2]} />
+      <ambientLight intensity={1.0} />
       <directionalLight
         position={[10, 12, 6]}
-        intensity={1.6}
+        intensity={2.8}
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
         shadow-camera-far={30}
         shadow-camera-near={0.1}
       />
-      <directionalLight position={[-8, 6, -4]} intensity={0.45} />
+      <directionalLight position={[-8, 6, -4]} intensity={1.0} />
+      <directionalLight position={[0, 4, 12]} intensity={0.8} />
       <Suspense fallback={null}>
         <HouseModel progress={progress} clipPlane={clipPlane} onBounds={onBounds} />
       </Suspense>
