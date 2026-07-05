@@ -1,58 +1,82 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Background rounded square -->
-  <rect x="4" y="4" width="504" height="504" rx="110" ry="110" fill="#6E7276" stroke="#4E5255" stroke-width="8"/>
 
-  <g stroke="#EDEDED" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <!-- Rounded-square background -->
+  <rect x="4" y="4" width="504" height="504" rx="110" ry="110"
+        fill="#6E7276" stroke="#4A4E52" stroke-width="8"/>
 
-    <!-- ── LEFT TREE ── -->
-    <!-- Trunk -->
-    <line x1="132" y1="380" x2="132" y2="345"/>
-    <!-- Tier 3 (bottom, widest) -->
-    <polyline points="96,345 132,300 168,345"/>
-    <!-- Tier 2 -->
-    <polyline points="104,308 132,268 160,308"/>
-    <!-- Tier 1 (top, narrowest) -->
-    <polyline points="113,273 132,240 151,273"/>
+  <g stroke="#EDEDED" stroke-width="8.5"
+     stroke-linecap="round" stroke-linejoin="round" fill="none">
 
-    <!-- ── RIGHT TREE ── -->
-    <!-- Trunk -->
-    <line x1="380" y1="380" x2="380" y2="345"/>
-    <!-- Tier 3 -->
-    <polyline points="344,345 380,300 416,345"/>
-    <!-- Tier 2 -->
-    <polyline points="352,308 380,268 408,308"/>
-    <!-- Tier 1 -->
-    <polyline points="361,273 380,240 399,273"/>
+    <!-- ═══════════════════════════
+         LEFT TREE  (trunk x=128)
+    ════════════════════════════════ -->
+    <line x1="128" y1="380" x2="128" y2="342"/>
+    <!-- tier 1 — widest bottom -->
+    <polyline points="80,342  128,296  176,342"/>
+    <!-- tier 2 -->
+    <polyline points="92,318  128,274  164,318"/>
+    <!-- tier 3 — narrowest top -->
+    <polyline points="106,295 128,255  150,295"/>
 
-    <!-- ── HOUSE BODY ── -->
-    <!-- Left wall (front-left face) -->
-    <polygon points="196,255 256,288 256,348 196,315"/>
-    <!-- Right wall (front-right face) -->
-    <polygon points="256,288 316,255 316,315 256,348"/>
+    <!-- ═══════════════════════════
+         RIGHT TREE  (trunk x=384)
+    ════════════════════════════════ -->
+    <line x1="384" y1="380" x2="384" y2="342"/>
+    <polyline points="336,342 384,296 432,342"/>
+    <polyline points="348,318 384,274 420,318"/>
+    <polyline points="362,295 384,255 406,295"/>
 
-    <!-- ── ROOF ── -->
-    <!-- Ridge peak line (isometric) -->
-    <!-- Left roof slope: left-top-left(196,255), peak-front(226,210), peak-back(286,210), right-top-left(256,288) -->
-    <polygon points="196,255 226,210 286,210 256,288"/>
-    <!-- Right roof slope: right-top-left(256,288), peak-back(286,210), right-top-right(316,255) -->
-    <polygon points="256,288 286,210 316,255"/>
+    <!-- ═══════════════════════════
+         HOUSE — WALLS
+         Isometric 2 : 1  (64 px right → +64,+32; up → 0,−72)
 
-    <!-- ── DOOR (left face) ── -->
-    <rect x="215" y="305" width="22" height="43" rx="2"/>
+         Key corners (no fill, outline only):
+           B  = front-bottom  (256, 308)
+           BL = left-bottom   (192, 276)
+           BR = right-bottom  (320, 276)
+           TF = front-top     (256, 236)
+           TL = left-top      (192, 204)
+           TR = right-top     (320, 204)
+    ════════════════════════════════ -->
 
-    <!-- ── WINDOW left face ── -->
-    <rect x="199" y="268" width="16" height="16" rx="1"/>
+    <!-- Left wall face: B → BL → TL → TF -->
+    <polygon points="256,308  192,276  192,204  256,236"/>
+    <!-- Right wall face: B → BR → TR → TF -->
+    <polygon points="256,308  320,276  320,204  256,236"/>
 
-    <!-- ── WINDOW right face ── -->
-    <rect x="274" y="268" width="16" height="16" rx="1"/>
+    <!-- ═══════════════════════════
+         ROOF — hip, peak P = (256, 152)
+         Visible slopes share edge TF→P as front centre line
+    ════════════════════════════════ -->
+    <!-- Left visible slope  TL → TF → P -->
+    <polygon points="192,204  256,236  256,152"/>
+    <!-- Right visible slope TF → TR → P -->
+    <polygon points="256,236  320,204  256,152"/>
 
-    <!-- ── STILTS / GROUND LINES ── -->
-    <line x1="196" y1="315" x2="196" y2="385"/>
-    <line x1="316" y1="315" x2="316" y2="385"/>
-    <line x1="256" y1="348" x2="256" y2="385"/>
+    <!-- ═══════════════════════════
+         DOOR — left-wall face, front quadrant
+         Parallelogram: front s≈0.20, back s≈0.50
+         height ≈ 40 px
+    ════════════════════════════════ -->
+    <polygon points="240,300  220,290  220,252  240,262"/>
 
-    <!-- Ground horizontal -->
-    <line x1="140" y1="385" x2="372" y2="385"/>
+    <!-- ═══════════════════════════
+         WINDOWS — small parallelograms
+    ════════════════════════════════ -->
+    <!-- Left wall, upper-back area -->
+    <polygon points="218,248  206,242  206,228  218,234"/>
+    <!-- Right wall, upper-back area -->
+    <polygon points="291,248  303,242  303,228  291,234"/>
+
+    <!-- ═══════════════════════════
+         STILT LINES + GROUND
+         Extend wall corners to ground, anchor the composition
+    ════════════════════════════════ -->
+    <line x1="192" y1="276" x2="192" y2="380"/>
+    <line x1="320" y1="276" x2="320" y2="380"/>
+    <line x1="256" y1="308" x2="256" y2="380"/>
+    <!-- ground line spans full scene -->
+    <line x1="80"  y1="380" x2="432" y2="380"/>
 
   </g>
 </svg>
