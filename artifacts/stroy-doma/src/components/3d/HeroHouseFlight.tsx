@@ -15,6 +15,12 @@ const HOLD_MS = 2800;
 const REWIND_MS = 1200;
 const CYCLE_MS = BUILD_MS + HOLD_MS + REWIND_MS;
 
+// Smaller model target size (was 5.5)
+const MODEL_SIZE = 4.2;
+
+// Ground level — house base sits here, giving camera headroom above
+const GROUND_Y = 2.8;
+
 function easeOutCubic(t: number) {
   return 1 - Math.pow(1 - t, 3);
 }
@@ -35,9 +41,6 @@ function HouseModel({
 }) {
   const groupRef = useRef<THREE.Group>(null!);
   const gltf = useGltfWithPlugin();
-  // Independent clone — the cached gltf.scene is shared with other
-  // simultaneously-mounted canvases (e.g. ScrollHouse), and an
-  // Object3D can only belong to one parent at a time.
   const scene = useMemo(() => cloneGltfScene(gltf.scene), [gltf.scene]);
 
   const { normScale, centerOffset } = useMemo(() => {
@@ -45,7 +48,7 @@ function HouseModel({
     const size = new THREE.Vector3();
     box.getSize(size);
     const maxDim = Math.max(size.x, size.y, size.z);
-    const s = maxDim > 0 ? 5.5 / maxDim : 1;
+    const s = maxDim > 0 ? MODEL_SIZE / maxDim : 1;
     const center = new THREE.Vector3();
     box.getCenter(center);
     return { normScale: s, centerOffset: center };
@@ -74,15 +77,14 @@ function HouseModel({
     groupRef.current.rotation.y = Math.PI * 0.1;
     groupRef.current.updateMatrixWorld(true);
 
-    // First pass — measure where the house sits
+    // First pass — measure where the model sits after scaling
     const box0 = new THREE.Box3().setFromObject(groupRef.current);
-    // Lift so the base is at Y = GROUND_Y, giving the camera clear room above and below
-    const GROUND_Y = 1.2;
+    // Lift so the base sits at GROUND_Y
     const liftY = GROUND_Y - box0.min.y;
     groupRef.current.position.setY(liftY);
     groupRef.current.updateMatrixWorld(true);
 
-    // Second pass — report the final bounds (after lift)
+    // Second pass — report final bounds (post-lift)
     const box = new THREE.Box3().setFromObject(groupRef.current);
     onBounds({ minY: box.min.y, maxY: box.max.y });
   }, [scene, normScale, onBounds]);
@@ -97,8 +99,10 @@ function HouseModel({
   );
 }
 
-function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bounds> }) {
+// Combined rig: camera swoop + clip-plane build + glow light
+function GlowAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bounds> }) {
   const { camera } = useThree();
+  const glowRef = useRef<THREE.PointLight>(null!);
 
   useFrame(({ clock }) => {
     const t = (clock.getElapsedTime() * 1000) % CYCLE_MS;
@@ -123,17 +127,21 @@ function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bou
     }
 
     const { minY, maxY } = boundsRef.current;
-    // Dynamic house centre — camera always looks at mid-height
     const midY = (minY + maxY) * 0.5;
 
-    // Camera swoop: start high & distant, settle at a comfortable angle that
-    // shows the full house (base to ridge) with margin on all sides.
+    // Inner glow: bright amber light as house assembles, fades when done
+    if (glowRef.current) {
+      glowRef.current.intensity = (1 - buildT) * 3.0 + 0.1;
+      glowRef.current.position.set(0, midY, 0);
+    }
+
+    // Camera swoop path
     const angleStart = -1.15;
     const angleEnd   = 0.55;
-    const distStart  = 24;
+    const distStart  = 22;
     const distEnd    = 13;
-    const heightStart = midY + 7;
-    const heightEnd   = midY + 3.8;
+    const heightStart = midY + 6.5;
+    const heightEnd   = midY + 4.5;
 
     const drift  = holdT * 0.18;
     const angle  = THREE.MathUtils.lerp(angleStart, angleEnd, cameraEase) + drift;
@@ -143,16 +151,25 @@ function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bou
     camera.position.set(Math.sin(angle) * dist, height, Math.cos(angle) * dist);
     camera.lookAt(0, midY, 0);
 
-    const buffer = (maxY - minY) * 0.18 || 0.3;
+    // Clip plane: reveal bottom-up with generous buffer so ridge is fully shown
+    const buffer = (maxY - minY) * 0.22 || 0.4;
     clipPlane.constant = THREE.MathUtils.lerp(minY - buffer, maxY + buffer, buildT);
   });
 
-  return null;
+  return (
+    <pointLight
+      ref={glowRef}
+      color="#ffd080"
+      intensity={3.0}
+      distance={14}
+      decay={2}
+    />
+  );
 }
 
 export default function HeroHouseFlight() {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
-  const boundsRef = useRef<Bounds>({ minY: -0.2, maxY: 3.4 });
+  const boundsRef = useRef<Bounds>({ minY: GROUND_Y, maxY: GROUND_Y + 4 });
 
   const handleBounds = useCallback((bounds: Bounds) => {
     boundsRef.current = bounds;
@@ -160,7 +177,6 @@ export default function HeroHouseFlight() {
 
   useEffect(() => {
     setWebglSupported(hasWebGL());
-    // Kick off the GLTF load immediately so it's ready as soon as possible
     getGltfPromise();
   }, []);
 
@@ -173,7 +189,7 @@ export default function HeroHouseFlight() {
       {webglSupported && (
         <Canvas
           shadows
-          camera={{ position: [0, 12, 24], fov: 42 }}
+          camera={{ position: [0, GROUND_Y + 9, 22], fov: 42 }}
           gl={{
             localClippingEnabled: true,
             antialias: true,
@@ -190,7 +206,7 @@ export default function HeroHouseFlight() {
           }}
         >
           <color attach="background" args={["#1c1a17"]} />
-          <fog attach="fog" args={["#1c1a17", 15, 34]} />
+          <fog attach="fog" args={["#1c1a17", 18, 36]} />
           <hemisphereLight args={["#cfe0ff", "#3a2f22", 0.7]} />
           <ambientLight intensity={0.4} />
           <directionalLight
@@ -203,12 +219,18 @@ export default function HeroHouseFlight() {
             shadow-camera-near={0.1}
           />
           <directionalLight position={[-10, 6, -6]} intensity={0.5} />
-          <pointLight position={[0, 5, 8]} intensity={0.4} color="#ffdcb0" />
           <Suspense fallback={null}>
             <HouseModel onBounds={handleBounds} />
           </Suspense>
-          <ClipAndCameraRig boundsRef={boundsRef} />
-          <ContactShadows position={[0, 1.18, 0]} opacity={0.55} scale={16} blur={2.2} far={7} />
+          <GlowAndCameraRig boundsRef={boundsRef} />
+          {/* Shadow always visible — subtle at start, looks natural when house completes */}
+          <ContactShadows
+            position={[0, GROUND_Y - 0.02, 0]}
+            opacity={0.4}
+            scale={14}
+            blur={2.5}
+            far={8}
+          />
         </Canvas>
       )}
     </div>
