@@ -72,6 +72,18 @@ uri = "file://attached_assets/generated_images/kt_house_logo_v4.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "j1PVhT-QuB-LboF7KbJj2"
+uri = "file://attached_assets/generated_images/kedr_logo_referenced.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "K3z9DOzAfT9WKnNG8rcIw"
+uri = "file://attached_assets/generated_images/kedr_icon_only.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
@@ -119,3 +131,9 @@ id = "OEkZV96qZWXGlNScsChw-"
 uri = "file://attached_assets/generated_images/kt_house_logo_v3.png"
 type = "image"
 title = "Вариант 3 — изометрический объём"
+
+[[outputs]]
+id = "TjvNksEDaz1lJmR7o-bee"
+uri = "file://attached_assets/generated_images/kedr_logo_final.png"
+type = "image"
+title = "Логотип Кедр — в стиле референса"
