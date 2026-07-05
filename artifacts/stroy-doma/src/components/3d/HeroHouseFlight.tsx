@@ -10,9 +10,9 @@ import { useGltfWithPlugin, getGltfPromise, hasWebGL, cloneGltfScene } from "./h
 // holds on the finished house, then rewinds quickly before looping.
 // ---------------------------------------------------------------------------
 
-const BUILD_MS = 4200;
-const HOLD_MS = 2200;
-const REWIND_MS = 1500;
+const BUILD_MS = 4800;
+const HOLD_MS = 2800;
+const REWIND_MS = 1200;
 const CYCLE_MS = BUILD_MS + HOLD_MS + REWIND_MS;
 
 function easeOutCubic(t: number) {
@@ -116,22 +116,22 @@ function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bou
     // Camera swoop path — from a high, distant angle down into a close
     // resting shot, with a slow orbit drift during the hold.
     const angleStart = -1.15;
-    const angleEnd = 0.5;
-    const distStart = 21;
-    const distEnd = 8.2;
-    const heightStart = 8.6;
-    const heightEnd = 1.75;
+    const angleEnd = 0.55;
+    const distStart = 22;
+    const distEnd = 10.5;
+    const heightStart = 9.0;
+    const heightEnd = 3.2;
 
-    const drift = holdT * 0.2;
+    const drift = holdT * 0.18;
     const angle = THREE.MathUtils.lerp(angleStart, angleEnd, cameraEase) + drift;
     const dist = THREE.MathUtils.lerp(distStart, distEnd, cameraEase);
     const height = THREE.MathUtils.lerp(heightStart, heightEnd, cameraEase);
 
     camera.position.set(Math.sin(angle) * dist, height, Math.cos(angle) * dist);
-    camera.lookAt(0, 0.6, 0);
+    camera.lookAt(0, 1.4, 0);
 
     const { minY, maxY } = boundsRef.current;
-    const buffer = (maxY - minY) * 0.06 || 0.1;
+    const buffer = (maxY - minY) * 0.18 || 0.3;
     clipPlane.constant = THREE.MathUtils.lerp(minY - buffer, maxY + buffer, buildT);
   });
 
