@@ -150,6 +150,36 @@ uri = "file://attached_assets/generated_images/kt_persp_e.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "B_ISlL0gDHFnHDg4SCwYg"
+uri = "file://attached_assets/generated_images/kt_build_a.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "tMVlmgulsw-LzCf87zFnj"
+uri = "file://attached_assets/generated_images/kt_build_b.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "mFtD8ly-orFaJjEDB-kkP"
+uri = "file://attached_assets/generated_images/kt_build_c.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "StxE3-q8vm-HtTB9ahw2W"
+uri = "file://attached_assets/generated_images/kt_build_d.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "JUVIYo2WKj6ze1GNvcB8l"
+uri = "file://attached_assets/generated_images/kt_build_e.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
@@ -269,3 +299,33 @@ id = "4u0wha0CXjXSrrnfHRlbe"
 uri = "file://attached_assets/generated_images/kt_persp_e.png"
 type = "image"
 title = "Д — вид сверху на планировку дома"
+
+[[outputs]]
+id = "_cVEejvLtqbeVxge_xIHm"
+uri = "file://attached_assets/generated_images/kt_build_a.png"
+type = "image"
+title = "А — дом с крюком-крючком"
+
+[[outputs]]
+id = "WfTswxyE8GE-UlTF313m6"
+uri = "file://attached_assets/generated_images/kt_build_b.png"
+type = "image"
+title = "Б — чертёж чертёжного плана"
+
+[[outputs]]
+id = "Zn64vJeIutUxwuzkoRRyM"
+uri = "file://attached_assets/generated_images/kt_build_c.png"
+type = "image"
+title = "В — деревянный каркас дома (стройка)"
+
+[[outputs]]
+id = "we_jcwzVsqX8O9kfeAvEv"
+uri = "file://attached_assets/generated_images/kt_build_d.png"
+type = "image"
+title = "Г — дом с восходящей стрелкой (рост)"
+
+[[outputs]]
+id = "5HTYyZ8i5plBvll4V21Mr"
+uri = "file://attached_assets/generated_images/kt_build_e.png"
+type = "image"
+title = "Д — дом в щите (надёжность)"
