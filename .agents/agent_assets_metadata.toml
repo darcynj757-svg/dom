@@ -108,6 +108,18 @@ uri = "file://attached_assets/generated_images/kt_v4_icon.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "ZKmiHrvSAM522PZbzQtQE"
+uri = "file://attached_assets/generated_images/kt_perspective_v1.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "FdVHpDFCXsohCCbC1vgk5"
+uri = "file://attached_assets/generated_images/kt_perspective_v2.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
@@ -185,3 +197,15 @@ id = "PhswNLNIi0Mhum9DSMZz_"
 uri = "file://attached_assets/generated_images/kt_v4_icon_labeled.png"
 type = "image"
 title = "Вариант 4 — строгий знак в круге"
+
+[[outputs]]
+id = "ItAp_83e1pdA4AQXR2ddr"
+uri = "file://attached_assets/generated_images/kt_perspective_v1.png"
+type = "image"
+title = "Вариант 1 — изометрический объёмный дом"
+
+[[outputs]]
+id = "fvTG_oBwRZMt57zZCy2lt"
+uri = "file://attached_assets/generated_images/kt_perspective_v2.png"
+type = "image"
+title = "Вариант 2 — перспектива с точкой схода"
