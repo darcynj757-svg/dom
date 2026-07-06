@@ -120,6 +120,36 @@ uri = "file://attached_assets/generated_images/kt_perspective_v2.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "PwVUJv1Y520KbnLWFWiAL"
+uri = "file://attached_assets/generated_images/kt_persp_a.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "7ZPeLfRHE2omyK_kowFCy"
+uri = "file://attached_assets/generated_images/kt_persp_b.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "71Ksa8TPY9qtBNwFLtmNq"
+uri = "file://attached_assets/generated_images/kt_persp_c.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "vuo9_lwpe-y3w9DBqvPSr"
+uri = "file://attached_assets/generated_images/kt_persp_d.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "JonbVO6DqRRjUrMyI0LDI"
+uri = "file://attached_assets/generated_images/kt_persp_e.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
@@ -209,3 +239,33 @@ id = "fvTG_oBwRZMt57zZCy2lt"
 uri = "file://attached_assets/generated_images/kt_perspective_v2.png"
 type = "image"
 title = "Вариант 2 — перспектива с точкой схода"
+
+[[outputs]]
+id = "E5O61z3E21ikskTB8NiYU"
+uri = "file://attached_assets/generated_images/kt_persp_a.png"
+type = "image"
+title = "А — бревенчатый дом в изометрии"
+
+[[outputs]]
+id = "Qbq9oiVqPprREBn4tPkuh"
+uri = "file://attached_assets/generated_images/kt_persp_b.png"
+type = "image"
+title = "Б — вид снизу вверх (драматичная перспектива)"
+
+[[outputs]]
+id = "vkWXF8nuf4gE6c9Crw1qg"
+uri = "file://attached_assets/generated_images/kt_persp_c.png"
+type = "image"
+title = "В — «взорванная» конструкция (крыша отдельно)"
+
+[[outputs]]
+id = "VL36p6kqm29IIsuTzK3Ke"
+uri = "file://attached_assets/generated_images/kt_persp_d.png"
+type = "image"
+title = "Г — два слоя с эффектом глубины"
+
+[[outputs]]
+id = "4u0wha0CXjXSrrnfHRlbe"
+uri = "file://attached_assets/generated_images/kt_persp_e.png"
+type = "image"
+title = "Д — вид сверху на планировку дома"
