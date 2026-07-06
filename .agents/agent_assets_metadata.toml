@@ -84,6 +84,30 @@ uri = "file://attached_assets/generated_images/kedr_icon_only.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "1t1laxHb0HTpB6yaig5xQ"
+uri = "file://attached_assets/generated_images/kt_v1_icon.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "WJFSleddxVcJdgHYDPiSS"
+uri = "file://attached_assets/generated_images/kt_v2_icon.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "cdCNfkizETa5HUXfGMjbu"
+uri = "file://attached_assets/generated_images/kt_v3_icon.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "JEIL78G1oK7tJ4P-fAgfB"
+uri = "file://attached_assets/generated_images/kt_v4_icon.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
@@ -137,3 +161,27 @@ id = "TjvNksEDaz1lJmR7o-bee"
 uri = "file://attached_assets/generated_images/kedr_logo_final.png"
 type = "image"
 title = "Логотип Кедр — в стиле референса"
+
+[[outputs]]
+id = "0e9ZFzth9xDliuVC47X9v"
+uri = "file://attached_assets/generated_images/kt_v1_icon_labeled.png"
+type = "image"
+title = "Вариант 1 — в стиле вашего референса (двойная лента-крыша)"
+
+[[outputs]]
+id = "q5gx0XE_XZ0q5SjFHtnf_"
+uri = "file://attached_assets/generated_images/kt_v2_icon_labeled.png"
+type = "image"
+title = "Вариант 2 — бревенчатый дом из брёвен (деревянное строительство)"
+
+[[outputs]]
+id = "2Tbk3Kn8Ol4ZU1AxizbVg"
+uri = "file://attached_assets/generated_images/kt_v3_icon_labeled.png"
+type = "image"
+title = "Вариант 3 — ель + дом (отсылка к «Кедру»)"
+
+[[outputs]]
+id = "PhswNLNIi0Mhum9DSMZz_"
+uri = "file://attached_assets/generated_images/kt_v4_icon_labeled.png"
+type = "image"
+title = "Вариант 4 — строгий знак в круге"
