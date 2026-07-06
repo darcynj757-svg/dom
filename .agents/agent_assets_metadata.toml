@@ -204,6 +204,12 @@ uri = "file://attached_assets/generated_images/kt_min_d.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "YmiiAo-eQfJsr0NXrHypn"
+uri = "file://attached_assets/generated_images/kt_min_e.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
@@ -377,3 +383,9 @@ id = "o0UmHptRn85yC5PHQfktu"
 uri = "file://attached_assets/generated_images/kt_min_d.png"
 type = "image"
 title = "Г — дом + стрелка вверх (негативное пространство)"
+
+[[outputs]]
+id = "PVlEK_2LdnxivN9qh-e__"
+uri = "file://attached_assets/generated_images/kt_min_e.png"
+type = "image"
+title = "Д — шеврон-крыша с окном"
