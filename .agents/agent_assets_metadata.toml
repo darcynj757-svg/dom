@@ -180,6 +180,30 @@ uri = "file://attached_assets/generated_images/kt_build_e.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "_EWQOr9GPGy3HSVblae0F"
+uri = "file://attached_assets/generated_images/kt_min_a.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "zpUsYntvsBgbrAPw_rkex"
+uri = "file://attached_assets/generated_images/kt_min_b.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "DZiqubbExAE6IEdxA65CQ"
+uri = "file://attached_assets/generated_images/kt_min_c.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "AFTG_qj-fBpkCjKjm1bdV"
+uri = "file://attached_assets/generated_images/kt_min_d.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
@@ -329,3 +353,27 @@ id = "5HTYyZ8i5plBvll4V21Mr"
 uri = "file://attached_assets/generated_images/kt_build_e.png"
 type = "image"
 title = "Д — дом в щите (надёжность)"
+
+[[outputs]]
+id = "GV6ENnntSYYG91QG-0hY_"
+uri = "file://attached_assets/generated_images/kt_min_a.png"
+type = "image"
+title = "А — простой контур одной линией"
+
+[[outputs]]
+id = "WKwTzgFT39j59bcac8Wst"
+uri = "file://attached_assets/generated_images/kt_min_b.png"
+type = "image"
+title = "Б — треугольник + квадрат (с зазором)"
+
+[[outputs]]
+id = "3gGIHiFSzahJxpGaMJ_8e"
+uri = "file://attached_assets/generated_images/kt_min_c.png"
+type = "image"
+title = "В — тонкая изометрия с намёком на обшивку"
+
+[[outputs]]
+id = "o0UmHptRn85yC5PHQfktu"
+uri = "file://attached_assets/generated_images/kt_min_d.png"
+type = "image"
+title = "Г — дом + стрелка вверх (негативное пространство)"
