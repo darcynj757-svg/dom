@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, Building2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import logoIcon from "@/assets/logo-icon-new-2.png";
+import logoIcon from "@/assets/logo-icon-white-window.png";
 
 const NAV_LINKS = [
   { href: "/", label: "Главная" },
@@ -40,8 +40,8 @@ export function Navbar() {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="w-10 h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-              <img src={logoIcon} alt="Kedr Tomsk" className="w-full h-full object-contain" />
+            <div className="w-12 h-12 rounded-xl bg-foreground flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+              <img src={logoIcon} alt="Kedr Tomsk" className="w-9 h-9 object-contain" />
             </div>
             <span className={`font-display text-lg font-bold tracking-tight transition-colors duration-300 ${
               isHome && !isScrolled ? "text-white" : "text-foreground"
@@ -149,7 +149,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="space-y-4 md:col-span-1">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-11 h-11 flex items-center justify-center">
+              <div className="w-14 h-14 flex items-center justify-center">
                 <img src={logoIcon} alt="КедрДом" className="w-full h-full object-contain" />
               </div>
               <span className="font-display text-2xl font-bold tracking-tight text-white">КедрДом</span>
