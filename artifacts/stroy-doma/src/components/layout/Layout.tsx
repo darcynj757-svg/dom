@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, Building2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import logoIcon from "@/assets/logo-icon-square-window.png";
+import logoIcon from "@/assets/logo-icon-white-nowindow.png";
 
 const NAV_LINKS = [
   { href: "/", label: "Главная" },
