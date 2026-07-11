@@ -49,7 +49,7 @@ export function Navbar() {
                 }`}
               />
             </div>
-            <span className={`font-display text-lg font-bold tracking-tight mt-2 transition-colors duration-300 ${
+            <span className={`font-display text-lg font-bold tracking-tight mt-4 transition-colors duration-300 ${
               isHome && !isScrolled ? "text-white" : "text-foreground"
             }`}>
               Kedr Tomsk
