@@ -8,6 +8,7 @@ import { PROJECTS } from "@/data/projects";
 import { GALLERY_ITEMS } from "@/pages/gallery";
 import { ARTICLES } from "@/pages/articles";
 import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_compressed.mp4";
+import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough.mp4";
 
 const STATS = [
   { value: 25, suffix: " лет", label: "на рынке" },
@@ -412,8 +413,17 @@ export default function Home() {
       </section>
 
       {/* ── Block 9: CTA ───────────────────────────────────────────────────── */}
-      <section className="py-24 md:py-32 bg-foreground text-background relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
+      <section className="py-24 md:py-32 text-background relative overflow-hidden">
+        <video
+          src={ctaVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-foreground/80" />
+        <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{ backgroundImage: "radial-gradient(circle at 30% 50%, #B69D72 0%, transparent 60%), radial-gradient(circle at 70% 50%, #B69D72 0%, transparent 60%)" }} />
         </div>
         <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
