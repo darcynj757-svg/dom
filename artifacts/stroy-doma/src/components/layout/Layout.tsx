@@ -40,7 +40,7 @@ export function Navbar() {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-start gap-1 group flex-shrink-0">
-            <div className="w-14 h-12 -mr-2 -mt-1 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+            <div className="w-14 h-12 -mr-2 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
               <img
                 src={logoIcon}
                 alt="Kedr Tomsk"
@@ -49,7 +49,7 @@ export function Navbar() {
                 }`}
               />
             </div>
-            <span className={`font-display text-lg font-bold tracking-tight transition-colors duration-300 ${
+            <span className={`font-display text-lg font-bold tracking-tight mt-2 transition-colors duration-300 ${
               isHome && !isScrolled ? "text-white" : "text-foreground"
             }`}>
               Kedr Tomsk
