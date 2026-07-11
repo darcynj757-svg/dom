@@ -8,7 +8,7 @@ import { PROJECTS } from "@/data/projects";
 import { GALLERY_ITEMS } from "@/pages/gallery";
 import { ARTICLES } from "@/pages/articles";
 import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_compressed.mp4";
-import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough.mp4";
+import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v2.mp4";
 
 const STATS = [
   { value: 25, suffix: " лет", label: "на рынке" },
@@ -436,7 +436,7 @@ export default function Home() {
           <p className="mt-4 text-background/60 max-w-lg mx-auto">
             Оставьте заявку — мы свяжемся с вами и поможем подобрать проект под ваш участок и бюджет.
           </p>
-          <Button asChild size="lg" className="mt-8 rounded-full px-10 py-6 text-base font-bold">
+          <Button asChild size="lg" className="mt-8 rounded-full px-10 py-6 text-base font-bold bg-white text-foreground hover:bg-white/90">
             <Link href="/contacts">Оставить заявку</Link>
           </Button>
         </div>
