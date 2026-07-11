@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock } from "lucide-react";
 
-const ARTICLES = [
+export const ARTICLES = [
   {
     id: 1,
     title: "Особенности строительства деревянных домов в Сибири",

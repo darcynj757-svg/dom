@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
-const GALLERY_ITEMS = [
+export const GALLERY_ITEMS = [
   {
     id: 1,
     title: "Строительство рубленного дома — Москва",
