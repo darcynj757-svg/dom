@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Link } from "wouter";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Hammer, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { ArrowRight, Hammer, ShieldCheck, Sparkles, Users, Building2, Phone, FileText, Truck, Ruler } from "lucide-react";
 import ScrollHouse from "@/components/3d/ScrollHouse";
 import { PROJECTS } from "@/data/projects";
 import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_compressed.mp4";
@@ -237,11 +237,14 @@ export default function Home() {
           >
             <h2 className="font-display text-3xl md:text-5xl font-black">Почему выбирают нас</h2>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: Hammer, title: "Строим под ключ", text: "От проекта и фундамента до финальной отделки — без подрядчиков-посредников." },
-              { icon: ShieldCheck, title: "Гарантия качества", text: "Официальный договор, фиксированная смета и гарантия на конструктив до 10 лет." },
-              { icon: Users, title: "Своя бригада", text: "Опытные мастера в штате — никаких случайных субподрядчиков на вашем участке." },
+              { icon: Hammer, title: "Более 10 лет опыта", text: "Практически круглый год ведём строительство деревянных домов в Томске, Томской области и за её пределами." },
+              { icon: Sparkles, title: "Полный цикл работ", text: "От представления проекта будущего дома до непосредственного строительства на участке — всё под ключ." },
+              { icon: ShieldCheck, title: "Современное производство", text: "Актуальное технологичное производство обеспечивает высокую точность и качество срубов из бруса и бревна." },
+              { icon: Users, title: "Строгие сроки", text: "Соблюдаем обговоренные сроки в зависимости от материала, этажности дома и его площади." },
+              { icon: Building2, title: "Цены ниже рынка", text: "Собственная производственная площадка в промзоне Томска позволяет вести строительство быстро и без роста сметы." },
+              { icon: ShieldCheck, title: "100% гарантия", text: "Все обязательства по этапам строительства отражены в официальном договоре." },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
@@ -262,7 +265,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Block 6: CTA ────────────────────────────────────────────────────── */}
+      {/* ── Block 6: How to start ───────────────────────────────────────────── */}
+      <section className="py-20 md:py-28 bg-muted/40">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <h2 className="font-display text-3xl md:text-5xl font-black">Как начать строительство?</h2>
+            <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+              Напишите нам или закажите обратный звонок — менеджеры договорятся о личной встрече и предложат типовые и оригинальные решения.
+            </p>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { step: "01", icon: Phone, title: "Заявка", text: "Свяжитесь с нами по телефону или форме обратной связи." },
+              { step: "02", icon: Ruler, title: "Расчёт", text: "Производим первичный расчёт пиломатериала и стоимости работ по вашим пожеланиям." },
+              { step: "03", icon: FileText, title: "Договор и проект", text: "Заключаем договор, готовим и согласовываем техническую документацию." },
+              { step: "04", icon: Truck, title: "Производство и стройка", text: "Изготавливаем сруб на производстве и начинаем строительство на участке." },
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="glass-card p-8 rounded-2xl relative overflow-hidden"
+              >
+                <span className="absolute top-4 right-4 font-display text-4xl font-black text-primary/10">{item.step}</span>
+                <div className="w-14 h-14 rounded-2xl bg-primary/8 flex items-center justify-center mb-5">
+                  <item.icon className="w-7 h-7 text-primary" />
+                </div>
+                <h3 className="font-display text-xl font-bold mb-2">{item.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{item.text}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Block 7: CTA ────────────────────────────────────────────────────── */}
       <section className="py-24 md:py-32 bg-foreground text-background relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{ backgroundImage: "radial-gradient(circle at 30% 50%, #B69D72 0%, transparent 60%), radial-gradient(circle at 70% 50%, #B69D72 0%, transparent 60%)" }} />
