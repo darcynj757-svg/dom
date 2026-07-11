@@ -40,7 +40,7 @@ export function Navbar() {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="w-14 h-14 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+            <div className="w-14 h-11 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
               <img
                 src={logoIcon}
                 alt="Kedr Tomsk"
