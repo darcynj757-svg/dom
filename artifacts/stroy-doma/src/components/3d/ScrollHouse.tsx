@@ -11,14 +11,28 @@ function easeOutCubic(t: number) {
 
 type Bounds = { minY: number; maxY: number };
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth < 768 : false,
+  );
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return isMobile;
+}
+
 function HouseModel({
   progress,
   clipPlane,
   onBounds,
+  isMobile,
 }: {
   progress: number;
   clipPlane: THREE.Plane;
   onBounds: (bounds: Bounds) => void;
+  isMobile: boolean;
 }) {
   const groupRef = useRef<THREE.Group>(null!);
   const gltf = useGltfWithPlugin();
@@ -35,8 +49,8 @@ function HouseModel({
     const s = maxDim > 0 ? 5.5 / maxDim : 1;
     const center = new THREE.Vector3();
     box.getCenter(center);
-    return { normScale: s, centerOffset: center };
-  }, [scene]);
+    return { normScale: s * (isMobile ? 0.6 : 1), centerOffset: center };
+  }, [scene, isMobile]);
 
   // Enable shadows + assign the shared clipping plane to every material once.
   useLayoutEffect(() => {
@@ -90,11 +104,13 @@ function Scene({
   clipPlane,
   boundsRef,
   onBounds,
+  isMobile,
 }: {
   progress: number;
   clipPlane: THREE.Plane;
   boundsRef: React.MutableRefObject<Bounds>;
   onBounds: (bounds: Bounds) => void;
+  isMobile: boolean;
 }) {
   const { camera } = useThree();
 
@@ -106,7 +122,8 @@ function Scene({
     // Once the house is fully built (progress → 1) the camera eases in slightly closer.
     const angle = progress * Math.PI * 0.17;
     const zoomT = easeOutCubic(Math.max(0, (progress - 0.85) / 0.15)); // 0→1 over last 15% of scroll
-    const dist = 9 - zoomT * 1.8; // 9 → 7.2 when complete
+    const baseDist = isMobile ? 12 : 9;
+    const dist = baseDist - zoomT * 1.8; // 9 → 7.2 when complete, further on mobile
     camera.position.x = Math.sin(angle) * dist;
     camera.position.z = Math.cos(angle) * dist;
     // Keep camera well above house mid-point so the roof is always in frame
@@ -137,7 +154,7 @@ function Scene({
       <directionalLight position={[-8, 6, -4]} intensity={1.0} />
       <directionalLight position={[0, 4, 12]} intensity={0.8} />
       <Suspense fallback={null}>
-        <HouseModel progress={progress} clipPlane={clipPlane} onBounds={onBounds} />
+        <HouseModel progress={progress} clipPlane={clipPlane} onBounds={onBounds} isMobile={isMobile} />
       </Suspense>
       {/* Shadow fades in as the house builds: barely-there at start, solid at finish */}
       <ContactShadows
@@ -153,6 +170,7 @@ function Scene({
 
 export default function ScrollHouse({ progress }: { progress: number }) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
+  const isMobile = useIsMobile();
   const boundsRef = useRef<Bounds>({ minY: -0.2, maxY: 3.4 });
   // Local plane instance (not shared with the hero canvas) so each Canvas
   // controls its own reveal independently.
@@ -203,6 +221,7 @@ export default function ScrollHouse({ progress }: { progress: number }) {
             clipPlane={clipPlane}
             boundsRef={boundsRef}
             onBounds={handleBounds}
+            isMobile={isMobile}
           />
         </Canvas>
       )}

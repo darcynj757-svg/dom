@@ -28,10 +28,24 @@ const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), -1000);
 
 type Bounds = { minY: number; maxY: number };
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth < 768 : false,
+  );
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return isMobile;
+}
+
 function HouseModel({
   onBounds,
+  isMobile,
 }: {
   onBounds: (bounds: Bounds) => void;
+  isMobile: boolean;
 }) {
   const groupRef = useRef<THREE.Group>(null!);
   const gltf = useGltfWithPlugin();
@@ -48,8 +62,8 @@ function HouseModel({
     const s = maxDim > 0 ? 5.5 / maxDim : 1;
     const center = new THREE.Vector3();
     box.getCenter(center);
-    return { normScale: s, centerOffset: center };
-  }, [scene]);
+    return { normScale: s * (isMobile ? 0.7 : 1), centerOffset: center };
+  }, [scene, isMobile]);
 
   useLayoutEffect(() => {
     if (!groupRef.current) return;
@@ -97,7 +111,7 @@ function HouseModel({
   );
 }
 
-function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bounds> }) {
+function ClipAndCameraRig({ boundsRef, isMobile }: { boundsRef: React.MutableRefObject<Bounds>; isMobile: boolean }) {
   const { camera } = useThree();
 
   useFrame(({ clock }) => {
@@ -130,8 +144,8 @@ function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bou
     // shows the full house (base to ridge) with margin on all sides.
     const angleStart = -1.15;
     const angleEnd   = 0.5;
-    const distStart  = 26;
-    const distEnd    = 16;
+    const distStart  = isMobile ? 34 : 26;
+    const distEnd    = isMobile ? 22 : 16;
     const heightStart = midY + 8;
     const heightEnd   = midY + 4.5;
 
@@ -152,6 +166,7 @@ function ClipAndCameraRig({ boundsRef }: { boundsRef: React.MutableRefObject<Bou
 
 export default function HeroHouseFlight() {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
+  const isMobile = useIsMobile();
   const boundsRef = useRef<Bounds>({ minY: -0.2, maxY: 3.4 });
 
   const handleBounds = useCallback((bounds: Bounds) => {
@@ -206,9 +221,9 @@ export default function HeroHouseFlight() {
           <directionalLight position={[0, 4, 12]} intensity={0.8} />
           <pointLight position={[0, 5, 8]} intensity={0.8} color="#ffdcb0" />
           <Suspense fallback={null}>
-            <HouseModel onBounds={handleBounds} />
+            <HouseModel onBounds={handleBounds} isMobile={isMobile} />
           </Suspense>
-          <ClipAndCameraRig boundsRef={boundsRef} />
+          <ClipAndCameraRig boundsRef={boundsRef} isMobile={isMobile} />
           <ContactShadows position={[0, 1.18, 0]} opacity={0.55} scale={16} blur={2.2} far={7} />
         </Canvas>
       )}
