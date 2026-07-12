@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Link } from "wouter";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowUpRight, CalendarClock, Layers, Cog, Timer, Wallet, BadgeCheck, Phone, Calculator, FileSignature, HardHat, Camera, BookOpen } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CalendarClock, Layers, Cog, Timer, Wallet, BadgeCheck, Phone, Calculator, FileSignature, HardHat, BookOpen } from "lucide-react";
 import ScrollHouse from "@/components/3d/ScrollHouse";
 import { PROJECTS } from "@/data/projects";
 import { GALLERY_ITEMS } from "@/pages/gallery";
@@ -427,9 +427,6 @@ export default function Home() {
           <div className="absolute inset-0" style={{ backgroundImage: "radial-gradient(circle at 30% 50%, #B69D72 0%, transparent 60%), radial-gradient(circle at 70% 50%, #B69D72 0%, transparent 60%)" }} />
         </div>
         <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
-          <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/20 flex items-center justify-center mb-6">
-            <Camera className="w-7 h-7 text-primary" />
-          </div>
           <h2 className="font-display font-black text-white max-w-2xl mx-auto" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
             Готовы начать строительство своего дома?
           </h2>
