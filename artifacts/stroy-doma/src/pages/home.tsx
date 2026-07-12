@@ -8,7 +8,7 @@ import { PROJECTS } from "@/data/projects";
 import { GALLERY_ITEMS } from "@/pages/gallery";
 import { ARTICLES } from "@/pages/articles";
 import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_compressed.mp4";
-import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v2.mp4";
+import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 
 const STATS = [
   { value: 25, suffix: " лет", label: "на рынке" },
