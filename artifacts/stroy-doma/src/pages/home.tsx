@@ -164,7 +164,7 @@ export default function Home() {
       </section>
 
       {/* ── Block 2: 3D house scroll ────────────────────────────────────────── */}
-      <section ref={houseRef} className="relative h-[250vh]">
+      <section ref={houseRef} className="relative h-[500vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
           <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
             <ScrollHouse progress={houseProgress} />
