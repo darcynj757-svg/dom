@@ -29,7 +29,7 @@ function StatCard({ value, suffix, label }: { value: number; suffix: string; lab
       <div className="font-display text-5xl md:text-6xl font-black text-primary">
         {value}{suffix}
       </div>
-      <div className="mt-2 text-sm md:text-base text-muted-foreground">{label}</div>
+      <div className="mt-2 text-sm md:text-base text-muted-foreground whitespace-nowrap">{label}</div>
     </motion.div>
   );
 }
