@@ -11,10 +11,10 @@ import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_compressed.mp4";
 import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 
 const STATS = [
-  { value: 25, suffix: "", label: "лет на рынке" },
-  { value: 200, suffix: "+", label: "построенных объектов" },
-  { value: 500, suffix: "", label: "м³ бруса в месяц" },
-  { value: 30, suffix: "+", label: "мастеров в команде" },
+  { value: 25, suffix: "", label: "Лет на рынке" },
+  { value: 200, suffix: "+", label: "Построенных объектов" },
+  { value: 500, suffix: "", label: "М³ бруса в месяц" },
+  { value: 30, suffix: "+", label: "Мастеров в команде" },
 ];
 
 function StatCard({ value, suffix, label }: { value: number; suffix: string; label: string }) {
