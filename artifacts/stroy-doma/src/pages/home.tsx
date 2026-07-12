@@ -11,13 +11,13 @@ import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_compressed.mp4";
 import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 
 const STATS = [
-  { value: 25, suffix: " лет", label: "на рынке", labelFirst: true },
+  { value: 25, suffix: "", label: "лет на рынке" },
   { value: 200, suffix: "+", label: "построенных объектов" },
   { value: 500, suffix: "", label: "м³ бруса в месяц" },
   { value: 30, suffix: "+", label: "мастеров в команде" },
 ];
 
-function StatCard({ value, suffix, label, labelFirst }: { value: number; suffix: string; label: string; labelFirst?: boolean }) {
+function StatCard({ value, suffix, label }: { value: number; suffix: string; label: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -26,10 +26,10 @@ function StatCard({ value, suffix, label, labelFirst }: { value: number; suffix:
       transition={{ duration: 0.6 }}
       className="text-center"
     >
-      <div className="font-display text-5xl md:text-6xl font-black text-primary">{value}</div>
-      {labelFirst && <div className="mt-2 text-sm md:text-base text-muted-foreground">{label}</div>}
-      {suffix && <div className="font-display text-5xl md:text-6xl font-black text-primary">{suffix.trim()}</div>}
-      {!labelFirst && <div className="mt-2 text-sm md:text-base text-muted-foreground">{label}</div>}
+      <div className="font-display text-5xl md:text-6xl font-black text-primary">
+        {value}{suffix}
+      </div>
+      <div className="mt-2 text-sm md:text-base text-muted-foreground">{label}</div>
     </motion.div>
   );
 }
