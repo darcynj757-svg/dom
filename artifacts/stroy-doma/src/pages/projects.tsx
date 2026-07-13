@@ -3,12 +3,14 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS } from "@/data/projects";
 import { Badge } from "@/components/ui/badge";
+import { Ruler, Layers, BedDouble, FileText } from "lucide-react";
 
 const FILTER_OPTIONS = [
   { label: "Все проекты", value: "all" },
   { label: "Дома", value: "house" },
   { label: "Профилированный брус", value: "Профилированный брус" },
   { label: "Рубленное бревно", value: "Рубленное бревно" },
+  { label: "Брус", value: "Брус" },
 ];
 
 export default function Projects() {
@@ -91,9 +93,17 @@ export default function Projects() {
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      {project.featured && (
-                        <Badge className="absolute top-3 left-3 rounded-full">
-                          Популярный
+                      <div className="absolute top-3 left-3 flex flex-wrap gap-2">
+                        {project.featured && (
+                          <Badge className="rounded-full">Популярный</Badge>
+                        )}
+                      </div>
+                      {project.plans && project.plans.length > 0 && (
+                        <Badge
+                          variant="secondary"
+                          className="absolute top-3 right-3 rounded-full gap-1"
+                        >
+                          <FileText className="w-3 h-3" /> Есть планировка
                         </Badge>
                       )}
                     </div>
@@ -104,15 +114,26 @@ export default function Projects() {
                       <h3 className="mt-2 font-serif text-xl font-medium">
                         {project.title}
                       </h3>
-                      <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
-                        <span>{project.area} м²</span>
-                        <span>{project.floors} эт.</span>
+                      <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                        {project.description}
+                      </p>
+                      <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="inline-flex items-center gap-1">
+                          <Ruler className="w-3.5 h-3.5" /> {project.area} м²
+                        </span>
+                        <span className="inline-flex items-center gap-1">
+                          <Layers className="w-3.5 h-3.5" /> {project.floors} эт.
+                        </span>
                         {project.bedrooms && (
-                          <span>{project.bedrooms} спален</span>
+                          <span className="inline-flex items-center gap-1">
+                            <BedDouble className="w-3.5 h-3.5" /> {project.bedrooms} спален
+                          </span>
                         )}
                       </div>
-                      <div className="mt-auto pt-4 font-medium text-primary">
-                        {project.price}
+                      <div className="mt-auto pt-4 flex items-center justify-between">
+                        <span className="font-medium text-primary">
+                          {project.price}
+                        </span>
                       </div>
                     </div>
                   </div>

@@ -45,6 +45,8 @@ export default function ProjectDetail() {
     project.gallery.length > 0
       ? [project.imageUrl, ...project.gallery]
       : [project.imageUrl];
+  const plans = project.plans ?? [];
+  const allImages = [...images, ...plans];
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 md:py-20">
@@ -65,27 +67,42 @@ export default function ProjectDetail() {
             className="aspect-[4/3] rounded-2xl overflow-hidden mb-4 bg-muted"
           >
             <img
-              src={images[activeImage]}
+              src={allImages[activeImage]}
               alt={project.title}
-              className="w-full h-full object-cover"
+              className={`w-full h-full ${
+                activeImage < images.length ? "object-cover" : "object-contain bg-white"
+              }`}
             />
           </motion.div>
-          {images.length > 1 && (
+          {allImages.length > 1 && (
             <div className="flex gap-3 overflow-x-auto pb-2">
-              {images.map((img, i) => (
+              {allImages.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveImage(i)}
-                  className={`w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors bg-muted ${
+                  className={`relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors bg-muted ${
                     activeImage === i
                       ? "border-primary"
                       : "border-transparent opacity-70"
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img
+                    src={img}
+                    alt=""
+                    className={`w-full h-full ${
+                      i < images.length ? "object-cover" : "object-contain bg-white"
+                    }`}
+                  />
                 </button>
               ))}
             </div>
+          )}
+          {plans.length > 0 && (
+            <p className="mt-3 text-xs text-muted-foreground">
+              Последние {plans.length} {plans.length === 1 ? "фото" : "фото"} —
+              планировка{plans.length > 1 ? " этажей" : ""} с указанием площади
+              помещений.
+            </p>
           )}
         </div>
 
