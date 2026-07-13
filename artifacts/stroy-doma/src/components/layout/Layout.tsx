@@ -155,9 +155,9 @@ export function Footer() {
           <div className="space-y-4 md:col-span-1">
             <Link href="/" className="flex items-center gap-2">
               <div className="w-16 h-16 flex items-center justify-center">
-                <img src={logoIcon} alt="КедрДом" className="w-full h-full object-contain" />
+                <img src={logoIcon} alt="KedrTomsk" className="w-full h-full object-contain" />
               </div>
-              <span className="font-display text-2xl font-bold tracking-tight text-white">КедрДом</span>
+              <span className="font-display text-2xl font-bold tracking-tight text-white mt-3">KedrTomsk</span>
             </Link>
             <p className="text-background/60 text-sm leading-relaxed max-w-xs">
               Строительство деревянных домов под ключ с 2001 года. Кедр, сосна, лиственница. Томск и вся Россия.
@@ -201,7 +201,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4 text-background/40 text-sm">
-          <p>© {new Date().getFullYear()} КедрДом. Все права защищены.</p>
+          <p>© {new Date().getFullYear()} KedrTomsk. Все права защищены.</p>
           <Link href="/terms" className="hover:text-white/70 transition-colors">Условия использования</Link>
         </div>
       </div>
