@@ -22,6 +22,13 @@ import house236Ext from "@/assets/houses/house-236-ext.png";
 import house236Plan1 from "@/assets/houses/house-236-plan-1.png";
 import house236Plan2 from "@/assets/houses/house-236-plan-2.png";
 
+import house134Ext from "@/assets/houses/house-134-ext.png";
+import house134Plan from "@/assets/houses/house-134-plan.png";
+
+import house217Ext from "@/assets/houses/house-217-ext.png";
+import house217Plan1 from "@/assets/houses/house-217-plan-1.png";
+import house217Plan2 from "@/assets/houses/house-217-plan-2.png";
+
 export interface Project {
   id: number;
   title: string;
@@ -156,12 +163,19 @@ export const PROJECTS: Project[] = [
     title: "Проект Д134",
     area: 134,
     floors: 2,
-    material: "Рубленное бревно",
+    material: "Профилированный брус",
     category: "house",
-    description: "Двухэтажный дом площадью 134 м² из рубленного бревна — настоящий сибирский терем.",
-    features: ["Рубленное бревно ручной рубки", "Кедр или сосна на выбор", "Бесплатный проект при заказе"],
-    imageUrl: "https://picsum.photos/seed/house134/800/600",
-    gallery: ["https://picsum.photos/seed/house134a/800/600"],
+    description:
+      "Двухэтажный дом площадью 134 м² из профилированного бруса под четырёхскатной кровлей. Компактная, но продуманная планировка с несколькими спальнями и просторной гостиной.",
+    features: [
+      "Профилированный брус, четырёхскатная кровля",
+      "Несколько спален и просторная гостиная",
+      "Бесплатный проект при заказе строительства",
+      "Строительство под ключ",
+    ],
+    imageUrl: house134Ext,
+    gallery: [],
+    plans: [house134Plan],
     price: "от 1 474 000 ₽",
     bedrooms: 3,
   },
@@ -172,14 +186,18 @@ export const PROJECTS: Project[] = [
     floors: 2,
     material: "Профилированный брус",
     category: "house",
-    description: "Двухэтажный дом площадью 217 м² — просторный коттедж для большой семьи с отдельными зонами для отдыха.",
-    features: ["Профилированный брус 200×300 мм", "Бесплатный проект при заказе", "Строительство под ключ", "Гарантия на конструктив"],
-    featured: true,
-    imageUrl: "https://picsum.photos/seed/house217/800/600",
-    gallery: [
-      "https://picsum.photos/seed/house217a/800/600",
-      "https://picsum.photos/seed/house217b/800/600",
+    description:
+      "Двухэтажный дом площадью 217 м² с балконом и аркой на входе. Площадь 1-го этажа ≈ 108 м², 2-го ≈ 109 м² — просторный коттедж для большой семьи с отдельными зонами для отдыха.",
+    features: [
+      "Площадь 1-го этажа ≈ 108 м², 2-го этажа ≈ 109 м²",
+      "Балкон и входная арка",
+      "Бесплатный проект при заказе строительства",
+      "Строительство под ключ, гарантия на конструктив",
     ],
+    featured: true,
+    imageUrl: house217Ext,
+    gallery: [],
+    plans: [house217Plan1, house217Plan2],
     price: "от 2 387 000 ₽",
     bedrooms: 5,
   },
