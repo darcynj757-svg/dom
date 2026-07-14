@@ -84,6 +84,11 @@ function HouseModel({
 
     const box = new THREE.Box3().setFromObject(groupRef.current);
     onBounds({ minY: box.min.y, maxY: box.max.y });
+
+    // Nudge the mesh up a bit within the frame without moving the camera's
+    // focus point (which tracks the bounds captured above).
+    groupRef.current.position.y += 0.6;
+    groupRef.current.updateMatrixWorld(true);
   }, [scene, normScale, clipPlane, onBounds]);
 
   // House stays fixed on the ground — clip plane handles the build reveal.
