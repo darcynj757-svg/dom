@@ -62,7 +62,7 @@ function HouseModel({
     const s = maxDim > 0 ? 5.5 / maxDim : 1;
     const center = new THREE.Vector3();
     box.getCenter(center);
-    return { normScale: s * (isMobile ? 0.85 : 1), centerOffset: center };
+    return { normScale: s * (isMobile ? 0.95 : 1), centerOffset: center };
   }, [scene, isMobile]);
 
   useLayoutEffect(() => {
