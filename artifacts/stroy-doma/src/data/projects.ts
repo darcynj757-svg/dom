@@ -29,6 +29,25 @@ import house217Ext from "@/assets/houses/house-217-ext.png";
 import house217Plan1 from "@/assets/houses/house-217-plan-1.png";
 import house217Plan2 from "@/assets/houses/house-217-plan-2.png";
 
+import house71Ext1 from "@/assets/houses/house-71-ext-1.png";
+import house71Ext2 from "@/assets/houses/house-71-ext-2.png";
+import house71Plan from "@/assets/houses/house-71-plan.png";
+
+import house143Ext1 from "@/assets/houses/house-143-ext-1.png";
+import house143Ext2 from "@/assets/houses/house-143-ext-2.png";
+import house143Plan1 from "@/assets/houses/house-143-plan-1.png";
+import house143Plan2 from "@/assets/houses/house-143-plan-2.png";
+
+import house187Ext1 from "@/assets/houses/house-187-ext-1.png";
+import house187Ext2 from "@/assets/houses/house-187-ext-2.png";
+import house187Plan1 from "@/assets/houses/house-187-plan-1.png";
+import house187Plan2 from "@/assets/houses/house-187-plan-2.png";
+
+import house251Ext1 from "@/assets/houses/house-251-ext-1.png";
+import house251Ext2 from "@/assets/houses/house-251-ext-2.png";
+import house251Plan1 from "@/assets/houses/house-251-plan-1.png";
+import house251Plan2 from "@/assets/houses/house-251-plan-2.png";
+
 export interface Project {
   id: number;
   title: string;
@@ -219,6 +238,94 @@ export const PROJECTS: Project[] = [
     gallery: [],
     plans: [house236Plan1, house236Plan2],
     price: "от 2 596 000 ₽",
+    bedrooms: 5,
+  },
+  {
+    id: 9,
+    title: "Проект Д71",
+    area: 71,
+    floors: 2,
+    material: "Профилированный брус",
+    category: "house",
+    description:
+      "Компактный дом площадью 71 м² из профилированного бруса с мансардным этажом и крытой террасой у входа. Отличный вариант для дачи или небольшой семьи — уютно, но без лишних метров.",
+    features: [
+      "Профилированный брус, мансардный этаж",
+      "Крытая терраса у входа",
+      "Бесплатный проект при заказе строительства",
+      "Строительство под ключ",
+    ],
+    featured: true,
+    imageUrl: house71Ext1,
+    gallery: [house71Ext2],
+    plans: [house71Plan],
+    price: "от 1 067 000 ₽",
+    bedrooms: 2,
+  },
+  {
+    id: 10,
+    title: "Проект Д143",
+    area: 143,
+    floors: 2,
+    material: "Профилированный брус",
+    category: "house",
+    description:
+      "Двухэтажный дом площадью 143 м² из профилированного бруса. Площадь 1-го этажа ≈ 79,5 м², 2-го ≈ 63,4 м² — просторная кухня-гостиная на первом этаже и приватные спальни на втором.",
+    features: [
+      "Площадь 1-го этажа ≈ 79,5 м², 2-го этажа ≈ 63,4 м²",
+      "Просторная кухня-гостиная и терраса",
+      "Бесплатный проект при заказе строительства",
+      "Строительство под ключ",
+    ],
+    featured: true,
+    imageUrl: house143Ext1,
+    gallery: [house143Ext2],
+    plans: [house143Plan1, house143Plan2],
+    price: "от 1 517 000 ₽",
+    bedrooms: 3,
+  },
+  {
+    id: 11,
+    title: "Проект Д187",
+    area: 187,
+    floors: 2,
+    material: "Профилированный брус",
+    category: "house",
+    description:
+      "Двухэтажный дом площадью 187 м² из профилированного бруса с панорамным остеклением и террасой по периметру. Площадь 1-го этажа ≈ 65,8 м², 2-го ≈ 121 м² — просторные спальни и кабинет на втором этаже.",
+    features: [
+      "Площадь 1-го этажа ≈ 65,8 м², 2-го этажа ≈ 121 м²",
+      "Панорамное остекление, терраса по периметру",
+      "Бесплатный проект при заказе строительства",
+      "Строительство под ключ",
+    ],
+    featured: true,
+    imageUrl: house187Ext1,
+    gallery: [house187Ext2],
+    plans: [house187Plan1, house187Plan2],
+    price: "от 1 981 000 ₽",
+    bedrooms: 4,
+  },
+  {
+    id: 12,
+    title: "Проект Д251",
+    area: 251,
+    floors: 2,
+    material: "Профилированный брус",
+    category: "house",
+    description:
+      "Двухэтажный дом площадью 251 м² из профилированного бруса — самый просторный проект компании. Большая кухня-гостиная, несколько спален, гардеробные и терраса на 40 м² для отдыха на свежем воздухе.",
+    features: [
+      "Большая кухня-гостиная и несколько спален",
+      "Гардеробные комнаты, терраса ≈ 40 м²",
+      "Бесплатный проект при заказе строительства",
+      "Строительство под ключ, гарантия на конструктив",
+    ],
+    featured: true,
+    imageUrl: house251Ext1,
+    gallery: [house251Ext2],
+    plans: [house251Plan1, house251Plan2],
+    price: "от 2 659 000 ₽",
     bedrooms: 5,
   },
 ];

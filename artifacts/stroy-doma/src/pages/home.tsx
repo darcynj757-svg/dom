@@ -76,7 +76,7 @@ export default function Home() {
   const labelOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
 
-  const featured = PROJECTS.filter((p) => p.featured).slice(0, 3);
+  const featured = PROJECTS.filter((p) => p.featured).slice(-6);
 
   return (
     <div>
