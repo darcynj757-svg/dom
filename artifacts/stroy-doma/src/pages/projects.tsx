@@ -8,6 +8,7 @@ import { Ruler, Layers, BedDouble, FileText } from "lucide-react";
 const FILTER_OPTIONS = [
   { label: "Все проекты", value: "all" },
   { label: "Дома", value: "house" },
+  { label: "Бани", value: "bath" },
   { label: "Профилированный брус", value: "Профилированный брус" },
   { label: "Рубленное бревно", value: "Рубленное бревно" },
   { label: "Брус", value: "Брус" },
@@ -19,6 +20,7 @@ export default function Projects() {
   const filtered = PROJECTS.filter((p) => {
     if (activeFilter === "all") return true;
     if (activeFilter === "house") return p.category === "house";
+    if (activeFilter === "bath") return p.category === "bath";
     return p.material.includes(activeFilter);
   });
 
@@ -37,11 +39,11 @@ export default function Projects() {
               Наши проекты
             </span>
             <h1 className="mt-3 font-serif text-4xl md:text-5xl font-medium">
-              Проекты деревянных домов
+              Проекты деревянных домов и бань
             </h1>
             <p className="mt-6 text-muted-foreground leading-relaxed text-lg">
-              Компания «Кедр-Томск» выполняет строительство деревянных домов по
-              типовым и индивидуальным проектам любой комплектации.
+              Компания «Кедр-Томск» выполняет строительство деревянных домов и
+              бань по типовым и индивидуальным проектам любой комплектации.
             </p>
             <div className="mt-6 p-4 rounded-xl bg-muted/60 border border-border text-sm">
               💡 <strong>При заказе строительства</strong> рубленного дома или

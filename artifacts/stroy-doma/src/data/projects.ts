@@ -48,6 +48,18 @@ import house251Ext2 from "@/assets/houses/house-251-ext-2.png";
 import house251Plan1 from "@/assets/houses/house-251-plan-1.png";
 import house251Plan2 from "@/assets/houses/house-251-plan-2.png";
 
+import bath32Ext1 from "@/assets/baths/bath-32-ext-1.png";
+import bath32Ext2 from "@/assets/baths/bath-32-ext-2.png";
+import bath32Plan from "@/assets/baths/bath-32-plan.png";
+
+import bath35Ext1 from "@/assets/baths/bath-35-ext-1.png";
+import bath35Ext2 from "@/assets/baths/bath-35-ext-2.png";
+import bath35Plan from "@/assets/baths/bath-35-plan.png";
+
+import bath167Ext1 from "@/assets/baths/bath-167-ext-1.png";
+import bath167Ext2 from "@/assets/baths/bath-167-ext-2.png";
+import bath167Plan from "@/assets/baths/bath-167-plan.png";
+
 export interface Project {
   id: number;
   title: string;
@@ -327,6 +339,69 @@ export const PROJECTS: Project[] = [
     plans: [house251Plan1, house251Plan2],
     price: "от 2 659 000 ₽",
     bedrooms: 5,
+  },
+  {
+    id: 13,
+    title: "Баня 32 м²",
+    area: 32,
+    floors: 1,
+    material: "Профилированный брус",
+    category: "bath",
+    description:
+      "Компактная баня площадью 32,6 м² с крытой террасой, парной, душевой и просторной комнатой отдыха ≈12,5 м². Отличный вариант для отдыха на участке в любое время года.",
+    features: [
+      "Парная, душевая, комната отдыха",
+      "Крытая терраса ≈ 10 м²",
+      "Профилированный брус",
+      "Бесплатный проект при заказе строительства",
+    ],
+    featured: true,
+    imageUrl: bath32Ext1,
+    gallery: [bath32Ext2],
+    plans: [bath32Plan],
+    price: "от 649 000 ₽",
+  },
+  {
+    id: 14,
+    title: "Баня 35 м²",
+    area: 35,
+    floors: 1,
+    material: "Профилированный брус",
+    category: "bath",
+    description:
+      "Баня площадью 35,9 м² с парной, моечной, кухней и большой террасой ≈19,7 м². Просторная комната отдыха ≈12 м² подойдёт для отдыха всей семьёй.",
+    features: [
+      "Парная, моечная, кухня, комната отдыха",
+      "Большая терраса ≈ 19,7 м²",
+      "Профилированный брус",
+      "Бесплатный проект при заказе строительства",
+    ],
+    featured: true,
+    imageUrl: bath35Ext1,
+    gallery: [bath35Ext2],
+    plans: [bath35Plan],
+    price: "от 699 000 ₽",
+  },
+  {
+    id: 15,
+    title: "Баня 167 м²",
+    area: 167,
+    floors: 1,
+    material: "Профилированный брус",
+    category: "bath",
+    description:
+      "Просторный банный комплекс площадью 167,7 м² с кухней-гостиной, парной, комнатой отдыха, душевой, гардеробом и террасой — полноценный дом для семейного отдыха и приёма гостей.",
+    features: [
+      "Кухня-гостиная, парная, комната отдыха",
+      "Душевая, гардероб, техпомещение",
+      "Профилированный брус",
+      "Бесплатный проект при заказе строительства",
+    ],
+    featured: true,
+    imageUrl: bath167Ext1,
+    gallery: [bath167Ext2],
+    plans: [bath167Plan],
+    price: "от 1 899 000 ₽",
   },
 ];
 
