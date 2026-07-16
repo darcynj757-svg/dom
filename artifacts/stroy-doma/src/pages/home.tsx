@@ -70,7 +70,10 @@ export default function Home() {
   const labelOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
 
-  const featured = PROJECTS.filter((p) => p.featured).slice(-6);
+  const FEATURED_IDS = [12, 9, 11]; // Д251 (слева), Д71 (центр), Д187 (справа)
+  const featured = FEATURED_IDS
+    .map((id) => PROJECTS.find((p) => p.id === id))
+    .filter(Boolean) as typeof PROJECTS;
 
   return (
     <div>
