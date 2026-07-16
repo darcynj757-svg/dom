@@ -175,7 +175,7 @@ export default function Home() {
             </p>
             <p className="mt-1 text-muted-foreground text-sm">прокрутите вниз</p>
           </motion.div>
-          <div className="absolute inset-x-0 bottom-0 h-64 md:h-56 bg-gradient-to-b from-transparent to-background pointer-events-none z-20" />
+          <div className="absolute inset-x-0 bottom-0 h-32 md:h-24 bg-gradient-to-b from-transparent to-background pointer-events-none z-20" />
 
         </div>
       </section>
