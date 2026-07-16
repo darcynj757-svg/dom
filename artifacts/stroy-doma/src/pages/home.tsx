@@ -19,18 +19,12 @@ const STATS = [
 
 function StatCard({ value, suffix, label }: { value: number; suffix: string; label: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6 }}
-      className="text-center"
-    >
+    <div className="text-center">
       <div className="font-display text-5xl md:text-6xl font-black text-primary">
         {value}{suffix}
       </div>
       <div className="mt-2 text-sm md:text-base text-muted-foreground whitespace-nowrap">{label}</div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -74,8 +68,8 @@ export default function Home() {
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.9]);
   const labelOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
-  const statsOpacity = useTransform(scrollYProgress, [0.72, 0.92], [0, 1]);
-  const statsY = useTransform(scrollYProgress, [0.72, 0.92], [24, 0]);
+  const statsOpacity = useTransform(scrollYProgress, [0.68, 0.82], [0, 1]);
+  const statsY = useTransform(scrollYProgress, [0.68, 0.82], [24, 0]);
 
 
   const featured = PROJECTS.filter((p) => p.featured).slice(-6);

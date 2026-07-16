@@ -162,13 +162,14 @@ function Scene({
       <Suspense fallback={null}>
         <HouseModel progress={progress} clipPlane={clipPlane} onBounds={onBounds} isMobile={isMobile} />
       </Suspense>
-      {/* Shadow fades in as the house builds: barely-there at start, solid at finish */}
+      {/* Shadow fades in as the house builds: barely-there at start, solid at finish.
+          Position y=0.6 matches the house-base nudge so the shadow sits under the walls. */}
       <ContactShadows
-        position={[0, -0.02, 0]}
+        position={[0, 0.6, 0]}
         opacity={0.1 + progress * 0.5}
-        scale={10}
-        blur={1.4}
-        far={5}
+        scale={12}
+        blur={1.2}
+        far={3}
       />
     </>
   );
