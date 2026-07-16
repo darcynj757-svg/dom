@@ -157,7 +157,7 @@ export function Footer() {
               <div className="w-16 h-16 flex items-center justify-center">
                 <img src={logoIcon} alt="KedrTomsk" className="w-full h-full object-contain" />
               </div>
-              <span className="font-display text-2xl font-bold tracking-tight text-white mt-3">KedrTomsk</span>
+              <span className="font-display text-2xl font-bold tracking-tight text-white mt-3">Kedr Tomsk</span>
             </Link>
             <p className="text-background/60 text-sm leading-relaxed max-w-xs">
               Строительство деревянных домов под ключ с 2001 года. Кедр, сосна, лиственница. Томск и вся Россия.
