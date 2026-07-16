@@ -2,10 +2,6 @@ import house68Ext1 from "@/assets/houses/house-68-ext-1.png";
 import house68Ext2 from "@/assets/houses/house-68-ext-2.png";
 import house68Plan from "@/assets/houses/house-68-plan.png";
 
-import house89Ext1 from "@/assets/houses/house-89-ext-1.png";
-import house89Ext2 from "@/assets/houses/house-89-ext-2.png";
-import house89Plan from "@/assets/houses/house-89-plan.png";
-
 import house123Ext from "@/assets/houses/house-123-ext.png";
 import house123Plan1 from "@/assets/houses/house-123-plan-1.png";
 import house123Plan2 from "@/assets/houses/house-123-plan-2.png";
@@ -101,28 +97,6 @@ export const PROJECTS: Project[] = [
     plans: [house68Plan],
     price: "от 748 000 ₽",
     bedrooms: 2,
-  },
-  {
-    id: 2,
-    title: "Проект Д89",
-    area: 89,
-    floors: 2,
-    material: "Профилированный брус",
-    category: "house",
-    description:
-      "Двухэтажный дом площадью 89 м² из профилированного бруса. Компактный «мансардный» силуэт с высокой кровлей и просторной планировкой на два этажа — хороший баланс площади и стоимости.",
-    features: [
-      "Профилированный брус: кедр, сосна или лиственница на выбор",
-      "Два полноценных этажа на компактном пятне застройки",
-      "Бесплатный проект при заказе строительства",
-      "Строительство под ключ, гарантия на конструктив",
-    ],
-    featured: true,
-    imageUrl: house89Ext1,
-    gallery: [house89Ext2],
-    plans: [house89Plan],
-    price: "от 979 000 ₽",
-    bedrooms: 3,
   },
   {
     id: 3,
