@@ -1,45 +1,48 @@
-# КедрДом — сайт строительной компании
+# Строй Дома — Kedr Tomsk
 
-Сайт строительной компании «Кедр-Томск» (kedr-tomsk.ru) — строительство деревянных домов под ключ, Томск. Перенесён с оригинального сайта с сохранением структуры страниц и контента.
-
-## Run & Operate
-
-- `pnpm --filter @workspace/stroy-doma run dev` — запуск фронтенда (порт 19912, через workflow `artifacts/stroy-doma: web`)
-- `pnpm --filter @workspace/api-server run dev` — запуск API-сервера (порт 5000, нужен `DATABASE_URL`)
-- `pnpm run typecheck` — полная проверка типов
-- `pnpm run build` — typecheck + сборка всех пакетов
-- Required env: `DATABASE_URL` — строка подключения к PostgreSQL (только для API-сервера)
+A Russian-language marketing website for **Kedr Tomsk**, a wood-house construction company building cedar log homes and profiled timber houses turnkey across Russia since 2001.
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- Frontend: React 19 + Vite 7 + Tailwind CSS 4 + Framer Motion + Three.js (3D-модель дома)
-- API: Express 5 (не запущен — фронтенд работает на статических данных)
-- DB: PostgreSQL + Drizzle ORM (не подключена)
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- **Frontend:** React 19 + Vite + TypeScript
+- **Styling:** Tailwind CSS v4 + shadcn/ui components
+- **Routing:** Wouter
+- **3D:** React Three Fiber / Three.js (used on some pages)
+- **Monorepo:** pnpm workspace
 
-## Where things live
+## Structure
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/stroy-doma/` — main website (web artifact)
+- `artifacts/api-server/` — API server artifact
+- `artifacts/mockup-sandbox/` — design canvas/mockup server
 
-## Architecture decisions
+## Running
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+The website runs on port 19912 via the `artifacts/stroy-doma: web` workflow:
 
-## Product
+```
+pnpm --filter @workspace/stroy-doma run dev
+```
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Install dependencies first if node_modules is missing:
+
+```
+pnpm install
+```
+
+## Pages
+
+- `/` — Home (hero, stats, services, projects preview, CTA)
+- `/services` — Construction services
+- `/projects` — Project catalog (houses & baths)
+- `/projects/:id` — Individual project detail
+- `/gallery` — Photo gallery
+- `/production` — Production/manufacturing info
+- `/articles` — Articles/blog
+- `/about` — About the company
+- `/contacts` — Contact information
+- `/terms` — Terms & conditions
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
-
-## Gotchas
-
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+<!-- Add user preferences here as they are expressed -->
