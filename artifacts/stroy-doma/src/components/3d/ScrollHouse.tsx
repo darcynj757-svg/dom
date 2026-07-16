@@ -127,8 +127,8 @@ function Scene({
     // Once the house is fully built (progress → 1) the camera eases in slightly closer.
     const angle = progress * Math.PI * 0.17;
     const zoomT = easeOutCubic(Math.max(0, (progress - 0.85) / 0.15)); // 0→1 over last 15% of scroll
-    const baseDist = isMobile ? 12 : 9;
-    const dist = baseDist - zoomT * 1.8; // 9 → 7.2 when complete, further on mobile
+    const baseDist = isMobile ? 15 : 12;
+    const dist = baseDist - zoomT * 2.0; // ease in slightly at the end
     camera.position.x = Math.sin(angle) * dist;
     camera.position.z = Math.cos(angle) * dist;
     // Keep camera well above house mid-point so the roof is always in frame
@@ -136,7 +136,8 @@ function Scene({
     camera.lookAt(0, midY, 0);
 
     const buildT = easeOutCubic(Math.min(Math.max(progress, 0), 1));
-    const buffer = (maxY - minY) * 0.18 || 0.3;
+    // Use a larger buffer (0.6) so the roof is 100% revealed before clipping stops
+    const buffer = (maxY - minY) * 0.6 || 1.0;
     // Start below minY so nothing is visible at progress=0 (avoids floor triangles
     // poking through before the build animation begins); end past maxY so the
     // roof is fully revealed without clipping.
@@ -205,7 +206,7 @@ export default function ScrollHouse({ progress }: { progress: number }) {
       {webglSupported && (
         <Canvas
           shadows
-          camera={{ position: [0, 5, 9], fov: 42 }}
+          camera={{ position: [0, 5, 12], fov: 42 }}
           gl={{
             localClippingEnabled: true,
             failIfMajorPerformanceCaveat: false,
