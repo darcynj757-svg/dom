@@ -5,7 +5,7 @@ import { getProjectById } from "@/data/projects";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, User, Phone, MessageSquare, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ProjectDetail() {
@@ -169,39 +169,76 @@ export default function ProjectDetail() {
             )}
 
             {/* Form */}
-            <div className="mt-8 p-6 rounded-2xl border border-border bg-card">
-              <h2 className="font-serif text-xl font-medium mb-4">
-                Оформить заявку на расчёт проекта
-              </h2>
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <Input
-                  placeholder="Ваше имя"
-                  required
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                />
-                <Input
-                  placeholder="Телефон"
-                  required
-                  value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                />
-                <Textarea
-                  placeholder="Комментарий (необязательно)"
-                  rows={3}
-                  value={form.message}
-                  onChange={(e) =>
-                    setForm({ ...form, message: e.target.value })
-                  }
-                />
-                <Button
-                  type="submit"
-                  className="w-full rounded-full"
-                  disabled={isPending}
-                >
-                  {isPending ? "Отправка..." : "Отправить заявку"}
-                </Button>
-              </form>
+            <div className="mt-8 rounded-2xl overflow-hidden border border-primary/20 shadow-md">
+              {/* Header strip */}
+              <div className="bg-gradient-to-r from-primary to-primary/80 px-6 py-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <Send className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="font-display text-base font-bold text-white leading-tight">
+                      Оформить заявку на расчёт
+                    </h2>
+                    <p className="text-white/70 text-xs mt-0.5">Ответим в течение 30 минут</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="bg-card px-6 py-5">
+                <form onSubmit={handleSubmit} className="space-y-3">
+                  {/* Name */}
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Ваше имя"
+                      required
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      className="pl-9"
+                    />
+                  </div>
+                  {/* Phone */}
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input
+                      placeholder="+7 (___) ___-__-__"
+                      required
+                      type="tel"
+                      value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      className="pl-9"
+                    />
+                  </div>
+                  {/* Comment */}
+                  <div className="relative">
+                    <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                    <Textarea
+                      placeholder="Комментарий (необязательно)"
+                      rows={3}
+                      value={form.message}
+                      onChange={(e) => setForm({ ...form, message: e.target.value })}
+                      className="pl-9 resize-none"
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full rounded-full font-bold tracking-wide"
+                    disabled={isPending}
+                  >
+                    {isPending ? "Отправка..." : "Отправить заявку"}
+                  </Button>
+
+                  <p className="text-center text-xs text-muted-foreground">
+                    Нажимая кнопку, вы соглашаетесь с&nbsp;
+                    <Link href="/terms" className="underline underline-offset-2 hover:text-foreground transition-colors">
+                      политикой конфиденциальности
+                    </Link>
+                  </p>
+                </form>
+              </div>
             </div>
           </motion.div>
         </div>
