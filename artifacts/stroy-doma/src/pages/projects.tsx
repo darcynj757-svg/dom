@@ -10,8 +10,7 @@ const FILTER_OPTIONS = [
   { label: "Дома", value: "house" },
   { label: "Бани", value: "bath" },
   { label: "Профилированный брус", value: "Профилированный брус" },
-  { label: "Рубленное бревно", value: "Рубленное бревно" },
-  { label: "Брус", value: "Брус" },
+  { label: "Брус из кругляка", value: "кругляк" },
 ];
 
 export default function Projects() {
@@ -21,6 +20,10 @@ export default function Projects() {
     if (activeFilter === "all") return true;
     if (activeFilter === "house") return p.category === "house";
     if (activeFilter === "bath") return p.category === "bath";
+    if (activeFilter === "кругляк")
+      return p.material.toLowerCase().includes("бревно") ||
+             p.material.toLowerCase().includes("кругляк") ||
+             p.material === "Брус";
     return p.material.includes(activeFilter);
   });
 
