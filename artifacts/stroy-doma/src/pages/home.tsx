@@ -251,7 +251,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="group relative p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/10 to-transparent rounded-tr-2xl rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-100 to-transparent rounded-tr-2xl rounded-bl-full opacity-70 group-hover:opacity-100 transition-opacity" />
                 <div className="relative">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-5 ring-1 ring-primary/20">
                     <item.icon className="w-6 h-6 text-primary" strokeWidth={1.5} />
