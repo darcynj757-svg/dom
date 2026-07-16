@@ -68,8 +68,6 @@ export default function Home() {
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.9]);
   const labelOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
-  const statsOpacity = useTransform(scrollYProgress, [0.68, 0.82], [0, 1]);
-  const statsY = useTransform(scrollYProgress, [0.68, 0.82], [24, 0]);
 
 
   const featured = PROJECTS.filter((p) => p.featured).slice(-6);
@@ -179,17 +177,15 @@ export default function Home() {
           </motion.div>
           <div className="absolute inset-x-0 bottom-0 h-64 md:h-56 bg-gradient-to-b from-transparent to-background pointer-events-none z-20" />
 
-          {/* Stats — fold into the same sticky scene as the house build finishes */}
-          <motion.div
-            style={{ opacity: statsOpacity, y: statsY }}
-            className="absolute inset-x-0 bottom-0 z-30 pb-8 md:pb-12"
-          >
-            <div className="container mx-auto px-4 md:px-6">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
-                {STATS.map((s) => <StatCard key={s.label} {...s} />)}
-              </div>
-            </div>
-          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Stats bar — always visible below the 3D section ─────────────────── */}
+      <section className="py-12 md:py-16 bg-background border-b border-border/40">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+            {STATS.map((s) => <StatCard key={s.label} {...s} />)}
+          </div>
         </div>
       </section>
 
