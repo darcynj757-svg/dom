@@ -395,3 +395,9 @@ id = "EQsfX9RQsB2Bha0UFgHId"
 uri = "file://attached_assets/generated_videos/kedr-house.mp4"
 type = "video"
 title = "Дом из кругляка — сгенерированное видео"
+
+[[outputs]]
+id = "Yww59I6vf-WSWkQEAyv_P"
+uri = "file://attached_assets/generated_videos/kedr-house-part2.mp4"
+type = "video"
+title = "Продолжение — дом из кругляка, часть 2"
