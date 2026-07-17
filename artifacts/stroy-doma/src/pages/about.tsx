@@ -130,7 +130,7 @@ export default function About() {
           >
             <iframe
               className="absolute inset-0 w-full h-full"
-              src="https://www.youtube.com/embed/ncv23pOy6Vk?rel=0&modestbranding=1&color=white"
+              src="https://www.youtube.com/embed/x6RkIS8cZQQ?rel=0&modestbranding=1&color=white"
               title="Строительство рубленого дома из бревна ручной рубки"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
