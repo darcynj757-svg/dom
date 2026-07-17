@@ -161,6 +161,58 @@ export default function About() {
         </div>
       </section>
 
+      {/* Generated video clips */}
+      <section className="py-20 md:py-28 border-b border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl mx-auto text-center mb-10"
+          >
+            <span className="text-xs uppercase tracking-[0.3em] text-secondary font-medium">
+              Наши объекты
+            </span>
+            <h2 className="mt-3 font-serif text-3xl md:text-4xl font-medium">
+              Рубленый дом из кедра
+            </h2>
+            <p className="mt-4 text-muted-foreground leading-relaxed">
+              Полутораэтажный дом из кругляка — тёплый янтарный кедр, кованое крыльцо,
+              сибирская природа вокруг.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {[
+              { src: "/videos/kedr-house-1.mp4", label: "Подход к дому" },
+              { src: "/videos/kedr-house-2.mp4", label: "Фасад и кровля" },
+            ].map((clip, i) => (
+              <motion.div
+                key={clip.src}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.12 }}
+                className="rounded-2xl overflow-hidden border border-border shadow-lg"
+              >
+                <video
+                  src={clip.src}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-64 md:h-72 object-cover"
+                />
+                <div className="px-4 py-3 bg-card text-sm font-medium text-muted-foreground">
+                  {clip.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* About text */}
       <section className="py-20 md:py-28 border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
