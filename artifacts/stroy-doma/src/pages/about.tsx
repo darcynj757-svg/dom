@@ -98,6 +98,69 @@ export default function About() {
         </div>
       </section>
 
+      {/* Video section */}
+      <section className="py-20 md:py-28 border-b border-border bg-muted/20">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl mx-auto text-center mb-10"
+          >
+            <span className="text-xs uppercase tracking-[0.3em] text-secondary font-medium">
+              Процесс строительства
+            </span>
+            <h2 className="mt-3 font-serif text-3xl md:text-4xl font-medium">
+              Как мы строим дома из кругляка
+            </h2>
+            <p className="mt-4 text-muted-foreground leading-relaxed">
+              Рубленые дома из сибирского кедра и сосны — наш главный профиль.
+              Посмотрите, как мы возводим сруб ручной рубки от заготовки бревна до готового объекта.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="relative max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-border"
+            style={{ aspectRatio: "16/9" }}
+          >
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src="https://www.youtube.com/embed/ncv23pOy6Vk?rel=0&modestbranding=1&color=white"
+              title="Строительство рубленого дома из бревна ручной рубки"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-8 flex flex-wrap gap-6 justify-center"
+          >
+            {[
+              "Ручная рубка",
+              "Кедр и сосна",
+              "Сибирский лес",
+              "Строительство под ключ",
+            ].map((tag) => (
+              <span
+                key={tag}
+                className="px-4 py-1.5 rounded-full border border-border bg-card text-sm text-muted-foreground"
+              >
+                {tag}
+              </span>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* About text */}
       <section className="py-20 md:py-28 border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
