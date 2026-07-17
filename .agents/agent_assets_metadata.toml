@@ -389,3 +389,9 @@ id = "PVlEK_2LdnxivN9qh-e__"
 uri = "file://attached_assets/generated_images/kt_min_e.png"
 type = "image"
 title = "Д — шеврон-крыша с окном"
+
+[[outputs]]
+id = "EQsfX9RQsB2Bha0UFgHId"
+uri = "file://attached_assets/generated_videos/kedr-house.mp4"
+type = "video"
+title = "Дом из кругляка — сгенерированное видео"
