@@ -330,7 +330,10 @@ export default function Home() {
               Смотреть все фото <ArrowUpRight className="w-4 h-4" />
             </Link>
           </motion.div>
-          <div className="grid grid-cols-3 gap-[10px]">
+          <div
+            className="grid grid-cols-3 gap-[10px]"
+            style={{ gridAutoRows: "210px" }}
+          >
             {GALLERY_ITEMS.slice(0, 9).map((item, i) => (
               <motion.div
                 key={item.id}
@@ -338,7 +341,8 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="group relative overflow-hidden rounded-2xl bg-muted cursor-pointer aspect-[4/3]"
+                style={i === 0 ? { gridColumn: "span 2", gridRow: "span 2" } : {}}
+                className="group relative overflow-hidden rounded-2xl bg-muted cursor-pointer"
               >
                 <img
                   src={item.image}
