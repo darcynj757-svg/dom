@@ -70,7 +70,7 @@ export default function Home() {
   const labelOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
 
-  const FEATURED_IDS = [12, 11, 9, 13, 14, 15]; // Д251, Д187, Д71 + бани
+  const FEATURED_IDS = [12, 11, 10, 13, 14, 15]; // Д251, Д187, Д143 + бани
   const featured = FEATURED_IDS
     .map((id) => PROJECTS.find((p) => p.id === id))
     .filter(Boolean) as typeof PROJECTS;
