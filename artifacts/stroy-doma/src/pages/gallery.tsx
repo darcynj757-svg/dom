@@ -59,6 +59,49 @@ export const GALLERY_ITEMS = [
 
 const CATEGORIES = ["Все", "Профилированный брус", "Рубленное бревно", "Баня"];
 
+type GalleryItem = (typeof GALLERY_ITEMS)[0];
+
+function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: number) => void }) {
+  // Split into 4 columns (2 on mobile), distributing items top-to-bottom
+  const numCols = 4;
+  const cols: GalleryItem[][] = Array.from({ length: numCols }, () => []);
+  items.forEach((item, i) => cols[i % numCols].push(item));
+
+  return (
+    <div className="flex gap-2 md:gap-3 items-start">
+      {cols.map((col, ci) => (
+        <div key={ci} className={`flex flex-col gap-2 md:gap-3 flex-1 ${ci >= 2 ? "hidden md:flex" : ""}`}>
+          {col.map((item) => {
+            const globalIndex = items.indexOf(item);
+            return (
+              <div
+                key={item.id}
+                className="group relative cursor-pointer rounded-xl overflow-hidden bg-muted"
+                onClick={() => onOpen(globalIndex)}
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 md:p-4">
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-white/70 mb-0.5">
+                    {item.category}
+                  </span>
+                  <p className="text-white text-xs md:text-sm font-medium leading-snug">
+                    {item.title}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState("Все");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -144,41 +187,7 @@ export default function Gallery() {
       {/* Masonry grid */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div
-            layout
-            className="columns-2 md:columns-3 lg:columns-4 gap-3 md:gap-4"
-          >
-            <AnimatePresence>
-              {filtered.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  layout
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.35, delay: Math.min(index * 0.03, 0.3) }}
-                  className="break-inside-avoid mb-3 md:mb-4 group relative cursor-pointer rounded-xl overflow-hidden bg-muted"
-                  onClick={() => openLightbox(index)}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-white/70 mb-1">
-                      {item.category}
-                    </span>
-                    <p className="text-white text-xs md:text-sm font-medium leading-snug">
-                      {item.title}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+          <MasonryGrid items={filtered} onOpen={openLightbox} />
         </div>
       </section>
 
