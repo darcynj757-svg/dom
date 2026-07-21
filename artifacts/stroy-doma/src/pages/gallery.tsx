@@ -62,36 +62,48 @@ const CATEGORIES = ["Все", "Профилированный брус", "Руб
 type GalleryItem = (typeof GALLERY_ITEMS)[0];
 
 function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: number) => void }) {
+  const COLS = 3;
+  const remainder = items.length % COLS;
+
+  // Compute col-span for each item so the last row is always fully filled
+  const getSpan = (index: number): number => {
+    if (remainder === 0) return 1;
+    const lastRowStart = items.length - remainder;
+    if (index < lastRowStart) return 1;
+    const posInLastRow = index - lastRowStart;
+    if (remainder === 1) return 3;
+    if (remainder === 2) return posInLastRow === 0 ? 2 : 1;
+    return 1;
+  };
+
   return (
-    <div
-      style={{
-        columns: "var(--masonry-cols, 4)",
-        columnGap: "10px",
-      }}
-      className="[--masonry-cols:2] sm:[--masonry-cols:3] lg:[--masonry-cols:4]"
-    >
-      {items.map((item, index) => (
-        <div
-          key={item.id}
-          className="break-inside-avoid mb-[10px] group relative cursor-pointer rounded-xl overflow-hidden bg-muted"
-          onClick={() => onOpen(index)}
-        >
-          <img
-            src={item.image}
-            alt={item.title}
-            className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 md:p-4">
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-white/70 mb-0.5">
-              {item.category}
-            </span>
-            <p className="text-white text-xs md:text-sm font-medium leading-snug">
-              {item.title}
-            </p>
+    <div className="grid grid-cols-3 gap-[10px]">
+      {items.map((item, index) => {
+        const span = getSpan(index);
+        return (
+          <div
+            key={item.id}
+            style={{ gridColumn: `span ${span}` }}
+            className="group relative cursor-pointer rounded-xl overflow-hidden bg-muted aspect-[4/3]"
+            onClick={() => onOpen(index)}
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 md:p-4">
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-white/70 mb-0.5">
+                {item.category}
+              </span>
+              <p className="text-white text-xs md:text-sm font-medium leading-snug">
+                {item.title}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
