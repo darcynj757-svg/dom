@@ -330,31 +330,48 @@ export default function Home() {
               Смотреть все фото <ArrowUpRight className="w-4 h-4" />
             </Link>
           </motion.div>
+          {/* Bento grid: explicit placement, 4 rows × 230px, gap-[10px] preserved
+              Row 1: [0: 2×2][1: 1×1]
+              Row 2: [0: 2×2][2: 1×1]
+              Row 3: [3: 1×2][4: 1×1][5: 1×1]
+              Row 4: [3: 1×2][6: 2×1]
+          */}
           <div
             className="grid grid-cols-3 gap-[10px]"
-            style={{ gridAutoRows: "210px" }}
+            style={{ gridTemplateRows: "repeat(4, 230px)" }}
           >
-            {GALLERY_ITEMS.slice(0, 9).map((item, i) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, scale: 0.96 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                style={i === 0 ? { gridColumn: "span 2", gridRow: "span 2" } : {}}
-                className="group relative overflow-hidden rounded-2xl bg-muted cursor-pointer"
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                  <span className="text-[10px] text-white/70 uppercase tracking-widest font-semibold mb-0.5">{item.category}</span>
-                  <p className="text-white text-sm font-medium leading-snug">{item.title}</p>
-                </div>
-              </motion.div>
-            ))}
+            {([
+              { col: "1 / 3", row: "1 / 3" },  // 0 — большое 2×2
+              { col: "3 / 4", row: "1 / 2" },  // 1 — 1×1 верх-право
+              { col: "3 / 4", row: "2 / 3" },  // 2 — 1×1 середина-право
+              { col: "1 / 2", row: "3 / 5" },  // 3 — высокое 1×2 лево
+              { col: "2 / 3", row: "3 / 4" },  // 4 — 1×1 центр
+              { col: "3 / 4", row: "3 / 4" },  // 5 — 1×1 право
+              { col: "2 / 4", row: "4 / 5" },  // 6 — широкое 2×1 низ
+            ] as { col: string; row: string }[]).map((span, i) => {
+              const item = GALLERY_ITEMS[i];
+              return (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  style={{ gridColumn: span.col, gridRow: span.row }}
+                  className="group relative overflow-hidden rounded-2xl bg-muted cursor-pointer"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                    <span className="text-[10px] text-white/70 uppercase tracking-widest font-semibold mb-0.5">{item.category}</span>
+                    <p className="text-white text-sm font-medium leading-snug">{item.title}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
