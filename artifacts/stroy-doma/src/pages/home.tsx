@@ -330,14 +330,57 @@ export default function Home() {
               Смотреть все фото <ArrowUpRight className="w-4 h-4" />
             </Link>
           </motion.div>
-          {/* Bento grid: explicit placement, 4 rows × 230px, gap-[10px] preserved
+          {/* ── Mobile bento (< md): 2 cols
+              Row 1: [0: tall 1×2][1: 1×1]
+              Row 2: [0 cont'd   ][2: 1×1]
+              Row 3: [3: 1×1    ][4: 1×1]
+          */}
+          <div
+            className="grid md:hidden gap-[10px]"
+            style={{
+              gridTemplateColumns: "1fr 1fr",
+              gridTemplateRows: "repeat(3, 170px)",
+            }}
+          >
+            {([
+              { col: "1 / 2", row: "1 / 3" },  // 0 — большое, высокое
+              { col: "2 / 3", row: "1 / 2" },  // 1 — верх-право
+              { col: "2 / 3", row: "2 / 3" },  // 2 — центр-право
+              { col: "1 / 2", row: "3 / 4" },  // 3 — низ-лево
+              { col: "2 / 3", row: "3 / 4" },  // 4 — низ-право
+            ] as { col: string; row: string }[]).map((span, i) => {
+              const item = GALLERY_ITEMS[i];
+              return (
+                <motion.div
+                  key={`mob-${item.id}`}
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  style={{ gridColumn: span.col, gridRow: span.row }}
+                  className="group relative overflow-hidden rounded-xl bg-muted cursor-pointer"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+                    <p className="text-white text-xs font-medium leading-snug">{item.title}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* ── Desktop bento (md+): 3 cols
               Row 1: [0: 2×2][1: 1×1]
               Row 2: [0: 2×2][2: 1×1]
               Row 3: [3: 1×2][4: 1×1][5: 1×1]
               Row 4: [3: 1×2][6: 2×1]
           */}
           <div
-            className="grid grid-cols-3 gap-[10px]"
+            className="hidden md:grid grid-cols-3 gap-[10px]"
             style={{ gridTemplateRows: "repeat(4, 230px)" }}
           >
             {([
@@ -352,7 +395,7 @@ export default function Home() {
               const item = GALLERY_ITEMS[i];
               return (
                 <motion.div
-                  key={item.id}
+                  key={`desk-${item.id}`}
                   initial={{ opacity: 0, scale: 0.96 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
