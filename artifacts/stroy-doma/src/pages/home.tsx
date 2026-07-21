@@ -330,26 +330,28 @@ export default function Home() {
               Смотреть все фото <ArrowUpRight className="w-4 h-4" />
             </Link>
           </motion.div>
-          {/* ── Mobile bento (< md): 2 cols
-              Row 1: [0: tall 1×2][1: 1×1]
-              Row 2: [0 cont'd   ][2: 1×1]
-              Row 3: [3: 1×1    ][4: 1×1]
+          {/* ── Mobile bento (< md): 2 cols, 4 rows
+              Row 1: [5: full width]
+              Row 2: [0: tall 1×2][1: 1×1]
+              Row 3: [0 cont'd   ][2: 1×1]
+              Row 4: [3: 1×1    ][4: 1×1]
           */}
           <div
             className="grid md:hidden gap-[10px]"
             style={{
               gridTemplateColumns: "1fr 1fr",
-              gridTemplateRows: "repeat(3, 170px)",
+              gridTemplateRows: "repeat(4, 155px)",
             }}
           >
             {([
-              { col: "1 / 2", row: "1 / 3" },  // 0 — большое, высокое
-              { col: "2 / 3", row: "1 / 2" },  // 1 — верх-право
-              { col: "2 / 3", row: "2 / 3" },  // 2 — центр-право
-              { col: "1 / 2", row: "3 / 4" },  // 3 — низ-лево
-              { col: "2 / 3", row: "3 / 4" },  // 4 — низ-право
-            ] as { col: string; row: string }[]).map((span, i) => {
-              const item = GALLERY_ITEMS[i];
+              { col: "1 / 3", row: "1 / 2", gi: 5 },  // новое — полная ширина сверху
+              { col: "1 / 2", row: "2 / 4", gi: 0 },  // большое, высокое
+              { col: "2 / 3", row: "2 / 3", gi: 1 },  // верх-право
+              { col: "2 / 3", row: "3 / 4", gi: 2 },  // центр-право
+              { col: "1 / 2", row: "4 / 5", gi: 3 },  // низ-лево
+              { col: "2 / 3", row: "4 / 5", gi: 4 },  // низ-право
+            ] as { col: string; row: string; gi: number }[]).map((span, i) => {
+              const item = GALLERY_ITEMS[span.gi];
               return (
                 <motion.div
                   key={`mob-${item.id}`}
