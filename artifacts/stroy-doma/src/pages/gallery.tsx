@@ -62,40 +62,34 @@ const CATEGORIES = ["Все", "Профилированный брус", "Руб
 type GalleryItem = (typeof GALLERY_ITEMS)[0];
 
 function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: number) => void }) {
-  // Split into 4 columns (2 on mobile), distributing items top-to-bottom
-  const numCols = 4;
-  const cols: GalleryItem[][] = Array.from({ length: numCols }, () => []);
-  items.forEach((item, i) => cols[i % numCols].push(item));
-
   return (
-    <div className="flex gap-2 md:gap-3 items-start">
-      {cols.map((col, ci) => (
-        <div key={ci} className={`flex flex-col gap-2 md:gap-3 flex-1 ${ci >= 2 ? "hidden md:flex" : ""}`}>
-          {col.map((item) => {
-            const globalIndex = items.indexOf(item);
-            return (
-              <div
-                key={item.id}
-                className="group relative cursor-pointer rounded-xl overflow-hidden bg-muted"
-                onClick={() => onOpen(globalIndex)}
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 md:p-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-white/70 mb-0.5">
-                    {item.category}
-                  </span>
-                  <p className="text-white text-xs md:text-sm font-medium leading-snug">
-                    {item.title}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+    <div
+      style={{
+        columns: "var(--masonry-cols, 4)",
+        columnGap: "10px",
+      }}
+      className="[--masonry-cols:2] sm:[--masonry-cols:3] lg:[--masonry-cols:4]"
+    >
+      {items.map((item, index) => (
+        <div
+          key={item.id}
+          className="break-inside-avoid mb-[10px] group relative cursor-pointer rounded-xl overflow-hidden bg-muted"
+          onClick={() => onOpen(index)}
+        >
+          <img
+            src={item.image}
+            alt={item.title}
+            className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 md:p-4">
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-white/70 mb-0.5">
+              {item.category}
+            </span>
+            <p className="text-white text-xs md:text-sm font-medium leading-snug">
+              {item.title}
+            </p>
+          </div>
         </div>
       ))}
     </div>
