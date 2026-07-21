@@ -330,26 +330,24 @@ export default function Home() {
               Смотреть все фото <ArrowUpRight className="w-4 h-4" />
             </Link>
           </motion.div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {GALLERY_ITEMS.slice(0, 8).map((item, i) => (
+          <div className="grid grid-cols-3 gap-[10px]">
+            {GALLERY_ITEMS.slice(0, 9).map((item, i) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, scale: 0.96 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.05 }}
-                className={`group relative overflow-hidden rounded-2xl bg-muted cursor-pointer ${i === 0 || i === 5 ? "aspect-[4/3] md:aspect-[4/5]" : "aspect-square"}`}
+                className="group relative overflow-hidden rounded-2xl bg-muted cursor-pointer aspect-[4/3]"
               >
                 <img
                   src={item.image}
                   alt={item.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <div>
-                    <span className="text-xs text-white/70 uppercase tracking-wider">{item.category}</span>
-                    <p className="text-white text-sm font-medium leading-snug">{item.title}</p>
-                  </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                  <span className="text-[10px] text-white/70 uppercase tracking-widest font-semibold mb-0.5">{item.category}</span>
+                  <p className="text-white text-sm font-medium leading-snug">{item.title}</p>
                 </div>
               </motion.div>
             ))}
