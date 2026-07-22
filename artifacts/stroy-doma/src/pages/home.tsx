@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Link } from "wouter";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowUpRight, CalendarClock, Layers, Cog, Timer, Wallet, BadgeCheck, Phone, Calculator, FileSignature, HardHat, BookOpen } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CalendarClock, Layers, Cog, Timer, Wallet, BadgeCheck, Phone, Calculator, FileSignature, HardHat, BookOpen, X, ChevronLeft, ChevronRight } from "lucide-react";
 import ScrollHouse from "@/components/3d/ScrollHouse";
 import { getGltfPromise } from "@/components/3d/houseLoader";
 import { PROJECTS } from "@/data/projects";
@@ -79,6 +79,30 @@ export default function Home() {
     });
   }, []);
 
+  // ── Home gallery lightbox ──────────────────────────────────────────────────
+  // Pool: the 7 items shown in the desktop bento (indices into GALLERY_ITEMS)
+  const HOME_BENTO_POOL = [0, 1, 2, 3, 4, 5, 6];
+  const [homeLightbox, setHomeLightbox] = useState<number | null>(null); // index into HOME_BENTO_POOL
+  const openHomeLightbox = useCallback((galleryIdx: number) => {
+    const pos = HOME_BENTO_POOL.indexOf(galleryIdx);
+    setHomeLightbox(pos >= 0 ? pos : 0);
+  }, []);
+  const closeHomeLightbox = useCallback(() => setHomeLightbox(null), []);
+  const prevHome = useCallback(() =>
+    setHomeLightbox((i) => i === null ? null : (i - 1 + HOME_BENTO_POOL.length) % HOME_BENTO_POOL.length), []);
+  const nextHome = useCallback(() =>
+    setHomeLightbox((i) => i === null ? null : (i + 1) % HOME_BENTO_POOL.length), []);
+  useEffect(() => {
+    if (homeLightbox === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeHomeLightbox();
+      if (e.key === "ArrowLeft") prevHome();
+      if (e.key === "ArrowRight") nextHome();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [homeLightbox, closeHomeLightbox, prevHome, nextHome]);
+  const homeLightboxItem = homeLightbox !== null ? GALLERY_ITEMS[HOME_BENTO_POOL[homeLightbox]] : null;
 
   const FEATURED_IDS = [12, 11, 10, 13, 14, 15]; // Д251, Д187, Д143 + бани
   const featured = FEATURED_IDS
@@ -378,6 +402,7 @@ export default function Home() {
                   transition={{ duration: 0.4, delay: i * 0.05 }}
                   style={{ gridColumn: span.col, gridRow: span.row }}
                   className="group relative overflow-hidden rounded-xl bg-muted cursor-pointer"
+                  onClick={() => openHomeLightbox(span.gi)}
                 >
                   <img
                     src={item.image}
@@ -421,6 +446,7 @@ export default function Home() {
                   transition={{ duration: 0.4, delay: i * 0.06 }}
                   style={{ gridColumn: span.col, gridRow: span.row }}
                   className="group relative overflow-hidden rounded-2xl bg-muted cursor-pointer"
+                  onClick={() => openHomeLightbox(i)}
                 >
                   <img
                     src={item.image}
@@ -511,6 +537,61 @@ export default function Home() {
           </Button>
         </div>
       </section>
+
+      {/* ── Home gallery lightbox ──────────────────────────────────────────── */}
+      <AnimatePresence>
+        {homeLightboxItem && homeLightbox !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+            onClick={closeHomeLightbox}
+          >
+            <button
+              onClick={closeHomeLightbox}
+              className="absolute top-4 right-4 z-10 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/50 text-sm tabular-nums">
+              {homeLightbox + 1} / {HOME_BENTO_POOL.length}
+            </div>
+            <button
+              onClick={(e) => { e.stopPropagation(); prevHome(); }}
+              className="absolute left-3 md:left-6 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2 md:p-3"
+            >
+              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+            </button>
+            <motion.div
+              key={homeLightboxItem.id}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.2 }}
+              className="relative max-w-5xl w-full max-h-[85vh] flex flex-col items-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={homeLightboxItem.image}
+                alt={homeLightboxItem.title}
+                className="max-h-[75vh] w-auto max-w-full rounded-xl object-contain shadow-2xl"
+              />
+              <div className="mt-4 text-center">
+                <p className="text-white font-medium">{homeLightboxItem.title}</p>
+                <p className="text-white/50 text-sm mt-1">{homeLightboxItem.category}</p>
+              </div>
+            </motion.div>
+            <button
+              onClick={(e) => { e.stopPropagation(); nextHome(); }}
+              className="absolute right-3 md:right-6 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2 md:p-3"
+            >
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
