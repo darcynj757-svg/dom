@@ -146,7 +146,7 @@ export function Navbar() {
               />
             </div>
             <span
-              className={`font-display text-sm font-bold tracking-tight mt-2 ml-2 transition-colors duration-300 ${
+              className={`font-display text-lg font-bold tracking-tight mt-2 ml-2 transition-colors duration-300 ${
                 isHome && !isScrolled ? "text-white" : "text-foreground"
               }`}
             >
@@ -357,7 +357,7 @@ export function Footer() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span className="font-display text-2xl font-bold tracking-tight text-white mt-3">
+              <span className="font-display text-base font-bold tracking-tight text-white mt-3">
                 Kedr Tomsk
               </span>
             </Link>
