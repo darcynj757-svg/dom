@@ -2,15 +2,17 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
-// Real project images
-import house68Ext1 from "@/assets/houses/house-68-ext-1.png";
-import house68Ext2 from "@/assets/houses/house-68-ext-2.png";
-import house71Ext1 from "@/assets/houses/house-71-ext-1.png";
-import house71Ext2 from "@/assets/houses/house-71-ext-2.png";
-import house89Ext1 from "@/assets/houses/house-89-ext-1.png";
-import house89Ext2 from "@/assets/houses/house-89-ext-2.png";
-import house123Ext from "@/assets/houses/house-123-ext.png";
-import house126Ext1 from "@/assets/houses/house-126-ext-1.png";
+// Uploaded gallery photos
+import photo1 from "@/assets/gallery/photo-1.png";
+import photo2 from "@/assets/gallery/photo-2.png";
+import photo3 from "@/assets/gallery/photo-3.png";
+import photo4 from "@/assets/gallery/photo-4.png";
+import photo5 from "@/assets/gallery/photo-5.png";
+import photo6 from "@/assets/gallery/photo-6.png";
+import photo7 from "@/assets/gallery/photo-7.png";
+import photo8 from "@/assets/gallery/photo-8.png";
+
+// Remaining project images
 import house126Ext2 from "@/assets/houses/house-126-ext-2.png";
 import house134Ext from "@/assets/houses/house-134-ext.png";
 import house143Ext1 from "@/assets/houses/house-143-ext-1.png";
@@ -30,14 +32,14 @@ import bath167Ext1 from "@/assets/baths/bath-167-ext-1.png";
 import bath167Ext2 from "@/assets/baths/bath-167-ext-2.png";
 
 export const GALLERY_ITEMS = [
-  { id: 1,  title: "Одноэтажный дом из кругляка 68 м²",         category: "Рубленное бревно",    image: house68Ext1 },
-  { id: 2,  title: "Кругляк 68 м² — вид сбоку",                  category: "Рубленное бревно",    image: house68Ext2 },
-  { id: 3,  title: "Дом из профбруса 71 м²",                      category: "Профилированный брус", image: house71Ext1 },
-  { id: 4,  title: "Профбрус 71 м² — фасад",                      category: "Профилированный брус", image: house71Ext2 },
-  { id: 5,  title: "Двухэтажный дом из бруса 89 м²",              category: "Профилированный брус", image: house89Ext1 },
-  { id: 6,  title: "Профбрус 89 м² — терраса",                    category: "Профилированный брус", image: house89Ext2 },
-  { id: 7,  title: "Дом из профбруса 123 м²",                     category: "Профилированный брус", image: house123Ext },
-  { id: 8,  title: "Дом из профбруса 126 м² — вид 1",             category: "Профилированный брус", image: house126Ext1 },
+  { id: 1,  title: "Двухэтажный рубленый дом из кругляка",        category: "Рубленное бревно",    image: photo1 },
+  { id: 2,  title: "Дом из профбруса — вид с воздуха",            category: "Профилированный брус", image: photo2 },
+  { id: 3,  title: "Рубленый дом с ухоженным участком",           category: "Рубленное бревно",    image: photo3 },
+  { id: 4,  title: "Дом из бруса с каменным цоколем",             category: "Профилированный брус", image: photo4 },
+  { id: 5,  title: "Дом из профбруса с верандой в лесу",          category: "Профилированный брус", image: photo5 },
+  { id: 6,  title: "Дом из профбруса 126 м² — вид 1",             category: "Профилированный брус", image: photo6 },
+  { id: 7,  title: "Дом из профбруса 126 м² — вид 2",             category: "Профилированный брус", image: photo7 },
+  { id: 8,  title: "Дом из профбруса 134 м²",                     category: "Профилированный брус", image: photo8 },
   { id: 9,  title: "Дом из профбруса 126 м² — вид 2",             category: "Профилированный брус", image: house126Ext2 },
   { id: 10, title: "Дом из профбруса 134 м²",                     category: "Профилированный брус", image: house134Ext },
   { id: 11, title: "Двухэтажный дом из бруса 143 м² — вид 1",     category: "Профилированный брус", image: house143Ext1 },
