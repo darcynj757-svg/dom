@@ -178,17 +178,25 @@ export default function Home() {
             </p>
             <p className="mt-1 text-muted-foreground text-sm">прокрутите вниз</p>
           </motion.div>
-          <div className="absolute inset-x-0 bottom-0 h-32 md:h-24 bg-gradient-to-b from-transparent to-background pointer-events-none z-20" />
 
-        </div>
-      </section>
-
-      {/* ── Stats bar — always visible below the 3D section ─────────────────── */}
-      <section className="-mt-48 relative z-10 py-6 md:py-8 bg-background border-b border-border/40">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
-            {STATS.map((s) => <StatCard key={s.label} {...s} />)}
+          {/* Stats overlay — visible from the moment the 3D build starts */}
+          <div className="absolute inset-x-0 bottom-0 z-20 pointer-events-none">
+            <div className="container mx-auto px-4 md:px-6 pb-8 md:pb-10">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
+                {STATS.map((s) => (
+                  <div key={s.label} className="text-center">
+                    <div className="font-display text-4xl md:text-5xl font-black text-foreground drop-shadow-sm">
+                      {s.value}{s.suffix}
+                    </div>
+                    <div className="mt-1 text-xs md:text-sm text-muted-foreground whitespace-nowrap">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* gradient fade so stats sit on top of the fade-to-background strip */}
+            <div className="h-32 md:h-24 bg-gradient-to-b from-transparent to-background" />
           </div>
+
         </div>
       </section>
 
