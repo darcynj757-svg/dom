@@ -346,18 +346,25 @@ export function Navbar() {
 export function Footer() {
   return (
     <footer className="bg-foreground text-background border-t border-border/10">
-      {/* Yandex Maps */}
-      <div className="w-full h-56 md:h-72">
-        <iframe
-          src="https://yandex.ru/map-widget/v1/?text=634024%2C%20%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D1%84%D1%81%D0%BE%D1%8E%D0%B7%D0%BD%D0%B0%D1%8F%2C%202%2F67&z=16&l=map"
-          width="100%"
-          height="100%"
-          frameBorder="0"
-          allowFullScreen
-          title="Kedr Tomsk на карте"
-          className="block"
+      {/* Yandex Static Map */}
+      <a
+        href="https://yandex.ru/maps/?text=634024%2C%20%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D1%84%D1%81%D0%BE%D1%8E%D0%B7%D0%BD%D0%B0%D1%8F%2C%202%2F67&z=16"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block w-full h-56 md:h-72 relative overflow-hidden group"
+        title="Открыть в Яндекс Картах"
+      >
+        <img
+          src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=84.9742,56.4958&z=16&l=map&size=650,290&pt=84.9742,56.4958,pm2rdm"
+          alt="Карта: Томск, ул. Профсоюзная, 2/67"
+          className="w-full h-full object-cover"
         />
-      </div>
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white text-foreground text-sm font-medium px-4 py-2 rounded-full shadow">
+            Открыть в Яндекс Картах ↗
+          </span>
+        </div>
+      </a>
 
       {/* Compact footer body */}
       <div className="container mx-auto px-4 md:px-6 py-8">
