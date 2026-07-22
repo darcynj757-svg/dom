@@ -115,7 +115,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedMobile, setExpandedMobile] = useState<string | null>(null);
-  const isHome = location === "/";
+  const isHome = location === "/" || location === "/about";
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
