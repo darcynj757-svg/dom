@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Link } from "wouter";
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, useInView } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowUpRight, CalendarClock, Layers, Cog, Timer, Wallet, BadgeCheck, Phone, Calculator, FileSignature, HardHat, BookOpen, X, ChevronLeft, ChevronRight } from "lucide-react";
 import ScrollHouse from "@/components/3d/ScrollHouse";
@@ -63,54 +63,22 @@ function FeaturedProjectCard({ project, index }: { project: (typeof PROJECTS)[0]
 export default function Home() {
   const houseRef = useRef<HTMLDivElement>(null);
 
-  // ── Mobile detection ────────────────────────────────────────────────────────
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth < 768 : false,
-  );
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", onResize, { passive: true });
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  // ── Desktop: scroll-driven progress ────────────────────────────────────────
   const { scrollYProgress } = useScroll({ target: houseRef, offset: ["start start", "end end"] });
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [houseProgress, setHouseProgress] = useState(0);
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setScrollProgress(Math.min(Math.max(v / 0.7, 0), 1));
+    setHouseProgress(Math.min(Math.max(v / 0.7, 0), 1));
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.9]);
   const labelOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
-  // ── Mobile: auto-play progress when section enters view ────────────────────
-  const sectionInView = useInView(houseRef, { once: true, amount: 0.2 });
-  const [mobileProgress, setMobileProgress] = useState(0);
+  // Auto-scroll into the 3D section as soon as the model finishes loading
   useEffect(() => {
-    if (!isMobile || !sectionInView) return;
-    const BUILD_MS = 3200;
-    let startTime: number | null = null;
-    let rafId: number;
-    const animate = (now: number) => {
-      if (startTime === null) startTime = now;
-      const t = Math.min((now - startTime) / BUILD_MS, 1);
-      setMobileProgress(t);
-      if (t < 1) rafId = requestAnimationFrame(animate);
-    };
-    rafId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId);
-  }, [isMobile, sectionInView]);
-
-  const houseProgress = isMobile ? mobileProgress : scrollProgress;
-
-  // Auto-scroll into the 3D section on desktop only
-  useEffect(() => {
-    if (isMobile) return;
     getGltfPromise().then(() => {
       if (houseRef.current && window.scrollY < 100) {
         houseRef.current.scrollIntoView({ behavior: "smooth" });
       }
     });
-  }, [isMobile]);
+  }, []);
 
   // ── Home gallery lightbox ──────────────────────────────────────────────────
   // Pool: the 7 items shown in the desktop bento (indices into GALLERY_ITEMS)
@@ -228,7 +196,7 @@ export default function Home() {
       </section>
 
       {/* ── Block 2: 3D house scroll ────────────────────────────────────────── */}
-      <section ref={houseRef} className={`relative ${isMobile ? "h-screen" : "h-[500vh]"}`}>
+      <section ref={houseRef} className="relative h-[500vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
           <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
             <ScrollHouse progress={houseProgress} />
@@ -242,9 +210,7 @@ export default function Home() {
             <p className="font-display text-2xl md:text-3xl font-bold text-foreground/80">
               Дом строится на ваших глазах
             </p>
-            {!isMobile && (
-              <p className="mt-1 text-muted-foreground text-sm">прокрутите вниз</p>
-            )}
+            <p className="mt-1 text-muted-foreground text-sm">прокрутите вниз</p>
           </div>
 
           {/* Stats overlay — visible from the moment the 3D build starts */}
