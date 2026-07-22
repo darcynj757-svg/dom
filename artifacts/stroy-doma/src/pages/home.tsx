@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowUpRight, CalendarClock, Layers, Cog, Timer, Wallet, BadgeCheck, Phone, Calculator, FileSignature, HardHat, BookOpen } from "lucide-react";
 import ScrollHouse from "@/components/3d/ScrollHouse";
+import { getGltfPromise } from "@/components/3d/houseLoader";
 import { PROJECTS } from "@/data/projects";
 import { GALLERY_ITEMS } from "@/pages/gallery";
 import { ARTICLES } from "@/pages/articles";
@@ -68,6 +69,15 @@ export default function Home() {
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.9]);
   const labelOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+
+  // Auto-scroll into the 3D section as soon as the model finishes loading
+  useEffect(() => {
+    getGltfPromise().then(() => {
+      if (houseRef.current && window.scrollY < 100) {
+        houseRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  }, []);
 
 
   const FEATURED_IDS = [12, 11, 10, 13, 14, 15]; // Д251, Д187, Д143 + бани
