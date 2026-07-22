@@ -485,8 +485,8 @@ export default function Home() {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {ARTICLES.slice(0, 3).map((article, i) => (
+              <Link key={article.id} href={`/articles/${article.slug}`} className="block">
               <motion.article
-                key={article.id}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -506,6 +506,7 @@ export default function Home() {
                   <p className="mt-3 text-muted-foreground text-sm leading-relaxed line-clamp-3">{article.excerpt}</p>
                 </div>
               </motion.article>
+              </Link>
             ))}
           </div>
         </div>
