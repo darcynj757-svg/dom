@@ -345,106 +345,71 @@ export function Navbar() {
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background py-16 border-t border-border/10">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div className="space-y-4 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-16 h-16 flex items-center justify-center">
-                <img
-                  src={logoIcon}
-                  alt="KedrTomsk"
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <span className="font-display text-base font-bold tracking-tight text-white mt-3">
-                Kedr Tomsk
-              </span>
-            </Link>
-            <p className="text-background/60 text-sm leading-relaxed max-w-xs">
-              Строительство деревянных домов под ключ с 2001 года. Кедр, сосна,
-              лиственница. Томск и вся Россия.
-            </p>
+    <footer className="bg-foreground text-background border-t border-border/10">
+      {/* Yandex Maps */}
+      <div className="w-full h-56 md:h-72">
+        <iframe
+          src="https://yandex.ru/map-widget/v1/?text=634024%2C%20%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D1%84%D1%81%D0%BE%D1%8E%D0%B7%D0%BD%D0%B0%D1%8F%2C%202%2F67&z=16&l=map"
+          width="100%"
+          height="100%"
+          frameBorder="0"
+          allowFullScreen
+          title="Kedr Tomsk на карте"
+          className="block"
+        />
+      </div>
+
+      {/* Compact footer body */}
+      <div className="container mx-auto px-4 md:px-6 py-8">
+        <div className="flex flex-col md:flex-row md:items-start gap-8">
+
+          {/* Logo + tagline */}
+          <div className="flex items-center gap-3 md:w-48 shrink-0">
+            <img src={logoIcon} alt="KedrTomsk" className="w-10 h-10 object-contain" />
+            <div>
+              <span className="font-display text-sm font-bold text-white block leading-tight">Kedr Tomsk</span>
+              <span className="text-background/50 text-xs">с 2001 года</span>
+            </div>
           </div>
 
-          <div>
-            <h3 className="font-display text-base font-bold mb-4 text-white">
-              Навигация
-            </h3>
-            <ul className="space-y-2.5">
-              {[
-                { href: "/about", label: "О компании" },
-                { href: "/services", label: "Строительство" },
-                { href: "/production", label: "Производство" },
-                { href: "/projects", label: "Проекты" },
-                { href: "/gallery", label: "Галерея" },
-                { href: "/contacts", label: "Контакты" },
-              ].map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="text-background/60 hover:text-white transition-colors text-sm"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Nav links */}
+          <div className="flex flex-wrap gap-x-6 gap-y-1.5 md:flex-1">
+            {[
+              { href: "/about", label: "О компании" },
+              { href: "/services", label: "Строительство" },
+              { href: "/production", label: "Производство" },
+              { href: "/projects", label: "Проекты" },
+              { href: "/gallery", label: "Галерея" },
+              { href: "/contacts", label: "Контакты" },
+            ].map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-background/60 hover:text-white transition-colors text-sm"
+              >
+                {l.label}
+              </Link>
+            ))}
           </div>
 
-          <div>
-            <h3 className="font-display text-base font-bold mb-4 text-white">
-              Услуги
-            </h3>
-            <ul className="space-y-2.5">
-              {[
-                "Дома из профилированного бруса",
-                "Рубленные дома",
-                "Строительство бань",
-                "Столярные изделия",
-                "Пиломатериал",
-              ].map((s) => (
-                <li key={s} className="text-background/60 text-sm">
-                  {s}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-display text-base font-bold mb-4 text-white">
-              Контакты
-            </h3>
-            <ul className="space-y-2.5">
-              <li className="text-background/60 text-sm">
-                📍 634024, г. Томск, ул. Профсоюзная, 2/67, стр. 3
-              </li>
-              <li>
-                <a
-                  href="tel:+73822334439"
-                  className="text-background/60 hover:text-white transition-colors text-sm"
-                >
-                  📞 +7 (3822) 33-44-39
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:mail@kedr-tomsk.ru"
-                  className="text-background/60 hover:text-white transition-colors text-sm"
-                >
-                  ✉️ mail@kedr-tomsk.ru
-                </a>
-              </li>
-            </ul>
+          {/* Contacts */}
+          <div className="flex flex-col gap-1 text-sm shrink-0">
+            <span className="text-background/60 text-xs">
+              📍 Томск, ул. Профсоюзная, 2/67
+            </span>
+            <a href="tel:+73822334439" className="text-background/60 hover:text-white transition-colors">
+              📞 +7 (3822) 33-44-39
+            </a>
+            <a href="mailto:mail@kedr-tomsk.ru" className="text-background/60 hover:text-white transition-colors">
+              ✉️ mail@kedr-tomsk.ru
+            </a>
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4 text-background/40 text-sm">
+        {/* Bottom bar */}
+        <div className="mt-6 pt-4 border-t border-background/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-background/40 text-xs">
           <p>© {new Date().getFullYear()} KedrTomsk. Все права защищены.</p>
-          <Link
-            href="/terms"
-            className="hover:text-white/70 transition-colors"
-          >
+          <Link href="/terms" className="hover:text-white/70 transition-colors">
             Условия использования
           </Link>
         </div>
