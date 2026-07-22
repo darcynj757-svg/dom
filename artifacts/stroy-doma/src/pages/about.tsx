@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Hammer, Clock, TreePine, Layers, Truck } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 
 const TIMELINE = [
   { year: "2001", text: "Основана компания «Кедр-Томск», первые объекты в Томской области." },
@@ -298,7 +299,16 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 md:py-32 bg-foreground text-background relative overflow-hidden">
+      <section className="py-24 md:py-32 text-background relative overflow-hidden">
+        <video
+          src={ctaVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-foreground/60" />
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 30% 50%, #B69D72 0%, transparent 60%), radial-gradient(circle at 70% 50%, #B69D72 0%, transparent 60%)" }} />
         <motion.div
           initial={{ opacity: 0, y: 24 }}
