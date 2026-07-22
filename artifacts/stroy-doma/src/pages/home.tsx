@@ -166,8 +166,7 @@ export default function Home() {
           <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
             <ScrollHouse progress={houseProgress} />
           </motion.div>
-          <motion.div
-            style={{ opacity: labelOpacity }}
+          <div
             className="absolute inset-x-0 top-12 flex flex-col items-center text-center pointer-events-none px-4 z-10"
           >
             <span className="inline-block px-4 py-1 rounded-full bg-secondary/20 text-secondary text-xs uppercase tracking-[0.25em] font-semibold mb-3">
@@ -177,7 +176,7 @@ export default function Home() {
               Дом строится на ваших глазах
             </p>
             <p className="mt-1 text-muted-foreground text-sm">прокрутите вниз</p>
-          </motion.div>
+          </div>
 
           {/* Stats overlay — visible from the moment the 3D build starts */}
           <div className="absolute inset-x-0 bottom-0 z-20 pointer-events-none">
