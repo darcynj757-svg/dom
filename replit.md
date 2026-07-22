@@ -1,33 +1,32 @@
-# Stroy-Doma (Kedr Tomsk)
+# Кедр-Томск — Строительство домов и бань
 
-A Russian-language marketing website for **Kedr Tomsk** — a wooden house construction company building cedar log homes since 2001.
+Marketing website for **Kedr-Tomsk** (Кедр-Томск), a wooden house construction company based in Tomsk, Russia (operating since 2001).
 
 ## Stack
 
-- **Frontend**: React 19 + Vite + TypeScript
-- **Styling**: Tailwind CSS v4 + shadcn/ui components
-- **3D**: Three.js / React Three Fiber (house model viewer)
-- **Routing**: Wouter
-- **Monorepo**: pnpm workspaces
+- **Monorepo:** pnpm workspaces (`artifacts/`, `lib/`)
+- **Frontend (`artifacts/stroy-doma`):** React 19, Vite, Tailwind CSS 4, Framer Motion, Wouter, Radix UI, Three.js/React Three Fiber
+- **Backend (`artifacts/api-server`):** Node.js, Express 5, Drizzle ORM, PostgreSQL, Pino logging
+- **Shared libs:** `lib/db` (schema + Drizzle client), `lib/api-zod` (Zod schemas), `lib/api-client-react` (generated React Query hooks)
+- **Design sandbox (`artifacts/mockup-sandbox`):** Vite component preview server
 
-## Project structure
+## How to run
 
-```
-artifacts/
-  stroy-doma/   ← main website (React + Vite)
-  api-server/   ← Express API server (contact requests, projects)
-  mockup-sandbox/ ← design sandbox for UI prototyping
-```
+| Service | Workflow | Port |
+|---|---|---|
+| Web app | `artifacts/stroy-doma: web` | 19912 (→ 80) |
+| API server | `artifacts/api-server: API Server` | 8080 |
+| Mockup sandbox | `artifacts/mockup-sandbox: Component Preview Server` | auto |
 
-## Running the app
+Install dependencies: `pnpm install` (run from workspace root)
 
-The `artifacts/stroy-doma: web` workflow starts the dev server on port 19912.
+## Environment variables
 
-```
-pnpm install                                    # install all workspace deps
-pnpm --filter @workspace/stroy-doma run dev     # start frontend dev server
-```
+- `DATABASE_URL` — PostgreSQL connection string (required for API server and DB migrations)
+
+## Notes
+
+- Contact forms in the frontend currently simulate success (no real API call). The backend `/contact-requests` endpoint exists but the frontend isn't wired to it yet.
+- DB migrations: `pnpm --filter @workspace/db run push` (requires `DATABASE_URL`)
 
 ## User preferences
-
-<!-- Add preferences here as they come up -->

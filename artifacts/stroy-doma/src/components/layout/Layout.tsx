@@ -348,15 +348,15 @@ export function Footer() {
     <footer className="bg-foreground text-background border-t border-border/10">
       {/* Full-width map strip */}
       <a
-        href="https://yandex.ru/maps/?ll=84.9736%2C56.4893&z=17&pt=84.9736%2C56.4893%2Cpm2rdm&text=%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D1%84%D1%81%D0%BE%D1%8E%D0%B7%D0%BD%D0%B0%D1%8F%2C%202%2F67"
+        href="https://yandex.ru/maps/?ll=84.9354%2C56.5267&z=17&pt=84.9354%2C56.5267%2Cpm2rdm&text=%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D0%BC%D0%BA%D1%80.%20%D0%A7%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%88%D0%BD%D0%B8%D0%BA%D0%B8%2C%20%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D1%84%D1%81%D0%BE%D1%8E%D0%B7%D0%BD%D0%B0%D1%8F%2C%202%2F1%D1%8112"
         target="_blank"
         rel="noopener noreferrer"
         className="block w-full h-56 md:h-72 relative overflow-hidden group"
         title="Открыть в Яндекс Картах"
       >
         <img
-          src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=84.9736,56.4893&z=15&l=map&size=650,290&pt=84.9736,56.4893,pm2rdm"
-          alt="Томск, ул. Профсоюзная, 2/67"
+          src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=84.9354,56.5267&z=15&l=map&size=650,290&pt=84.9354,56.5267,pm2rdm"
+          alt="Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
@@ -402,7 +402,7 @@ export function Footer() {
           {/* Contacts */}
           <div className="flex flex-col gap-1 text-sm shrink-0">
             <span className="text-background/60 text-xs">
-              📍 Томск, ул. Профсоюзная, 2/67
+              📍 Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12
             </span>
             <a href="tel:+73822334439" className="text-background/60 hover:text-white transition-colors">
               📞 +7 (3822) 33-44-39
