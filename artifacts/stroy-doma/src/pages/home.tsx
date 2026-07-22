@@ -81,7 +81,7 @@ export default function Home() {
 
   // ── Home gallery lightbox ──────────────────────────────────────────────────
   // Pool: the 7 items shown in the desktop bento (indices into GALLERY_ITEMS)
-  const HOME_BENTO_POOL = [0, 1, 2, 3, 4, 5, 6];
+  const HOME_BENTO_POOL = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   const [homeLightbox, setHomeLightbox] = useState<number | null>(null); // index into HOME_BENTO_POOL
   const openHomeLightbox = useCallback((galleryIdx: number) => {
     const pos = HOME_BENTO_POOL.indexOf(galleryIdx);
@@ -381,16 +381,18 @@ export default function Home() {
             className="grid md:hidden gap-[10px]"
             style={{
               gridTemplateColumns: "1fr 1fr",
-              gridTemplateRows: "repeat(4, 155px)",
+              gridTemplateRows: "repeat(5, 155px)",
             }}
           >
             {([
-              { col: "1 / 3", row: "1 / 2", gi: 5 },  // новое — полная ширина сверху
+              { col: "1 / 3", row: "1 / 2", gi: 5 },  // полная ширина сверху
               { col: "1 / 2", row: "2 / 4", gi: 0 },  // большое, высокое
               { col: "2 / 3", row: "2 / 3", gi: 1 },  // верх-право
               { col: "2 / 3", row: "3 / 4", gi: 2 },  // центр-право
               { col: "1 / 2", row: "4 / 5", gi: 3 },  // низ-лево
               { col: "2 / 3", row: "4 / 5", gi: 4 },  // низ-право
+              { col: "1 / 2", row: "5 / 6", gi: 7 },  // новое — низ-лево
+              { col: "2 / 3", row: "5 / 6", gi: 8 },  // новое — низ-право
             ] as { col: string; row: string; gi: number }[]).map((span, i) => {
               const item = GALLERY_ITEMS[span.gi];
               return (
@@ -425,7 +427,7 @@ export default function Home() {
           */}
           <div
             className="hidden md:grid grid-cols-3 gap-[10px]"
-            style={{ gridTemplateRows: "repeat(4, 230px)" }}
+            style={{ gridTemplateRows: "repeat(5, 230px)" }}
           >
             {([
               { col: "1 / 3", row: "1 / 3" },  // 0 — большое 2×2
@@ -435,6 +437,8 @@ export default function Home() {
               { col: "2 / 3", row: "3 / 4" },  // 4 — 1×1 центр
               { col: "3 / 4", row: "3 / 4" },  // 5 — 1×1 право
               { col: "2 / 4", row: "4 / 5" },  // 6 — широкое 2×1 низ
+              { col: "1 / 2", row: "5 / 6" },  // 7 — 1×1 низ-лево
+              { col: "2 / 4", row: "5 / 6" },  // 8 — широкое 2×1 низ
             ] as { col: string; row: string }[]).map((span, i) => {
               const item = GALLERY_ITEMS[i];
               return (
