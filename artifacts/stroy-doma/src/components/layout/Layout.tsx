@@ -146,7 +146,7 @@ export function Navbar() {
               />
             </div>
             <span
-              className={`font-display text-lg font-bold tracking-tight mt-2 ml-2 transition-colors duration-300 ${
+              className={`font-display text-sm font-bold tracking-tight mt-2 ml-2 transition-colors duration-300 ${
                 isHome && !isScrolled ? "text-white" : "text-foreground"
               }`}
             >
