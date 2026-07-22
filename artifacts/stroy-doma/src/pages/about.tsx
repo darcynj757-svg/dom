@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, Hammer, Clock, TreePine, Layers, Truck } from "lucide-react";
+import { Link } from "wouter";
+import { Button } from "@/components/ui/button";
 
 const TIMELINE = [
   { year: "2001", text: "Основана компания «Кедр-Томск», первые объекты в Томской области." },
@@ -293,6 +295,28 @@ export default function About() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 md:py-32 bg-foreground text-background relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 30% 50%, #B69D72 0%, transparent 60%), radial-gradient(circle at 70% 50%, #B69D72 0%, transparent 60%)" }} />
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="container mx-auto px-4 md:px-6 text-center relative z-10"
+        >
+          <h2 className="font-display font-black text-white max-w-2xl mx-auto" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+            Готовы построить дом вашей мечты?
+          </h2>
+          <p className="mt-4 text-background/60 max-w-lg mx-auto">
+            Оставьте заявку — мы свяжемся с вами, проконсультируем и подберём проект под ваш бюджет.
+          </p>
+          <Button asChild size="lg" className="mt-8 rounded-full px-10 py-6 text-base font-bold bg-white text-foreground hover:bg-white/90">
+            <Link href="/contacts">Оставить заявку</Link>
+          </Button>
+        </motion.div>
       </section>
     </div>
   );
