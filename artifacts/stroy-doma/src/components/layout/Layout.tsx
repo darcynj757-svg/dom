@@ -355,7 +355,7 @@ export function Footer() {
         title="Открыть в Яндекс Картах"
       >
         <img
-          src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=84.9736,56.4893&z=17&l=map&size=650,290&pt=84.9736,56.4893,pm2rdm"
+          src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=84.9736,56.4893&z=15&l=map&size=650,290&pt=84.9736,56.4893,pm2rdm"
           alt="Томск, ул. Профсоюзная, 2/67"
           className="w-full h-full object-cover"
         />
