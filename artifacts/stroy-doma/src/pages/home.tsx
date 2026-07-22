@@ -7,7 +7,7 @@ import ScrollHouse from "@/components/3d/ScrollHouse";
 import { getGltfPromise } from "@/components/3d/houseLoader";
 import { PROJECTS } from "@/data/projects";
 import { GALLERY_ITEMS } from "@/pages/gallery";
-import { ARTICLES } from "@/pages/articles";
+import { ARTICLES } from "@/data/articles-data";
 import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_compressed.mp4";
 import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 

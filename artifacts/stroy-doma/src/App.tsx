@@ -12,6 +12,7 @@ import Contacts from "@/pages/contacts";
 import Gallery from "@/pages/gallery";
 import Production from "@/pages/production";
 import Articles from "@/pages/articles";
+import ArticleDetail from "@/pages/article-detail";
 import Terms from "@/pages/terms";
 import Services from "@/pages/services";
 import Layout from "@/components/layout/Layout";
@@ -45,6 +46,7 @@ function Router() {
         <Route path="/gallery" component={Gallery} />
         <Route path="/production" component={Production} />
         <Route path="/articles" component={Articles} />
+        <Route path="/articles/:slug" component={ArticleDetail} />
         <Route path="/about" component={About} />
         <Route path="/contacts" component={Contacts} />
         <Route path="/terms" component={Terms} />

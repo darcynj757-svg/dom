@@ -1,71 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock } from "lucide-react";
-
-export const ARTICLES = [
-  {
-    id: 1,
-    title: "Особенности строительства деревянных домов в Сибири",
-    date: "24.11.2017",
-    readTime: "8 мин",
-    category: "Строительство",
-    excerpt:
-      "У каждой страны свой менталитет, свои климатические особенности. Сибирь — регион с суровым континентальным климатом, что предъявляет особые требования к строительству. Рассказываем, как правильно выбрать материал и технологию для надёжного деревянного дома.",
-    image: "https://picsum.photos/seed/art1/800/450",
-  },
-  {
-    id: 2,
-    title: "Профилированный брус vs рубленное бревно: что выбрать?",
-    date: "15.03.2018",
-    readTime: "6 мин",
-    category: "Материалы",
-    excerpt:
-      "Два самых популярных материала для строительства деревянных домов — профилированный брус и рубленное бревно. У каждого из них есть свои достоинства и недостатки. Помогаем разобраться, какой вариант подходит именно вам.",
-    image: "https://picsum.photos/seed/art2/800/450",
-  },
-  {
-    id: 3,
-    title: "Как выбрать породу дерева для строительства дома",
-    date: "07.06.2018",
-    readTime: "5 мин",
-    category: "Материалы",
-    excerpt:
-      "Кедр, сосна или лиственница? Каждая из этих пород сибирской тайги обладает уникальными свойствами. Разбираем характеристики каждой породы и объясняем, для каких целей она подходит лучше всего.",
-    image: "https://picsum.photos/seed/art3/800/450",
-  },
-  {
-    id: 4,
-    title: "Этапы строительства деревянного дома под ключ",
-    date: "12.09.2019",
-    readTime: "10 мин",
-    category: "Строительство",
-    excerpt:
-      "От выбора проекта до сдачи ключей — подробный рассказ обо всех этапах строительства. Что происходит на каждом этапе, какие работы выполняются и за чем нужно следить заказчику.",
-    image: "https://picsum.photos/seed/art4/800/450",
-  },
-  {
-    id: 5,
-    title: "Усадка деревянного дома: что нужно знать",
-    date: "28.01.2020",
-    readTime: "7 мин",
-    category: "Эксплуатация",
-    excerpt:
-      "Усадка — естественный процесс для деревянных домов. Рассказываем, как долго продолжается усадка, как она влияет на сроки отделки и что делать, чтобы минимизировать её последствия.",
-    image: "https://picsum.photos/seed/art5/800/450",
-  },
-  {
-    id: 6,
-    title: "Пропитки и антисептики для деревянных домов",
-    date: "14.04.2021",
-    readTime: "6 мин",
-    category: "Эксплуатация",
-    excerpt:
-      "Правильная обработка древесины — залог долговечности деревянного дома. Рассказываем о современных пропитках, антисептиках и огнезащитных составах: какие выбрать и как правильно наносить.",
-    image: "https://picsum.photos/seed/art6/800/450",
-  },
-];
-
-const CATEGORIES = ["Все", "Строительство", "Материалы", "Эксплуатация"];
+import { Link } from "wouter";
+import { ARTICLES, CATEGORIES } from "@/data/articles-data";
 
 export default function Articles() {
   const [activeCategory, setActiveCategory] = useState("Все");
@@ -132,37 +69,41 @@ export default function Articles() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                className="group rounded-2xl border border-border bg-card overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+                transition={{ duration: 0.5, delay: (index % 9) * 0.06 }}
               >
-                <div className="aspect-[16/9] overflow-hidden bg-muted">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6">
-                  <span className="text-xs uppercase tracking-wider text-secondary font-medium">
-                    {article.category}
-                  </span>
-                  <h2 className="mt-2 font-serif text-xl font-medium leading-snug group-hover:text-primary transition-colors">
-                    {article.title}
-                  </h2>
-                  <p className="mt-3 text-muted-foreground text-sm leading-relaxed line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                  <div className="mt-5 flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {article.date}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5" />
-                      {article.readTime}
-                    </span>
+                <Link href={`/articles/${article.slug}`}>
+                  <div className="group rounded-2xl border border-border bg-card overflow-hidden hover:shadow-md transition-shadow cursor-pointer h-full">
+                    <div className="aspect-[16/9] overflow-hidden bg-muted">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <span className="text-xs uppercase tracking-wider text-secondary font-medium">
+                        {article.category}
+                      </span>
+                      <h2 className="mt-2 font-serif text-xl font-medium leading-snug group-hover:text-primary transition-colors">
+                        {article.title}
+                      </h2>
+                      <p className="mt-3 text-muted-foreground text-sm leading-relaxed line-clamp-3">
+                        {article.excerpt}
+                      </p>
+                      <div className="mt-5 flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5" />
+                          {article.date}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5" />
+                          {article.readTime}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </motion.article>
             ))}
           </div>
