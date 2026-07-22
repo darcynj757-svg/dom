@@ -103,10 +103,10 @@ export default function About() {
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="text-center"
               >
-                <div className="font-serif text-4xl font-semibold text-primary">
+                <div className="font-display text-5xl md:text-6xl font-black text-primary">
                   {s.value}
                 </div>
-                <div className="mt-2 text-sm text-muted-foreground">{s.label}</div>
+                <div className="mt-3 text-sm font-semibold text-muted-foreground">{s.label}</div>
               </motion.div>
             ))}
           </div>
