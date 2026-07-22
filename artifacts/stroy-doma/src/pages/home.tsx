@@ -416,7 +416,7 @@ export default function Home() {
             })}
           </div>
           {/* ── Mobile: «Наши работы» button */}
-          <div className="mt-5 flex justify-center md:hidden">
+          <div className="mt-10 flex justify-center md:hidden">
             <Link href="/projects">
               <Button
                 size="lg"
