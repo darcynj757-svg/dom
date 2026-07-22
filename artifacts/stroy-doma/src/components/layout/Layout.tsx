@@ -346,38 +346,36 @@ export function Navbar() {
 export function Footer() {
   return (
     <footer className="bg-foreground text-background border-t border-border/10">
+      {/* Full-width map strip */}
+      <a
+        href="https://yandex.ru/maps/?ll=84.9736%2C56.4893&z=17&pt=84.9736%2C56.4893%2Cpm2rdm&text=%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D1%84%D1%81%D0%BE%D1%8E%D0%B7%D0%BD%D0%B0%D1%8F%2C%202%2F67"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block w-full h-56 md:h-72 relative overflow-hidden group"
+        title="Открыть в Яндекс Картах"
+      >
+        <img
+          src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=84.9736,56.4893&z=17&l=map&size=650,290&pt=84.9736,56.4893,pm2rdm"
+          alt="Томск, ул. Профсоюзная, 2/67"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white text-foreground text-sm font-medium px-4 py-2 rounded-full shadow">
+            Открыть в Яндекс Картах ↗
+          </span>
+        </div>
+      </a>
+
       {/* Compact footer body */}
       <div className="container mx-auto px-4 md:px-6 py-8">
         <div className="flex flex-col md:flex-row md:items-start gap-8">
 
-          {/* Map + logo below */}
-          <div className="flex flex-col gap-3 md:w-56 shrink-0">
-            {/* Rectangular map */}
-            <a
-              href="https://yandex.ru/maps/?ll=84.9736%2C56.4893&z=17&pt=84.9736%2C56.4893%2Cpm2rdm&text=%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D1%84%D1%81%D0%BE%D1%8E%D0%B7%D0%BD%D0%B0%D1%8F%2C%202%2F67"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full rounded-lg overflow-hidden relative group"
-              title="Открыть в Яндекс Картах"
-            >
-              <img
-                src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=84.9736,56.4893&z=17&l=map&size=450,250&pt=84.9736,56.4893,pm2rdm"
-                alt="Томск, ул. Профсоюзная, 2/67"
-                className="w-full h-auto block"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-end justify-center pb-2">
-                <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 text-foreground text-xs font-medium px-3 py-1 rounded-full">
-                  Открыть ↗
-                </span>
-              </div>
-            </a>
-            {/* Logo below map */}
-            <div className="flex items-center gap-3">
-              <img src={logoIcon} alt="KedrTomsk" className="w-10 h-10 object-contain" />
-              <div>
-                <span className="font-display text-sm font-bold text-white block leading-tight">Kedr Tomsk</span>
-                <span className="text-background/50 text-xs">с 2001 года</span>
-              </div>
+          {/* Logo + tagline */}
+          <div className="flex items-center gap-3 md:w-48 shrink-0">
+            <img src={logoIcon} alt="KedrTomsk" className="w-10 h-10 object-contain" />
+            <div>
+              <span className="font-display text-sm font-bold text-white block leading-tight">Kedr Tomsk</span>
+              <span className="text-background/50 text-xs">с 2001 года</span>
             </div>
           </div>
 
