@@ -1,48 +1,33 @@
-# Строй Дома — Kedr Tomsk
+# Stroy-Doma (Kedr Tomsk)
 
-A Russian-language marketing website for **Kedr Tomsk**, a wood-house construction company building cedar log homes and profiled timber houses turnkey across Russia since 2001.
+A Russian-language marketing website for **Kedr Tomsk** — a wooden house construction company building cedar log homes since 2001.
 
 ## Stack
 
-- **Frontend:** React 19 + Vite + TypeScript
-- **Styling:** Tailwind CSS v4 + shadcn/ui components
-- **Routing:** Wouter
-- **3D:** React Three Fiber / Three.js (used on some pages)
-- **Monorepo:** pnpm workspace
+- **Frontend**: React 19 + Vite + TypeScript
+- **Styling**: Tailwind CSS v4 + shadcn/ui components
+- **3D**: Three.js / React Three Fiber (house model viewer)
+- **Routing**: Wouter
+- **Monorepo**: pnpm workspaces
 
-## Structure
-
-- `artifacts/stroy-doma/` — main website (web artifact)
-- `artifacts/api-server/` — API server artifact
-- `artifacts/mockup-sandbox/` — design canvas/mockup server
-
-## Running
-
-The website runs on port 19912 via the `artifacts/stroy-doma: web` workflow:
+## Project structure
 
 ```
-pnpm --filter @workspace/stroy-doma run dev
+artifacts/
+  stroy-doma/   ← main website (React + Vite)
+  api-server/   ← Express API server (contact requests, projects)
+  mockup-sandbox/ ← design sandbox for UI prototyping
 ```
 
-Install dependencies first if node_modules is missing:
+## Running the app
+
+The `artifacts/stroy-doma: web` workflow starts the dev server on port 19912.
 
 ```
-pnpm install
+pnpm install                                    # install all workspace deps
+pnpm --filter @workspace/stroy-doma run dev     # start frontend dev server
 ```
-
-## Pages
-
-- `/` — Home (hero, stats, services, projects preview, CTA)
-- `/services` — Construction services
-- `/projects` — Project catalog (houses & baths)
-- `/projects/:id` — Individual project detail
-- `/gallery` — Photo gallery
-- `/production` — Production/manufacturing info
-- `/articles` — Articles/blog
-- `/about` — About the company
-- `/contacts` — Contact information
-- `/terms` — Terms & conditions
 
 ## User preferences
 
-<!-- Add user preferences here as they are expressed -->
+<!-- Add preferences here as they come up -->
