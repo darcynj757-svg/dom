@@ -366,6 +366,9 @@ export function Footer() {
         </div>
       </a>
 
+      {/* Thin black divider */}
+      <div className="h-2 bg-black w-full" />
+
       {/* Compact footer body */}
       <div className="container mx-auto px-4 md:px-6 py-8">
         <div className="flex flex-col md:flex-row md:items-start gap-8">
