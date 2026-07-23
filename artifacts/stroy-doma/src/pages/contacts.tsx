@@ -53,7 +53,7 @@ export default function Contacts() {
         transition={{ duration: 0.6, delay: 0.05 }}
         className="mb-12 rounded-2xl overflow-hidden border border-border"
       >
-        <YandexMap className="w-full" style={{ height: 420 }} />
+        <YandexMap className="w-full" style={{ height: 400 }} />
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
