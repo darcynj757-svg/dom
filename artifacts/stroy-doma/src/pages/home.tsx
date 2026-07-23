@@ -31,69 +31,37 @@ function StatCard({ value, suffix, label }: { value: number; suffix: string; lab
 
 function FeaturedProjectCard({ project, index }: { project: (typeof PROJECTS)[0]; index: number }) {
   return (
-    <>
-      {/* ── Mobile card: full-bleed image with overlay text ── */}
-      <motion.div
-        className="md:hidden snap-center shrink-0 w-[78vw] relative"
-        initial={{ opacity: 0, x: 40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.5, delay: index * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
-      >
-        <Link href={`/projects/${project.id}`}>
-          <div className="group relative overflow-hidden rounded-2xl cursor-pointer shadow-md active:shadow-xl transition-shadow duration-300">
-            {/* Image */}
-            <div className="aspect-square overflow-hidden bg-muted">
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-active:scale-105"
-              />
-            </div>
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-            {/* Text overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-4">
-              <span className="text-[10px] uppercase tracking-wider text-white/60 font-medium">{project.material}</span>
-              <h3 className="mt-1 font-display text-base font-bold text-white leading-snug">{project.title}</h3>
-              <div className="mt-2 flex items-center justify-between text-xs">
-                <span className="text-white/70">{project.area} м²</span>
-                <span className="font-semibold text-white bg-white/15 backdrop-blur-sm rounded-full px-2.5 py-0.5">{project.price}</span>
-              </div>
+    <motion.div
+      className="snap-center shrink-0 w-[78vw] md:w-auto relative"
+      initial={{ opacity: 0, x: 40 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      <Link href={`/projects/${project.id}`}>
+        <div className="group relative overflow-hidden rounded-2xl cursor-pointer shadow-md hover:shadow-xl active:shadow-xl transition-shadow duration-300">
+          {/* Image */}
+          <div className="aspect-square overflow-hidden bg-muted">
+            <img
+              src={project.imageUrl}
+              alt={project.title}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
+            />
+          </div>
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+          {/* Text overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+            <span className="text-[10px] uppercase tracking-wider text-white/60 font-medium">{project.material}</span>
+            <h3 className="mt-1 font-display text-base md:text-lg font-bold text-white leading-snug">{project.title}</h3>
+            <div className="mt-2 flex items-center justify-between text-xs">
+              <span className="text-white/70">{project.area} м²</span>
+              <span className="font-semibold text-white bg-white/15 backdrop-blur-sm rounded-full px-2.5 py-0.5">{project.price}</span>
             </div>
           </div>
-        </Link>
-      </motion.div>
-
-      {/* ── Desktop card: image top, text below ── */}
-      <motion.div
-        className="hidden md:block"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.6, delay: index * 0.1 }}
-      >
-        <Link href={`/projects/${project.id}`}>
-          <div className="group relative overflow-hidden rounded-2xl glass-card cursor-pointer hover:shadow-xl transition-all duration-500">
-            <div className="aspect-[4/3] overflow-hidden bg-muted">
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-            </div>
-            <div className="p-6">
-              <span className="text-xs uppercase tracking-wider text-secondary font-semibold">{project.material}</span>
-              <h3 className="mt-2 font-display text-xl font-bold">{project.title}</h3>
-              <div className="mt-3 flex items-center justify-between text-sm text-muted-foreground">
-                <span>{project.area} м²</span>
-                <span className="font-semibold text-foreground">{project.price}</span>
-              </div>
-            </div>
-          </div>
-        </Link>
-      </motion.div>
-    </>
+        </div>
+      </Link>
+    </motion.div>
   );
 }
 

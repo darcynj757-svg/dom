@@ -1,32 +1,52 @@
-# Кедр-Томск — Строительство домов и бань
+# Stroy-Doma (Кедр Томск)
 
-Marketing website for **Kedr-Tomsk** (Кедр-Томск), a wooden house construction company based in Tomsk, Russia (operating since 2001).
+A Russian-language construction company website for **Kedr Tomsk** — a log/timber home builder based in Tomsk, Russia.
 
 ## Stack
 
-- **Monorepo:** pnpm workspaces (`artifacts/`, `lib/`)
-- **Frontend (`artifacts/stroy-doma`):** React 19, Vite, Tailwind CSS 4, Framer Motion, Wouter, Radix UI, Three.js/React Three Fiber
-- **Backend (`artifacts/api-server`):** Node.js, Express 5, Drizzle ORM, PostgreSQL, Pino logging
-- **Shared libs:** `lib/db` (schema + Drizzle client), `lib/api-zod` (Zod schemas), `lib/api-client-react` (generated React Query hooks)
-- **Design sandbox (`artifacts/mockup-sandbox`):** Vite component preview server
+- **Frontend:** React 19 + Vite 7, TypeScript, Tailwind CSS v4, shadcn/ui components
+- **Routing:** Wouter
+- **3D:** Three.js + React Three Fiber (interactive 3D house model on the homepage)
+- **Animations:** Framer Motion
+- **Package manager:** pnpm (workspace monorepo)
 
-## How to run
+## Project structure
 
-| Service | Workflow | Port |
-|---|---|---|
-| Web app | `artifacts/stroy-doma: web` | 19912 (→ 80) |
-| API server | `artifacts/api-server: API Server` | 8080 |
-| Mockup sandbox | `artifacts/mockup-sandbox: Component Preview Server` | auto |
+```
+artifacts/stroy-doma/   ← main website app
+artifacts/api-server/   ← backend API server (Express/TypeScript)
+artifacts/mockup-sandbox/ ← UI component sandbox
+lib/                    ← shared libraries / API client
+```
 
-Install dependencies: `pnpm install` (run from workspace root)
+## Running the app
 
-## Environment variables
+The website runs on port 19912 via the `artifacts/stroy-doma: web` workflow:
 
-- `DATABASE_URL` — PostgreSQL connection string (required for API server and DB migrations)
+```bash
+PORT=19912 BASE_PATH=/ pnpm --filter @workspace/stroy-doma run dev
+```
 
-## Notes
+To install dependencies after cloning:
 
-- Contact forms in the frontend currently simulate success (no real API call). The backend `/contact-requests` endpoint exists but the frontend isn't wired to it yet.
-- DB migrations: `pnpm --filter @workspace/db run push` (requires `DATABASE_URL`)
+```bash
+pnpm install
+```
+
+## Pages
+
+- `/` — Homepage with interactive 3D house model
+- `/services` — Services
+- `/projects` — Project catalog
+- `/projects/:id` — Project detail
+- `/gallery` — Photo gallery
+- `/production` — Production/manufacturing info
+- `/articles` — Articles/blog
+- `/articles/:slug` — Article detail
+- `/about` — About the company
+- `/contacts` — Contact page
+- `/terms` — Terms & conditions
 
 ## User preferences
+
+- Keep the existing project structure and stack — do not restructure or migrate.
