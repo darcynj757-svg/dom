@@ -246,7 +246,7 @@ export default function Home() {
           >
             <span className="text-xs uppercase tracking-[0.3em] text-secondary font-semibold">Избранные проекты</span>
             <h2 className="mt-3 font-display text-3xl md:text-5xl font-black">
-              Дома и бани,<br className="hidden md:block" /> которыми мы гордимся
+              Дома и бани,<br className="hidden md:block" /> которые мы строим
             </h2>
           </motion.div>
 
