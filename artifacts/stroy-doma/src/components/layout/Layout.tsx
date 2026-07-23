@@ -350,7 +350,7 @@ export function Footer() {
       <div className="h-2 bg-black w-full" />
 
       {/* Full-width map strip */}
-      <
+      <a
         href="https://yandex.ru/maps/?ll=84.9354%2C56.5267&z=17&pt=84.9354%2C56.5267%2Cpm2rdm&text=%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D0%BC%D0%BA%D1%80.%20%D0%A7%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%88%D0%BD%D0%B8%D0%BA%D0%B8%2C%20%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D1%84%D1%81%D0%BE%D1%8E%D0%B7%D0%BD%D0%B0%D1%8F%2C%202%2F1%D1%8112"
         target="_blank"
         rel="noopener noreferrer"
