@@ -208,61 +208,62 @@ export default function Gallery() {
         </div>
       </section>
 
-      {/* Grid + expand panel */}
+      {/* Accordion list */}
       <section className="py-10 md:py-14">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-[8px] md:gap-[10px]">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          <div className="flex flex-col gap-3">
             {SHOWCASE.map((item) => {
               const isActive = selectedId === item.id;
               return (
-                <div
-                  key={item.id}
-                  className={`group relative cursor-pointer rounded-xl overflow-hidden aspect-[4/3] transition-all duration-300 ${
-                    isActive ? "ring-2 ring-foreground ring-offset-2" : ""
-                  }`}
-                  onClick={() => handleSelect(item.id)}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 md:p-4">
-                    <p className="text-white text-xs md:text-sm font-medium leading-snug">
-                      {item.title}
-                    </p>
-                    <p className="text-white/60 text-[10px] mt-0.5">
-                      {item.images.length} фото — нажмите, чтобы раскрыть
-                    </p>
+                <div key={item.id}>
+                  {/* Cover */}
+                  <div
+                    className={`group relative cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 ${
+                      isActive ? "ring-2 ring-foreground ring-offset-2" : ""
+                    }`}
+                    style={{ aspectRatio: "16/7" }}
+                    onClick={() => handleSelect(item.id)}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    {/* Gradient overlay — always visible at bottom */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent flex flex-col justify-end p-5 md:p-7">
+                      <p className="text-white text-base md:text-xl font-semibold leading-snug">
+                        {item.title}
+                      </p>
+                      <p className="text-white/60 text-xs md:text-sm mt-1">
+                        {item.images.length} фото · нажмите, чтобы {isActive ? "скрыть" : "раскрыть"}
+                      </p>
+                    </div>
+
+                    {/* Arrow icon */}
+                    <div className={`absolute top-4 right-4 bg-black/40 rounded-full p-2 transition-transform duration-300 ${isActive ? "rotate-180" : ""}`}>
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
                   </div>
 
-                  {/* Active indicator */}
-                  {isActive && (
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                      <div className="bg-white/90 text-foreground text-xs font-semibold px-3 py-1.5 rounded-full">
-                        Открыто ↓
+                  {/* Inline photo panel */}
+                  <AnimatePresence>
+                    {isActive && (
+                      <div ref={panelRef}>
+                        <PhotoPanel
+                          item={item}
+                          onOpenPhoto={(index) =>
+                            setLightbox({ images: item.images, index })
+                          }
+                        />
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })}
-
-            {/* Expansion panel — spans full width, inserted after grid items */}
-            <AnimatePresence>
-              {selectedItem && (
-                <div ref={panelRef} style={{ gridColumn: "1 / -1" }}>
-                  <PhotoPanel
-                    item={selectedItem}
-                    onOpenPhoto={(index) =>
-                      setLightbox({ images: selectedItem.images, index })
-                    }
-                  />
-                </div>
-              )}
-            </AnimatePresence>
           </div>
         </div>
       </section>
