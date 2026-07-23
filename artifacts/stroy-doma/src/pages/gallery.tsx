@@ -1,73 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { GALLERY_ITEMS, GALLERY_CATEGORIES, type GalleryItem } from "@/data/gallery-data";
 
-// Uploaded gallery photos
-import photo1 from "@/assets/gallery/photo-1.png";
-import photo2 from "@/assets/gallery/photo-2.png";
-import photo3 from "@/assets/gallery/photo-3.png";
-import photo4 from "@/assets/gallery/photo-4.png";
-import photo5 from "@/assets/gallery/photo-5.png";
-import photo6 from "@/assets/gallery/photo-6.png";
-import photo7 from "@/assets/gallery/photo-7.png";
-import photo8 from "@/assets/gallery/photo-8.png";
-
-// Remaining project images
-import house126Ext2 from "@/assets/houses/house-126-ext-2.png";
-import house134Ext from "@/assets/houses/house-134-ext.png";
-import house143Ext1 from "@/assets/houses/house-143-ext-1.png";
-import house143Ext2 from "@/assets/houses/house-143-ext-2.png";
-import house159Ext from "@/assets/houses/house-159-ext.png";
-import house187Ext1 from "@/assets/houses/house-187-ext-1.png";
-import house187Ext2 from "@/assets/houses/house-187-ext-2.png";
-import house217Ext from "@/assets/houses/house-217-ext.png";
-import house236Ext from "@/assets/houses/house-236-ext.png";
-import house251Ext1 from "@/assets/houses/house-251-ext-1.png";
-import house251Ext2 from "@/assets/houses/house-251-ext-2.png";
-import bath32Ext1 from "@/assets/baths/bath-32-ext-1.png";
-import bath32Ext2 from "@/assets/baths/bath-32-ext-2.png";
-import bath35Ext1 from "@/assets/baths/bath-35-ext-1.png";
-import bath35Ext2 from "@/assets/baths/bath-35-ext-2.png";
-import bath167Ext1 from "@/assets/baths/bath-167-ext-1.png";
-import bath167Ext2 from "@/assets/baths/bath-167-ext-2.png";
-
-export const GALLERY_ITEMS = [
-  { id: 1,  title: "Двухэтажный рубленый дом из кругляка",        category: "Рубленное бревно",    image: photo1 },
-  { id: 2,  title: "Дом из профбруса — вид с воздуха",            category: "Профилированный брус", image: photo2 },
-  { id: 3,  title: "Рубленый дом с ухоженным участком",           category: "Рубленное бревно",    image: photo3 },
-  { id: 4,  title: "Дом из бруса с каменным цоколем",             category: "Профилированный брус", image: photo4 },
-  { id: 5,  title: "Дом из профбруса с верандой в лесу",          category: "Профилированный брус", image: photo5 },
-  { id: 6,  title: "Дом из профбруса 126 м² — вид 1",             category: "Профилированный брус", image: photo6 },
-  { id: 7,  title: "Дом из профбруса 126 м² — вид 2",             category: "Профилированный брус", image: photo7 },
-  { id: 8,  title: "Дом из профбруса 134 м²",                     category: "Профилированный брус", image: photo8 },
-  { id: 9,  title: "Дом из профбруса 126 м² — вид 2",             category: "Профилированный брус", image: house126Ext2 },
-  { id: 10, title: "Дом из профбруса 134 м²",                     category: "Профилированный брус", image: house134Ext },
-  { id: 11, title: "Двухэтажный дом из бруса 143 м² — вид 1",     category: "Профилированный брус", image: house143Ext1 },
-  { id: 12, title: "Двухэтажный дом из бруса 143 м² — вид 2",     category: "Профилированный брус", image: house143Ext2 },
-  { id: 13, title: "Дом из бруса 159 м²",                         category: "Рубленное бревно",    image: house159Ext },
-  { id: 14, title: "Дом с панорамным остеклением 187 м² — вид 1", category: "Профилированный брус", image: house187Ext1 },
-  { id: 15, title: "Дом с панорамным остеклением 187 м² — вид 2", category: "Профилированный брус", image: house187Ext2 },
-  { id: 16, title: "Дом из профбруса 217 м²",                     category: "Профилированный брус", image: house217Ext },
-  { id: 17, title: "Дом из профбруса 236 м²",                     category: "Профилированный брус", image: house236Ext },
-  { id: 18, title: "Коттедж из профбруса 251 м² — вид 1",         category: "Профилированный брус", image: house251Ext1 },
-  { id: 19, title: "Коттедж из профбруса 251 м² — вид 2",         category: "Профилированный брус", image: house251Ext2 },
-  { id: 20, title: "Баня 32 м² — вид 1",                          category: "Баня",                image: bath32Ext1 },
-  { id: 21, title: "Баня 32 м² — вид 2",                          category: "Баня",                image: bath32Ext2 },
-  { id: 22, title: "Баня 35 м² — вид 1",                          category: "Баня",                image: bath35Ext1 },
-  { id: 23, title: "Баня 35 м² — вид 2",                          category: "Баня",                image: bath35Ext2 },
-  { id: 24, title: "Баня 167 м² — вид 1",                         category: "Баня",                image: bath167Ext1 },
-  { id: 25, title: "Баня 167 м² — вид 2",                         category: "Баня",                image: bath167Ext2 },
-];
-
-const CATEGORIES = ["Все", "Профилированный брус", "Рубленное бревно", "Баня"];
-
-type GalleryItem = (typeof GALLERY_ITEMS)[0];
+// Re-export for home.tsx compatibility
+export { GALLERY_ITEMS };
 
 function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: number) => void }) {
   const COLS = 3;
   const remainder = items.length % COLS;
 
-  // Compute col-span for each item so the last row is always fully filled
   const getSpan = (index: number): number => {
     if (remainder === 0) return 1;
     const lastRowStart = items.length - remainder;
@@ -79,7 +21,7 @@ function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: numb
   };
 
   return (
-    <div className="grid grid-cols-3 gap-[10px]">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-[8px] md:gap-[10px]">
       {items.map((item, index) => {
         const span = getSpan(index);
         return (
@@ -111,7 +53,7 @@ function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: numb
 }
 
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState("Все");
+  const [activeCategory, setActiveCategory] = useState<string>("Все");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const filtered =
@@ -141,6 +83,16 @@ export default function Gallery() {
     return () => window.removeEventListener("keydown", handler);
   }, [lightboxIndex, prev, next]);
 
+  // Lock body scroll when lightbox is open
+  useEffect(() => {
+    if (lightboxIndex !== null) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [lightboxIndex]);
+
   const currentItem = lightboxIndex !== null ? filtered[lightboxIndex] : null;
 
   return (
@@ -158,24 +110,24 @@ export default function Gallery() {
               Фотогалерея
             </span>
             <h1 className="mt-3 font-serif text-4xl md:text-5xl font-medium">
-              Деревянные дома и бани под ключ — фото
+              Наши работы
             </h1>
             <p className="mt-6 text-muted-foreground leading-relaxed text-lg">
-              Фото домов, бань и беседок, выполненных нашей компанией: дома
-              рубленные и дома из профилированного бруса, бани, беседки.
+              Фото домов, бань и беседок, выполненных нашей компанией. Дома
+              рубленные и из профилированного бруса, бани, беседки — всё под ключ.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Filter */}
-      <section className="py-6 border-b border-border bg-background/80 sticky top-[72px] z-30 backdrop-blur-sm">
+      {/* Filter — sticky */}
+      <section className="py-4 border-b border-border bg-background/80 sticky top-[72px] z-30 backdrop-blur-sm">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((cat) => (
+          <div className="flex flex-wrap gap-2 items-center">
+            {GALLERY_CATEGORIES.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => { setActiveCategory(cat); setLightboxIndex(null); }}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                   activeCategory === cat
                     ? "bg-foreground text-background shadow-sm"
@@ -192,10 +144,20 @@ export default function Gallery() {
         </div>
       </section>
 
-      {/* Masonry grid */}
-      <section className="py-12 md:py-16">
+      {/* Grid */}
+      <section className="py-10 md:py-14">
         <div className="container mx-auto px-4 md:px-6">
-          <MasonryGrid items={filtered} onOpen={openLightbox} />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCategory}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+            >
+              <MasonryGrid items={filtered} onOpen={openLightbox} />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
@@ -207,7 +169,7 @@ export default function Gallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/92 flex items-center justify-center p-4"
             onClick={closeLightbox}
           >
             {/* Close */}
@@ -219,7 +181,7 @@ export default function Gallery() {
             </button>
 
             {/* Counter */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/50 text-sm tabular-nums">
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/50 text-sm tabular-nums select-none">
               {lightboxIndex + 1} / {filtered.length}
             </div>
 
@@ -237,7 +199,7 @@ export default function Gallery() {
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.97 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.2 }}
               className="relative max-w-5xl w-full max-h-[85vh] flex flex-col items-center"
               onClick={(e) => e.stopPropagation()}
             >
