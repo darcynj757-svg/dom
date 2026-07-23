@@ -49,6 +49,15 @@ import house10010 from "@/assets/gallery/house-100-10.png";
 import house10011 from "@/assets/gallery/house-100-11.png";
 import house100info from "@/assets/gallery/house-100-info.png";
 
+import houseLogLake1 from "@/assets/gallery/house-log-lake-1.png";
+import houseLogLake2 from "@/assets/gallery/house-log-lake-2.png";
+import houseLogLake3 from "@/assets/gallery/house-log-lake-3.png";
+import houseLogLake4 from "@/assets/gallery/house-log-lake-4.png";
+import houseLogLake5 from "@/assets/gallery/house-log-lake-5.png";
+import houseLogLake6 from "@/assets/gallery/house-log-lake-6.png";
+import houseLogLake7 from "@/assets/gallery/house-log-lake-7.png";
+import houseLogLake8 from "@/assets/gallery/house-log-lake-8.png";
+
 import house2361    from "@/assets/gallery/house-236-1.png";
 import house2362    from "@/assets/gallery/house-236-2.png";
 import house236info from "@/assets/gallery/house-236-info.png";
@@ -175,6 +184,13 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     category: "Дома",
     image: photo18,
     images: [photo18],
+  },
+  {
+    id: 43,
+    title: "Рубленый дом с гаражом у озера",
+    category: "Дома",
+    image: houseLogLake3,
+    images: [houseLogLake3, houseLogLake1, houseLogLake2, houseLogLake4, houseLogLake5, houseLogLake6, houseLogLake7, houseLogLake8],
   },
   {
     id: 42,
