@@ -49,6 +49,10 @@ import house10010 from "@/assets/gallery/house-100-10.png";
 import house10011 from "@/assets/gallery/house-100-11.png";
 import house100info from "@/assets/gallery/house-100-info.png";
 
+import bath401    from "@/assets/gallery/bath-40-1.png";
+import bath402    from "@/assets/gallery/bath-40-2.png";
+import bath40info from "@/assets/gallery/bath-40-info.png";
+
 import bath831 from "@/assets/gallery/bath-83-1.png";
 import bath832 from "@/assets/gallery/bath-83-2.png";
 import bath833 from "@/assets/gallery/bath-83-3.png";
@@ -184,6 +188,13 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   },
 
   // ── Бани ─────────────────────────────────────────────────────────────────────
+  {
+    id: 51,
+    title: "Баня из рубленого бревна 40 м² с панорамными окнами",
+    category: "Бани",
+    image: bath401,
+    images: [bath401, bath402, bath40info],
+  },
   {
     id: 50,
     title: "Баня из рубленого бревна 83 м² — с купелью и террасой",
