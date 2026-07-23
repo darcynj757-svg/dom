@@ -38,18 +38,20 @@ function FeaturedProjectCard({ project, index }: { project: (typeof PROJECTS)[0]
       transition={{ duration: 0.6, delay: index * 0.1 }}
     >
       <Link href={`/projects/${project.id}`}>
-        <div className="group relative overflow-hidden rounded-2xl glass-card cursor-pointer hover:shadow-xl transition-all duration-500">
-          <div className="aspect-[4/3] overflow-hidden bg-muted">
+        <div className="group relative overflow-hidden rounded-xl md:rounded-2xl glass-card cursor-pointer hover:shadow-xl transition-all duration-500
+                        flex flex-row md:flex-col">
+          {/* Image — square thumb on mobile, 4/3 on desktop */}
+          <div className="w-28 shrink-0 md:w-auto md:aspect-[4/3] overflow-hidden bg-muted">
             <img
               src={project.imageUrl}
               alt={project.title}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
           </div>
-          <div className="p-6">
-            <span className="text-xs uppercase tracking-wider text-secondary font-semibold">{project.material}</span>
-            <h3 className="mt-2 font-display text-xl font-bold">{project.title}</h3>
-            <div className="mt-3 flex items-center justify-between text-sm text-muted-foreground">
+          <div className="p-3 md:p-6 flex flex-col justify-center min-w-0">
+            <span className="text-[10px] md:text-xs uppercase tracking-wider text-secondary font-semibold">{project.material}</span>
+            <h3 className="mt-0.5 md:mt-2 font-display text-sm md:text-xl font-bold leading-snug line-clamp-2">{project.title}</h3>
+            <div className="mt-1 md:mt-3 flex items-center justify-between text-xs md:text-sm text-muted-foreground">
               <span>{project.area} м²</span>
               <span className="font-semibold text-foreground">{project.price}</span>
             </div>
@@ -242,15 +244,15 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-2xl mb-12"
+            className="max-w-2xl mb-8 md:mb-12"
           >
             <span className="text-xs uppercase tracking-[0.3em] text-secondary font-semibold">Избранные проекты</span>
-            <h2 className="mt-3 font-display text-3xl md:text-5xl font-black">
+            <h2 className="mt-2 md:mt-3 font-display text-2xl md:text-5xl font-black">
               Дома и бани,<br className="hidden md:block" /> которые мы строим
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
             {featured.map((project, i) => <FeaturedProjectCard key={project.id} project={project} index={i} />)}
           </div>
 
