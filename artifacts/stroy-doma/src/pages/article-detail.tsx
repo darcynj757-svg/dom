@@ -46,7 +46,7 @@ export default function ArticleDetail() {
     <div>
       {/* Hero image — flush to top, transparent header overlays it */}
       {article.image && (
-        <div className="w-full aspect-[21/9] md:aspect-[3/1] overflow-hidden bg-muted relative">
+        <div className="w-full aspect-[3/2] md:aspect-[16/9] overflow-hidden bg-muted relative">
           <img
             src={article.image}
             alt={article.title}
