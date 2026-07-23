@@ -32,6 +32,10 @@ import photo17 from "@/assets/gallery/photo-17.png";
 import photo18 from "@/assets/gallery/photo-18.png";
 import photo19 from "@/assets/gallery/photo-19.png";
 
+import house180ext1 from "@/assets/gallery/house-180-ext-1.png";
+import house180ext2 from "@/assets/gallery/house-180-ext-2.png";
+import house180info from "@/assets/gallery/house-180-info.png";
+
 // ── Сюда добавляйте следующие фото ──────────────────────────────────────────
 // import photo20 from "@/assets/gallery/photo-20.png";
 
@@ -139,6 +143,13 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     category: "Дома",
     image: photo18,
     images: [photo18],
+  },
+  {
+    id: 40,
+    title: "Дом из профбруса 180 м² с гаражом",
+    category: "Дома",
+    image: house180ext1,
+    images: [house180ext1, house180ext2, house180info],
   },
 
   // ── Интерьер ─────────────────────────────────────────────────────────────────
