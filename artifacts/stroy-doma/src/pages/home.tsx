@@ -492,7 +492,8 @@ export default function Home() {
               <h2 className="mt-2 md:mt-3 font-display text-2xl md:text-5xl font-black">Статьи и советы</h2>
               <p className="mt-2 md:mt-3 text-muted-foreground text-sm md:text-base max-w-xl">Публикации от наших специалистов для тех, кто планирует строить деревянный дом.</p>
             </div>
-            <Link href="/articles" className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all text-sm md:text-base">
+            {/* Desktop-only link in header */}
+            <Link href="/articles" className="hidden md:inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
               Все материалы <ArrowUpRight className="w-4 h-4" />
             </Link>
           </motion.div>
@@ -507,8 +508,8 @@ export default function Home() {
                 className="group rounded-xl md:rounded-2xl bg-card border border-border/60 overflow-hidden hover:border-primary/40 hover:shadow-md transition-all duration-300 cursor-pointer
                            flex flex-row md:flex-col"
               >
-                {/* Image — square thumb on mobile, 16/9 on desktop */}
-                <div className="w-24 shrink-0 md:w-auto md:aspect-[16/9] overflow-hidden bg-muted">
+                {/* Image — square on mobile, 16/9 on desktop */}
+                <div className="w-24 h-24 shrink-0 md:w-auto md:h-auto md:aspect-[16/9] overflow-hidden bg-muted">
                   <img
                     src={article.image}
                     alt={article.title}
@@ -523,6 +524,11 @@ export default function Home() {
               </motion.article>
               </Link>
             ))}
+          </div>
+          <div className="mt-8 md:mt-12 text-center">
+            <Button asChild variant="outline" size="lg" className="rounded-full px-8">
+              <Link href="/articles">Все статьи <ArrowRight className="ml-2 w-4 h-4" /></Link>
+            </Button>
           </div>
         </div>
       </section>
