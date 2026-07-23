@@ -1,22 +1,24 @@
 import { CSSProperties } from "react";
 
-interface YandexMapProps {
+interface MapProps {
   className?: string;
   style?: CSSProperties;
 }
 
 // Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12
 const SRC =
-  "https://yandex.ru/map-widget/v1/?ll=84.966279%2C56.481560&z=15&pt=84.966279%2C56.481560%2Cpm2gnm&l=map";
+  "https://maps.google.com/maps?q=56.481560,84.966279&z=15&output=embed&hl=ru";
 
-export function YandexMap({ className = "", style }: YandexMapProps) {
+export function YandexMap({ className = "", style }: MapProps) {
   return (
     <iframe
       src={SRC}
       className={className}
       style={{ border: 0, display: "block", ...style }}
       allowFullScreen
-      title="Яндекс Карты — Кедр Томск, ул. Профсоюзная 2/1с12"
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+      title="Google Maps — Кедр Томск, ул. Профсоюзная 2/1с12"
     />
   );
 }
