@@ -355,24 +355,23 @@ export function Footer() {
       {/* Thin black divider */}
       <div className="h-2 bg-black w-full" />
 
-      {/* Full-width map strip */}
-      <div className="relative w-full h-56 md:h-72 group">
-        <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=84.946%2C56.474%2C84.986%2C56.489&layer=mapnik&marker=56.48156%2C84.96628"
-          className="w-full h-full border-0"
-          loading="lazy"
-          title="Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12"
-          allowFullScreen
+      {/* Full-width map strip — Yandex Static Maps */}
+      <a
+        href="https://yandex.ru/maps/?pt=84.966279,56.481560&z=15&l=map"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative block w-full h-56 md:h-72 group overflow-hidden"
+        title="Открыть в Яндекс Картах"
+      >
+        <img
+          src="https://static-maps.yandex.ru/1.x/?ll=84.966279,56.481560&z=15&l=map&pt=84.966279,56.481560,pm2gnm&size=650,300&scale=2"
+          alt="Карта: Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <a
-          href="https://yandex.ru/maps/?pt=84.966279,56.481560&z=15&l=map"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-foreground text-sm font-medium px-4 py-2 rounded-full shadow"
-        >
+        <span className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-foreground text-sm font-medium px-4 py-2 rounded-full shadow">
           Открыть в Яндекс Картах ↗
-        </a>
-      </div>
+        </span>
+      </a>
 
       {/* Compact footer body */}
       <div className="container mx-auto px-4 md:px-6 py-8">
