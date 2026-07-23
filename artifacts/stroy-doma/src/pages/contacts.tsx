@@ -45,6 +45,24 @@ export default function Contacts() {
         </p>
       </motion.div>
 
+      {/* Yandex Map */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.05 }}
+        className="mb-12 rounded-2xl overflow-hidden border border-border"
+        style={{ height: 420 }}
+      >
+        <iframe
+          src="https://yandex.ru/map-widget/v1/?ll=84.966279%2C56.481560&z=15&pt=84.966279%2C56.481560%2Cpm2gnm&l=map"
+          width="100%"
+          height="100%"
+          frameBorder="0"
+          title="Яндекс Карты — Кедр Томск"
+          allowFullScreen
+        />
+      </motion.div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Contact info */}
         <motion.div
