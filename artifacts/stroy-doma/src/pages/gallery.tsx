@@ -1,10 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Images } from "lucide-react";
 import { GALLERY_ITEMS, GALLERY_CATEGORIES, type GalleryItem } from "@/data/gallery-data";
 
 // Re-export for home.tsx compatibility
 export { GALLERY_ITEMS };
+
+// ── Grid ─────────────────────────────────────────────────────────────────────
 
 function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: number) => void }) {
   const COLS = 3;
@@ -24,6 +26,7 @@ function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: numb
     <div className="grid grid-cols-2 md:grid-cols-3 gap-[8px] md:gap-[10px]">
       {items.map((item, index) => {
         const span = getSpan(index);
+        const hasMore = item.images.length > 1;
         return (
           <div
             key={item.id}
@@ -37,6 +40,7 @@ function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: numb
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
             />
+            {/* Hover overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 md:p-4">
               <span className="text-[10px] font-semibold uppercase tracking-widest text-white/70 mb-0.5">
                 {item.category}
@@ -45,12 +49,197 @@ function MasonryGrid({ items, onOpen }: { items: GalleryItem[]; onOpen: (i: numb
                 {item.title}
               </p>
             </div>
+            {/* «Ещё фото» бейдж */}
+            {hasMore && (
+              <div className="absolute top-2 right-2 flex items-center gap-1 bg-black/60 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <Images className="w-3 h-3" />
+                <span>{item.images.length}</span>
+              </div>
+            )}
           </div>
         );
       })}
     </div>
   );
 }
+
+// ── Lightbox ──────────────────────────────────────────────────────────────────
+
+interface LightboxProps {
+  item: GalleryItem;
+  itemIndex: number;
+  total: number;
+  onClose: () => void;
+  onPrevItem: () => void;
+  onNextItem: () => void;
+}
+
+function Lightbox({ item, itemIndex, total, onClose, onPrevItem, onNextItem }: LightboxProps) {
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const stripRef = useRef<HTMLDivElement>(null);
+
+  // Сбрасываем на первое фото при смене объекта
+  useEffect(() => {
+    setPhotoIndex(0);
+  }, [item.id]);
+
+  // Прокручиваем стрип к активной миниатюре
+  useEffect(() => {
+    const strip = stripRef.current;
+    if (!strip) return;
+    const thumb = strip.children[photoIndex] as HTMLElement | undefined;
+    if (thumb) {
+      thumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
+  }, [photoIndex]);
+
+  const prevPhoto = useCallback(() => {
+    setPhotoIndex((i) => (i - 1 + item.images.length) % item.images.length);
+  }, [item.images.length]);
+
+  const nextPhoto = useCallback(() => {
+    setPhotoIndex((i) => (i + 1) % item.images.length);
+  }, [item.images.length]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") {
+        if (item.images.length > 1) prevPhoto();
+        else onPrevItem();
+      }
+      if (e.key === "ArrowRight") {
+        if (item.images.length > 1) nextPhoto();
+        else onNextItem();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose, prevPhoto, nextPhoto, onPrevItem, onNextItem, item.images.length]);
+
+  const hasStrip = item.images.length > 1;
+  const currentSrc = item.images[photoIndex];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-50 bg-black/92 flex flex-col items-center justify-center"
+      onClick={onClose}
+    >
+      {/* Закрыть */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 z-10 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2"
+      >
+        <X className="w-5 h-5" />
+      </button>
+
+      {/* Счётчик объектов */}
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/50 text-sm tabular-nums select-none">
+        {itemIndex + 1} / {total}
+      </div>
+
+      {/* Стрелки переключения объектов */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onPrevItem(); }}
+        className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2 md:p-3 z-10"
+      >
+        <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+      </button>
+
+      {/* Центральная зона */}
+      <div
+        className="flex flex-col items-center w-full max-w-5xl px-14 md:px-20"
+        style={{ maxHeight: "calc(100vh - 2rem)" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Главное фото */}
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentSrc}
+            src={currentSrc}
+            alt={item.title}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.18 }}
+            className="rounded-xl object-contain shadow-2xl"
+            style={{ maxHeight: hasStrip ? "calc(100vh - 200px)" : "calc(100vh - 130px)", maxWidth: "100%", width: "auto" }}
+          />
+        </AnimatePresence>
+
+        {/* Подпись */}
+        <div className="mt-3 text-center shrink-0">
+          <p className="text-white font-medium text-sm md:text-base">{item.title}</p>
+          {hasStrip && (
+            <p className="text-white/45 text-xs mt-0.5">
+              {photoIndex + 1} из {item.images.length} фото
+            </p>
+          )}
+        </div>
+
+        {/* Стрип миниатюр */}
+        {hasStrip && (
+          <div className="mt-4 w-full shrink-0">
+            {/* Стрелки внутри фото */}
+            <div className="relative flex items-center">
+              <button
+                onClick={(e) => { e.stopPropagation(); prevPhoto(); }}
+                className="shrink-0 mr-2 text-white/50 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-1.5"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+
+              <div
+                ref={stripRef}
+                className="flex gap-2 overflow-x-auto scrollbar-none scroll-smooth flex-1"
+                style={{ scrollbarWidth: "none" }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {item.images.map((src, i) => (
+                  <button
+                    key={i}
+                    onClick={(e) => { e.stopPropagation(); setPhotoIndex(i); }}
+                    className={`relative shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden transition-all duration-200 ${
+                      i === photoIndex
+                        ? "ring-2 ring-white ring-offset-1 ring-offset-black/80 opacity-100"
+                        : "opacity-50 hover:opacity-80"
+                    }`}
+                  >
+                    <img
+                      src={src}
+                      alt={`Фото ${i + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={(e) => { e.stopPropagation(); nextPhoto(); }}
+                className="shrink-0 ml-2 text-white/50 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-1.5"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <button
+        onClick={(e) => { e.stopPropagation(); onNextItem(); }}
+        className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2 md:p-3 z-10"
+      >
+        <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+      </button>
+    </motion.div>
+  );
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<string>("Все");
@@ -64,24 +253,13 @@ export default function Gallery() {
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
 
-  const prev = useCallback(() => {
+  const prevItem = useCallback(() => {
     setLightboxIndex((i) => (i === null ? null : (i - 1 + filtered.length) % filtered.length));
   }, [filtered.length]);
 
-  const next = useCallback(() => {
+  const nextItem = useCallback(() => {
     setLightboxIndex((i) => (i === null ? null : (i + 1) % filtered.length));
   }, [filtered.length]);
-
-  useEffect(() => {
-    if (lightboxIndex === null) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [lightboxIndex, prev, next]);
 
   // Lock body scroll when lightbox is open
   useEffect(() => {
@@ -138,7 +316,7 @@ export default function Gallery() {
               </button>
             ))}
             <span className="ml-auto self-center text-sm text-muted-foreground tabular-nums">
-              {filtered.length} фото
+              {filtered.length} объектов
             </span>
           </div>
         </div>
@@ -164,64 +342,15 @@ export default function Gallery() {
       {/* Lightbox */}
       <AnimatePresence>
         {currentItem && lightboxIndex !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/92 flex items-center justify-center p-4"
-            onClick={closeLightbox}
-          >
-            {/* Close */}
-            <button
-              onClick={closeLightbox}
-              className="absolute top-4 right-4 z-10 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            {/* Counter */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/50 text-sm tabular-nums select-none">
-              {lightboxIndex + 1} / {filtered.length}
-            </div>
-
-            {/* Prev */}
-            <button
-              onClick={(e) => { e.stopPropagation(); prev(); }}
-              className="absolute left-3 md:left-6 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2 md:p-3"
-            >
-              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-            </button>
-
-            {/* Image */}
-            <motion.div
-              key={currentItem.id}
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.97 }}
-              transition={{ duration: 0.2 }}
-              className="relative max-w-5xl w-full max-h-[85vh] flex flex-col items-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={currentItem.image}
-                alt={currentItem.title}
-                className="max-h-[75vh] w-auto max-w-full rounded-xl object-contain shadow-2xl"
-              />
-              <div className="mt-4 text-center">
-                <p className="text-white font-medium">{currentItem.title}</p>
-                <p className="text-white/50 text-sm mt-1">{currentItem.category}</p>
-              </div>
-            </motion.div>
-
-            {/* Next */}
-            <button
-              onClick={(e) => { e.stopPropagation(); next(); }}
-              className="absolute right-3 md:right-6 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2 md:p-3"
-            >
-              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-            </button>
-          </motion.div>
+          <Lightbox
+            key={lightboxIndex}
+            item={currentItem}
+            itemIndex={lightboxIndex}
+            total={filtered.length}
+            onClose={closeLightbox}
+            onPrevItem={prevItem}
+            onNextItem={nextItem}
+          />
         )}
       </AnimatePresence>
     </div>
