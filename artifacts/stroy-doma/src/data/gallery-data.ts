@@ -36,6 +36,17 @@ import house180ext1 from "@/assets/gallery/house-180-ext-1.png";
 import house180ext2 from "@/assets/gallery/house-180-ext-2.png";
 import house180info from "@/assets/gallery/house-180-info.png";
 
+import bath831 from "@/assets/gallery/bath-83-1.png";
+import bath832 from "@/assets/gallery/bath-83-2.png";
+import bath833 from "@/assets/gallery/bath-83-3.png";
+import bath834 from "@/assets/gallery/bath-83-4.png";
+import bath835 from "@/assets/gallery/bath-83-5.png";
+import bath836 from "@/assets/gallery/bath-83-6.png";
+import bath837 from "@/assets/gallery/bath-83-7.png";
+import bath838 from "@/assets/gallery/bath-83-8.png";
+import bath83plan from "@/assets/gallery/bath-83-plan.png";
+import bath83info from "@/assets/gallery/bath-83-info.png";
+
 // ── Сюда добавляйте следующие фото ──────────────────────────────────────────
 // import photo20 from "@/assets/gallery/photo-20.png";
 
@@ -150,6 +161,15 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     category: "Дома",
     image: house180ext1,
     images: [house180ext1, house180ext2, house180info],
+  },
+
+  // ── Бани ─────────────────────────────────────────────────────────────────────
+  {
+    id: 50,
+    title: "Баня из рубленого бревна 83 м² — с купелью и террасой",
+    category: "Бани",
+    image: bath831,
+    images: [bath831, bath832, bath833, bath834, bath835, bath836, bath837, bath838, bath83plan, bath83info],
   },
 
   // ── Интерьер ─────────────────────────────────────────────────────────────────
