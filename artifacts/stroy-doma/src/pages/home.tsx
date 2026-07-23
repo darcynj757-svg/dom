@@ -432,15 +432,15 @@ export default function Home() {
               );
             })}
           </div>
-          {/* ── Mobile: «Наши работы» button */}
+          {/* ── Mobile: «Смотреть все фото» button */}
           <div className="mt-10 flex justify-center md:hidden">
-            <Link href="/projects">
+            <Link href="/gallery">
               <Button
                 size="lg"
                 variant="outline"
                 className="rounded-full border border-foreground/20 bg-background text-foreground hover:bg-muted gap-2 px-8"
               >
-                Наши работы <ArrowRight className="w-4 h-4" />
+                Смотреть все фото <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
           </div>
