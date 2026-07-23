@@ -6,7 +6,7 @@ interface MapProps {
 }
 
 // Томск, мкр. Черемошники, ул. Профсоюзная, 2/1 стр.2
-// Координаты подобраны по карте (чуть западнее ул. Профсоюзной)
+// Google Maps embed — работает без ключа на любом домене
 const SRC =
   "https://maps.google.com/maps?q=56.52685,84.9295&z=16&output=embed&hl=ru";
 
@@ -17,9 +17,7 @@ export function YandexMap({ className = "", style }: MapProps) {
       className={className}
       style={{ border: 0, display: "block", ...style }}
       allowFullScreen
-      loading="lazy"
-      referrerPolicy="no-referrer-when-downgrade"
-      title="Карта — Кедр Томск, ул. Профсоюзная 2/1с12"
+      title="2GIS — Кедр Томск, ул. Профсоюзная 2/1 стр.2"
     />
   );
 }
