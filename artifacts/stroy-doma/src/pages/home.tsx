@@ -483,18 +483,18 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
+            className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 md:mb-12"
           >
             <div>
               <span className="text-xs uppercase tracking-[0.3em] text-secondary font-medium">Полезная информация</span>
-              <h2 className="mt-3 font-display text-3xl md:text-5xl font-black">Статьи и советы</h2>
-              <p className="mt-3 text-muted-foreground max-w-xl">Публикации от наших специалистов для тех, кто планирует строить деревянный дом.</p>
+              <h2 className="mt-2 md:mt-3 font-display text-2xl md:text-5xl font-black">Статьи и советы</h2>
+              <p className="mt-2 md:mt-3 text-muted-foreground text-sm md:text-base max-w-xl">Публикации от наших специалистов для тех, кто планирует строить деревянный дом.</p>
             </div>
-            <Link href="/articles" className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
+            <Link href="/articles" className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all text-sm md:text-base">
               Все материалы <ArrowUpRight className="w-4 h-4" />
             </Link>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
             {ARTICLES.slice(0, 3).map((article, i) => (
               <Link key={article.id} href={`/articles/${article.slug}`} className="block">
               <motion.article
@@ -502,19 +502,21 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="group rounded-2xl bg-card border border-border/60 overflow-hidden hover:border-primary/40 hover:shadow-md transition-all duration-300 cursor-pointer"
+                className="group rounded-xl md:rounded-2xl bg-card border border-border/60 overflow-hidden hover:border-primary/40 hover:shadow-md transition-all duration-300 cursor-pointer
+                           flex flex-row md:flex-col"
               >
-                <div className="aspect-[16/9] overflow-hidden bg-muted">
+                {/* Image — square thumb on mobile, 16/9 on desktop */}
+                <div className="w-24 shrink-0 md:w-auto md:aspect-[16/9] overflow-hidden bg-muted">
                   <img
                     src={article.image}
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-6">
-                  <span className="text-xs uppercase tracking-wider text-secondary font-medium">{article.category}</span>
-                  <h3 className="mt-2 font-display text-lg font-bold leading-snug group-hover:text-primary transition-colors">{article.title}</h3>
-                  <p className="mt-3 text-muted-foreground text-sm leading-relaxed line-clamp-3">{article.excerpt}</p>
+                <div className="p-3 md:p-6 flex flex-col justify-center min-w-0">
+                  <span className="text-[10px] md:text-xs uppercase tracking-wider text-secondary font-medium">{article.category}</span>
+                  <h3 className="mt-0.5 md:mt-2 font-display text-sm md:text-lg font-bold leading-snug group-hover:text-primary transition-colors line-clamp-2">{article.title}</h3>
+                  <p className="hidden md:block mt-3 text-muted-foreground text-sm leading-relaxed line-clamp-3">{article.excerpt}</p>
                 </div>
               </motion.article>
               </Link>
