@@ -5,10 +5,10 @@ interface MapProps {
   style?: CSSProperties;
 }
 
-// Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12
-// Google Maps embed — работает на любом домене без ключа
+// Томск, мкр. Черемошники, ул. Профсоюзная, 2/1 стр.2
+// Координаты подобраны по карте (чуть западнее ул. Профсоюзной)
 const SRC =
-  "https://maps.google.com/maps?q=56.5267,84.9354&z=15&output=embed&hl=ru&ll=56.5267,84.9354";
+  "https://maps.google.com/maps?q=56.52685,84.9295&z=16&output=embed&hl=ru";
 
 export function YandexMap({ className = "", style }: MapProps) {
   return (
