@@ -44,18 +44,7 @@ export default function ArticleDetail() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="border-b border-border bg-muted/30">
-        <div className="container mx-auto px-4 md:px-6 py-3 flex items-center gap-2 text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-foreground transition-colors">Главная</Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/articles" className="hover:text-foreground transition-colors">Статьи</Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-foreground line-clamp-1">{article.title}</span>
-        </div>
-      </div>
-
-      {/* Hero image */}
+      {/* Hero image — flush to top, transparent header overlays it */}
       {article.image && (
         <div className="w-full aspect-[21/9] md:aspect-[3/1] overflow-hidden bg-muted relative">
           <img
@@ -66,6 +55,17 @@ export default function ArticleDetail() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         </div>
       )}
+
+      {/* Breadcrumb — below the hero */}
+      <div className="border-b border-border bg-muted/30">
+        <div className="container mx-auto px-4 md:px-6 py-3 flex items-center gap-2 text-sm text-muted-foreground">
+          <Link href="/" className="hover:text-foreground transition-colors">Главная</Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <Link href="/articles" className="hover:text-foreground transition-colors">Статьи</Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-foreground line-clamp-1">{article.title}</span>
+        </div>
+      </div>
 
       <div className="container mx-auto px-4 md:px-6 py-12 max-w-4xl">
         {/* Back link */}
