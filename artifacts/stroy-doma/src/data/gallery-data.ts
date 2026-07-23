@@ -36,6 +36,19 @@ import house180ext1 from "@/assets/gallery/house-180-ext-1.png";
 import house180ext2 from "@/assets/gallery/house-180-ext-2.png";
 import house180info from "@/assets/gallery/house-180-info.png";
 
+import house1001  from "@/assets/gallery/house-100-1.png";
+import house1002  from "@/assets/gallery/house-100-2.png";
+import house1003  from "@/assets/gallery/house-100-3.png";
+import house1004  from "@/assets/gallery/house-100-4.png";
+import house1005  from "@/assets/gallery/house-100-5.png";
+import house1006  from "@/assets/gallery/house-100-6.png";
+import house1007  from "@/assets/gallery/house-100-7.png";
+import house1008  from "@/assets/gallery/house-100-8.png";
+import house1009  from "@/assets/gallery/house-100-9.png";
+import house10010 from "@/assets/gallery/house-100-10.png";
+import house10011 from "@/assets/gallery/house-100-11.png";
+import house100info from "@/assets/gallery/house-100-info.png";
+
 import bath831 from "@/assets/gallery/bath-83-1.png";
 import bath832 from "@/assets/gallery/bath-83-2.png";
 import bath833 from "@/assets/gallery/bath-83-3.png";
@@ -154,6 +167,13 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     category: "Дома",
     image: photo18,
     images: [photo18],
+  },
+  {
+    id: 41,
+    title: "Дом из профбруса 100 м² у воды",
+    category: "Дома",
+    image: house1001,
+    images: [house1001, house1002, house1003, house1004, house1005, house1006, house1007, house1008, house1009, house10010, house10011, house100info],
   },
   {
     id: 40,
