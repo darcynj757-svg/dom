@@ -5,6 +5,16 @@ import * as THREE from "three";
 import { useGltfWithPlugin, hasWebGL, cloneGltfScene } from "./houseLoader";
 import { getGltfPromise } from "./houseLoader";
 
+// Stable config objects outside the component so r3f never sees a new reference
+// and never recreates the WebGL renderer on re-renders caused by scroll events.
+const CAMERA_CONFIG = { position: [0, 5, 12] as [number, number, number], fov: 42 };
+const GL_CONFIG = {
+  localClippingEnabled: true,
+  failIfMajorPerformanceCaveat: false,
+  antialias: true,
+  powerPreference: "default" as const,
+};
+
 function easeOutCubic(t: number) {
   return 1 - Math.pow(1 - t, 3);
 }
@@ -135,13 +145,17 @@ function Scene({
     camera.position.y = midY + 2.5 + progress * 0.4;
     camera.lookAt(0, midY, 0);
 
-    const buildT = easeOutCubic(Math.min(Math.max(progress, 0), 1));
+    // Offset so the house foundation is immediately visible when the section
+    // first appears — without this the model is completely hidden at progress=0
+    // and users think it isn't working. The foundation (~15%) is always shown;
+    // scroll reveals the rest from bottom to top.
+    const INITIAL_BUILD = 0.15;
+    const rawT = easeOutCubic(Math.min(Math.max(progress, 0), 1));
+    const buildT = INITIAL_BUILD + rawT * (1 - INITIAL_BUILD);
     // Use a larger buffer (0.6) so the roof is 100% revealed before clipping stops
     const buffer = (maxY - minY) * 0.6 || 1.0;
-    // Start below minY so nothing is visible at progress=0 (avoids floor triangles
-    // poking through before the build animation begins); end past maxY so the
-    // roof is fully revealed without clipping.
-    clipPlane.constant = THREE.MathUtils.lerp(minY - buffer, maxY + buffer, buildT);
+    // Start at minY (base of house visible) up to maxY+buffer (full roof revealed).
+    clipPlane.constant = THREE.MathUtils.lerp(minY, maxY + buffer, buildT);
   });
 
   return (
@@ -206,16 +220,10 @@ export default function ScrollHouse({ progress }: { progress: number }) {
     <div className="absolute inset-0 -z-10 pointer-events-none">
       {webglSupported && (
         <Canvas
-          shadows
-          camera={{ position: [0, 5, 12], fov: 42 }}
-          gl={{
-            localClippingEnabled: true,
-            failIfMajorPerformanceCaveat: false,
-            antialias: true,
-            powerPreference: "default",
-          }}
+          shadows={THREE.PCFShadowMap}
+          camera={CAMERA_CONFIG}
+          gl={GL_CONFIG}
           onCreated={({ gl }) => {
-            gl.localClippingEnabled = true;
             gl.domElement.addEventListener(
               "webglcontextlost",
               (e) => e.preventDefault(),
