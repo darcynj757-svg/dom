@@ -43,7 +43,7 @@ function FeaturedProjectCard({ project, index }: { project: (typeof PROJECTS)[0]
         <Link href={`/projects/${project.id}`}>
           <div className="group relative overflow-hidden rounded-2xl cursor-pointer shadow-md active:shadow-xl transition-shadow duration-300">
             {/* Image */}
-            <div className="aspect-[3/4] overflow-hidden bg-muted">
+            <div className="aspect-square overflow-hidden bg-muted">
               <img
                 src={project.imageUrl}
                 alt={project.title}
