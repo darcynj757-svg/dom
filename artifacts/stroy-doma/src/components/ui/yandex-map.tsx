@@ -5,10 +5,10 @@ interface MapProps {
   style?: CSSProperties;
 }
 
-// Томск, мкр. Черемошники, ул. Профсоюзная, 2/1 стр.2
-// Google Maps embed — работает без ключа на любом домене
+// Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12
+// Яндекс.Карты — iframe-виджет, не требует API-ключа
 const SRC =
-  "https://maps.google.com/maps?q=56.52685,84.9295&z=16&output=embed&hl=ru";
+  "https://yandex.ru/map-widget/v1/?ll=84.929500%2C56.526850&z=16&pt=84.929500%2C56.526850%2Cpm2rdm&l=map&lang=ru_RU";
 
 export function YandexMap({ className = "", style }: MapProps) {
   return (
@@ -17,7 +17,7 @@ export function YandexMap({ className = "", style }: MapProps) {
       className={className}
       style={{ border: 0, display: "block", ...style }}
       allowFullScreen
-      title="2GIS — Кедр Томск, ул. Профсоюзная 2/1 стр.2"
+      title="Яндекс.Карты — Кедр Томск, ул. Профсоюзная 2/1с12"
     />
   );
 }
