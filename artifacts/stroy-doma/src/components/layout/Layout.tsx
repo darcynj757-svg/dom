@@ -116,6 +116,12 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedMobile, setExpandedMobile] = useState<string | null>(null);
   const isHome = location === "/" || location === "/about";
+  // Article detail pages have a dark hero → white text; article list has light bg → dark text
+  const isArticleDetail = location.startsWith("/articles/");
+  const isArticle = location.startsWith("/articles");
+  const isTransparent = isHome || isArticle;
+  // White text only when overlaid on a dark hero image
+  const isWhiteText = isHome || isArticleDetail;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -124,7 +130,7 @@ export function Navbar() {
   }, []);
 
   const navClass =
-    isHome && !isScrolled
+    isTransparent && !isScrolled
       ? "bg-transparent border-b border-transparent py-5"
       : "glass-nav py-3";
 
@@ -141,13 +147,13 @@ export function Navbar() {
                 src={logoIcon}
                 alt="Kedr Tomsk"
                 className={`w-full h-full object-contain transition-all duration-300 ${
-                  isHome && !isScrolled ? "" : "invert"
+                  isWhiteText && !isScrolled ? "" : "invert"
                 }`}
               />
             </div>
             <span
               className={`font-display text-lg font-bold tracking-tight mt-2 ml-2 transition-colors duration-300 ${
-                isHome && !isScrolled ? "text-white" : "text-foreground"
+                isWhiteText && !isScrolled ? "text-white" : "text-foreground"
               }`}
             >
               Kedr Tomsk
@@ -167,7 +173,7 @@ export function Navbar() {
                   <DesktopDropdown
                     key={item.href}
                     item={item}
-                    isHome={isHome}
+                    isHome={isWhiteText}
                     isScrolled={isScrolled}
                     isActive={isActive}
                   />
@@ -179,7 +185,7 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={`text-sm font-medium transition-colors duration-200 whitespace-nowrap hover:opacity-100 ${
-                    isHome && !isScrolled
+                    isWhiteText && !isScrolled
                       ? isActive
                         ? "text-white"
                         : "text-white/65 hover:text-white"
@@ -199,7 +205,7 @@ export function Navbar() {
             <a
               href="tel:+73822334439"
               className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-200 ${
-                isHome && !isScrolled
+                isWhiteText && !isScrolled
                   ? "text-white/70 hover:text-white"
                   : "text-foreground/70 hover:text-foreground"
               }`}
@@ -207,7 +213,7 @@ export function Navbar() {
               <Phone className="w-3.5 h-3.5" />
               <span>+7 (3822) 33-44-39</span>
             </a>
-            {isHome && !isScrolled ? (
+            {isWhiteText && !isScrolled ? (
               <button
                 onClick={() => (window.location.href = "/contacts")}
                 className="glass px-5 py-2 rounded-full text-sm font-semibold text-white hover:bg-white/20 transition-all duration-200"
@@ -224,7 +230,7 @@ export function Navbar() {
           {/* Mobile burger */}
           <button
             className={`lg:hidden p-2 transition-colors ${
-              isHome && !isScrolled ? "text-white" : "text-foreground"
+              isWhiteText && !isScrolled ? "text-white" : "text-foreground"
             }`}
             onClick={() => {
               setMobileMenuOpen(!mobileMenuOpen);
