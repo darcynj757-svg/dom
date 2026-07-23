@@ -356,24 +356,23 @@ export function Footer() {
       <div className="h-2 bg-black w-full" />
 
       {/* Full-width map strip */}
-      <a
-        href="https://yandex.ru/maps/?ll=84.9354%2C56.5267&z=17&pt=84.9354%2C56.5267%2Cpm2rdm&text=%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D0%BC%D0%BA%D1%80.%20%D0%A7%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%88%D0%BD%D0%B8%D0%BA%D0%B8%2C%20%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D1%84%D1%81%D0%BE%D1%8E%D0%B7%D0%BD%D0%B0%D1%8F%2C%202%2F1%D1%8112"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block w-full h-56 md:h-72 relative overflow-hidden group"
-        title="Открыть в Яндекс Картах"
-      >
-        <img
-          src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=84.9354,56.5267&z=15&l=map&size=650,290&pt=84.9354,56.5267,pm2rdm"
-          alt="Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12"
-          className="w-full h-full object-cover"
+      <div className="relative w-full h-56 md:h-72 group">
+        <iframe
+          src="https://maps.google.com/maps?q=56.5267,84.9354&z=16&output=embed&hl=ru"
+          className="w-full h-full border-0"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12"
         />
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white text-foreground text-sm font-medium px-4 py-2 rounded-full shadow">
-            Открыть в Яндекс Картах ↗
-          </span>
-        </div>
-      </a>
+        <a
+          href="https://www.google.com/maps?q=56.5267,84.9354"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-foreground text-sm font-medium px-4 py-2 rounded-full shadow"
+        >
+          Открыть в Google Maps ↗
+        </a>
+      </div>
 
       {/* Compact footer body */}
       <div className="container mx-auto px-4 md:px-6 py-8">
