@@ -358,7 +358,7 @@ export function Footer() {
       {/* Full-width map strip */}
       <div className="relative w-full h-56 md:h-72 group">
         <iframe
-          src="https://yandex.ru/map-widget/v1/?ll=84.966279%2C56.481560&z=15&pt=84.966279%2C56.481560%2Cpm2gnm&l=map"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=84.946%2C56.474%2C84.986%2C56.489&layer=mapnik&marker=56.48156%2C84.96628"
           className="w-full h-full border-0"
           loading="lazy"
           title="Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12"
