@@ -1,52 +1,59 @@
-# Stroy-Doma (Кедр Томск)
+# Kedr Tomsk — Строительство домов и бань
 
-A Russian-language construction company website for **Kedr Tomsk** — a log/timber home builder based in Tomsk, Russia.
+A Russian-language marketing website for **Kedr Tomsk**, a construction company specialising in timber homes and saunas (bani). The project is a full-stack pnpm monorepo.
 
 ## Stack
 
-- **Frontend:** React 19 + Vite 7, TypeScript, Tailwind CSS v4, shadcn/ui components
-- **Routing:** Wouter
-- **3D:** Three.js + React Three Fiber (interactive 3D house model on the homepage)
-- **Animations:** Framer Motion
-- **Package manager:** pnpm (workspace monorepo)
+| Layer | Technology |
+|---|---|
+| Frontend | React 19 + Vite 7, Tailwind CSS 4, Radix UI, Framer Motion, Three.js / React Three Fiber |
+| API server | Express 5 (TypeScript, esbuild bundle) |
+| Database | PostgreSQL via Replit's managed DB, Drizzle ORM |
+| Router | Wouter |
 
-## Project structure
+## Workspace layout
 
 ```
-artifacts/stroy-doma/   ← main website app
-artifacts/api-server/   ← backend API server (Express/TypeScript)
-artifacts/mockup-sandbox/ ← UI component sandbox
-lib/                    ← shared libraries / API client
+artifacts/
+  stroy-doma/   — React/Vite frontend (the public-facing website)
+  api-server/   — Express REST API
+
+lib/
+  db/           — Drizzle schema & connection
+  api-spec/     — Shared API spec types
+  api-zod/      — Zod validators for the API
+  api-client-react/ — TanStack Query wrappers
+
+scripts/        — Build / maintenance scripts
+attached_assets/ — Project images, video, and a 3-D model (.glb)
 ```
 
-## Running the app
+## How to run
 
-The website runs on port 19912 via the `artifacts/stroy-doma: web` workflow:
+All workflows are pre-configured in Replit. Just click **Run**. Individual commands:
 
 ```bash
-PORT=19912 BASE_PATH=/ pnpm --filter @workspace/stroy-doma run dev
-```
-
-To install dependencies after cloning:
-
-```bash
+# Install all dependencies (root)
 pnpm install
+
+# Frontend dev server (port assigned by Vite)
+pnpm --filter @workspace/stroy-doma run dev
+
+# API server (reads PORT env var — defaults to 8080 on Replit)
+pnpm --filter @workspace/api-server run dev
+
+# Push DB schema to development database
+pnpm --filter @workspace/db run push
 ```
 
-## Pages
+## Environment variables
 
-- `/` — Homepage with interactive 3D house model
-- `/services` — Services
-- `/projects` — Project catalog
-- `/projects/:id` — Project detail
-- `/gallery` — Photo gallery
-- `/production` — Production/manufacturing info
-- `/articles` — Articles/blog
-- `/articles/:slug` — Article detail
-- `/about` — About the company
-- `/contacts` — Contact page
-- `/terms` — Terms & conditions
+| Key | Notes |
+|---|---|
+| `DATABASE_URL` | Managed automatically by Replit. Do not set manually. |
+| `PORT` | Set to `3000` in shared env; Replit may override at runtime. |
+| `SESSION_SECRET` | Secret stored in Replit Secrets. |
 
 ## User preferences
 
-- Keep the existing project structure and stack — do not restructure or migrate.
+<!-- Add user preferences here as you learn them -->
