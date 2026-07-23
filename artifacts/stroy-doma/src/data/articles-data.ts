@@ -21,10 +21,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Возможно, какие-то из идей пригодятся и нам, а некоторые будут совершенно непригодными в нашем климате. В любом случае эти знания полезны, это новый опыт, новые идеи и новые открытия, которые впоследс",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/11/1200x630-stroitelstva-domov-iz-dereva.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-11-1200x630-stroitelstva-domov-iz-dereva.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/11/1200x630-stroitelstva-domov-iz-dereva.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/11/740x500-stroitelstva-domov-iz-dereva.9fe.jpg"
+      "/images/articles/images-articles-2017-11-1200x630-stroitelstva-domov-iz-dereva.cd4.jpg",
+      "/images/articles/images-articles-2017-11-740x500-stroitelstva-domov-iz-dereva.9fe.jpg"
     ],
     "headings": [
       "Строительство домов из дерева в разных странах",
@@ -54,10 +54,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "По сути, это основа здания из древесины хвойных или лиственных пород, стены которой представляют собой уложенные друг на друга и скрепленные определенным образом бревна. К деревьям, которые будут испо",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/11/1200x630-derevyannye-sruby.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-11-1200x630-derevyannye-sruby.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/11/1200x630-derevyannye-sruby.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/11/740x500-derevyannye-sruby.9fe.jpg"
+      "/images/articles/images-articles-2017-11-1200x630-derevyannye-sruby.cd4.jpg",
+      "/images/articles/images-articles-2017-11-740x500-derevyannye-sruby.9fe.jpg"
     ],
     "headings": [
       "Разберемся, что же называется деревянным срубом?",
@@ -86,10 +86,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Именно поэтому при строительстве домов предпочтение всегда отдавалось дереву. Как и раньше, сегодня этот материал пользуется огромным спросом. Из него возводят загородные дома, коттеджи, сауны, бани и",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-profilirovannyj-i-kleenyj-brus.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-1200x630-profilirovannyj-i-kleenyj-brus.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-profilirovannyj-i-kleenyj-brus.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/740x500-profilirovannyj-i-kleenyj-brus.9fe.jpg"
+      "/images/articles/images-articles-2017-1200x630-profilirovannyj-i-kleenyj-brus.cd4.jpg",
+      "/images/articles/images-articles-2017-740x500-profilirovannyj-i-kleenyj-brus.9fe.jpg"
     ],
     "headings": [
       "Профилированный и клееный брус - преимущества и характеристики",
@@ -116,10 +116,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Естественность, красота деревянного домика, комфортность, ощущение слияния с природой — главные достоинства, делающие такой вид отдыха достаточно популярным в наше время, так как люди ценят эти качест",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-bolshie-brevna-v-stroitelstve-ohotnichih-domikov.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-1200x630-bolshie-brevna-v-stroitelstve-ohotnichih-domikov.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-bolshie-brevna-v-stroitelstve-ohotnichih-domikov.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/740x500-bolshie-brevna-v-stroitelstve-ohotnichih-domikov.9fe.jpg"
+      "/images/articles/images-articles-2017-1200x630-bolshie-brevna-v-stroitelstve-ohotnichih-domikov.cd4.jpg",
+      "/images/articles/images-articles-2017-740x500-bolshie-brevna-v-stroitelstve-ohotnichih-domikov.9fe.jpg"
     ],
     "headings": [
       "Большие бревна в строительстве «охотничьих» домиков",
@@ -153,10 +153,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Полностью вытеснить дерево как строительный материал пока невозможно. Оно привлекает своей натуральностью, про него говорят клиенты, что «это живой материал, он дышит». Строители разрабатывают новые т",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/1200x630-finskaya-tehnologiya-stroitelstva-domov-karkasnogo-tipa.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-09-1200x630-finskaya-tehnologiya-stroitelstva-domov-karkasnogo-tipa.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/1200x630-finskaya-tehnologiya-stroitelstva-domov-karkasnogo-tipa.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/740x500-finskaya-tehnologiya-stroitelstva-domov-karkasnogo-tipa.9fe.jpg"
+      "/images/articles/images-articles-2017-09-1200x630-finskaya-tehnologiya-stroitelstva-domov-karkasnogo-tipa.cd4.jpg",
+      "/images/articles/images-articles-2017-09-740x500-finskaya-tehnologiya-stroitelstva-domov-karkasnogo-tipa.9fe.jpg"
     ],
     "headings": [
       "Финская технология строительства домов",
@@ -183,10 +183,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Как правильно выбрать материал для строительства?",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/1200x630-dekorirovanie-derevyannogo-doma.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-09-1200x630-dekorirovanie-derevyannogo-doma.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/1200x630-dekorirovanie-derevyannogo-doma.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/740x500-dekorirovanie-derevyannogo-doma.9fe.jpg"
+      "/images/articles/images-articles-2017-09-1200x630-dekorirovanie-derevyannogo-doma.cd4.jpg",
+      "/images/articles/images-articles-2017-09-740x500-dekorirovanie-derevyannogo-doma.9fe.jpg"
     ],
     "headings": [
       "Выбор материала"
@@ -203,10 +203,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Приобретение деревянного дома – дело ответственное. Прежде всего, необходимо понять, какой материал нужен для будущего дома. Несмотря на богатый выбор, каждый из них имеет свои недостатки, которые нео",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/1200x630-pilomaterialy.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-09-1200x630-pilomaterialy.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/1200x630-pilomaterialy.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/740x500-pilomaterialy.9fe.jpg"
+      "/images/articles/images-articles-2017-09-1200x630-pilomaterialy.cd4.jpg",
+      "/images/articles/images-articles-2017-09-740x500-pilomaterialy.9fe.jpg"
     ],
     "headings": [
       "Выбор материала",
@@ -232,10 +232,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "У архитектора кроме личного жилища в Альбукерке, есть и своя используемая резиденция в Калифорнии. Архитектор Принц Барт знаком людям необычайным креативным мышлением при создании зданий и строительст",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/1200x630-zhilishhe-princa-barta-v-albukerke.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-09-1200x630-zhilishhe-princa-barta-v-albukerke.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/1200x630-zhilishhe-princa-barta-v-albukerke.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/09/740x500-zhilishhe-princa-barta-v-albukerke.9fe.jpg"
+      "/images/articles/images-articles-2017-09-1200x630-zhilishhe-princa-barta-v-albukerke.cd4.jpg",
+      "/images/articles/images-articles-2017-09-740x500-zhilishhe-princa-barta-v-albukerke.9fe.jpg"
     ],
     "headings": [
       "Жилище Принца Барта в Альбукерке",
@@ -258,10 +258,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Эксплуатация",
     "excerpt": "Когда встает проблема выбора, какую же беседку поставить на свой участок нужно обратить внимание, во-первых, на ее возможный размер, а во-вторых, на саму конструкцию (открытая, закрытая, с перилами ил",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-derevyannaya-besedka.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-1200x630-derevyannaya-besedka.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-derevyannaya-besedka.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/740x500-derevyannaya-besedka.9fe.jpg"
+      "/images/articles/images-articles-2017-1200x630-derevyannaya-besedka.cd4.jpg",
+      "/images/articles/images-articles-2017-740x500-derevyannaya-besedka.9fe.jpg"
     ],
     "headings": [
       "Достоинства  деревянных беседок",
@@ -283,10 +283,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Социологические опросы подтверждают любопытный факт – люди оставляют мечты молодости, полные уверенности, что собственный дом из дерева создает слишком много сложностей. Так ли это, и какие основные м",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-derevyannye-doma-mify.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-1200x630-derevyannye-doma-mify.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-derevyannye-doma-mify.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/740x500-derevyannye-doma-mify.9fe.jpg"
+      "/images/articles/images-articles-2017-1200x630-derevyannye-doma-mify.cd4.jpg",
+      "/images/articles/images-articles-2017-740x500-derevyannye-doma-mify.9fe.jpg"
     ],
     "headings": [
       "7 основных мифов",
@@ -322,10 +322,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Бани",
     "excerpt": "Египетские жрецы в течение суток обмывали тело четыре раза:два днем и два раза ночью. Египтянам с помощью бань, массажа, умеренности  в еде удавалось сохранить стройность фигуры и предотвращать ранние",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-banya3.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-1200x630-banya3.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-banya3.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/740x500-banya3.9fe.jpg"
+      "/images/articles/images-articles-2017-1200x630-banya3.cd4.jpg",
+      "/images/articles/images-articles-2017-740x500-banya3.9fe.jpg"
     ],
     "headings": [
       "История деревянной бани",
@@ -351,10 +351,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/stroitelstvo/house_rub/kanada/1200x630-IMG-20161215-WA0004.cd4.jpg",
+    "image": "/images/articles/images-stroitelstvo-house_rub-kanada-1200x630-IMG-20161215-WA0004.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/stroitelstvo/house_rub/kanada/1200x630-IMG-20161215-WA0004.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/stroitelstvo/house_rub/kanada/740x500-IMG-20161215-WA0004.9fe.jpg"
+      "/images/articles/images-stroitelstvo-house_rub-kanada-1200x630-IMG-20161215-WA0004.cd4.jpg",
+      "/images/articles/images-stroitelstvo-house_rub-kanada-740x500-IMG-20161215-WA0004.9fe.jpg"
     ],
     "headings": [
       "Строительство рубленного дома - видео"
@@ -369,10 +369,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "На настоящий момент почти две трети вновь возводимых малоэтажных индивидуальных домов - кирпичные. Вообще по технологиям строительства дома из мелких блоков (кирпича, бетонных вибропрессованных, пеноб",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-rossijskij-rynok-derevyannyh-domov-2.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-1200x630-rossijskij-rynok-derevyannyh-domov-2.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/1200x630-rossijskij-rynok-derevyannyh-domov-2.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/740x500-rossijskij-rynok-derevyannyh-domov-2.9fe.jpg"
+      "/images/articles/images-articles-2017-1200x630-rossijskij-rynok-derevyannyh-domov-2.cd4.jpg",
+      "/images/articles/images-articles-2017-740x500-rossijskij-rynok-derevyannyh-domov-2.9fe.jpg"
     ],
     "headings": [
       "Российский рынок малоэтажного строительства"
@@ -392,10 +392,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Большая часть Подмосковного грунта имеет в своём составе глину и суглинку. При желании создать прочный и не подвергающийся деформации дом, необходимо внимательно подойти к вопросу закладки фундамента.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/04/1200x630-stroitelstvo-zagorodnyh-domov-v-podmoskove.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-04-1200x630-stroitelstvo-zagorodnyh-domov-v-podmoskove.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/04/1200x630-stroitelstvo-zagorodnyh-domov-v-podmoskove.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/04/740x500-stroitelstvo-zagorodnyh-domov-v-podmoskove.9fe.jpg"
+      "/images/articles/images-articles-2017-04-1200x630-stroitelstvo-zagorodnyh-domov-v-podmoskove.cd4.jpg",
+      "/images/articles/images-articles-2017-04-740x500-stroitelstvo-zagorodnyh-domov-v-podmoskove.9fe.jpg"
     ],
     "headings": [
       "Особенности планирования строительства",
@@ -431,10 +431,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "В первую очередь, надо предусмотреть защиту фундамента. Для этого необходимо подобрать точное конструктивное решение, а также гарантировать водонепроницаемость бетона, грамотно выбрав и использовав ги",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/03/1200x630-stroitelstvo-derevyannogo-doma-kak-poluchit-nadezhnoe-i-dolgovechnoe-zhile.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-03-1200x630-stroitelstvo-derevyannogo-doma-kak-poluchit-nadezhnoe-i-dolgovechnoe-zhile.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/03/1200x630-stroitelstvo-derevyannogo-doma-kak-poluchit-nadezhnoe-i-dolgovechnoe-zhile.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/03/740x500-stroitelstvo-derevyannogo-doma-kak-poluchit-nadezhnoe-i-dolgovechnoe-zhile.9fe.jpg"
+      "/images/articles/images-articles-2017-03-1200x630-stroitelstvo-derevyannogo-doma-kak-poluchit-nadezhnoe-i-dolgovechnoe-zhile.cd4.jpg",
+      "/images/articles/images-articles-2017-03-740x500-stroitelstvo-derevyannogo-doma-kak-poluchit-nadezhnoe-i-dolgovechnoe-zhile.9fe.jpg"
     ],
     "headings": [
       "Как получить долговечное жилье?",
@@ -460,10 +460,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Такая работа, как строительство деревянной веранды, обязательно должна начинаться с разработки индивидуального проекта. В нем нужно указать абсолютно все расчеты и размеры. В каком месте будет находит",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/03/1200x630-chto-nuzhno-znat-pered-stroitelstvom-derevyannoj-verandy.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-03-1200x630-chto-nuzhno-znat-pered-stroitelstvom-derevyannoj-verandy.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/03/1200x630-chto-nuzhno-znat-pered-stroitelstvom-derevyannoj-verandy.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/03/740x500-chto-nuzhno-znat-pered-stroitelstvom-derevyannoj-verandy.9fe.jpg"
+      "/images/articles/images-articles-2017-03-1200x630-chto-nuzhno-znat-pered-stroitelstvom-derevyannoj-verandy.cd4.jpg",
+      "/images/articles/images-articles-2017-03-740x500-chto-nuzhno-znat-pered-stroitelstvom-derevyannoj-verandy.9fe.jpg"
     ],
     "headings": [
       "Советы экспертов: что нужно знать перед строительством деревянной веранды?"
@@ -484,10 +484,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Вообще подобная комплексная работа, касающаяся проектирования жилых различных деревянных зданий, имеет повышенную ответственность, а потому в ней должны работать компетентные люди с большим опытом в д",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/2017/03/1200x630-proektnaya-dokumentaciya-dlya-stroitelstva-derevyannogo-doma.cd4.jpg",
+    "image": "/images/articles/images-articles-2017-03-1200x630-proektnaya-dokumentaciya-dlya-stroitelstva-derevyannogo-doma.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/03/1200x630-proektnaya-dokumentaciya-dlya-stroitelstva-derevyannogo-doma.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/2017/03/740x500-proektnaya-dokumentaciya-dlya-stroitelstva-derevyannogo-doma.9fe.jpg"
+      "/images/articles/images-articles-2017-03-1200x630-proektnaya-dokumentaciya-dlya-stroitelstva-derevyannogo-doma.cd4.jpg",
+      "/images/articles/images-articles-2017-03-740x500-proektnaya-dokumentaciya-dlya-stroitelstva-derevyannogo-doma.9fe.jpg"
     ],
     "headings": [
       "Документация для строительства  дома - рекомендации",
@@ -509,10 +509,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Так, например, сегодня довольно часто можно услышать такой миф, что построенные из дерева дома – это исключительно летнее жилье, абсолютно не пригодное для постоянного проживания. Однако в действитель",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/1200x630-derevyannye-doma_zabluzhdeniya-i-mify.cd4.jpg",
+    "image": "/images/articles/images-articles-02-2017-1200x630-derevyannye-doma_zabluzhdeniya-i-mify.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/1200x630-derevyannye-doma_zabluzhdeniya-i-mify.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/740x500-derevyannye-doma_zabluzhdeniya-i-mify.9fe.jpg"
+      "/images/articles/images-articles-02-2017-1200x630-derevyannye-doma_zabluzhdeniya-i-mify.cd4.jpg",
+      "/images/articles/images-articles-02-2017-740x500-derevyannye-doma_zabluzhdeniya-i-mify.9fe.jpg"
     ],
     "headings": [
       "Деревянные дома – заблуждения и мифы",
@@ -538,10 +538,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Но нужно отметить, что особенно радуют глаз современные деревянные дома. Они как будто возвращают нас к истокам, к сказке и естественности. Эти дома не только доставляют эстетическое удовольствие окру",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/1200x630-stroitelstvo-derevyannyh-domov.cd4.jpg",
+    "image": "/images/articles/images-articles-02-2017-1200x630-stroitelstvo-derevyannyh-domov.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/1200x630-stroitelstvo-derevyannyh-domov.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/740x500-stroitelstvo-derevyannyh-domov.9fe.jpg"
+      "/images/articles/images-articles-02-2017-1200x630-stroitelstvo-derevyannyh-domov.cd4.jpg",
+      "/images/articles/images-articles-02-2017-740x500-stroitelstvo-derevyannyh-domov.9fe.jpg"
     ],
     "headings": [
       "Плюсы  деревянного дома",
@@ -565,10 +565,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Бани",
     "excerpt": "Строительство бани очень ответственное мероприятия, оно должно быть спланировано до мелочей, если вы, конечно хотите, чтобы она приносила удовольствие и добавляла здоровья. Бани под ключ изготавливают",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/1200x630-stroitelstvo-bani.cd4.jpg",
+    "image": "/images/articles/images-articles-02-2017-1200x630-stroitelstvo-bani.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/1200x630-stroitelstvo-bani.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/740x500-stroitelstvo-bani.9fe.jpg"
+      "/images/articles/images-articles-02-2017-1200x630-stroitelstvo-bani.cd4.jpg",
+      "/images/articles/images-articles-02-2017-740x500-stroitelstvo-bani.9fe.jpg"
     ],
     "headings": [
       "Строительство бань ключ",
@@ -594,10 +594,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Для любого строения, из чего бы оно ни было возведено, нужен фундамент.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/1200x630-populyarnye-derevyannye-doma.cd4.jpg",
+    "image": "/images/articles/images-articles-02-2017-1200x630-populyarnye-derevyannye-doma.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/1200x630-populyarnye-derevyannye-doma.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/02-2017/740x500-populyarnye-derevyannye-doma.9fe.jpg"
+      "/images/articles/images-articles-02-2017-1200x630-populyarnye-derevyannye-doma.cd4.jpg",
+      "/images/articles/images-articles-02-2017-740x500-populyarnye-derevyannye-doma.9fe.jpg"
     ],
     "headings": [
       "Правила строительства деревянных домов",
@@ -625,10 +625,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Строительство деревянного дома начинается с материала. Что можно выбрать? В настоящее время на рынке прочно закрепились:",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/fotogalereya/4/1200x630-IMG_0001.cd4.jpg",
+    "image": "/images/articles/images-fotogalereya-4-1200x630-IMG_0001.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/fotogalereya/4/1200x630-IMG_0001.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/fotogalereya/4/740x500-IMG_0001.9fe.jpg"
+      "/images/articles/images-fotogalereya-4-1200x630-IMG_0001.cd4.jpg",
+      "/images/articles/images-fotogalereya-4-740x500-IMG_0001.9fe.jpg"
     ],
     "headings": [
       "Выбор материала",
@@ -652,10 +652,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Бани",
     "excerpt": "Необработанные брёвна несут в себе некую магию, показывают внутреннюю красоту дерева. Такие стены дышат, естественным образом вентилируются. Монтируют вентиляцию в такой бане только для того, чтобы мо",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/01-2017/1200x630-rublennaya-banya.cd4.jpg",
+    "image": "/images/articles/images-articles-01-2017-1200x630-rublennaya-banya.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/01-2017/1200x630-rublennaya-banya.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/01-2017/740x500-rublennaya-banya.9fe.jpg"
+      "/images/articles/images-articles-01-2017-1200x630-rublennaya-banya.cd4.jpg",
+      "/images/articles/images-articles-01-2017-740x500-rublennaya-banya.9fe.jpg"
     ],
     "headings": [
       "Баня из рубленного бревна",
@@ -682,10 +682,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Архитектор Андрей Крячков в 1909 году построил первый благоустроенный особняк (в котором была котельная, санузел и ванные). Во-вторых, дом стал первым, построенным в стиле модерн. Ну и наконец, архите",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/11-2016/1200x630-derevyannyj-dom-stavshij-muzeem-v-tomske.cd4.jpg",
+    "image": "/images/articles/images-articles-11-2016-1200x630-derevyannyj-dom-stavshij-muzeem-v-tomske.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/11-2016/1200x630-derevyannyj-dom-stavshij-muzeem-v-tomske.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/11-2016/740x500-derevyannyj-dom-stavshij-muzeem-v-tomske.9fe.jpg"
+      "/images/articles/images-articles-11-2016-1200x630-derevyannyj-dom-stavshij-muzeem-v-tomske.cd4.jpg",
+      "/images/articles/images-articles-11-2016-740x500-derevyannyj-dom-stavshij-muzeem-v-tomske.9fe.jpg"
     ],
     "headings": [
       "Что же особенного в этом доме?"
@@ -707,10 +707,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Эксплуатация",
     "excerpt": "Наступила зима и естественно, вытекающие отсюда последствия, в виде снега. Удалять снег необходимо, если количество снега превышает необходимую нагрузку, ведь кровельный материал рассчитан, чтобы выне",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/11-2016/1200x630-sekrety-derevyannogo-doma.cd4.jpg",
+    "image": "/images/articles/images-articles-11-2016-1200x630-sekrety-derevyannogo-doma.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/11-2016/1200x630-sekrety-derevyannogo-doma.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/11-2016/740x500-sekrety-derevyannogo-doma.9fe.jpg"
+      "/images/articles/images-articles-11-2016-1200x630-sekrety-derevyannogo-doma.cd4.jpg",
+      "/images/articles/images-articles-11-2016-740x500-sekrety-derevyannogo-doma.9fe.jpg"
     ],
     "headings": [
       "Основные секреты ухода"
@@ -735,10 +735,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Дом из кедровых брусьев традиционно считается дороже каркасного. Но каркасные дома требуют огромного количества утеплителя, так как их стены полые. Качественный утеплитель, разумеется, влетит в копееч",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/1200x630-minusy-domov-iz-kedra-1.cd4.jpg",
+    "image": "/images/articles/images-articles-10-2016-1200x630-minusy-domov-iz-kedra-1.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/1200x630-minusy-domov-iz-kedra-1.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/740x500-minusy-domov-iz-kedra-1.9fe.jpg"
+      "/images/articles/images-articles-10-2016-1200x630-minusy-domov-iz-kedra-1.cd4.jpg",
+      "/images/articles/images-articles-10-2016-740x500-minusy-domov-iz-kedra-1.9fe.jpg"
     ],
     "headings": [
       "Часть 2. Минусы домов из кедра",
@@ -764,10 +764,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Одним из сакральных символов этой связи является священный кедр, который считается национальным деревом Японии. Богачи из токийских небоскребов, стараются обшить кедровой древесиной свои пентхаусы, а ",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/1200x630-yaponskie-doma-iz-kedra.cd4.jpg",
+    "image": "/images/articles/images-articles-10-2016-1200x630-yaponskie-doma-iz-kedra.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/1200x630-yaponskie-doma-iz-kedra.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/740x500-yaponskie-doma-iz-kedra.9fe.jpg"
+      "/images/articles/images-articles-10-2016-1200x630-yaponskie-doma-iz-kedra.cd4.jpg",
+      "/images/articles/images-articles-10-2016-740x500-yaponskie-doma-iz-kedra.9fe.jpg"
     ],
     "headings": [
       "Строительство деревянных домов - священная традиция"
@@ -788,12 +788,12 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Из всех возможных видов материалов, именно дерево признается многими народами  самым эстетичным. Возможно, это связано с многовековой традицией строительства деревянных домов. Кто не слышал про русски",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/1200x630-plyusy-domov-iz-kedra-1.cd4.jpg",
+    "image": "/images/articles/images-articles-10-2016-1200x630-plyusy-domov-iz-kedra-1.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/1200x630-plyusy-domov-iz-kedra-1.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/740x500-plyusy-domov-iz-kedra-1.9fe.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/740x500-plyusy-domov-iz-kedra-2.9fe.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/10-2016/740x500-plyusy-domov-iz-kedra-3.9fe.jpg"
+      "/images/articles/images-articles-10-2016-1200x630-plyusy-domov-iz-kedra-1.cd4.jpg",
+      "/images/articles/images-articles-10-2016-740x500-plyusy-domov-iz-kedra-1.9fe.jpg",
+      "/images/articles/images-articles-10-2016-740x500-plyusy-domov-iz-kedra-2.9fe.jpg",
+      "/images/articles/images-articles-10-2016-740x500-plyusy-domov-iz-kedra-3.9fe.jpg"
     ],
     "headings": [
       "Часть 1. Плюсы домов из кедра",
@@ -820,12 +820,12 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Из пары десятков окон дома открывается великолепный вид на Скалистые горы и порядка 120 Га собственной территории.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/1200x630-dom-toma-kruza-1.cd4.jpg",
+    "image": "/images/articles/images-articles-09-2016-1200x630-dom-toma-kruza-1.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/1200x630-dom-toma-kruza-1.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/740x500-dom-toma-kruza-1.9fe.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/740x500-dom-govard-hyuz-.9fe.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/740x500-dom-donna-karan.9fe.jpg"
+      "/images/articles/images-articles-09-2016-1200x630-dom-toma-kruza-1.cd4.jpg",
+      "/images/articles/images-articles-09-2016-740x500-dom-toma-kruza-1.9fe.jpg",
+      "/images/articles/images-articles-09-2016-740x500-dom-govard-hyuz-.9fe.jpg",
+      "/images/articles/images-articles-09-2016-740x500-dom-donna-karan.9fe.jpg"
     ],
     "headings": [
       "Загородные дома знаменитостей",
@@ -850,10 +850,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "На самом деле, дом по своему проекту - просто дом, спроектированный и построенный специально для вас. Вы мечтаете о большой кухне? Вам необходим спортивный зал или кабинет с окнами на Восток? А может ",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/1200x630-dom-po-individualnomu-proektu-illyustraciya.cd4.jpg",
+    "image": "/images/articles/images-articles-09-2016-1200x630-dom-po-individualnomu-proektu-illyustraciya.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/1200x630-dom-po-individualnomu-proektu-illyustraciya.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/740x500-dom-po-individualnomu-proektu-illyustraciya.9fe.jpg"
+      "/images/articles/images-articles-09-2016-1200x630-dom-po-individualnomu-proektu-illyustraciya.cd4.jpg",
+      "/images/articles/images-articles-09-2016-740x500-dom-po-individualnomu-proektu-illyustraciya.9fe.jpg"
     ],
     "headings": [
       "Деревянный дом по собственному проекту",
@@ -878,10 +878,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "&laquo;Деревянные дома чаще сгорают и обладают низкой пожароустойчивостью&raquo;",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/1200x630-mify-o-domah2-illyustraciya.cd4.jpg",
+    "image": "/images/articles/images-articles-09-2016-1200x630-mify-o-domah2-illyustraciya.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/1200x630-mify-o-domah2-illyustraciya.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/09-2016/740x500-mify-o-domah2-illyustraciya.9fe.jpg"
+      "/images/articles/images-articles-09-2016-1200x630-mify-o-domah2-illyustraciya.cd4.jpg",
+      "/images/articles/images-articles-09-2016-740x500-mify-o-domah2-illyustraciya.9fe.jpg"
     ],
     "headings": [
       "Пожароустойчивость, этажность и вредители",
@@ -909,10 +909,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Сегодня Россия переживает бум патриотизма, возрождение своих древних традиций. И именно в архитектуре гармонично сочетаются современные детали с исконно русскими.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-russkij-stil.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-russkij-stil.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-russkij-stil.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-russkij-stil.9fe.jpg"
+      "/images/articles/images-articles-1200x630-russkij-stil.cd4.jpg",
+      "/images/articles/images-articles-740x500-russkij-stil.9fe.jpg"
     ],
     "headings": [
       "Русский стиль в современном деревянном строительстве"
@@ -934,10 +934,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "В экономическом плане дом на две семьи конечно же выгодней, чем постройка двух отдельных деревянных домов. Чаще всего дом представляет зеркальную проекцию: главная стена делит жилище на два полноценны",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-dom-na-2-semi(1).cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-dom-na-2-semi(1).cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-dom-na-2-semi(1).cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-dom-na-2-semi(1).9fe.jpg"
+      "/images/articles/images-articles-1200x630-dom-na-2-semi(1).cd4.jpg",
+      "/images/articles/images-articles-740x500-dom-na-2-semi(1).9fe.jpg"
     ],
     "headings": [
       "Дуплекс",
@@ -957,10 +957,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Камин в деревянном доме стопроцентно может стать безопасным источником тепла, при соблюдении определённых правил безопасности на стадии строительства и в момент установки.  И  не следует забывать о то",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-kamin(1).cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-kamin(1).cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-kamin(1).cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-kamin(1).9fe.jpg"
+      "/images/articles/images-articles-1200x630-kamin(1).cd4.jpg",
+      "/images/articles/images-articles-740x500-kamin(1).9fe.jpg"
     ],
     "headings": [
       "Камин в деревянном доме - реальность",
@@ -991,10 +991,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "&laquo;Деревянный дом - это дом для лета,который не пригоден для жизни круглый год&raquo;",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/1200x630-26.cd4.jpg",
+    "image": "/images/articles/images-1200x630-26.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/1200x630-26.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/740x500-26.9fe.jpg"
+      "/images/articles/images-1200x630-26.cd4.jpg",
+      "/images/articles/images-740x500-26.9fe.jpg"
     ],
     "headings": [
       "Мифы и реальность при строительстве деревянных домов",
@@ -1025,10 +1025,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Летняя кухня является местом  приготовления пищи в особенно жаркие дни и, когда нет желания разводить в доме запахи от варки и жарки.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-letnyaya-kuhnya-v-derevyannom-dome.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-letnyaya-kuhnya-v-derevyannom-dome.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-letnyaya-kuhnya-v-derevyannom-dome.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-letnyaya-kuhnya-v-derevyannom-dome.9fe.jpg"
+      "/images/articles/images-articles-1200x630-letnyaya-kuhnya-v-derevyannom-dome.cd4.jpg",
+      "/images/articles/images-articles-740x500-letnyaya-kuhnya-v-derevyannom-dome.9fe.jpg"
     ],
     "headings": [
       "Летняя кухня – делаем жизнь еще комфортней",
@@ -1052,10 +1052,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Черновой потолок, например , отвечает за шумоизоляцию и утепление, а чистовому отводится декоративная роль. При этом эти два типа  конструкций никак не влияют друг на друга.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-potolok.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-potolok.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-potolok.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-potolok.9fe.jpg"
+      "/images/articles/images-articles-1200x630-potolok.cd4.jpg",
+      "/images/articles/images-articles-740x500-potolok.9fe.jpg"
     ],
     "headings": [
       "Варианты потолка в деревянном доме",
@@ -1080,10 +1080,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Деревянный дом в отличие от стандартных панелек считается наиболее уютным, лучше сохраняющим тепло и при этом имеющий естественную вентиляцию, так как дерево пропускает воздух. Ну и конечно же не забу",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-propitka.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-propitka.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-propitka.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-propitka.9fe.jpg"
+      "/images/articles/images-articles-1200x630-propitka.cd4.jpg",
+      "/images/articles/images-articles-740x500-propitka.9fe.jpg"
     ],
     "headings": [
       "Что необходимо знать каждому владельцу деревянного дома для продления жизни своего строения",
@@ -1105,10 +1105,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Если вы строите или уже построили коттедж или деревянный дом, то вам наверняка понадобиться и забор... Видео от портала «ForumHouse» поможет построить необычный, оригинальный забор.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-poluprozrachnyj-zabor.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-poluprozrachnyj-zabor.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-poluprozrachnyj-zabor.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-poluprozrachnyj-zabor.9fe.jpg"
+      "/images/articles/images-articles-1200x630-poluprozrachnyj-zabor.cd4.jpg",
+      "/images/articles/images-articles-740x500-poluprozrachnyj-zabor.9fe.jpg"
     ],
     "headings": [
       "Полупрозрачный деревянный забор"
@@ -1125,12 +1125,12 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Сосна живет в среднем до пятиста лет. Это вечнозелёное, богатое смолой, довольно крупное дерево, которое к 100 годам может выростать до 30—50 метров. Наиболее качественной сегодня признана древесина с",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-les.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-les.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-les.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-les.9fe.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-sosna.ec1.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-listvennica.ec1.jpg"
+      "/images/articles/images-articles-1200x630-les.cd4.jpg",
+      "/images/articles/images-articles-740x500-les.9fe.jpg",
+      "/images/articles/images-articles-740x500-sosna.ec1.jpg",
+      "/images/articles/images-articles-740x500-listvennica.ec1.jpg"
     ],
     "headings": [
       "Свойства различных пород древесины",
@@ -1160,10 +1160,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Джут (Corchorus capsularis и Corchorus olitorius) из семейства волокнистых (лубяных) растений, имеющих мировое значение. Это растение относится к семейству липовых, и достигает высоты до 3.5 м. Наибол",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-dzhutovaya-lenta-v-kachestve-uplotnitelya.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-dzhutovaya-lenta-v-kachestve-uplotnitelya.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-dzhutovaya-lenta-v-kachestve-uplotnitelya.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-dzhutovaya-lenta-v-kachestve-uplotnitelya.9fe.jpg"
+      "/images/articles/images-articles-1200x630-dzhutovaya-lenta-v-kachestve-uplotnitelya.cd4.jpg",
+      "/images/articles/images-articles-740x500-dzhutovaya-lenta-v-kachestve-uplotnitelya.9fe.jpg"
     ],
     "headings": [
       "Применение джута"
@@ -1185,12 +1185,12 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Свайный фундамент по определению отличается от монолитного наличием свайного поля из заглубленных в грунт свай того или иного вида, которые способны надежно выдержать на себе вес будущего дома. Примен",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-rostverk_1.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-rostverk_1.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-rostverk_1.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-rostverk_1.9fe.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-rostverk-1.ec1.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x300-rostverk-2.e00.jpg"
+      "/images/articles/images-articles-1200x630-rostverk_1.cd4.jpg",
+      "/images/articles/images-articles-740x500-rostverk_1.9fe.jpg",
+      "/images/articles/images-articles-740x500-rostverk-1.ec1.jpg",
+      "/images/articles/images-articles-740x300-rostverk-2.e00.jpg"
     ],
     "headings": [
       "Свайное поле сооружено - нужен ли ростверк?",
@@ -1220,10 +1220,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "На Западе уже давно применяется надежная и опробованная технология строительства фундаментов с использованием винтовых свай с заливкой внутреннего пространства бетоном.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-vintovaya-svaya.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-vintovaya-svaya.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-vintovaya-svaya.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-vintovaya-svaya.9fe.jpg"
+      "/images/articles/images-articles-1200x630-vintovaya-svaya.cd4.jpg",
+      "/images/articles/images-articles-740x500-vintovaya-svaya.9fe.jpg"
     ],
     "headings": [
       "Винтовая свая",
@@ -1253,10 +1253,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Строя коттедж, вы надеетесь получить более высокую степень комфорта, чем проживая в квартире. Тепло в доме это, несомненно, очень важная часть этого комфорта. Допустим, для городской квартиры подойдет",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-teplo-v-dome.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-teplo-v-dome.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-teplo-v-dome.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-teplo-v-dome.9fe.jpg"
+      "/images/articles/images-articles-1200x630-teplo-v-dome.cd4.jpg",
+      "/images/articles/images-articles-740x500-teplo-v-dome.9fe.jpg"
     ],
     "headings": [
       "Бережем тепло в доме"
@@ -1280,10 +1280,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Это обусловлено такими факторами, как его относительно малая стоимость и экологичность. Также немаловажны сроки возведения такого дома - они самые короткие по сравнению с другими видами деревянных стр",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-S6000026.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-S6000026.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-S6000026.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-S6000026.9fe.jpg"
+      "/images/articles/images-articles-1200x630-S6000026.cd4.jpg",
+      "/images/articles/images-articles-740x500-S6000026.9fe.jpg"
     ],
     "headings": [
       "Технологические этапы постройки дома из профилированного бруса",
@@ -1307,10 +1307,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Исстари содержали только растворы природных смол. Сегодня в масляный лак стали добавлять искусственные смолы с натуральными маслами плюс растворители и сиккативы. Использование таких заменителей сущес",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-laki-dlya-dereva.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-laki-dlya-dereva.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-laki-dlya-dereva.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-laki-dlya-dereva.9fe.jpg"
+      "/images/articles/images-articles-1200x630-laki-dlya-dereva.cd4.jpg",
+      "/images/articles/images-articles-740x500-laki-dlya-dereva.9fe.jpg"
     ],
     "headings": [
       "Виды лаков для дерева и их особенности",
@@ -1348,10 +1348,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Если планируется окраска только что построенного деревянного дома собственными силами, то нужно учесть, что это следует делать только после окончательной усадки дома, т.к. в процессе усадки размеры ра",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-pokraska-derevyannogo-dom.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-pokraska-derevyannogo-dom.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-pokraska-derevyannogo-dom.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-pokraska-derevyannogo-dom.9fe.jpg"
+      "/images/articles/images-articles-1200x630-pokraska-derevyannogo-dom.cd4.jpg",
+      "/images/articles/images-articles-740x500-pokraska-derevyannogo-dom.9fe.jpg"
     ],
     "headings": [
       "Подготовка к покраске",
@@ -1379,10 +1379,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Дерево, как всем известно, является легковоспламеняемым материалом. Отсюда первое требование - усиление противопожарной защиты и огнестойкости рубленного  или просто деревянного сруба.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-shlifofka.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-shlifofka.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-shlifofka.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-shlifofka.9fe.jpg"
+      "/images/articles/images-articles-1200x630-shlifofka.cd4.jpg",
+      "/images/articles/images-articles-740x500-shlifofka.9fe.jpg"
     ],
     "headings": [
       "Зачем нужна обработка?",
@@ -1415,10 +1415,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Строительство",
     "excerpt": "Также повсеместно применяется при строительстве подсобных сооружений, устройстве опалубки, времянок, складских помещений, а также при различных черновых работах.",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-table.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-table.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-table.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-table.9fe.jpg"
+      "/images/articles/images-articles-1200x630-table.cd4.jpg",
+      "/images/articles/images-articles-740x500-table.9fe.jpg"
     ],
     "headings": [
       "Считаем доску",
@@ -1447,10 +1447,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Независимо от того, какой вид пиломатериала вы предпочтете, необходмио выбирать качественную древесину. Необходимо обратить пристальное внимание на внешний вид дерева и наличие внешних дефектов, таких",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-material1.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-material1.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-material1.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-material1.9fe.jpg"
+      "/images/articles/images-articles-1200x630-material1.cd4.jpg",
+      "/images/articles/images-articles-740x500-material1.9fe.jpg"
     ],
     "headings": [
       "Правильно выбраем стройматериалы из дерева"
@@ -1472,10 +1472,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Бани",
     "excerpt": "Классический и самый предпочитаемый вариант. Дерево — самый натуральный и экологически чистый материал, который усиливает целебный эффект от банных процедур. Неповторимый аромат свежего дерева и привл",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-banya.cd4.jpg",
+    "image": "/images/articles/images-articles-1200x630-banya.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/1200x630-banya.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/740x500-banya.9fe.jpg"
+      "/images/articles/images-articles-1200x630-banya.cd4.jpg",
+      "/images/articles/images-articles-740x500-banya.9fe.jpg"
     ],
     "headings": [
       "Деревянная баня",
@@ -1503,10 +1503,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Дома из рубленного бревна и дома из профилированного бруса, как все постройки из натуральных материалов, чувствительны к воздействию внешней среды. Под влиянием перепадов температуры и уровня влажност",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/zashhita-drevesiny/1200x630-zashhita-drevesiny-1.cd4.jpg",
+    "image": "/images/articles/images-articles-zashhita-drevesiny-1200x630-zashhita-drevesiny-1.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/zashhita-drevesiny/1200x630-zashhita-drevesiny-1.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/zashhita-drevesiny/740x500-zashhita-drevesiny-1.9fe.jpg"
+      "/images/articles/images-articles-zashhita-drevesiny-1200x630-zashhita-drevesiny-1.cd4.jpg",
+      "/images/articles/images-articles-zashhita-drevesiny-740x500-zashhita-drevesiny-1.9fe.jpg"
     ],
     "headings": [
       "Обработка древесины химическими составами",
@@ -1530,10 +1530,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Для строительства рубленных домов рубленое или строганное бревно создается полностью вручную. Это довольно долгий и трудозатратный процесс, который потребует больших финансовых вложений и физических у",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/stroitelstvo/house_rub/1200x630-brus9.cd4.jpg",
+    "image": "/images/articles/images-stroitelstvo-house_rub-1200x630-brus9.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/stroitelstvo/house_rub/1200x630-brus9.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/stroitelstvo/house_rub/740x500-brus9.9fe.jpg"
+      "/images/articles/images-stroitelstvo-house_rub-1200x630-brus9.cd4.jpg",
+      "/images/articles/images-stroitelstvo-house_rub-740x500-brus9.9fe.jpg"
     ],
     "headings": [
       "Что выбрать для строительства дома?",
@@ -1556,10 +1556,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Условно деревянные дома можно разделить на две основных категории:",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/pochemu-brus/1200x630-nestrugannyj-brus.cd4.jpg",
+    "image": "/images/articles/images-articles-pochemu-brus-1200x630-nestrugannyj-brus.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/pochemu-brus/1200x630-nestrugannyj-brus.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/pochemu-brus/740x500-nestrugannyj-brus.9fe.jpg"
+      "/images/articles/images-articles-pochemu-brus-1200x630-nestrugannyj-brus.cd4.jpg",
+      "/images/articles/images-articles-pochemu-brus-740x500-nestrugannyj-brus.9fe.jpg"
     ],
     "headings": [
       "Почему люди выбирают брус?"
@@ -1584,10 +1584,10 @@ export const ARTICLES: Article[] = [
     "readTime": "3 мин",
     "category": "Материалы",
     "excerpt": "Обычно профилированный брус производят из сосны, ели, кедра или лиственницы, который обрабатывается на современных станках.\nНеоспоримым достоинством профилированного бруса перед другими видами стройма",
-    "image": "https://kedr-tomsk.ru/assets/cache/images/articles/prof-brus/1200x630-profilirovannyj-brus.cd4.jpg",
+    "image": "/images/articles/images-articles-prof-brus-1200x630-profilirovannyj-brus.cd4.jpg",
     "images": [
-      "https://kedr-tomsk.ru/assets/cache/images/articles/prof-brus/1200x630-profilirovannyj-brus.cd4.jpg",
-      "https://kedr-tomsk.ru/assets/cache/images/articles/prof-brus/740x500-profilirovannyj-brus.9fe.jpg"
+      "/images/articles/images-articles-prof-brus-1200x630-profilirovannyj-brus.cd4.jpg",
+      "/images/articles/images-articles-prof-brus-740x500-profilirovannyj-brus.9fe.jpg"
     ],
     "headings": [
       "Преимущества профилированного бруса",
