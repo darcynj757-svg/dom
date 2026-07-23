@@ -104,18 +104,12 @@ function Lightbox({ item, itemIndex, total, onClose, onPrevItem, onNextItem }: L
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") {
-        if (item.images.length > 1) prevPhoto();
-        else onPrevItem();
-      }
-      if (e.key === "ArrowRight") {
-        if (item.images.length > 1) nextPhoto();
-        else onNextItem();
-      }
+      if (e.key === "ArrowLeft") prevPhoto();
+      if (e.key === "ArrowRight") nextPhoto();
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [onClose, prevPhoto, nextPhoto, onPrevItem, onNextItem, item.images.length]);
+  }, [onClose, prevPhoto, nextPhoto]);
 
   const hasStrip = item.images.length > 1;
   const currentSrc = item.images[photoIndex];
@@ -137,22 +131,38 @@ function Lightbox({ item, itemIndex, total, onClose, onPrevItem, onNextItem }: L
         <X className="w-5 h-5" />
       </button>
 
-      {/* Счётчик объектов */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/50 text-sm tabular-nums select-none">
-        {itemIndex + 1} / {total}
+      {/* Счётчик фото + навигация по объектам */}
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-3 select-none">
+        <button
+          onClick={(e) => { e.stopPropagation(); onPrevItem(); }}
+          className="text-white/40 hover:text-white/80 transition-colors text-xs flex items-center gap-1"
+        >
+          <ChevronLeft className="w-3 h-3" />
+          <span className="hidden md:inline">объект</span>
+        </button>
+        <span className="text-white/50 text-sm tabular-nums">
+          {hasStrip ? `${photoIndex + 1} / ${item.images.length}` : `${itemIndex + 1} / ${total}`}
+        </span>
+        <button
+          onClick={(e) => { e.stopPropagation(); onNextItem(); }}
+          className="text-white/40 hover:text-white/80 transition-colors text-xs flex items-center gap-1"
+        >
+          <span className="hidden md:inline">объект</span>
+          <ChevronRight className="w-3 h-3" />
+        </button>
       </div>
 
-      {/* Стрелки переключения объектов */}
+      {/* Большие стрелки — листать фото текущего дома */}
       <button
-        onClick={(e) => { e.stopPropagation(); onPrevItem(); }}
-        className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2 md:p-3 z-10"
+        onClick={(e) => { e.stopPropagation(); prevPhoto(); }}
+        className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/25 rounded-full p-2.5 md:p-4 z-10"
       >
-        <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+        <ChevronLeft className="w-6 h-6 md:w-7 md:h-7" />
       </button>
 
       {/* Центральная зона */}
       <div
-        className="flex flex-col items-center w-full max-w-5xl px-14 md:px-20"
+        className="flex flex-col items-center w-full max-w-5xl px-16 md:px-24"
         style={{ maxHeight: "calc(100vh - 2rem)" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -162,78 +172,55 @@ function Lightbox({ item, itemIndex, total, onClose, onPrevItem, onNextItem }: L
             key={currentSrc}
             src={currentSrc}
             alt={item.title}
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.97 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.18 }}
             className="rounded-xl object-contain shadow-2xl"
-            style={{ maxHeight: hasStrip ? "calc(100vh - 200px)" : "calc(100vh - 130px)", maxWidth: "100%", width: "auto" }}
+            style={{
+              maxHeight: hasStrip ? "calc(100vh - 210px)" : "calc(100vh - 140px)",
+              maxWidth: "100%",
+              width: "auto",
+            }}
           />
         </AnimatePresence>
 
         {/* Подпись */}
         <div className="mt-3 text-center shrink-0">
           <p className="text-white font-medium text-sm md:text-base">{item.title}</p>
-          {hasStrip && (
-            <p className="text-white/45 text-xs mt-0.5">
-              {photoIndex + 1} из {item.images.length} фото
-            </p>
-          )}
         </div>
 
         {/* Стрип миниатюр */}
         {hasStrip && (
-          <div className="mt-4 w-full shrink-0">
-            {/* Стрелки внутри фото */}
-            <div className="relative flex items-center">
+          <div
+            ref={stripRef}
+            className="mt-3 flex gap-2 overflow-x-auto scroll-smooth w-full justify-center"
+            style={{ scrollbarWidth: "none" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {item.images.map((src, i) => (
               <button
-                onClick={(e) => { e.stopPropagation(); prevPhoto(); }}
-                className="shrink-0 mr-2 text-white/50 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-1.5"
+                key={i}
+                onClick={(e) => { e.stopPropagation(); setPhotoIndex(i); }}
+                className={`shrink-0 w-14 h-14 md:w-18 md:h-18 rounded-lg overflow-hidden transition-all duration-200 ${
+                  i === photoIndex
+                    ? "ring-2 ring-white opacity-100 scale-105"
+                    : "opacity-40 hover:opacity-70"
+                }`}
               >
-                <ChevronLeft className="w-4 h-4" />
+                <img src={src} alt={`Фото ${i + 1}`} className="w-full h-full object-cover" />
               </button>
-
-              <div
-                ref={stripRef}
-                className="flex gap-2 overflow-x-auto scrollbar-none scroll-smooth flex-1"
-                style={{ scrollbarWidth: "none" }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {item.images.map((src, i) => (
-                  <button
-                    key={i}
-                    onClick={(e) => { e.stopPropagation(); setPhotoIndex(i); }}
-                    className={`relative shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden transition-all duration-200 ${
-                      i === photoIndex
-                        ? "ring-2 ring-white ring-offset-1 ring-offset-black/80 opacity-100"
-                        : "opacity-50 hover:opacity-80"
-                    }`}
-                  >
-                    <img
-                      src={src}
-                      alt={`Фото ${i + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-
-              <button
-                onClick={(e) => { e.stopPropagation(); nextPhoto(); }}
-                className="shrink-0 ml-2 text-white/50 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-1.5"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+            ))}
           </div>
         )}
       </div>
 
+      {/* Большая стрелка вправо */}
       <button
-        onClick={(e) => { e.stopPropagation(); onNextItem(); }}
-        className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2 md:p-3 z-10"
+        onClick={(e) => { e.stopPropagation(); nextPhoto(); }}
+        className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/25 rounded-full p-2.5 md:p-4 z-10"
       >
-        <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+        <ChevronRight className="w-6 h-6 md:w-7 md:h-7" />
       </button>
     </motion.div>
   );
