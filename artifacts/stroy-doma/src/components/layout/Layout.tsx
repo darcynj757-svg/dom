@@ -358,19 +358,19 @@ export function Footer() {
       {/* Full-width map strip */}
       <div className="relative w-full h-56 md:h-72 group">
         <iframe
-          src="https://maps.google.com/maps?q=56.5267,84.9354&z=16&output=embed&hl=ru"
+          src="https://yandex.ru/map-widget/v1/?ll=84.966279%2C56.481560&z=15&pt=84.966279%2C56.481560%2Cpm2gnm&l=map"
           className="w-full h-full border-0"
           loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
           title="Томск, мкр. Черемошники, ул. Профсоюзная, 2/1с12"
+          allowFullScreen
         />
         <a
-          href="https://www.google.com/maps?q=56.5267,84.9354"
+          href="https://yandex.ru/maps/?pt=84.966279,56.481560&z=15&l=map"
           target="_blank"
           rel="noopener noreferrer"
           className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-foreground text-sm font-medium px-4 py-2 rounded-full shadow"
         >
-          Открыть в Google Maps ↗
+          Открыть в Яндекс Картах ↗
         </a>
       </div>
 
