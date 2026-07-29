@@ -161,14 +161,15 @@ export default function ScrollHouseBlock() {
 
         {/* Mobile: single card above the house, swaps on scroll */}
         {(() => {
-          // Pick the layer with the highest opacity at current progress;
-          // before first layer show first card, after last show last card.
-          let bestIdx = houseProgress < CONSTRUCTION_LAYERS[0].from ? 0 : CONSTRUCTION_LAYERS.length - 1;
-          let bestOp = -1;
-          CONSTRUCTION_LAYERS.forEach((layer, idx) => {
-            const op = layerOpacity(houseProgress, layer.from, layer.to);
-            if (op > bestOp) { bestOp = op; bestIdx = idx; }
-          });
+          // Stretch cards evenly across the full scroll (0 → 0.95),
+          // so each of the 4 cards occupies ~25% of scroll instead of
+          // the narrow build-animation windows used on desktop.
+          const TOTAL = 0.95;
+          const normalised = Math.min(houseProgress / TOTAL, 1);
+          const bestIdx = Math.min(
+            CONSTRUCTION_LAYERS.length - 1,
+            Math.floor(normalised * CONSTRUCTION_LAYERS.length),
+          );
           const layer = CONSTRUCTION_LAYERS[bestIdx];
           const isVisible = houseProgress > 0.01;
           return (
