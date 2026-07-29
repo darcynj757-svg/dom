@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Строительство домов и бань"
+version = "1.0.0"
+id = "artifacts/stroy-doma"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19912
+
+[services.development]
+run = "pnpm --filter @workspace/stroy-doma run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/stroy-doma", "run", "build" ]
+publicDir = "artifacts/stroy-doma/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19912"
+BASE_PATH = "/"

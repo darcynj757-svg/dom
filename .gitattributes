@@ -1,0 +1,8 @@
+attached_assets/cedar_log_mansion_flythrough_16s_1783258178155.mp4 filter=lfs diff=lfs merge=lfs -text
+attached_assets/generated_videos/kedr-house.mp4 filter=lfs diff=lfs merge=lfs -text
+artifacts/stroy-doma/public/videos/kedr-house-1.mp4 filter=lfs diff=lfs merge=lfs -text
+artifacts/stroy-doma/public/videos/kedr-house-hero.mp4 filter=lfs diff=lfs merge=lfs -text
+attached_assets/generated_videos/cedar_log_mansion_continuation_8s.mp4 filter=lfs diff=lfs merge=lfs -text
+artifacts/stroy-doma/public/videos/hero-profbrus-gen.mp4 filter=lfs diff=lfs merge=lfs -text
+attached_assets/generated_videos/profiled-timber-house-hero.mp4 filter=lfs diff=lfs merge=lfs -text
+artifacts/stroy-doma/public/videos/house-orbit.mp4 filter=lfs diff=lfs merge=lfs -text

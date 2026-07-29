@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Кедр Томск — деревянные дома и бани под ключ в Томске</title>
+    <meta name="description" content="Строительство деревянных домов и бань из профилированного бруса и рубленого бревна с 2001 года. Более 200 объектов по всей России. Бесплатный проект при заказе." />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Кедр Томск — деревянные дома и бани под ключ" />
+    <meta property="og:description" content="Строительство деревянных домов и бань из профилированного бруса и рубленого бревна с 2001 года. Более 200 объектов по всей России." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kedr-tomsk.ru/" />
+    <meta property="og:image" content="https://kedr-tomsk.ru/opengraph.jpg" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Кедр Томск — деревянные дома и бани под ключ" />
+    <meta name="twitter:description" content="Строительство деревянных домов и бань из профилированного бруса и рубленого бревна с 2001 года." />
+    <meta name="twitter:image" content="https://kedr-tomsk.ru/opengraph.jpg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Preload hero poster for instant LCP on mobile -->
+    <link rel="preload" as="image" href="/posters/cedar_log_mansion_flythrough_16s_compressed.webp" />
+    <!-- house.glb (26 MB) is lazy-loaded only when the user scrolls to the 3D section -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Load fonts asynchronously so they never block first paint -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,700;1,900&family=Fraunces:opsz,wght@9..144,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,700;1,900&family=Fraunces:opsz,wght@9..144,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"></noscript>
+    <style>
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #111110;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        transition: opacity 0.6s ease, visibility 0.6s ease;
+      }
+      #splash.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      /* ── Wrapper: SVG rect + logo stacked ── */
+      .splash-inner {
+        position: relative;
+        width: 156px;
+        height: 156px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: splash-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+      @keyframes splash-enter {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      /* ── SVG border that draws itself around the logo ── */
+      .splash-rect-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .splash-rect {
+        fill: none;
+        stroke: #c9a84c;
+        stroke-width: 1.5;
+        /* perimeter of 152×152 rect = 608 */
+        stroke-dasharray: 608;
+        stroke-dashoffset: 608;
+        animation: splash-rect-draw 3.8s linear 0.1s forwards;
+      }
+      @keyframes splash-rect-draw {
+        to { stroke-dashoffset: 0; }
+      }
+
+      /* ── Logo mask wrapper ── */
+      .splash-logo-wrap {
+        position: relative;
+        width: 120px;
+        height: 120px;
+      }
+
+      /* Both layers share the logo as a CSS mask */
+      .splash-layer {
+        position: absolute;
+        inset: 0;
+        -webkit-mask-image: url(/logo-splash.png);
+        mask-image: url(/logo-splash.png);
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+      }
+
+      /* Ghost: always-visible dim white */
+      .splash-ghost { background: rgba(255,255,255,0.18); }
+
+      /* Sandy layer reveals from bottom to top over 2.6 s */
+      .splash-sandy {
+        background: #c9a84c;
+        clip-path: inset(100% 0 0 0);
+        animation: splash-fill-up 2.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+      }
+      @keyframes splash-fill-up {
+        from { clip-path: inset(100% 0 0 0); }
+        to   { clip-path: inset(0% 0 0 0); }
+      }
+
+      /* Пульсация пока ждём загрузку видео */
+      .splash-logo-wrap.pulsing {
+        animation: splash-pulse 1.4s ease-in-out infinite;
+      }
+      @keyframes splash-pulse {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0.25; }
+      }
+
+      /* ── Title under logo ── */
+      .splash-title {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 13px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: #c9a84c;
+        animation: splash-title-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+      }
+      @keyframes splash-title-in {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash">
+      <div class="splash-inner">
+        <!-- Animated border rect: draws clockwise around the logo -->
+        <svg class="splash-rect-svg" viewBox="0 0 156 156" xmlns="http://www.w3.org/2000/svg">
+          <rect class="splash-rect" x="2" y="2" width="152" height="152"/>
+        </svg>
+        <!-- Logo -->
+        <div class="splash-logo-wrap">
+          <div class="splash-layer splash-ghost"></div>
+          <div class="splash-layer splash-sandy"></div>
+        </div>
+      </div>
+      <span class="splash-title">Kedr Tomsk</span>
+    </div>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

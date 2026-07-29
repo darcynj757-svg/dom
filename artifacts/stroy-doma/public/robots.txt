@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /terms
+
+Sitemap: https://kedr-tomsk.ru/sitemap.xml

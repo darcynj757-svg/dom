@@ -1,0 +1,203 @@
+# Video Generation Prompt
+
+Generate a **photorealistic cinematic video** for the hero section of the website page **"Рубленные дома" (Handcrafted Log Homes)**.
+
+## CRITICAL REQUIREMENT
+
+This must be a house built using **Canadian Log Construction (Canadian Saddle Notch / Canadian Log Joinery)**.
+
+This is **NOT** a house made of profiled timber, glued laminated timber, square timber, rectangular timber, or any modern milled wood.
+
+The house must be constructed from **large natural round logs** using authentic **Canadian saddle notch corner joints**.
+
+The video is intended **only** for the page about **handcrafted log homes**.
+
+---
+
+# Construction Requirements
+
+The walls must be made from:
+
+* massive natural round logs
+* full-diameter tree trunks
+* hand-peeled logs
+* visible natural taper of the logs
+* irregular organic wood texture
+* handcrafted appearance
+* authentic Canadian log construction
+
+The logs must **NOT** have:
+
+* flat sides
+* square profile
+* rectangular profile
+* machined timber appearance
+* laminated timber look
+* profiled timber grooves
+* modern modular wood construction
+
+Every log should remain naturally round.
+
+---
+
+# Canadian Corner Joinery
+
+The corners are the most important element.
+
+Use authentic:
+
+* Canadian Saddle Notch
+* handcrafted log joinery
+* interlocking round logs
+* deep saddle notches
+* extended log ends beyond the corners
+* traditional Canadian craftsmanship
+
+The corner joints should immediately communicate that this is **Canadian log construction**, not Scandinavian timber construction.
+
+---
+
+# House Style
+
+Luxury handcrafted log home.
+
+Large panoramic windows.
+
+Natural stone chimney.
+
+Premium mountain lodge architecture.
+
+Warm natural wood tones.
+
+Large covered terrace.
+
+Realistic handcrafted detailing.
+
+Visible log crowns.
+
+Authentic wooden roof structure.
+
+Finished house ready for living.
+
+---
+
+# Environment
+
+Beautiful forest clearing.
+
+Tall pine trees.
+
+Mountain landscape in the distance.
+
+Natural green lawn.
+
+Warm summer afternoon.
+
+Golden sunlight.
+
+Soft cinematic shadows.
+
+Gentle breeze moving the trees.
+
+Premium countryside atmosphere.
+
+---
+
+# Camera Movement
+
+This must be a **video**, not a still image.
+
+The sequence should last approximately 8–12 seconds.
+
+Camera movement:
+
+* starts close to the front façade
+* slowly pulls backward (cinematic dolly out)
+* slight upward crane movement
+* subtle orbit of 5–10 degrees around the house
+* reveals the entire building
+* smooth cinematic motion
+* no abrupt transitions
+* no fast drone flight
+* realistic camera stabilization
+
+The movement should feel like a luxury architectural commercial.
+
+---
+
+# Lighting
+
+Golden hour sunlight.
+
+Warm cinematic lighting.
+
+Natural reflections in the windows.
+
+Soft shadows.
+
+Physically accurate global illumination.
+
+Ultra realistic rendering.
+
+---
+
+# Quality
+
+Ultra photorealistic.
+
+Architectural visualization.
+
+Cinema quality.
+
+Premium real estate commercial.
+
+Extremely detailed wood texture.
+
+Visible wood grain.
+
+Natural bark imperfections where appropriate.
+
+High dynamic range.
+
+8K quality.
+
+16:9 aspect ratio.
+
+---
+
+# Negative Prompt
+
+Do NOT generate:
+
+* profiled timber house
+* glued laminated timber
+* square timber
+* rectangular beams
+* flat wooden walls
+* Scandinavian timber construction
+* modern wooden frame house
+* modular wooden house
+* chalet made from beams
+* log imitation siding
+* fake wood texture
+* CGI look
+* cartoon style
+* illustration
+* painting
+* concept art
+* people
+* cars
+* text
+* captions
+* logos
+* watermarks
+
+---
+
+# Absolute Priority
+
+The building must unmistakably be an **authentic handcrafted Canadian log home** built from **large natural round logs with Canadian saddle notch corner joints**.
+
+It should be impossible to confuse this house with one built from profiled timber.
+
+The final result must look like a high-end promotional video for a luxury handcrafted Canadian log home, suitable as the hero background on the **"Рубленные дома"** webpage.

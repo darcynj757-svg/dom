@@ -1,0 +1,421 @@
+uploads = []
+
+[[generated]]
+id = "b92y3DAq-Jbs_m_Qn1aGs"
+uri = "file://attached_assets/generated_images/house_timber_modern.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "I1MprbBtKdzLdE2y6pGaq"
+uri = "file://attached_assets/generated_images/house_brick_classic.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "5i2MyV__X6_3M470lgVUY"
+uri = "file://attached_assets/generated_images/house_frame_scandinavian.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "OwQPW5nht0v6hfXznOFM1"
+uri = "file://attached_assets/generated_images/bathhouse_log_traditional.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "Oo2ZS0_XFPOqJMvjhSv2y"
+uri = "file://attached_assets/generated_images/bathhouse_modern_black.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "vxOjyQ0KPX5PbrWifkiPZ"
+uri = "file://attached_assets/generated_images/bathhouse_lake_rustic.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "ZethSYce5II910uR0fECV"
+uri = "file://attached_assets/generated_images/minimalist_modern_logo_icon_b080.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "Fefk1NZMiaWavAl9rJSGR"
+uri = "file://attached_assets/generated_images/house_line_logo.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "IbKl48tCN4SIHIAqt666w"
+uri = "file://attached_assets/generated_images/kt_house_logo.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "l1sEqPq6a1IbnOz7mWvHQ"
+uri = "file://attached_assets/generated_images/kt_house_logo_v2.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "zda2Kwmb9xXczxMjjZ5FB"
+uri = "file://attached_assets/generated_images/kt_house_logo_v3.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "iH0a8BJexzC10Akv_cSoE"
+uri = "file://attached_assets/generated_images/kt_house_logo_v4.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "j1PVhT-QuB-LboF7KbJj2"
+uri = "file://attached_assets/generated_images/kedr_logo_referenced.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "K3z9DOzAfT9WKnNG8rcIw"
+uri = "file://attached_assets/generated_images/kedr_icon_only.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "1t1laxHb0HTpB6yaig5xQ"
+uri = "file://attached_assets/generated_images/kt_v1_icon.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "WJFSleddxVcJdgHYDPiSS"
+uri = "file://attached_assets/generated_images/kt_v2_icon.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "cdCNfkizETa5HUXfGMjbu"
+uri = "file://attached_assets/generated_images/kt_v3_icon.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "JEIL78G1oK7tJ4P-fAgfB"
+uri = "file://attached_assets/generated_images/kt_v4_icon.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "ZKmiHrvSAM522PZbzQtQE"
+uri = "file://attached_assets/generated_images/kt_perspective_v1.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "FdVHpDFCXsohCCbC1vgk5"
+uri = "file://attached_assets/generated_images/kt_perspective_v2.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "PwVUJv1Y520KbnLWFWiAL"
+uri = "file://attached_assets/generated_images/kt_persp_a.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "7ZPeLfRHE2omyK_kowFCy"
+uri = "file://attached_assets/generated_images/kt_persp_b.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "71Ksa8TPY9qtBNwFLtmNq"
+uri = "file://attached_assets/generated_images/kt_persp_c.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "vuo9_lwpe-y3w9DBqvPSr"
+uri = "file://attached_assets/generated_images/kt_persp_d.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "JonbVO6DqRRjUrMyI0LDI"
+uri = "file://attached_assets/generated_images/kt_persp_e.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "B_ISlL0gDHFnHDg4SCwYg"
+uri = "file://attached_assets/generated_images/kt_build_a.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "tMVlmgulsw-LzCf87zFnj"
+uri = "file://attached_assets/generated_images/kt_build_b.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "mFtD8ly-orFaJjEDB-kkP"
+uri = "file://attached_assets/generated_images/kt_build_c.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "StxE3-q8vm-HtTB9ahw2W"
+uri = "file://attached_assets/generated_images/kt_build_d.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "JUVIYo2WKj6ze1GNvcB8l"
+uri = "file://attached_assets/generated_images/kt_build_e.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "_EWQOr9GPGy3HSVblae0F"
+uri = "file://attached_assets/generated_images/kt_min_a.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "zpUsYntvsBgbrAPw_rkex"
+uri = "file://attached_assets/generated_images/kt_min_b.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "DZiqubbExAE6IEdxA65CQ"
+uri = "file://attached_assets/generated_images/kt_min_c.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "AFTG_qj-fBpkCjKjm1bdV"
+uri = "file://attached_assets/generated_images/kt_min_d.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "YmiiAo-eQfJsr0NXrHypn"
+uri = "file://attached_assets/generated_images/kt_min_e.png"
+type = "image"
+title = "generated_image"
+
+[[outputs]]
+id = "KPABw7oJC3lRynusju4M6"
+uri = "file://attached_assets/image_search/logo_2.png"
+type = "image"
+title = "Villa Building Construction Logo"
+
+[[outputs]]
+id = "mthBpIIf2Ffi0ofITGtTI"
+uri = "file://attached_assets/image_search/logo_3.png"
+type = "image"
+title = "Two Building Construction Logo"
+
+[[outputs]]
+id = "Spe0RZwPoJkzdJ8gq-L-y"
+uri = "file://attached_assets/image_search/logo_4.png"
+type = "image"
+title = "Строительство дома — логотип и символ"
+
+[[outputs]]
+id = "HTizChxMrU7K_jtdVc5ue"
+uri = "file://attached_assets/image_search/logo_6.png"
+type = "image"
+title = "Modern Log Cabin — деревянный дом"
+
+[[outputs]]
+id = "wjXJYuRN2A0OMWStCUUrB"
+uri = "file://attached_assets/generated_images/house_line_logo.png"
+type = "image"
+title = "Логотип дома (линии)"
+
+[[outputs]]
+id = "A62Wke5xaxRpELalrHYte"
+uri = "file://attached_assets/generated_images/kt_house_logo_v2.png"
+type = "image"
+title = "Логотип КТ — дом в объёме"
+
+[[outputs]]
+id = "hxrchRAtRhRhASuLJfKDV"
+uri = "file://attached_assets/generated_images/kt_house_logo_v4.png"
+type = "image"
+title = "Вариант 4 — чёткий дом, плоский силуэт"
+
+[[outputs]]
+id = "OEkZV96qZWXGlNScsChw-"
+uri = "file://attached_assets/generated_images/kt_house_logo_v3.png"
+type = "image"
+title = "Вариант 3 — изометрический объём"
+
+[[outputs]]
+id = "TjvNksEDaz1lJmR7o-bee"
+uri = "file://attached_assets/generated_images/kedr_logo_final.png"
+type = "image"
+title = "Логотип Кедр — в стиле референса"
+
+[[outputs]]
+id = "0e9ZFzth9xDliuVC47X9v"
+uri = "file://attached_assets/generated_images/kt_v1_icon_labeled.png"
+type = "image"
+title = "Вариант 1 — в стиле вашего референса (двойная лента-крыша)"
+
+[[outputs]]
+id = "q5gx0XE_XZ0q5SjFHtnf_"
+uri = "file://attached_assets/generated_images/kt_v2_icon_labeled.png"
+type = "image"
+title = "Вариант 2 — бревенчатый дом из брёвен (деревянное строительство)"
+
+[[outputs]]
+id = "2Tbk3Kn8Ol4ZU1AxizbVg"
+uri = "file://attached_assets/generated_images/kt_v3_icon_labeled.png"
+type = "image"
+title = "Вариант 3 — ель + дом (отсылка к «Кедру»)"
+
+[[outputs]]
+id = "PhswNLNIi0Mhum9DSMZz_"
+uri = "file://attached_assets/generated_images/kt_v4_icon_labeled.png"
+type = "image"
+title = "Вариант 4 — строгий знак в круге"
+
+[[outputs]]
+id = "ItAp_83e1pdA4AQXR2ddr"
+uri = "file://attached_assets/generated_images/kt_perspective_v1.png"
+type = "image"
+title = "Вариант 1 — изометрический объёмный дом"
+
+[[outputs]]
+id = "fvTG_oBwRZMt57zZCy2lt"
+uri = "file://attached_assets/generated_images/kt_perspective_v2.png"
+type = "image"
+title = "Вариант 2 — перспектива с точкой схода"
+
+[[outputs]]
+id = "E5O61z3E21ikskTB8NiYU"
+uri = "file://attached_assets/generated_images/kt_persp_a.png"
+type = "image"
+title = "А — бревенчатый дом в изометрии"
+
+[[outputs]]
+id = "Qbq9oiVqPprREBn4tPkuh"
+uri = "file://attached_assets/generated_images/kt_persp_b.png"
+type = "image"
+title = "Б — вид снизу вверх (драматичная перспектива)"
+
+[[outputs]]
+id = "vkWXF8nuf4gE6c9Crw1qg"
+uri = "file://attached_assets/generated_images/kt_persp_c.png"
+type = "image"
+title = "В — «взорванная» конструкция (крыша отдельно)"
+
+[[outputs]]
+id = "VL36p6kqm29IIsuTzK3Ke"
+uri = "file://attached_assets/generated_images/kt_persp_d.png"
+type = "image"
+title = "Г — два слоя с эффектом глубины"
+
+[[outputs]]
+id = "4u0wha0CXjXSrrnfHRlbe"
+uri = "file://attached_assets/generated_images/kt_persp_e.png"
+type = "image"
+title = "Д — вид сверху на планировку дома"
+
+[[outputs]]
+id = "_cVEejvLtqbeVxge_xIHm"
+uri = "file://attached_assets/generated_images/kt_build_a.png"
+type = "image"
+title = "А — дом с крюком-крючком"
+
+[[outputs]]
+id = "WfTswxyE8GE-UlTF313m6"
+uri = "file://attached_assets/generated_images/kt_build_b.png"
+type = "image"
+title = "Б — чертёж чертёжного плана"
+
+[[outputs]]
+id = "Zn64vJeIutUxwuzkoRRyM"
+uri = "file://attached_assets/generated_images/kt_build_c.png"
+type = "image"
+title = "В — деревянный каркас дома (стройка)"
+
+[[outputs]]
+id = "we_jcwzVsqX8O9kfeAvEv"
+uri = "file://attached_assets/generated_images/kt_build_d.png"
+type = "image"
+title = "Г — дом с восходящей стрелкой (рост)"
+
+[[outputs]]
+id = "5HTYyZ8i5plBvll4V21Mr"
+uri = "file://attached_assets/generated_images/kt_build_e.png"
+type = "image"
+title = "Д — дом в щите (надёжность)"
+
+[[outputs]]
+id = "GV6ENnntSYYG91QG-0hY_"
+uri = "file://attached_assets/generated_images/kt_min_a.png"
+type = "image"
+title = "А — простой контур одной линией"
+
+[[outputs]]
+id = "WKwTzgFT39j59bcac8Wst"
+uri = "file://attached_assets/generated_images/kt_min_b.png"
+type = "image"
+title = "Б — треугольник + квадрат (с зазором)"
+
+[[outputs]]
+id = "3gGIHiFSzahJxpGaMJ_8e"
+uri = "file://attached_assets/generated_images/kt_min_c.png"
+type = "image"
+title = "В — тонкая изометрия с намёком на обшивку"
+
+[[outputs]]
+id = "o0UmHptRn85yC5PHQfktu"
+uri = "file://attached_assets/generated_images/kt_min_d.png"
+type = "image"
+title = "Г — дом + стрелка вверх (негативное пространство)"
+
+[[outputs]]
+id = "PVlEK_2LdnxivN9qh-e__"
+uri = "file://attached_assets/generated_images/kt_min_e.png"
+type = "image"
+title = "Д — шеврон-крыша с окном"
+
+[[outputs]]
+id = "EQsfX9RQsB2Bha0UFgHId"
+uri = "file://attached_assets/generated_videos/kedr-house.mp4"
+type = "video"
+title = "Дом из кругляка — сгенерированное видео"
+
+[[outputs]]
+id = "Yww59I6vf-WSWkQEAyv_P"
+uri = "file://attached_assets/generated_videos/kedr-house-part2.mp4"
+type = "video"
+title = "Продолжение — дом из кругляка, часть 2"
+
+[[outputs]]
+id = "ob6sKdmYArJjqVt_bBqGy"
+uri = "file://attached_assets/generated_videos/cedar_log_mansion_continuation_8s.mp4"
+type = "video"
+title = "Продолжение героя +8 сек"
+
+[[outputs]]
+id = "iJIdaJg3UPAHoTcIroqDT"
+uri = "file://attached_assets/generated_videos/profiled-timber-house-hero.mp4"
+type = "video"
+title = "Hero-видео: Дом из профилированного бруса"
+
+[[outputs]]
+id = "TARb6V9oYcN2OEUihyFbC"
+uri = "file://attached_assets/generated_videos/rublenye-doma-hero.mp4"
+type = "video"
+title = "Рубленные дома — hero video"
