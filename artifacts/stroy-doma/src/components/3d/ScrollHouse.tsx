@@ -146,6 +146,11 @@ function Scene({
     const BUILD_END = 0.50;
     const baseDist = isMobile ? 15 : 12;
 
+    // On mobile the title + stats overlays eat ~35% of the screen,
+    // so shift the lookAt target up to keep the house visually centred
+    // in the uncovered middle zone.
+    const mobileLookAtOffset = isMobile ? 1.4 : 0;
+
     if (progress <= BUILD_END) {
       // Build phase — normalise to 0→1
       const bp = progress / BUILD_END;
@@ -155,7 +160,7 @@ function Scene({
       camera.position.x = Math.sin(angle) * dist;
       camera.position.z = Math.cos(angle) * dist;
       camera.position.y = midY + 2.5 + bp * 0.4;
-      camera.lookAt(0, midY, 0);
+      camera.lookAt(0, midY + mobileLookAtOffset, 0);
     } else {
       // Orbit phase — normalise to 0→1 (occupies 50% of total scroll = slower)
       const op = (progress - BUILD_END) / (1 - BUILD_END);
@@ -173,7 +178,7 @@ function Scene({
       camera.position.z = Math.cos(orbitAngle) * orbitDist;
       camera.position.y = camY;
       // LookAt target also rises as camera drops — creates upward tilt at the end
-      const lookAtY = midY + easeOutCubic(Math.max(0, (op - 0.7) / 0.3)) * (maxY - midY) * 0.8;
+      const lookAtY = midY + mobileLookAtOffset + easeOutCubic(Math.max(0, (op - 0.7) / 0.3)) * (maxY - midY) * 0.8;
       camera.lookAt(0, lookAtY, 0);
     }
 
