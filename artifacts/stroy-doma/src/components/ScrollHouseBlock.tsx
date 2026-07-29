@@ -174,7 +174,7 @@ export default function ScrollHouseBlock() {
           return (
             <div
               className="absolute z-[15] pointer-events-none inset-x-0 flex justify-center md:hidden"
-              style={{ top: "36%" }}
+              style={{ top: "21%" }}
               aria-hidden="true"
             >
               <AnimatePresence mode="wait">
