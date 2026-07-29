@@ -6,7 +6,7 @@
  * not the entire Home page (which is 800+ lines of JSX).
  */
 import { useRef, useState, useEffect, Suspense, lazy } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { getGltfPromise } from "@/components/3d/houseLoader";
 
 const ScrollHouse = lazy(() => import("@/components/3d/ScrollHouse"));
@@ -159,35 +159,61 @@ export default function ScrollHouseBlock() {
           })}
         </div>
 
-        {/* Mobile: 2×2 grid pinned above the stats strip */}
-        <div className="absolute z-[15] pointer-events-none
-          inset-x-2 bottom-24 grid grid-cols-2 gap-1.5 md:hidden"
-          aria-hidden="true"
-        >
-          {CONSTRUCTION_LAYERS.map((layer) => {
-            const isActive = houseProgress >= layer.from && houseProgress <= layer.to + 0.1;
-            return (
-              <div
-                key={layer.label}
-                className={`bg-background/90 backdrop-blur-sm border rounded-xl px-2.5 py-2 shadow-md transition-all duration-300 ${
-                  isActive
-                    ? "border-secondary/60 shadow-secondary/10"
-                    : "border-border/50 opacity-45"
-                }`}
-              >
-                <div className="font-display text-xs font-bold text-foreground leading-tight">
-                  {layer.label}
-                </div>
-                <div className="text-[10px] text-secondary font-semibold mt-0.5 leading-tight">
-                  {layer.sub}
-                </div>
-                <div className="text-[9px] text-muted-foreground mt-0.5 leading-tight">
-                  {layer.detail}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {/* Mobile: single card above the house, swaps on scroll */}
+        {(() => {
+          // Pick the layer with the highest opacity at current progress;
+          // before first layer show first card, after last show last card.
+          let bestIdx = houseProgress < CONSTRUCTION_LAYERS[0].from ? 0 : CONSTRUCTION_LAYERS.length - 1;
+          let bestOp = -1;
+          CONSTRUCTION_LAYERS.forEach((layer, idx) => {
+            const op = layerOpacity(houseProgress, layer.from, layer.to);
+            if (op > bestOp) { bestOp = op; bestIdx = idx; }
+          });
+          const layer = CONSTRUCTION_LAYERS[bestIdx];
+          const isVisible = houseProgress > 0.01;
+          return (
+            <div
+              className="absolute z-[15] pointer-events-none inset-x-0 flex justify-center md:hidden"
+              style={{ top: "36%" }}
+              aria-hidden="true"
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={bestIdx}
+                  initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                  animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 10, scale: isVisible ? 1 : 0.97 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                  transition={{ duration: 0.28, ease: "easeOut" }}
+                  className="mx-6 w-full max-w-[280px] bg-background/90 backdrop-blur-sm border border-secondary/60 shadow-lg shadow-secondary/10 rounded-2xl px-4 py-3"
+                >
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                    <span className="font-display text-sm font-bold text-foreground leading-tight">
+                      {layer.label}
+                    </span>
+                  </div>
+                  <div className="text-xs text-secondary font-semibold mt-0.5 pl-3.5">
+                    {layer.sub}
+                  </div>
+                  <div className="text-[11px] text-muted-foreground mt-0.5 pl-3.5">
+                    {layer.detail}
+                  </div>
+                  {/* progress dots */}
+                  <div className="flex gap-1 mt-2 pl-3.5">
+                    {CONSTRUCTION_LAYERS.map((_, i) => (
+                      <span
+                        key={i}
+                        className={`h-1 rounded-full transition-all duration-300 ${
+                          i === bestIdx ? "w-4 bg-secondary" : "w-1 bg-border"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          );
+        })()}
 
         {/* Stats overlay */}
         <div className="absolute inset-x-0 bottom-0 z-20 pointer-events-none">

@@ -225,12 +225,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/60" />
 
         {/* Hero content */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-20">
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-14 md:pt-20">
           <motion.span
             initial={{ opacity: 0, y: 16 }}
             animate={heroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="inline-block px-5 py-1.5 rounded-full glass text-white/90 text-xs md:text-sm tracking-[0.25em] font-semibold mb-8"
+            className="inline-block px-5 py-1.5 rounded-full glass text-white/90 text-xs md:text-sm tracking-[0.25em] font-semibold mb-5 md:mb-8"
           >
             Строительство деревянных домов под ключ
           </motion.span>
@@ -240,7 +240,7 @@ export default function Home() {
             animate={heroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
             transition={{ duration: 0.9, delay: 0.2 }}
             className="font-display font-black text-white leading-[1.05] max-w-6xl"
-            style={{ fontSize: "clamp(2rem, 5.6vw, 80px)" }}
+            style={{ fontSize: "clamp(2.15rem, 5.6vw, 80px)" }}
           >
             Строим ваш дом из кедра,<br />
             <span className="italic text-amber-300">пока вы строите</span><br />
@@ -251,7 +251,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={heroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.7, delay: 0.38 }}
-            className="mt-7 max-w-lg text-base md:text-lg text-white font-medium"
+            className="mt-4 md:mt-7 max-w-lg text-sm md:text-lg text-white font-medium"
             style={{ textShadow: "0 1px 8px rgba(0,0,0,0.8)" }}
           >
             Рубленые дома из кругляка и дома из профилированного бруса под ключ — по всей России с 2001 года.
@@ -261,7 +261,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={heroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.7, delay: 0.55 }}
-            className="mt-10 flex flex-wrap gap-4 justify-center"
+            className="mt-6 md:mt-10 flex flex-wrap gap-3 md:gap-4 justify-center"
           >
             <Link href="/projects">
               <div className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-foreground font-bold text-sm hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
