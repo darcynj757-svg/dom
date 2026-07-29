@@ -100,7 +100,7 @@ export default function ScrollHouseBlock() {
           observer.disconnect();
         }
       },
-      { rootMargin: "800px" },
+      { rootMargin: "2000px" },
     );
     observer.observe(el);
     return () => observer.disconnect();

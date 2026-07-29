@@ -19,7 +19,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <!-- Preload hero poster for instant LCP on mobile -->
     <link rel="preload" as="image" href="/posters/cedar_log_mansion_flythrough_16s_compressed.webp" />
-    <!-- house.glb (26 MB) is lazy-loaded only when the user scrolls to the 3D section -->
+    <!-- Preload 3D model and Draco decoder immediately so they're ready before the user scrolls -->
+    <link rel="preload" as="fetch" href="/house-draco.glb" crossorigin="anonymous" />
+    <link rel="preload" as="fetch" href="/draco/draco_decoder.wasm" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Load fonts asynchronously so they never block first paint -->
