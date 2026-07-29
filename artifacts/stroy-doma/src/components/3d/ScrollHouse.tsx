@@ -149,7 +149,7 @@ function Scene({
     // On mobile the title + stats overlays eat ~35% of the screen,
     // so shift the lookAt target up to keep the house visually centred
     // in the uncovered middle zone.
-    const mobileLookAtOffset = isMobile ? 1.4 : 0;
+    const mobileLookAtOffset = isMobile ? 0.5 : 0;
 
     if (progress <= BUILD_END) {
       // Build phase — normalise to 0→1
