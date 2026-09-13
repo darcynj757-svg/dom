@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
@@ -30,5 +32,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+
+
+// Раздача собранного фронтенда, когда сервер публикуется целиком.
+const clientDir = [
+  path.resolve(process.cwd(), "artifacts/stroy-doma/dist/public"),
+  path.resolve(process.cwd(), "../stroy-doma/dist/public"),
+  path.resolve(process.cwd(), "dist/public"),
+].find((candidate) => fs.existsSync(path.join(candidate, "index.html")));
+
+if (clientDir) {
+  app.use(express.static(clientDir));
+  app.get(/^\/(?!api\/).*/, (_req, res) => {
+    res.sendFile(path.join(clientDir, "index.html"));
+  });
+}
 
 export default app;

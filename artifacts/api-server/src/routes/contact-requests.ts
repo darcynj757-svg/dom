@@ -4,6 +4,8 @@ import {
   CreateContactRequestBody,
   CreateContactRequestResponse,
 } from "@workspace/api-zod";
+import { logger } from "../lib/logger";
+import { sendContactRequestEmail } from "../lib/email";
 
 const router: IRouter = Router();
 
@@ -18,6 +20,21 @@ router.post("/contact-requests", async (req, res): Promise<void> => {
     .insert(contactRequestsTable)
     .values(parsed.data)
     .returning();
+
+  if (contactRequest) {
+    try {
+      await sendContactRequestEmail(contactRequest);
+      logger.info(
+        { contactRequestId: contactRequest.id },
+        "Contact request email sent",
+      );
+    } catch (err) {
+      logger.error(
+        { err, contactRequestId: contactRequest.id },
+        "Failed to send contact request email",
+      );
+    }
+  }
 
   res.status(201).json(CreateContactRequestResponse.parse(contactRequest));
 });

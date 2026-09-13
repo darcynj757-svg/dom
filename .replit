@@ -2,9 +2,9 @@ modules = ["nodejs-20", "web", "bash", "python-base-3.13"]
 
 [deployment]
 router = "application"
-deploymentTarget = "static"
-build = ["pnpm", "--filter", "@workspace/stroy-doma", "run", "build"]
-publicDir = "artifacts/stroy-doma/dist/public"
+deploymentTarget = "autoscale"
+build = ["pnpm", "--filter", "@workspace/api-server...", "--filter", "@workspace/stroy-doma...", "--if-present", "run", "build"]
+run = ["pnpm", "--filter", "@workspace/api-server", "run", "start"]
 
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]
