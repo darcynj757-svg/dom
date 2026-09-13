@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
-import { ArrowRight, Home, Bath, Layers, CheckSquare } from "lucide-react";
+import { ArrowRight, Home, Bath, Layers, CheckSquare, type LucideIcon } from "lucide-react";
 
 type Material = "profbrus" | "kruglyak";
 type ObjectType = "house" | "bath";
@@ -52,7 +52,7 @@ function TypeCard({
 }: {
   active: boolean;
   onClick: () => void;
-  icon: React.ElementType;
+  icon: LucideIcon;
   label: string;
   hint: string;
 }) {

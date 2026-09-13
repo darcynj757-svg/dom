@@ -139,6 +139,7 @@ export default function Uslugi() {
   useSeo({
     title: "Услуги",
     description: "Полный цикл строительства деревянных домов и бань в Томске: проектирование, фундамент, монтаж сруба, отделка под ключ. Кедр Томск с 2001 года.",
+    canonical: "/services",
   });
   const isMobile = useIsMobile();
   const { sectionRef, y } = useHeroParallax();

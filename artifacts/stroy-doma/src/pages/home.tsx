@@ -106,6 +106,7 @@ export default function Home() {
       const t = setTimeout(() => window.dispatchEvent(new CustomEvent("hero-video-ready")), 300);
       return () => clearTimeout(t);
     }
+    return undefined;
   }, [isMobile]);
 
   // Программный play() — fallback для iOS Safari и Android Chrome,
