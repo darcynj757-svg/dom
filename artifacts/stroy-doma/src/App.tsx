@@ -79,11 +79,14 @@ function Router() {
   );
 }
 
-function App() {
+export default function App({ ssrPath }: { ssrPath?: string } = {}) {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL?.replace(/\/$/, "") || ""}>
+        <WouterRouter
+          base={import.meta.env.BASE_URL?.replace(/\/$/, "") || ""}
+          ssrPath={ssrPath}
+        >
           <Router />
         </WouterRouter>
         <Toaster />
@@ -91,5 +94,3 @@ function App() {
     </QueryClientProvider>
   );
 }
-
-export default App;

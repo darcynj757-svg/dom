@@ -1,0 +1,1 @@
+- [Static React prerender](ssr-prerender.md) — lazy-маршруты нужно рендерить потоковым SSR и обязательно await-ить результат перед записью HTML.
