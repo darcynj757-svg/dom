@@ -4,6 +4,7 @@ import { useHeroParallax } from "@/hooks/useHeroParallax";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { ProductionNav } from "@/components/ProductionNav";
+import { useSeo } from "@/hooks/useSeo";
 import pilomaterialImg from "@assets/service-pilomaterial.webp";
 import imgObreznoj from "@assets/be42dca7-90a5-42d1-af0d-0cabca5da2eb_1784946798699.webp";
 import imgNeobreznoj from "@assets/1dec6e3b-8c18-4da4-a54f-c449149d3d5c_1784946798700.webp";
@@ -51,6 +52,12 @@ const TYPES = [
 
 export default function ProductionPilomaterial() {
   const { sectionRef, y } = useHeroParallax();
+
+  useSeo({
+    title: "Пиломатериалы собственного производства в Томске",
+    description:
+      "Производим обрезной и необрезной пиломатериал, брус и другие материалы для строительства деревянных домов. Собственное производство в Томске.",
+  });
   return (
     <div>
       {/* ── Hero ── */}

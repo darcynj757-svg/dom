@@ -14,6 +14,7 @@ const Contacts = lazy(() => import("@/pages/contacts"));
 const Gallery = lazy(() => import("@/pages/gallery"));
 const ProductionProfBrus = lazy(() => import("@/pages/production-profbrus"));
 const ProductionPilomaterial = lazy(() => import("@/pages/production-pilomaterial"));
+const ProductionStolyar = lazy(() => import("@/pages/production-stolyar"));
 const Articles = lazy(() => import("@/pages/articles"));
 const ArticleDetail = lazy(() => import("@/pages/article-detail"));
 const Terms = lazy(() => import("@/pages/terms"));
@@ -57,11 +58,13 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/services/profilirovanny-brus" component={ServicesProfBrus} />
           <Route path="/services/rublenye-doma" component={ServicesRublenye} />
+          <Route path="/services" component={Uslugi} />
           <Route path="/uslugi" component={Uslugi} />
           <Route path="/projects" component={Projects} />
           <Route path="/projects/:id" component={ProjectDetail} />
           <Route path="/gallery" component={Gallery} />
           <Route path="/production/profilirovanny-brus" component={ProductionProfBrus} />
+          <Route path="/production/stolyarnye-izdeliya" component={ProductionStolyar} />
           <Route path="/production/pilomaterial" component={ProductionPilomaterial} />
           <Route path="/production" component={ProductionProfBrus} />
           <Route path="/articles/:slug" component={ArticleDetail} />

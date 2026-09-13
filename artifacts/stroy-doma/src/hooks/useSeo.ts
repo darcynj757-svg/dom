@@ -32,6 +32,7 @@ export function useSeo({
   description,
   image,
   canonical,
+  robots,
 }: {
   title: string;
   description?: string;
@@ -39,6 +40,8 @@ export function useSeo({
   image?: string;
   /** Канонический путь вида /projects/123 — используется для дублирующихся маршрутов */
   canonical?: string;
+  /** Управляет индексацией страницы, например "noindex, nofollow" для 404 */
+  robots?: string;
 }) {
   useEffect(() => {
     const prevTitle = document.title;
@@ -61,6 +64,7 @@ export function useSeo({
 
     // ── Базовые мета-теги ───────────────────────────────────────────────────
     if (description) setMeta('meta[name="description"]', description);
+    setMeta('meta[name="robots"]', robots ?? "index, follow");
 
     // ── Open Graph ──────────────────────────────────────────────────────────
     setMeta('meta[property="og:title"]', fullTitle);
@@ -79,5 +83,5 @@ export function useSeo({
     return () => {
       document.title = prevTitle;
     };
-  }, [title, description, image, canonical]);
+  }, [title, description, image, canonical, robots]);
 }

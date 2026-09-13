@@ -1,8 +1,15 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
+import { useSeo } from "@/hooks/useSeo";
 
 export default function NotFound() {
+  useSeo({
+    title: "Страница не найдена",
+    description: "Запрошенная страница не найдена. Перейдите на главную страницу сайта «Кедр Томск».",
+    robots: "noindex, nofollow",
+  });
+
   return (
     <div className="min-h-[70vh] w-full flex items-center justify-center px-4">
       <div className="text-center max-w-md">

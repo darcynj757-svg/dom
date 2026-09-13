@@ -18,11 +18,13 @@ type NavItem = {
 // Prefetch a route's JS chunk on hover so navigation feels instant.
 const ROUTE_PREFETCH: Record<string, () => Promise<unknown>> = {
   "/about":                               () => import("@/pages/about"),
+  "/services":                            () => import("@/pages/uslugi"),
   "/uslugi":                              () => import("@/pages/uslugi"),
   "/services/profilirovanny-brus":        () => import("@/pages/services-profbrus"),
   "/services/rublenye-doma":             () => import("@/pages/services-rublenye"),
   "/projects":                            () => import("@/pages/projects"),
   "/production/profilirovanny-brus":      () => import("@/pages/production-profbrus"),
+  "/production/stolyarnye-izdeliya":      () => import("@/pages/production-stolyar"),
   "/production/pilomaterial":             () => import("@/pages/production-pilomaterial"),
   "/gallery":                             () => import("@/pages/gallery"),
   "/gallery#photo":                       () => import("@/pages/gallery"),

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { RublenyeHeroVideo } from "@/components/RublenyeHeroVideo";
+import { useSeo } from "@/hooks/useSeo";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { useHeroParallax } from "@/hooks/useHeroParallax";
@@ -43,6 +44,12 @@ const PRICES = [
 export default function ServicesRublenye() {
   const { sectionRef, y } = useHeroParallax();
   const [tab, setTab] = useState<"rus" | "can">("rus");
+
+  useSeo({
+    title: "Строительство рубленых домов в Томске",
+    description:
+      "Строительство рубленых домов из отборного бревна под ключ. Ручная рубка, проектирование, доставка и сборка домов в Томске и по России.",
+  });
 
   return (
     <div>

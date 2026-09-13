@@ -4,6 +4,7 @@ import { useHeroParallax } from "@/hooks/useHeroParallax";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { ProductionNav } from "@/components/ProductionNav";
+import { useSeo } from "@/hooks/useSeo";
 import stolyarImg from "@assets/service-stolyar.webp";
 import imgOkna from "@assets/173017b4-cdfd-43a0-9824-03cbb196a96a_1784946058715.webp";
 import imgDveri from "@assets/31740c1f-d8fd-4ff6-a257-53f608251839_1784946058714.webp";
@@ -58,6 +59,12 @@ const ITEMS = [
 
 export default function ProductionStolyar() {
   const { sectionRef, y } = useHeroParallax();
+
+  useSeo({
+    title: "Столярные изделия из дерева в Томске",
+    description:
+      "Изготавливаем деревянные окна, двери, лестницы и мебель на заказ в Томске. Столярное производство из натуральной древесины.",
+  });
   return (
     <div>
       {/* ── Hero ── */}

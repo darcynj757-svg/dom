@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useSeo } from "@/hooks/useSeo";
 
 const SECTIONS = [
   {
@@ -32,6 +33,12 @@ const SECTIONS = [
 ];
 
 export default function Terms() {
+  useSeo({
+    title: "Условия строительства и оплаты",
+    description:
+      "Условия проектирования, строительства, оплаты и гарантийного обслуживания деревянных домов и бань компании «Кедр Томск».",
+  });
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-16 md:py-24">
       <motion.div
