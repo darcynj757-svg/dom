@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useHeroParallax } from "@/hooks/useHeroParallax";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { ArrowRight, Phone } from "lucide-react";
 import Calculator from "@/components/Calculator";
 import { useSeo } from "@/hooks/useSeo";
@@ -136,9 +136,16 @@ function ServiceRow({ s, i }: { s: Service; i: number }) {
 }
 
 export default function Uslugi() {
+  const [location] = useLocation();
   useSeo({
-    title: "Услуги",
-    description: "Полный цикл строительства деревянных домов и бань в Томске: проектирование, фундамент, монтаж сруба, отделка под ключ. Кедр Томск с 2001 года.",
+    title:
+      location === "/uslugi"
+        ? "Строительство деревянных домов и бань — услуги"
+        : "Услуги",
+    description:
+      location === "/uslugi"
+        ? "Услуги Кедр Томск: полный цикл строительства деревянных домов и бань в Томске — проектирование, фундамент, монтаж сруба и отделка под ключ."
+        : "Полный цикл строительства деревянных домов и бань в Томске: проектирование, фундамент, монтаж сруба, отделка под ключ. Кедр Томск с 2001 года.",
     canonical: "/services",
   });
   const isMobile = useIsMobile();

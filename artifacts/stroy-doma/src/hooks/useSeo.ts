@@ -27,6 +27,19 @@ function setLink(rel: string, href: string) {
   el.setAttribute("href", href);
 }
 
+function setJsonLd(value: unknown) {
+  let el = document.querySelector<HTMLScriptElement>(
+    'script[data-seo-page-jsonld="true"]',
+  );
+  if (!el) {
+    el = document.createElement("script");
+    el.type = "application/ld+json";
+    el.dataset.seoPageJsonld = "true";
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify(value);
+}
+
 export function useSeo({
   title,
   description,
@@ -79,6 +92,18 @@ export function useSeo({
 
     // ── Canonical ────────────────────────────────────────────────────────────
     setLink("canonical", canonicalUrl);
+
+    // Static builds already contain this schema in the initial HTML. Keep the
+    // same node up to date when the user navigates without a full reload.
+    setJsonLd({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: fullTitle,
+      headline: title,
+      description,
+      url: canonicalUrl,
+      isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+    });
 
     return () => {
       document.title = prevTitle;
