@@ -22,9 +22,6 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <!-- Preload hero poster for instant LCP on mobile -->
     <link rel="preload" as="image" href="/posters/cedar_log_mansion_flythrough_16s_compressed.webp" />
-    <!-- Preload 3D model and Draco decoder immediately so they're ready before the user scrolls -->
-    <link rel="preload" as="fetch" href="/house-draco.glb" crossorigin="anonymous" />
-    <link rel="preload" as="fetch" href="/draco/draco_decoder.wasm" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Load fonts asynchronously so they never block first paint -->
@@ -41,7 +38,7 @@
         align-items: center;
         justify-content: center;
         gap: 24px;
-        transition: opacity 0.6s ease, visibility 0.6s ease;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
       }
       #splash.hidden {
         opacity: 0;
@@ -57,7 +54,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        animation: splash-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation: splash-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
       }
       @keyframes splash-enter {
         from { opacity: 0; transform: translateY(20px); }
@@ -78,7 +75,7 @@
         /* perimeter of 152×152 rect = 608 */
         stroke-dasharray: 608;
         stroke-dashoffset: 608;
-        animation: splash-rect-draw 3.8s linear 0.1s forwards;
+        animation: splash-rect-draw 0.9s linear 0.05s forwards;
       }
       @keyframes splash-rect-draw {
         to { stroke-dashoffset: 0; }
@@ -108,11 +105,11 @@
       /* Ghost: always-visible dim white */
       .splash-ghost { background: rgba(255,255,255,0.18); }
 
-      /* Sandy layer reveals from bottom to top over 2.6 s */
+      /* Sandy layer reveals from bottom to top in sync with the short intro */
       .splash-sandy {
         background: #c9a84c;
         clip-path: inset(100% 0 0 0);
-        animation: splash-fill-up 2.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+        animation: splash-fill-up 0.65s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards;
       }
       @keyframes splash-fill-up {
         from { clip-path: inset(100% 0 0 0); }
@@ -135,7 +132,7 @@
         letter-spacing: 0.3em;
         text-transform: uppercase;
         color: #c9a84c;
-        animation: splash-title-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+        animation: splash-title-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
       }
       @keyframes splash-title-in {
         from { opacity: 0; transform: translateY(8px); }

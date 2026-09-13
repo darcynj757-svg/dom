@@ -200,16 +200,13 @@ export default function Home() {
       <section ref={heroRef as React.RefObject<HTMLElement>} className="relative h-screen min-h-[600px] overflow-hidden bg-[#1c1a17]">
         <motion.div className="absolute inset-x-0 -top-[20%] h-[140%] will-change-transform" style={{ y: heroY }}>
           <video
-            ref={(el) => {
-              (heroVideoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
-              if (el) el.setAttribute('fetchpriority', 'high');
-            }}
+            ref={heroVideoRef}
             poster={heroPoster}
             autoPlay
             loop
             muted
             playsInline
-            preload="auto"
+            preload="metadata"
             onCanPlay={() => {
               heroVideoRef.current?.play().catch(() => {});
               window.dispatchEvent(new CustomEvent("hero-video-ready"));

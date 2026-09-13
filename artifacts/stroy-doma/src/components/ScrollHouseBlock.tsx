@@ -81,14 +81,9 @@ export default function ScrollHouseBlock() {
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
 
-  // Kick off the GLB download immediately on mount — by the time the user
-  // scrolls to the 3D section (especially on mobile) the file will be ready.
-  useEffect(() => {
-    getGltfPromise();
-  }, []);
-
-  // Mount the Canvas once the section is close — large margin so WebGL context
-  // is created before the user actually reaches the section.
+  // Mount the Canvas and start the GLB download only when the 3D section
+  // reaches the viewport. This keeps the model and Draco decoder off the
+  // critical path for the first screen.
   const [showHouse, setShowHouse] = useState(false);
   useEffect(() => {
     const el = houseRef.current;
@@ -97,10 +92,11 @@ export default function ScrollHouseBlock() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setShowHouse(true);
+          getGltfPromise();
           observer.disconnect();
         }
       },
-      { rootMargin: "2000px" },
+      { rootMargin: "0px" },
     );
     observer.observe(el);
     return () => observer.disconnect();
