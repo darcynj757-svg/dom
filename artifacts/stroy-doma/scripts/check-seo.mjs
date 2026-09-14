@@ -114,18 +114,67 @@ function getJsonLdBlocks(html) {
   return [...html.matchAll(pattern)].map((match) => match[1].trim());
 }
 
-const schemaRequiredFields = {
-  LocalBusiness: ["name", "url", "logo", "image", "telephone", "description", "address"],
-  WebPage: ["name", "url", "headline", "description", "mainEntityOfPage", "isPartOf"],
-  Article: ["headline", "description", "image", "author", "publisher", "mainEntityOfPage", "url"],
-  WebSite: ["name", "url"],
-  Organization: ["name"],
-  BreadcrumbList: ["itemListElement"],
-  PostalAddress: ["streetAddress", "addressLocality", "addressCountry"],
-  GeoCoordinates: ["latitude", "longitude"],
-  OpeningHoursSpecification: ["dayOfWeek", "opens", "closes"],
-  ListItem: ["position", "name", "item"],
+const schemaFieldRules = {
+  LocalBusiness: {
+    name: "string",
+    url: "url",
+    logo: "media",
+    image: "media",
+    telephone: "string",
+    description: "string",
+    address: { kind: "schemaObject", types: ["PostalAddress"] },
+  },
+  WebPage: {
+    name: "string",
+    url: "url",
+    headline: "string",
+    description: "string",
+    mainEntityOfPage: "reference",
+    isPartOf: { kind: "schemaObject", types: ["WebSite"] },
+  },
+  Article: {
+    headline: "string",
+    description: "string",
+    image: "media",
+    author: { kind: "schemaObject", types: ["Person", "Organization"] },
+    publisher: { kind: "schemaObject", types: ["Organization"] },
+    mainEntityOfPage: "reference",
+    url: "url",
+  },
+  WebSite: {
+    name: "string",
+    url: "url",
+  },
+  Organization: {
+    name: "string",
+  },
+  BreadcrumbList: {
+    itemListElement: "array",
+  },
+  PostalAddress: {
+    streetAddress: "string",
+    addressLocality: "string",
+    addressCountry: "stringOrObject",
+  },
+  GeoCoordinates: {
+    latitude: "number",
+    longitude: "number",
+  },
+  OpeningHoursSpecification: {
+    dayOfWeek: "stringOrArray",
+    opens: "string",
+    closes: "string",
+  },
+  ListItem: {
+    position: "number",
+    name: "string",
+    item: "reference",
+  },
 };
+
+const schemaRequiredFields = Object.fromEntries(
+  Object.entries(schemaFieldRules).map(([type, fields]) => [type, Object.keys(fields)]),
+);
 
 function hasSchemaValue(value) {
   if (value === null || value === undefined) return false;
@@ -139,6 +188,81 @@ function schemaTypes(value) {
   const types = value?.["@type"];
   if (Array.isArray(types)) return types.filter((type) => typeof type === "string");
   return typeof types === "string" ? [types] : [];
+}
+
+function isObject(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function isNonEmptyString(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function isUrl(value) {
+  if (!isNonEmptyString(value)) return false;
+
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol);
+  } catch {
+    return false;
+  }
+}
+
+function matchesSchemaFieldType(value, rule) {
+  if (typeof rule === "string") {
+    switch (rule) {
+      case "string":
+        return isNonEmptyString(value);
+      case "url":
+        return isUrl(value);
+      case "media":
+        return isNonEmptyString(value) || isObject(value);
+      case "reference":
+        return isUrl(value) || isObject(value);
+      case "number":
+        return typeof value === "number" && Number.isFinite(value);
+      case "array":
+        return Array.isArray(value) && value.length > 0;
+      case "stringOrObject":
+        return isNonEmptyString(value) || isObject(value);
+      case "stringOrArray":
+        return isNonEmptyString(value) || (Array.isArray(value) && value.length > 0);
+      default:
+        return true;
+    }
+  }
+
+  if (!isObject(value)) return false;
+  const actualTypes = schemaTypes(value);
+  return rule.types.some((type) => actualTypes.includes(type));
+}
+
+function schemaFieldTypeDescription(rule) {
+  if (typeof rule === "string") {
+    return {
+      string: "a non-empty string",
+      url: "an absolute http(s) URL",
+      media: "a non-empty string or object",
+      reference: "an absolute http(s) URL or object",
+      number: "a finite number",
+      array: "a non-empty array",
+      stringOrObject: "a non-empty string or object",
+      stringOrArray: "a non-empty string or non-empty array",
+    }[rule];
+  }
+
+  return `an object with @type ${rule.types.join(" or ")}`;
+}
+
+function validateSchemaField(node, type, field, rule, route, location, issues) {
+  if (!matchesSchemaFieldType(node[field], rule)) {
+    addIssue(
+      issues,
+      route,
+      `${location} (${type}) field "${field}" must be ${schemaFieldTypeDescription(rule)}`,
+    );
+  }
 }
 
 function schemaNodes(value) {
@@ -155,7 +279,7 @@ function validateNestedSchema(value, route, location, issues) {
 }
 
 function validateSchemaNode(node, route, location, issues) {
-  if (!node || typeof node !== "object" || Array.isArray(node)) {
+  if (!isObject(node)) {
     addIssue(issues, route, `${location} must be an object`);
     return;
   }
@@ -171,6 +295,16 @@ function validateSchemaNode(node, route, location, issues) {
     for (const field of requiredFields) {
       if (!hasSchemaValue(node[field])) {
         addIssue(issues, route, `${location} (${type}) is missing required field "${field}"`);
+      } else {
+        validateSchemaField(
+          node,
+          type,
+          field,
+          schemaFieldRules[type][field],
+          route,
+          location,
+          issues,
+        );
       }
     }
 
