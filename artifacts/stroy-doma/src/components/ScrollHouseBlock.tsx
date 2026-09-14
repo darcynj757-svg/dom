@@ -125,16 +125,9 @@ export default function ScrollHouseBlock() {
             <Suspense
               fallback={
                 <div className="absolute inset-0 flex items-center justify-center bg-background/20">
-                  <div className="flex flex-col items-center gap-3 text-center">
-                    <img
-                      src="/posters/kedr-house-hero.webp"
-                      alt=""
-                      className="w-56 max-w-[55vw] rounded-2xl opacity-45 shadow-xl"
-                    />
-                    <span className="rounded-full bg-background/80 px-4 py-2 text-xs text-muted-foreground shadow-sm">
-                      Загружаем 3D-модель дома…
-                    </span>
-                  </div>
+                  <span className="rounded-full bg-background/80 px-4 py-2 text-xs text-muted-foreground shadow-sm">
+                    Загружаем 3D-модель дома…
+                  </span>
                 </div>
               }
             >

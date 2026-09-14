@@ -298,9 +298,7 @@ export default function ScrollHouse({ progress }: { progress: number }) {
 
   if (webglSupported === false) {
     return (
-      <div className="absolute inset-0 -z-10 pointer-events-none bg-gradient-to-b from-muted/40 to-background">
-        <img src="/posters/kedr-house-hero.webp" alt="" className="h-full w-full object-cover opacity-35" />
-      </div>
+      <div className="absolute inset-0 -z-10 pointer-events-none bg-gradient-to-b from-muted/40 to-background" />
     );
   }
 
@@ -308,16 +306,9 @@ export default function ScrollHouse({ progress }: { progress: number }) {
     <div className="absolute inset-0 pointer-events-none">
       {!modelReady && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/20">
-          <div className="flex flex-col items-center gap-3 text-center">
-            <img
-              src="/posters/kedr-house-hero.webp"
-              alt=""
-              className="w-56 max-w-[55vw] rounded-2xl opacity-45 shadow-xl"
-            />
-            <span className="rounded-full bg-background/80 px-4 py-2 text-xs text-muted-foreground shadow-sm">
-              Загружаем 3D-модель дома…
-            </span>
-          </div>
+          <span className="rounded-full bg-background/80 px-4 py-2 text-xs text-muted-foreground shadow-sm">
+            Загружаем 3D-модель дома…
+          </span>
         </div>
       )}
       {webglSupported && (

@@ -176,9 +176,10 @@ export default function Home() {
             }}
             className="absolute inset-0 w-full h-full object-cover"
           >
-            {/* Беззвучная mobile-версия: 640 px, ~1.2 MB, fast-start. */}
+            {/* На главной используем полноценный 1920px hero и на мобильных,
+                чтобы дом и фон не выглядели размытыми. */}
             <source
-              src="/videos/hero-mobile.mp4"
+              src="/videos/hero-compressed.mp4"
               type="video/mp4"
               media="(max-width: 767px)"
             />
