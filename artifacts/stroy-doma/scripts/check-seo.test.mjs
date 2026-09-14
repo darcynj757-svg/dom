@@ -100,6 +100,17 @@ test("invalid required Schema.org field types fail validation", async () => {
   );
 });
 
+test("invalid nested Schema.org object types fail validation", async () => {
+  const result = await runValidator("invalid-nested-schema-field-type");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(
+    output,
+    /JSON-LD block 1 \(LocalBusiness\) field "geo" must be an object with @type GeoCoordinates/,
+  );
+});
+
 test("missing title fails with a useful route and message", async () => {
   const result = await runValidator("missing-title");
   const output = `${result.stdout}\n${result.stderr}`;
@@ -238,6 +249,7 @@ test("all expected fixture directories are present", async () => {
     "alias-indexed",
     "duplicate-description",
     "duplicate-title",
+    "invalid-nested-schema-field-type",
     "invalid-schema-field-type",
     "invalid-schema-value",
     "malformed-json",

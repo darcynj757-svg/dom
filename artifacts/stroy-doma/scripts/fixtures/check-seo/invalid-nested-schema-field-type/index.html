@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <title>Некорректный вложенный тип Schema.org fixture</title>
+    <meta name="description" content="Fixture с некорректным вложенным типом Schema.org.">
+    <link rel="canonical" href="https://kedr-tomsk.ru/invalid-nested-schema-field-type">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Кедр Томск",
+        "url": "https://kedr-tomsk.ru/invalid-nested-schema-field-type",
+        "logo": "https://kedr-tomsk.ru/logo-icon.png",
+        "image": "https://kedr-tomsk.ru/opengraph.jpg",
+        "telephone": "+73822334439",
+        "description": "Строительство деревянных домов.",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "ул. Профсоюзная, 2/1с12",
+          "addressLocality": "Томск",
+          "addressCountry": "RU"
+        },
+        "geo": {
+          "@type": "PostalAddress",
+          "streetAddress": "ул. Профсоюзная, 2/1с12",
+          "addressLocality": "Томск",
+          "addressCountry": "RU"
+        }
+      }
+    </script>
+  </head>
+  <body><h1>Проверка вложенного типа</h1></body>
+</html>

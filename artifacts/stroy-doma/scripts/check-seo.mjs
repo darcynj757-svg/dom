@@ -273,7 +273,7 @@ const schemaFieldRules = {
     name: "string",
   },
   BreadcrumbList: {
-    itemListElement: "array",
+    itemListElement: { kind: "schemaObjectArray", types: ["ListItem"] },
   },
   PostalAddress: {
     streetAddress: "string",
@@ -300,6 +300,16 @@ const schemaRequiredFields = Object.fromEntries(
   Object.entries(schemaFieldRules).map(([type, fields]) => [type, Object.keys(fields)]),
 );
 
+const schemaNestedFieldRules = {
+  LocalBusiness: {
+    geo: { kind: "schemaObject", types: ["GeoCoordinates"] },
+    openingHoursSpecification: {
+      kind: "schemaObjectOrArray",
+      types: ["OpeningHoursSpecification"],
+    },
+  },
+};
+
 function hasSchemaValue(value) {
   if (value === null || value === undefined) return false;
   if (typeof value === "string") return value.trim().length > 0;
@@ -316,6 +326,10 @@ function schemaTypes(value) {
 
 function isObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function matchesSchemaObjectType(value, types) {
+  return isObject(value) && schemaTypes(value).some((type) => types.includes(type));
 }
 
 function isNonEmptyString(value) {
@@ -357,9 +371,25 @@ function matchesSchemaFieldType(value, rule) {
     }
   }
 
-  if (!isObject(value)) return false;
-  const actualTypes = schemaTypes(value);
-  return rule.types.some((type) => actualTypes.includes(type));
+  switch (rule.kind) {
+    case "schemaObject":
+      return matchesSchemaObjectType(value, rule.types);
+    case "schemaObjectArray":
+      return (
+        Array.isArray(value) &&
+        value.length > 0 &&
+        value.every((item) => matchesSchemaObjectType(item, rule.types))
+      );
+    case "schemaObjectOrArray":
+      return (
+        matchesSchemaObjectType(value, rule.types) ||
+        (Array.isArray(value) &&
+          value.length > 0 &&
+          value.every((item) => matchesSchemaObjectType(item, rule.types)))
+      );
+    default:
+      return false;
+  }
 }
 
 function schemaFieldTypeDescription(rule) {
@@ -376,7 +406,14 @@ function schemaFieldTypeDescription(rule) {
     }[rule];
   }
 
-  return `an object with @type ${rule.types.join(" or ")}`;
+  const expected = `an object with @type ${rule.types.join(" or ")}`;
+  if (rule.kind === "schemaObjectArray") {
+    return `a non-empty array of ${expected}`;
+  }
+  if (rule.kind === "schemaObjectOrArray") {
+    return `${expected} or a non-empty array of such objects`;
+  }
+  return expected;
 }
 
 function validateSchemaField(node, type, field, rule, route, location, issues) {
@@ -397,8 +434,22 @@ function schemaNodes(value) {
 }
 
 function validateNestedSchema(value, route, location, issues) {
-  for (const node of schemaNodes(value)) {
-    validateSchemaNode(node, route, location, issues);
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => {
+      const itemLocation = `${location}[${index}]`;
+      if (!isObject(item)) {
+        addIssue(issues, route, `${itemLocation} must be an object`);
+        return;
+      }
+      validateSchemaNode(item, route, itemLocation, issues);
+    });
+    return;
+  }
+
+  if (isObject(value)) {
+    for (const node of schemaNodes(value)) {
+      validateSchemaNode(node, route, location, issues);
+    }
   }
 }
 
@@ -432,15 +483,17 @@ function validateSchemaNode(node, route, location, issues) {
       }
     }
 
+    for (const [field, rule] of Object.entries(schemaNestedFieldRules[type] ?? {})) {
+      if (!hasSchemaValue(node[field])) continue;
+
+      validateSchemaField(node, type, field, rule, route, location, issues);
+      if (matchesSchemaFieldType(node[field], rule)) {
+        validateNestedSchema(node[field], route, `${location}.${field}`, issues);
+      }
+    }
+
     if (type === "LocalBusiness") {
       validateNestedSchema(node.address, route, `${location}.address`, issues);
-      validateNestedSchema(node.geo, route, `${location}.geo`, issues);
-      validateNestedSchema(
-        node.openingHoursSpecification,
-        route,
-        `${location}.openingHoursSpecification`,
-        issues,
-      );
     }
 
     if (type === "WebPage") {
