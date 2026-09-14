@@ -67,6 +67,14 @@ test("canonical alias without noindex fails as a duplicate", async () => {
   assert.match(output, /canonical points to \/services, so robots must contain noindex/);
 });
 
+test("repeated H1 headings fail before the page ships", async () => {
+  const result = await runValidator("repeated-h1");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(output, /expected exactly one non-empty <h1>, found 2/);
+});
+
 test("all expected fixture directories are present", async () => {
   const fixtures = (await readdir(fixturesDir, { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())
@@ -78,6 +86,7 @@ test("all expected fixture directories are present", async () => {
     "malformed-json",
     "missing-breadcrumb-item",
     "missing-local-business-field",
+    "repeated-h1",
     "valid",
   ]);
 });
