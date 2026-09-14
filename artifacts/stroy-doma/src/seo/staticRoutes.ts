@@ -25,6 +25,7 @@ export type StaticSeoRoute = {
   h1: string;
   image?: string;
   canonical?: string;
+  sitemap?: boolean;
   kind?: "Article" | "WebPage";
 };
 
@@ -146,6 +147,7 @@ const BASE_ROUTES: StaticSeoRoute[] = [
     description:
       "Условия проектирования, строительства, оплаты и гарантийного обслуживания деревянных домов и бань компании «Кедр Томск».",
     h1: "Условия использования сайта",
+    sitemap: false,
   },
 ];
 
@@ -172,7 +174,35 @@ export const STATIC_SEO_ROUTES: StaticSeoRoute[] = [
   ...ARTICLE_ROUTES,
 ];
 
+function validateRouteRegistry(routes: StaticSeoRoute[]) {
+  const paths = new Set<string>();
+  const canonicalOwners = new Map<string, string>();
+
+  for (const route of routes) {
+    if (!route.path.startsWith("/") || route.path.includes("?") || route.path.includes("#")) {
+      throw new Error(`Invalid SEO route path: ${route.path}`);
+    }
+    if (paths.has(route.path)) {
+      throw new Error(`Duplicate SEO route path: ${route.path}`);
+    }
+    paths.add(route.path);
+
+    const canonical = canonicalPath(route);
+    const existingOwner = canonicalOwners.get(canonical);
+    if (existingOwner && !route.canonical) {
+      throw new Error(
+        `Route ${route.path} duplicates canonical ${canonical} without an explicit canonical field (already used by ${existingOwner})`,
+      );
+    }
+    canonicalOwners.set(canonical, route.path);
+  }
+}
+
+validateRouteRegistry(STATIC_SEO_ROUTES);
+
 export const SITEMAP_ROUTES = STATIC_SEO_ROUTES.filter(
+  (route) => route.sitemap !== false,
+).filter(
   (route, index, routes) =>
     routes.findIndex(
       (candidate) => canonicalPath(candidate) === canonicalPath(route),
