@@ -5,7 +5,13 @@ import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { VitePWA } from "vite-plugin-pwa";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { STATIC_SEO_ROUTES, SEO_SITE, type StaticSeoRoute } from "./src/seo/staticRoutes";
+import {
+  STATIC_SEO_ROUTES,
+  SEO_SITE,
+  canonicalUrl,
+  createSitemapXml,
+  type StaticSeoRoute,
+} from "./src/seo/staticRoutes";
 
 const rawPort = process.env.PORT ?? "5173";
 const port = Number(rawPort);
@@ -25,7 +31,7 @@ function escapeHtml(value: string) {
 }
 
 function routeUrl(route: StaticSeoRoute) {
-  return `${SEO_SITE.url}${route.canonical ?? route.path}`;
+  return canonicalUrl(route);
 }
 
 function fullTitle(route: StaticSeoRoute) {
@@ -132,6 +138,8 @@ function staticSeoPages() {
     async writeBundle() {
       const outputDir = path.resolve(import.meta.dirname, "dist/public");
       const template = await readFile(path.join(outputDir, "index.html"), "utf8");
+
+      await writeFile(path.join(outputDir, "sitemap.xml"), createSitemapXml(), "utf8");
 
       for (const route of STATIC_SEO_ROUTES) {
         const html = template

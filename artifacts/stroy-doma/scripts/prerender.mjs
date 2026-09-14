@@ -37,87 +37,6 @@ function rewriteBuiltAssetUrls(html, builtAssets) {
   );
 }
 
-const staticSeo = {
-  "/": {
-    title: "Деревянные дома и бани под ключ в Томске",
-    description:
-      "Кедр Томск — строительство деревянных домов из профилированного бруса и рубленого бревна с 2001 года. Более 200 объектов по всей России. Бесплатный проект при заказе.",
-  },
-  "/about": {
-    title: "О компании",
-    description:
-      "Кедр Томск — строим деревянные дома с 2001 года. Более 200 объектов, собственное производство профилированного бруса в Томске, бригады опытных плотников.",
-  },
-  "/contacts": {
-    title: "Контакты",
-    description:
-      "Свяжитесь с Кедр Томск: +7 (3822) 33-44-39, г. Томск, мкр. Черемошники. Оставьте заявку на строительство деревянного дома.",
-  },
-  "/services": {
-    title: "Услуги",
-    description:
-      "Полный цикл строительства деревянных домов и бань в Томске: проектирование, фундамент, монтаж сруба, отделка под ключ. Кедр Томск с 2001 года.",
-    canonical: "/services",
-  },
-  "/uslugi": {
-    title: "Услуги",
-    description:
-      "Полный цикл строительства деревянных домов и бань в Томске: проектирование, фундамент, монтаж сруба, отделка под ключ. Кедр Томск с 2001 года.",
-    canonical: "/services",
-  },
-  "/services/profilirovanny-brus": {
-    title: "Строительство домов из профилированного бруса в Томске",
-    description:
-      "Строим дома из профилированного бруса под ключ в Томске и по России. Проектирование, производство, доставка и сборка деревянного дома.",
-  },
-  "/services/rublenye-doma": {
-    title: "Строительство рубленых домов в Томске",
-    description:
-      "Строительство рубленых домов из отборного бревна под ключ. Ручная рубка, проектирование, доставка и сборка домов в Томске и по России.",
-  },
-  "/production": {
-    title: "Производство",
-    description:
-      "Собственное производство профилированного бруса, столярных изделий и пиломатериала в Томске. Финский 4-х сторонний станок, до 500 м³ в месяц.",
-  },
-  "/production/profilirovanny-brus": {
-    title: "Производство профилированного бруса",
-    description:
-      "Собственное производство профилированного бруса в Томске. Кедр, сосна, лиственница. Объём до 500 м³ в месяц. Немецкий профиль, финский станок.",
-    canonical: "/production/profilirovanny-brus",
-  },
-  "/production/stolyarnye-izdeliya": {
-    title: "Столярные изделия из дерева в Томске",
-    description:
-      "Изготавливаем деревянные окна, двери, лестницы и мебель на заказ в Томске. Столярное производство из натуральной древесины.",
-  },
-  "/production/pilomaterial": {
-    title: "Пиломатериалы собственного производства в Томске",
-    description:
-      "Производим обрезной и необрезной пиломатериал, брус и другие материалы для строительства деревянных домов. Собственное производство в Томске.",
-  },
-  "/projects": {
-    title: "Проекты домов и бань",
-    description:
-      "Каталог проектов деревянных домов и бань от Кедр Томск. Профилированный брус, рубленое бревно. Площадь от 30 до 350 м². Бесплатный проект при заказе.",
-  },
-  "/gallery": {
-    title: "Галерея",
-    description:
-      "Фото и видео деревянных домов, бань и беседок, построенных компанией Кедр Томск в Томске и по всей России.",
-  },
-  "/articles": {
-    title: "Статьи и публикации",
-    description:
-      "Полезные статьи о строительстве деревянных домов и бань от специалистов Кедр Томск: выбор материала, технологии, советы по эксплуатации.",
-  },
-  "/terms": {
-    title: "Условия строительства и оплаты",
-    description:
-      "Условия проектирования, строительства, оплаты и гарантийного обслуживания деревянных домов и бань компании «Кедр Томск».",
-  },
-};
-
 const breadcrumbLabels = {
   about: "О компании",
   services: "Строительство",
@@ -170,35 +89,9 @@ function routeFromSitemap(xml) {
   ].map((match) => new URL(match[1]).pathname);
 }
 
-function getSeo(pathname, projects, articles) {
-  if (staticSeo[pathname]) return staticSeo[pathname];
-
-  const projectMatch = pathname.match(/^\/projects\/(\d+)$/);
-  if (projectMatch) {
-    const project = projects.find((item) => item.id === Number(projectMatch[1]));
-    if (project) {
-      return {
-        title: `${project.title} — ${project.area} м²`,
-        description: `${project.title}: ${project.area} м², ${project.floors} эт., ${project.material}. ${project.description.slice(0, 120)}`,
-        image: project.imageUrl,
-      };
-    }
-    return { title: "Проект не найден", robots: "noindex, nofollow" };
-  }
-
-  const articleMatch = pathname.match(/^\/articles\/(.+)$/);
-  if (articleMatch) {
-    const article = articles.find((item) => item.slug === articleMatch[1]);
-    if (article) {
-      return {
-        title: article.title,
-        description: article.excerpt ?? article.title,
-        image: article.image,
-      };
-    }
-    return { title: "Статья не найдена", robots: "noindex, nofollow" };
-  }
-
+function getSeo(pathname, staticRoutes) {
+  const route = staticRoutes.find((candidate) => candidate.path === pathname);
+  if (route) return route;
   return {
     title: "Страница не найдена",
     description: "Запрошенная страница не найдена.",
@@ -303,7 +196,7 @@ function injectSeo(template, pathname, appHtml, seo) {
   return html;
 }
 
-const sitemap = await readFile(join(appRoot, "public", "sitemap.xml"), "utf8");
+const sitemap = await readFile(join(distRoot, "sitemap.xml"), "utf8");
 const template = await readFile(join(distRoot, "index.html"), "utf8");
 const builtAssets = await readdir(join(distRoot, "assets"));
 
@@ -315,12 +208,11 @@ const server = await createServer({
 
 try {
   const entry = await server.ssrLoadModule("/src/entry-server.tsx");
-  const projectsModule = await server.ssrLoadModule("/src/data/projects.ts");
-  const articlesModule = await server.ssrLoadModule("/src/data/articles-meta.ts");
+  const staticRoutesModule = await server.ssrLoadModule("/src/seo/staticRoutes.ts");
   const routes = [...new Set(routeFromSitemap(sitemap))];
 
   for (const pathname of routes) {
-    const seo = getSeo(pathname, projectsModule.PROJECTS, articlesModule.ARTICLES_META);
+    const seo = getSeo(pathname, staticRoutesModule.STATIC_SEO_ROUTES);
     const appHtml = rewriteBuiltAssetUrls(await entry.render(pathname), builtAssets);
     const output = injectSeo(template, pathname, appHtml, seo);
     const outputPath =

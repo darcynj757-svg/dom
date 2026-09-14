@@ -28,6 +28,14 @@ export type StaticSeoRoute = {
   kind?: "Article" | "WebPage";
 };
 
+export function canonicalPath(route: StaticSeoRoute) {
+  return route.canonical ?? route.path;
+}
+
+export function canonicalUrl(route: StaticSeoRoute) {
+  return `${SEO_SITE.url}${canonicalPath(route)}`;
+}
+
 const BASE_ROUTES: StaticSeoRoute[] = [
   {
     path: "/",
@@ -163,3 +171,58 @@ export const STATIC_SEO_ROUTES: StaticSeoRoute[] = [
   ...PROJECT_ROUTES,
   ...ARTICLE_ROUTES,
 ];
+
+export const SITEMAP_ROUTES = STATIC_SEO_ROUTES.filter(
+  (route, index, routes) =>
+    routes.findIndex(
+      (candidate) => canonicalPath(candidate) === canonicalPath(route),
+    ) === index,
+);
+
+function xmlEscape(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+function sitemapChangeFrequency(route: StaticSeoRoute) {
+  if (route.kind === "Article") return "yearly";
+  if (canonicalPath(route) === "/" || canonicalPath(route) === "/projects") {
+    return "weekly";
+  }
+  if (canonicalPath(route) === "/articles" || canonicalPath(route) === "/gallery") {
+    return "weekly";
+  }
+  return "monthly";
+}
+
+function sitemapPriority(route: StaticSeoRoute) {
+  const path = canonicalPath(route);
+  if (path === "/") return "1.0";
+  if (path === "/projects" || path === "/articles") return "0.9";
+  if (path === "/about" || path === "/contacts" || path === "/services") {
+    return "0.8";
+  }
+  if (path === "/gallery") return "0.7";
+  if (route.kind === "Article") return "0.5";
+  return path.startsWith("/projects/") ? "0.6" : "0.7";
+}
+
+export function createSitemapXml() {
+  const urls = SITEMAP_ROUTES.map(
+    (route) => `  <url>
+    <loc>${xmlEscape(canonicalUrl(route))}</loc>
+    <changefreq>${sitemapChangeFrequency(route)}</changefreq>
+    <priority>${sitemapPriority(route)}</priority>
+  </url>`,
+  ).join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>
+`;
+}
