@@ -78,12 +78,26 @@ test("repeated H1 headings fail before the page ships", async () => {
   assert.match(output, /expected exactly one non-empty <h1>, found 2/);
 });
 
-test("invalid Schema.org field values fail validation", async () => {
+test("invalid absolute Schema.org URLs fail validation", async () => {
   const result = await runValidator("invalid-schema-value");
   const output = `${result.stdout}\n${result.stderr}`;
 
   assert.notEqual(result.code, 0);
-  assert.match(output, /WebPage\) field "url" must be an absolute http\(s\) URL/);
+  assert.match(
+    output,
+    /JSON-LD block 1 \(WebPage\) field "url" must be an absolute http\(s\) URL/,
+  );
+});
+
+test("invalid required Schema.org field types fail validation", async () => {
+  const result = await runValidator("invalid-schema-field-type");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(
+    output,
+    /JSON-LD block 1 \(LocalBusiness\) field "telephone" must be a non-empty string/,
+  );
 });
 
 test("missing title fails with a useful route and message", async () => {
@@ -224,6 +238,7 @@ test("all expected fixture directories are present", async () => {
     "alias-indexed",
     "duplicate-description",
     "duplicate-title",
+    "invalid-schema-field-type",
     "invalid-schema-value",
     "malformed-json",
     "missing-breadcrumb-item",
