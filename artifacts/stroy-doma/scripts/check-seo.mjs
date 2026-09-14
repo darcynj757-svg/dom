@@ -114,6 +114,102 @@ function getJsonLdBlocks(html) {
   return [...html.matchAll(pattern)].map((match) => match[1].trim());
 }
 
+const schemaRequiredFields = {
+  LocalBusiness: ["name", "url", "logo", "image", "telephone", "description", "address"],
+  WebPage: ["name", "url", "headline", "description", "mainEntityOfPage", "isPartOf"],
+  Article: ["headline", "description", "image", "author", "publisher", "mainEntityOfPage", "url"],
+  WebSite: ["name", "url"],
+  Organization: ["name"],
+  BreadcrumbList: ["itemListElement"],
+  PostalAddress: ["streetAddress", "addressLocality", "addressCountry"],
+  GeoCoordinates: ["latitude", "longitude"],
+  OpeningHoursSpecification: ["dayOfWeek", "opens", "closes"],
+  ListItem: ["position", "name", "item"],
+};
+
+function hasSchemaValue(value) {
+  if (value === null || value === undefined) return false;
+  if (typeof value === "string") return value.trim().length > 0;
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === "object") return Object.keys(value).length > 0;
+  return true;
+}
+
+function schemaTypes(value) {
+  const types = value?.["@type"];
+  if (Array.isArray(types)) return types.filter((type) => typeof type === "string");
+  return typeof types === "string" ? [types] : [];
+}
+
+function schemaNodes(value) {
+  if (Array.isArray(value)) return value.flatMap(schemaNodes);
+  if (!value || typeof value !== "object") return [];
+  if (Array.isArray(value["@graph"])) return value["@graph"].flatMap(schemaNodes);
+  return [value];
+}
+
+function validateNestedSchema(value, route, location, issues) {
+  for (const node of schemaNodes(value)) {
+    validateSchemaNode(node, route, location, issues);
+  }
+}
+
+function validateSchemaNode(node, route, location, issues) {
+  if (!node || typeof node !== "object" || Array.isArray(node)) {
+    addIssue(issues, route, `${location} must be an object`);
+    return;
+  }
+
+  const types = schemaTypes(node);
+  if (types.length === 0) {
+    addIssue(issues, route, `${location} must contain @type`);
+    return;
+  }
+
+  for (const type of types) {
+    const requiredFields = schemaRequiredFields[type] ?? [];
+    for (const field of requiredFields) {
+      if (!hasSchemaValue(node[field])) {
+        addIssue(issues, route, `${location} (${type}) is missing required field "${field}"`);
+      }
+    }
+
+    if (type === "LocalBusiness") {
+      validateNestedSchema(node.address, route, `${location}.address`, issues);
+      validateNestedSchema(node.geo, route, `${location}.geo`, issues);
+      validateNestedSchema(
+        node.openingHoursSpecification,
+        route,
+        `${location}.openingHoursSpecification`,
+        issues,
+      );
+    }
+
+    if (type === "WebPage") {
+      validateNestedSchema(node.isPartOf, route, `${location}.isPartOf`, issues);
+    }
+
+    if (type === "Article") {
+      validateNestedSchema(node.author, route, `${location}.author`, issues);
+      validateNestedSchema(node.publisher, route, `${location}.publisher`, issues);
+      validateNestedSchema(node.isPartOf, route, `${location}.isPartOf`, issues);
+    }
+
+    if (type === "BreadcrumbList") {
+      if (Array.isArray(node.itemListElement)) {
+        node.itemListElement.forEach((item, index) => {
+          validateNestedSchema(
+            item,
+            route,
+            `${location}.itemListElement[${index}]`,
+            issues,
+          );
+        });
+      }
+    }
+  }
+}
+
 function addIssue(issues, route, message) {
   issues.push(`${route}: ${message}`);
 }
@@ -224,6 +320,15 @@ async function main() {
               route,
               `JSON-LD block ${index + 1} must contain @context and @type or @graph`,
             );
+          } else {
+            schemaNodes(value).forEach((node, nodeIndex) => {
+              validateSchemaNode(
+                node,
+                route,
+                `JSON-LD block ${index + 1}${nodeIndex > 0 ? ` node ${nodeIndex + 1}` : ""}`,
+                issues,
+              );
+            });
           }
         } catch (error) {
           addIssue(
