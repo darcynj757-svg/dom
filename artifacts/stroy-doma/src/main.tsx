@@ -1,15 +1,21 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
-import App from "./App";
+import App, { preloadRoute } from "./App";
 import "./index.css";
 
 const rootElement = document.getElementById("root")!;
 const hasPrerenderedApp = import.meta.env.PROD && !rootElement.querySelector("#seo-prerender");
 
-if (hasPrerenderedApp) {
-  hydrateRoot(rootElement, <App />);
-} else {
+async function startApp() {
+  if (hasPrerenderedApp) {
+    await preloadRoute(window.location.pathname);
+    hydrateRoot(rootElement, <App />);
+    return;
+  }
+
   createRoot(rootElement).render(<App />);
 }
+
+void startApp();
 
 // ── Логика splash-экрана ────────────────────────────────────────────────────
 //

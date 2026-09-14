@@ -3,7 +3,6 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowUpRight, CalendarClock, Layers, Cog, Timer, Wallet, BadgeCheck, Phone, Calculator, FileSignature, HardHat, BookOpen, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { lazy, Suspense } from "react";
 import ScrollHouseBlock from "@/components/ScrollHouseBlock";
 import { useHeroParallax } from "@/hooks/useHeroParallax";
 import { useIsMobile } from "@/hooks/useIsMobile";
@@ -15,7 +14,7 @@ const heroPhoto = "/images/gallery/photo-1.webp";
 import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 import { useSeo } from "@/hooks/useSeo";
 import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
-const CalculatorComponent = lazy(() => import("@/components/Calculator"));
+import CalculatorComponent from "@/components/Calculator";
 
 
 function StatCard({ value, suffix, label }: { value: number; suffix: string; label: string }) {

@@ -43,6 +43,18 @@ function rewriteBuiltAssetUrls(html, builtAssets) {
   );
 }
 
+function hoistResourceHints(html) {
+  const hints = [];
+  const appHtml = html.replace(
+    /<link\b[^>]*\brel=["']preload["'][^>]*\/?>/gi,
+    (hint) => {
+      hints.push(hint);
+      return "";
+    },
+  );
+  return { appHtml, hints: hints.join("\n    ") };
+}
+
 const breadcrumbLabels = {
   about: "О компании",
   services: "Строительство",
@@ -232,8 +244,14 @@ try {
 
   for (const pathname of routes) {
     const seo = getSeo(pathname, staticRoutesModule.STATIC_SEO_ROUTES);
-    const appHtml = rewriteBuiltAssetUrls(await entry.render(pathname), builtAssets);
-    const output = injectSeo(template, pathname, appHtml, seo);
+    const renderedHtml = rewriteBuiltAssetUrls(await entry.render(pathname), builtAssets);
+    const { appHtml, hints } = hoistResourceHints(renderedHtml);
+    const output = injectSeo(
+      template,
+      pathname,
+      appHtml,
+      seo,
+    ).replace("</head>", `${hints ? `    ${hints}\n  ` : ""}</head>`);
     const outputPath =
       pathname === "/" ? join(distRoot, "index.html") : join(distRoot, pathname.slice(1), "index.html");
 

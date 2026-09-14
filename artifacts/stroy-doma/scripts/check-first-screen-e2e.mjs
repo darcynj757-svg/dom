@@ -30,7 +30,10 @@ const budget = {
 
 const routes = [
   { path: "/", label: "home", checks3d: true },
-  { path: "/projects", label: "projects", checks3d: false },
+  // Vite preview resolves /projects without a trailing slash to the SPA
+  // fallback instead of dist/public/projects/index.html. The production API
+  // server handles the direct URL separately.
+  { path: "/projects/", label: "projects", checks3d: false },
 ];
 
 const slow4g = {
@@ -39,6 +42,12 @@ const slow4g = {
   latency: 150,
   downloadThroughput: (1_600 * 1024) / 8,
   uploadThroughput: (750 * 1024) / 8,
+};
+
+const interactive3dNetwork = {
+  latency: 20,
+  downloadThroughput: (20 * 1024 * 1024) / 8,
+  uploadThroughput: (10 * 1024 * 1024) / 8,
 };
 
 let previewProcess;
@@ -290,6 +299,11 @@ async function runRoute(browser, route) {
     );
 
     if (route.checks3d) {
+      await cdp.send("Network.emulateNetworkConditions", {
+        offline: false,
+        ...interactive3dNetwork,
+        connectionType: "wifi",
+      });
       await page.waitForSelector("[data-first-screen-3d]", {
         state: "attached",
         timeout: 20_000,
@@ -317,6 +331,24 @@ async function runRoute(browser, route) {
         "home did not request /draco/* within 10 seconds after entering the 3D block",
       );
 
+      await page.waitForFunction(
+        () => {
+          const container = document.querySelector('[data-house-model-ready="true"]');
+          const canvas = container?.querySelector('[data-house-canvas="true"]');
+          if (!container || !canvas) return false;
+          const rect = canvas.getBoundingClientRect();
+          return (
+            rect.width > 0 &&
+            rect.height > 0 &&
+            rect.bottom > 0 &&
+            rect.right > 0 &&
+            rect.top < window.innerHeight &&
+            rect.left < window.innerWidth
+          );
+        },
+        { timeout: 20_000 },
+      );
+
       const postScrollKinds = new Set(assetRequests.map((requestEvent) => requestEvent.kind));
       assert(
         postScrollKinds.has("house-mobile.glb") || postScrollKinds.has("house-draco.glb"),
@@ -326,7 +358,7 @@ async function runRoute(browser, route) {
         postScrollKinds.has("draco decoder"),
         "home did not request /draco/* after entering the 3D block",
       );
-      console.log("home: 3D assets absent before scroll and requested after entering 3D block");
+      console.log("home: mobile 3D model loaded and Canvas is visible after entering 3D block");
     }
 
     if (browserErrors.length) {
