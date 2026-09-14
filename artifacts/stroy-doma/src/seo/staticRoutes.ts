@@ -203,10 +203,24 @@ validateRouteRegistry(STATIC_SEO_ROUTES);
 export const SITEMAP_ROUTES = STATIC_SEO_ROUTES.filter(
   (route) => route.sitemap !== false,
 ).filter(
-  (route, index, routes) =>
-    routes.findIndex(
-      (candidate) => canonicalPath(candidate) === canonicalPath(route),
-    ) === index,
+  (route, index, routes) => {
+    const routeCanonicalPath = canonicalPath(route);
+    const canonicalRouteIndex = routes.findIndex(
+      (candidate) =>
+        canonicalPath(candidate) === routeCanonicalPath &&
+        candidate.path === canonicalPath(candidate),
+    );
+
+    if (canonicalRouteIndex >= 0) {
+      return canonicalRouteIndex === index;
+    }
+
+    return (
+      routes.findIndex(
+        (candidate) => canonicalPath(candidate) === routeCanonicalPath,
+      ) === index
+    );
+  },
 );
 
 function xmlEscape(value: string) {

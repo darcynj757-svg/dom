@@ -2,3 +2,4 @@
 - [First-screen performance](first-screen-performance.md) — заставка не ждёт видео, а 3D-модель загружается только при входе в свой блок.
 - [Splash and lazy routes](splash-lazy-routes.md) — первый экран не должен зависеть только от одноразового события короткой заставки.
 - [Static preview route resolution](static-preview-routes.md) — локальный Vite preview может отдавать главную для вложенного URL без завершающего слеша.
+- [Sitemap canonical deduplication](sitemap-regressions.md) — при совпадении canonical path в sitemap выбирается канонический маршрут, а не alias.
