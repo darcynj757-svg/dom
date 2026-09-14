@@ -191,8 +191,12 @@ export default function Home() {
             className="absolute inset-0 w-full h-full object-cover"
           >
             {/* Сжатая версия для мобильных (6 МБ вместо 15 МБ) */}
-            {isMobile && <source src="/videos/hero-compressed.mp4" type="video/mp4" />}
-            <source src={heroVideo} type="video/mp4" />
+            <source
+              src="/videos/hero-compressed.mp4"
+              type="video/mp4"
+              media="(max-width: 767px)"
+            />
+            <source src={heroVideo} type="video/mp4" media="(min-width: 768px)" />
           </video>
         </motion.div>
 

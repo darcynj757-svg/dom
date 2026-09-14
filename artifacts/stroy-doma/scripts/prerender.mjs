@@ -7,7 +7,7 @@
  * before JavaScript runs.
  */
 import { createServer } from "vite";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,6 +17,25 @@ const distRoot = join(appRoot, "dist", "public");
 const siteUrl = "https://kedr-tomsk.ru";
 const siteName = "Кедр Томск";
 const defaultImage = `${siteUrl}/opengraph.jpg`;
+
+function rewriteBuiltAssetUrls(html, builtAssets) {
+  return html.replace(
+    /(?:\/src\/assets\/|\/@fs\/[^"'?]*\/(?:attached_assets|assets)\/)([^"'?]+)(?:\?[^"']*)?/g,
+    (match, sourcePath) => {
+      const filename = sourcePath.split("/").pop();
+      if (!filename) return match;
+      const extensionIndex = filename.lastIndexOf(".");
+      const stem = extensionIndex === -1 ? filename : filename.slice(0, extensionIndex);
+      const extension = extensionIndex === -1 ? "" : filename.slice(extensionIndex);
+      const builtName = builtAssets.find(
+        (asset) =>
+          asset === filename ||
+          (asset.startsWith(`${stem}-`) && asset.endsWith(extension)),
+      );
+      return builtName ? `/assets/${builtName}` : match;
+    },
+  );
+}
 
 const staticSeo = {
   "/": {
@@ -234,9 +253,16 @@ function injectSeo(template, pathname, appHtml, seo) {
       : `${siteUrl}${seo.image}`
     : defaultImage;
 
-  let html = template
-    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(fullTitle)}</title>`)
-    .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
+  let html = template.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(fullTitle)}</title>`);
+  const seoBodyMarker = /<!-- SEO_BODY_START -->[\s\S]*?<!-- SEO_BODY_END -->/i;
+  const seoFallback = /<div id="seo-prerender">[\s\S]*?<\/div>/i;
+  if (seoBodyMarker.test(html)) {
+    html = html.replace(seoBodyMarker, appHtml);
+  } else if (seoFallback.test(html)) {
+    html = html.replace(seoFallback, appHtml);
+  } else {
+    html = html.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
+  }
 
   html = setMeta(html, "name", "description", seo.description ?? "");
   html = setMeta(html, "name", "robots", seo.robots ?? "index, follow");
@@ -279,6 +305,7 @@ function injectSeo(template, pathname, appHtml, seo) {
 
 const sitemap = await readFile(join(appRoot, "public", "sitemap.xml"), "utf8");
 const template = await readFile(join(distRoot, "index.html"), "utf8");
+const builtAssets = await readdir(join(distRoot, "assets"));
 
 const server = await createServer({
   configFile: join(appRoot, "vite.config.ts"),
@@ -294,7 +321,7 @@ try {
 
   for (const pathname of routes) {
     const seo = getSeo(pathname, projectsModule.PROJECTS, articlesModule.ARTICLES_META);
-    const appHtml = await entry.render(pathname);
+    const appHtml = rewriteBuiltAssetUrls(await entry.render(pathname), builtAssets);
     const output = injectSeo(template, pathname, appHtml, seo);
     const outputPath =
       pathname === "/" ? join(distRoot, "index.html") : join(distRoot, pathname.slice(1), "index.html");

@@ -86,17 +86,31 @@ export default function ScrollHouseBlock() {
   useEffect(() => {
     const el = houseRef.current;
     if (!el) return;
+    let activated = false;
+
+    const activateHouse = () => {
+      if (activated || window.scrollY <= 0) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top > window.innerHeight || rect.bottom < 0) return;
+
+      activated = true;
+      setShowHouse(true);
+      observer.disconnect();
+      window.removeEventListener("scroll", activateHouse);
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setShowHouse(true);
-          observer.disconnect();
-        }
+        if (entry.isIntersecting) activateHouse();
       },
       { rootMargin: "0px 0px -15% 0px" },
     );
     observer.observe(el);
-    return () => observer.disconnect();
+    window.addEventListener("scroll", activateHouse, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", activateHouse);
+    };
   }, []);
 
   return (

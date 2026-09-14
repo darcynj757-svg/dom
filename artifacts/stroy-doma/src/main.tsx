@@ -1,9 +1,15 @@
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
-const root = createRoot(document.getElementById("root")!);
-root.render(<App />);
+const rootElement = document.getElementById("root")!;
+const hasPrerenderedApp = import.meta.env.PROD && !rootElement.querySelector("#seo-prerender");
+
+if (hasPrerenderedApp) {
+  hydrateRoot(rootElement, <App />);
+} else {
+  createRoot(rootElement).render(<App />);
+}
 
 // ── Логика splash-экрана ────────────────────────────────────────────────────
 //
