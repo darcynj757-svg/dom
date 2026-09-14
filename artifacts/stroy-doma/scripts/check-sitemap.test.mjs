@@ -47,6 +47,8 @@ const {
   canonicalPath,
   canonicalUrl,
   createSitemapXml,
+  isAliasRoute,
+  isIndexableRoute,
 } = routes;
 const sitemapUrls = sitemapLocs(createSitemapXml());
 
@@ -98,6 +100,25 @@ test("sitemap contains unique canonical URLs and excludes aliases", () => {
     aliasesInSitemap,
     [],
     "Sitemap contains non-canonical route aliases",
+  );
+});
+
+test("aliases stay available but are explicitly excluded from indexing", () => {
+  const aliases = STATIC_SEO_ROUTES.filter(isAliasRoute);
+
+  assert.deepEqual(
+    aliases.map((route) => route.path).sort(),
+    ["/production", "/uslugi"],
+  );
+  assert.ok(
+    aliases.every(
+      (route) =>
+        route.indexable === false &&
+        route.sitemap === false &&
+        !isIndexableRoute(route) &&
+        sitemapUrls.includes(`${SEO_SITE.url}${canonicalPath(route)}`),
+    ),
+    "Every alias must be noindex, excluded from sitemap, and point to a sitemap-listed canonical route",
   );
 });
 

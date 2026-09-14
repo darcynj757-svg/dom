@@ -10,6 +10,7 @@ import {
   SEO_SITE,
   canonicalUrl,
   createSitemapXml,
+  isIndexableRoute,
   type StaticSeoRoute,
 } from "./src/seo/staticRoutes";
 
@@ -107,7 +108,7 @@ function seoHead(route: StaticSeoRoute) {
   return [
     `<title>${escapeHtml(title)}</title>`,
     `<meta name="description" content="${escapeHtml(route.description)}">`,
-    `<meta name="robots" content="${route.indexable === false ? "noindex, follow" : "index, follow"}">`,
+    `<meta name="robots" content="${isIndexableRoute(route) ? "index, follow" : "noindex, follow"}">`,
     `<link rel="canonical" href="${escapeHtml(canonicalUrl)}">`,
     `<meta property="og:title" content="${escapeHtml(title)}">`,
     `<meta property="og:description" content="${escapeHtml(route.description)}">`,

@@ -34,6 +34,14 @@ export function canonicalPath(route: StaticSeoRoute) {
   return route.canonical ?? route.path;
 }
 
+export function isAliasRoute(route: StaticSeoRoute) {
+  return canonicalPath(route) !== route.path;
+}
+
+export function isIndexableRoute(route: StaticSeoRoute) {
+  return route.indexable !== false && !isAliasRoute(route);
+}
+
 export function canonicalUrl(route: StaticSeoRoute) {
   return `${SEO_SITE.url}${canonicalPath(route)}`;
 }
@@ -69,6 +77,7 @@ const BASE_ROUTES: StaticSeoRoute[] = [
     h1: "Все услуги — от фундамента до чистовой отделки",
     canonical: "/services",
     indexable: false,
+    sitemap: false,
   },
   {
     path: "/services/profilirovanny-brus",
@@ -92,6 +101,7 @@ const BASE_ROUTES: StaticSeoRoute[] = [
     h1: "Профилированный брус",
     canonical: "/production/profilirovanny-brus",
     indexable: false,
+    sitemap: false,
   },
   {
     path: "/production/profilirovanny-brus",
@@ -192,6 +202,14 @@ function validateRouteRegistry(routes: StaticSeoRoute[]) {
     paths.add(route.path);
 
     const canonical = canonicalPath(route);
+    if (canonical.includes("?") || canonical.includes("#")) {
+      throw new Error(`Invalid canonical path for ${route.path}: ${canonical}`);
+    }
+    if (isAliasRoute(route) && route.indexable !== false) {
+      throw new Error(
+        `Alias route ${route.path} must explicitly opt out of indexing`,
+      );
+    }
     const existingOwner = canonicalOwners.get(canonical);
     if (existingOwner && !route.canonical) {
       throw new Error(
@@ -200,31 +218,26 @@ function validateRouteRegistry(routes: StaticSeoRoute[]) {
     }
     canonicalOwners.set(canonical, route.path);
   }
+
+  const canonicalPaths = new Set(
+    routes
+      .filter((route) => !isAliasRoute(route))
+      .map((route) => route.path),
+  );
+  for (const route of routes.filter(isAliasRoute)) {
+    const canonical = canonicalPath(route);
+    if (!canonicalPaths.has(canonical)) {
+      throw new Error(
+        `Alias route ${route.path} points to missing canonical route ${canonical}`,
+      );
+    }
+  }
 }
 
 validateRouteRegistry(STATIC_SEO_ROUTES);
 
 export const SITEMAP_ROUTES = STATIC_SEO_ROUTES.filter(
-  (route) => route.sitemap !== false,
-).filter(
-  (route, index, routes) => {
-    const routeCanonicalPath = canonicalPath(route);
-    const canonicalRouteIndex = routes.findIndex(
-      (candidate) =>
-        canonicalPath(candidate) === routeCanonicalPath &&
-        candidate.path === canonicalPath(candidate),
-    );
-
-    if (canonicalRouteIndex >= 0) {
-      return canonicalRouteIndex === index;
-    }
-
-    return (
-      routes.findIndex(
-        (candidate) => canonicalPath(candidate) === routeCanonicalPath,
-      ) === index
-    );
-  },
+  (route) => route.sitemap !== false && !isAliasRoute(route),
 );
 
 function xmlEscape(value: string) {

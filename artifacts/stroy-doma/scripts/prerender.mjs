@@ -105,6 +105,14 @@ function getSeo(pathname, staticRoutes) {
   };
 }
 
+function robotsDirective(pathname, seo) {
+  const isAlias = seo.canonical && seo.canonical !== pathname;
+  return (
+    seo.robots ??
+    (seo.indexable === false || isAlias ? "noindex, follow" : "index, follow")
+  );
+}
+
 function getBreadcrumbSchema(pathname, seo) {
   if (pathname === "/") return null;
 
@@ -168,7 +176,7 @@ function injectSeo(template, pathname, appHtml, seo) {
     html,
     "name",
     "robots",
-    seo.robots ?? (seo.indexable === false ? "noindex, follow" : "index, follow"),
+    robotsDirective(pathname, seo),
   );
   html = setMeta(html, "property", "og:title", fullTitle);
   html = setMeta(html, "property", "og:description", seo.description ?? "");
