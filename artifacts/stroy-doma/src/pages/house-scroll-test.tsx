@@ -62,6 +62,21 @@ export default function HouseScrollTest() {
   );
 
   useEffect(() => {
+    const testWindow = window as Window & {
+      __KEDR_HOUSE_SCROLL_TEST_SET_PROGRESS__?: (value: number) => void;
+    };
+    testWindow.__KEDR_HOUSE_SCROLL_TEST_SET_PROGRESS__ = (value) => {
+      const nextProgress = Math.max(0, Math.min(1, Number(value) || 0));
+      setScrollLinked(false);
+      setIsPlaying(false);
+      setElapsed(nextProgress * DURATION_SECONDS);
+    };
+    return () => {
+      delete testWindow.__KEDR_HOUSE_SCROLL_TEST_SET_PROGRESS__;
+    };
+  }, []);
+
+  useEffect(() => {
     const modelRoot = document.querySelector<HTMLElement>("[data-house-model-ready]");
     if (!modelRoot) return;
 
@@ -236,6 +251,21 @@ export default function HouseScrollTest() {
               <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(var(--grid-color)_1px,transparent_1px),linear-gradient(90deg,var(--grid-color)_1px,transparent_1px)] [background-size:4.2vw_4.2vw]" />
               <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#25302c]/[0.06] to-transparent" />
               <div className="absolute bottom-[13%] left-[12%] right-[12%] h-px bg-[#6b6659]/30" />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-[8%] bottom-[5%] z-0 h-[38%] overflow-hidden opacity-35 [mask-image:linear-gradient(to_bottom,transparent_0%,black_24%,black_100%)]"
+              >
+                <div
+                  className="absolute inset-[-48%_-24%_-10%]"
+                  style={{
+                    transform: "perspective(520px) rotateX(58deg) scale(1.15)",
+                    transformOrigin: "center bottom",
+                    backgroundImage:
+                      "linear-gradient(rgba(73,94,78,0.32) 1px, transparent 1px), linear-gradient(90deg, rgba(73,94,78,0.32) 1px, transparent 1px)",
+                    backgroundSize: "100% 15%, 9% 100%",
+                  }}
+                />
+              </div>
 
               <div className="absolute left-[4.4%] top-[6.5%] z-10">
                 <div className="flex items-center gap-2 text-[clamp(8px,0.72vw,12px)] font-bold uppercase tracking-[0.24em] text-[#4c544b]">
@@ -258,7 +288,7 @@ export default function HouseScrollTest() {
 
               <div className="absolute inset-0 z-[1]">
                 <Suspense fallback={null}>
-                  <ScrollHouse progress={progress} backgroundColor="#ffffff" smoothMotion showGrid={false} />
+                      <ScrollHouse progress={progress} backgroundColor="#ffffff" smoothMotion showGrid />
                 </Suspense>
               </div>
 
