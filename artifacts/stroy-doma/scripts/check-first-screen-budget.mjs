@@ -74,8 +74,8 @@ async function main() {
   );
   const css = getAssetPath(
     html,
-    /<link\b[^>]*rel="stylesheet"[^>]*href="([^"]+)"/i,
-    "the stylesheet",
+    /<link\b[^>]*href="(\/assets\/[^"]+\.css)"[^>]*>/i,
+    "the local stylesheet",
   );
   const heroPoster = "/posters/cedar_log_mansion_flythrough_16s_compressed.webp";
   const mobileHeroVideo = "/videos/hero-compressed.mp4";
