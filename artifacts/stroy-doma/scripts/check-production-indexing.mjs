@@ -279,15 +279,30 @@ async function main() {
   }
 
   const { server, baseUrl } = await startArtifactServer(outputRoot);
+  const httpFailures = [];
+  async function collectHttpCheck(productionUrl, expectedContentType) {
+    try {
+      await assertHttp200(baseUrl, productionUrl, expectedContentType);
+    } catch (error) {
+      httpFailures.push(error instanceof Error ? error.message : String(error));
+    }
+  }
+
   try {
-    await assertHttp200(baseUrl, `${siteUrl}/robots.txt`, "text/plain");
-    await assertHttp200(baseUrl, sitemapUrl, "application/xml");
+    await collectHttpCheck(`${siteUrl}/robots.txt`, "text/plain");
+    await collectHttpCheck(sitemapUrl, "application/xml");
     for (const loc of locs) {
-      await assertHttp200(baseUrl, loc);
+      await collectHttpCheck(loc);
     }
   } finally {
     await new Promise((resolveServer) => server.close(resolveServer));
   }
+  assert(
+    httpFailures.length === 0,
+    `HTTP checks failed for ${httpFailures.length} URL(s):\n${httpFailures
+      .map((failure) => `- ${failure}`)
+      .join("\n")}`,
+  );
 
   const projectCount = locs.filter((loc) => new URL(loc).pathname.startsWith("/projects/")).length;
   const articleCount = locs.filter((loc) => new URL(loc).pathname.startsWith("/articles/")).length;

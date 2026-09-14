@@ -35,11 +35,11 @@ function easeInOutCubic(t: number) {
 type Bounds = { minY: number; maxY: number };
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth < 768 : false,
-  );
+  // Match SSR output on the first client render; update after hydration.
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);

@@ -126,6 +126,29 @@ test("production indexing preflight reports the exact unavailable URL", async ()
   }
 });
 
+test("production indexing preflight reports every unavailable sitemap URL", async () => {
+  const missingUrls = [
+    "https://kedr-tomsk.ru/projects/missing-one",
+    "https://kedr-tomsk.ru/articles/missing-two",
+  ];
+  const outputRoot = await createArtifact({
+    sitemap: validSitemap(missingUrls),
+  });
+
+  try {
+    const result = await runCheck(outputRoot);
+    assert.notEqual(result.exitCode, 0);
+    for (const missingUrl of missingUrls) {
+      assert.match(
+        result.stderr,
+        new RegExp(`HTTP check failed for ${missingUrl}: expected 200, received 404`),
+      );
+    }
+  } finally {
+    await rm(outputRoot, { recursive: true, force: true });
+  }
+});
+
 test("production indexing preflight rejects multiple sitemap directives", async () => {
   const outputRoot = await createArtifact({
     sitemap: validSitemap(["https://kedr-tomsk.ru/"]),
