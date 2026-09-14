@@ -8,3 +8,4 @@
 - [Mobile media fallbacks](mobile-media-fallbacks.md) — для тяжёлых hero/3D-ресурсов используй отдельные mobile-ассеты и видимый fallback до готовности.
 - [SEO image references](seo-image-references.md) — prerender может оставлять Vite `/@fs` и encoded Unicode asset URLs; проверяй и переписывай их до публикации.
 - [Mixed deployment assets](mixed-deployment-assets.md) — при отключении static handler frontend нужно собирать production и включать `dist/public` в API runtime.
+- [Crawler resource headers](crawler-resource-headers.md) — robots.txt и sitemap.xml должны получать явные Content-Type в реальном API runtime, а не только в preflight mock-server.

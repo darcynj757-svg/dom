@@ -43,6 +43,10 @@ const clientDir = [
 
 if (clientDir) {
   const resolvedClientDir = path.resolve(clientDir);
+  const crawlerResourceContentTypes: Record<string, string> = {
+    "/robots.txt": "text/plain; charset=utf-8",
+    "/sitemap.xml": "application/xml; charset=utf-8",
+  };
   const pageFileForPath = (requestPath: string) => {
     let decodedPath;
     try {
@@ -68,6 +72,11 @@ if (clientDir) {
   app.use((req, res, next) => {
     if (req.method !== "GET" && req.method !== "HEAD") return next();
     if (req.path === "/api" || req.path.startsWith("/api/")) return next();
+
+    const contentType = crawlerResourceContentTypes[req.path];
+    if (contentType) {
+      res.setHeader("Content-Type", contentType);
+    }
 
     const pageFile = pageFileForPath(req.path);
     if (!pageFile) return next();
