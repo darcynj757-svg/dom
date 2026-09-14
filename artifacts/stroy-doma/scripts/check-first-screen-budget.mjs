@@ -3,7 +3,7 @@
  * Guards the mobile first-screen budget without adding a browser dependency.
  *
  * The check intentionally covers the build artifacts that control first paint:
- * critical HTML/CSS/entry JS, the poster and mobile hero video, plus the
+ * critical HTML/CSS/entry JS, the poster and hero video, plus the
  * invariants that keep below-the-fold 3D assets out of the initial document.
  */
 import { readFile, stat } from "node:fs/promises";
@@ -21,7 +21,7 @@ const budget = {
   cssBytes: 180_000,
   entryJsBytes: 160_000,
   heroPosterBytes: 600_000,
-  mobileHeroVideoBytes: 7_000_000,
+  heroVideoBytes: 7_000_000,
   mobileHouseModelBytes: 19_000_000,
 };
 
@@ -79,18 +79,18 @@ async function main() {
     "the local stylesheet",
   );
   const heroPoster = "/posters/cedar_log_mansion_flythrough_16s_compressed.webp";
-  const mobileHeroVideo = "/videos/hero-mobile.mp4";
+  const heroVideo = "/videos/hero-compressed.mp4";
   const mobileHouseModel = "/house-mobile.glb";
 
-  const [entryJsSize, cssSize, heroPosterSize, mobileHeroVideoSize, mobileHouseModelSize] =
+  const [entryJsSize, cssSize, heroPosterSize, heroVideoSize, mobileHouseModelSize] =
     await Promise.all([
       assertFileBudget(entryJs, "entry JavaScript", budget.entryJsBytes),
       assertFileBudget(css, "critical CSS", budget.cssBytes),
       assertFileBudget(heroPoster, "mobile hero poster", budget.heroPosterBytes),
       assertFileBudget(
-        mobileHeroVideo,
-        "mobile hero video",
-        budget.mobileHeroVideoBytes,
+        heroVideo,
+        "hero video",
+        budget.heroVideoBytes,
       ),
       assertFileBudget(
         mobileHouseModel,
@@ -110,10 +110,10 @@ async function main() {
     "hero video must use metadata preload",
   );
   assert(
-    /<source\b[^>]*src="\/videos\/hero-mobile\.mp4"[^>]*media="\(max-width: 767px\)"/i.test(
+    /<source\b[^>]*src="\/videos\/hero-compressed\.mp4"[^>]*media="\(max-width: 767px\)"/i.test(
       html,
     ),
-    "hero video must expose the compressed mobile source",
+    "hero video must expose the high-quality mobile source",
   );
   assert(
     !/<video\b[^>]*preload="auto"/i.test(html),
@@ -131,7 +131,7 @@ async function main() {
       `CSS=${cssSize}B/${budget.cssBytes}B`,
       `entry-js=${entryJsSize}B/${budget.entryJsBytes}B`,
       `poster=${heroPosterSize}B/${budget.heroPosterBytes}B`,
-      `mobile-video=${mobileHeroVideoSize}B/${budget.mobileHeroVideoBytes}B`,
+      `hero-video=${heroVideoSize}B/${budget.heroVideoBytes}B`,
       `mobile-3d=${mobileHouseModelSize}B/${budget.mobileHouseModelBytes}B`,
     ].join(" "),
   );

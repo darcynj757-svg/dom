@@ -52,14 +52,12 @@ function HouseModel({
   onBounds,
   isMobile,
   modelUrl,
-  onReady,
 }: {
   progress: number;
   clipPlane: THREE.Plane;
   onBounds: (bounds: Bounds) => void;
   isMobile: boolean;
   modelUrl: string;
-  onReady: () => void;
 }) {
   const groupRef = useRef<THREE.Group>(null!);
   const gltf = useGltfWithPlugin(modelUrl);
@@ -111,13 +109,11 @@ function HouseModel({
 
     const box = new THREE.Box3().setFromObject(groupRef.current);
     onBounds({ minY: box.min.y, maxY: box.max.y });
-    onReady();
-
     // Nudge the mesh up a bit within the frame without moving the camera's
     // focus point (which tracks the bounds captured above).
     groupRef.current.position.y += 0.6;
     groupRef.current.updateMatrixWorld(true);
-  }, [scene, normScale, clipPlane, onBounds, onReady]);
+  }, [scene, normScale, clipPlane, onBounds]);
 
   // House stays fixed on the ground — clip plane handles the build reveal.
   useFrame(() => { /* no-op: position is set once in useLayoutEffect */ });
@@ -139,7 +135,6 @@ function Scene({
   onBounds,
   isMobile,
   modelUrl,
-  onReady,
 }: {
   progress: number;
   clipPlane: THREE.Plane;
@@ -147,7 +142,6 @@ function Scene({
   onBounds: (bounds: Bounds) => void;
   isMobile: boolean;
   modelUrl: string;
-  onReady: () => void;
 }) {
   const { camera } = useThree();
 
@@ -228,7 +222,6 @@ function Scene({
           onBounds={onBounds}
           isMobile={isMobile}
           modelUrl={modelUrl}
-          onReady={onReady}
         />
       </Suspense>
       {/* Shadow fades in as the house builds: barely-there at start, solid at finish.
@@ -267,7 +260,6 @@ export default function ScrollHouse({ progress }: { progress: number }) {
   const retryCount = useRef(0);
   const isMobile = useIsMobile();
   const modelUrl = getHouseModelUrl(isMobile);
-  const [modelReady, setModelReady] = useState(false);
   const boundsRef = useRef<Bounds>({ minY: -0.2, maxY: 3.4 });
   // Local plane instance (not shared with the hero canvas) so each Canvas
   // controls its own reveal independently.
@@ -279,14 +271,6 @@ export default function ScrollHouse({ progress }: { progress: number }) {
   const handleBounds = useCallback((bounds: Bounds) => {
     boundsRef.current = bounds;
   }, []);
-  const handleModelReady = useCallback(() => {
-    setModelReady(true);
-  }, []);
-
-  useEffect(() => {
-    setModelReady(false);
-  }, [modelUrl]);
-
   useEffect(() => {
     setWebglSupported(hasWebGL());
     // Load the decoder in parallel with the model, but only after this
@@ -304,13 +288,6 @@ export default function ScrollHouse({ progress }: { progress: number }) {
 
   return (
     <div className="absolute inset-0 pointer-events-none">
-      {!modelReady && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/20">
-          <span className="rounded-full bg-background/80 px-4 py-2 text-xs text-muted-foreground shadow-sm">
-            Загружаем 3D-модель дома…
-          </span>
-        </div>
-      )}
       {webglSupported && (
         <Canvas
           key={canvasKey}
@@ -343,7 +320,6 @@ export default function ScrollHouse({ progress }: { progress: number }) {
             onBounds={handleBounds}
             isMobile={isMobile}
             modelUrl={modelUrl}
-            onReady={handleModelReady}
           />
         </Canvas>
       )}
