@@ -42,9 +42,38 @@ const clientDir = [
 ].find((candidate) => fs.existsSync(path.join(candidate, "index.html")));
 
 if (clientDir) {
-  app.use(express.static(clientDir));
+  const resolvedClientDir = path.resolve(clientDir);
+  const pageFileForPath = (requestPath: string) => {
+    let decodedPath;
+    try {
+      decodedPath = decodeURIComponent(requestPath);
+    } catch {
+      return null;
+    }
+
+    const relativePath = decodedPath === "/"
+      ? "index.html"
+      : path.join(decodedPath.replace(/^\/+|\/+$/g, ""), "index.html");
+    const candidate = path.resolve(resolvedClientDir, relativePath);
+    const isInsideClient = candidate === resolvedClientDir ||
+      candidate.startsWith(`${resolvedClientDir}${path.sep}`);
+
+    if (!isInsideClient || !fs.existsSync(candidate)) return null;
+    return candidate;
+  };
+
+  // Serve generated nested pages directly for both /route and /route/.
+  // express.static's default directory redirect would otherwise force a
+  // trailing slash that disagrees with sitemap and canonical URLs.
+  app.get(/^\/(?!api\/).*/, (req, res, next) => {
+    const pageFile = pageFileForPath(req.path);
+    if (!pageFile) return next();
+    return res.sendFile(pageFile);
+  });
+
+  app.use(express.static(resolvedClientDir, { redirect: false }));
   app.get(/^\/(?!api\/).*/, (_req, res) => {
-    res.sendFile(path.join(clientDir, "index.html"));
+    res.sendFile(path.join(resolvedClientDir, "index.html"));
   });
 }
 
