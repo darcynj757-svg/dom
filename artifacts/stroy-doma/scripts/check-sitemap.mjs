@@ -7,7 +7,7 @@
  * accidentally indexable private/legal pages.
  */
 import { readFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 const appRoot = resolve(import.meta.dirname, "..");
 const sitemapPath = resolve(
@@ -40,6 +40,51 @@ function parseUrls(xml) {
   });
 }
 
+function getAttribute(tag, attribute) {
+  return tag.match(
+    new RegExp(`${attribute}\\s*=\\s*["']([^"']+)["']`, "i"),
+  )?.[1];
+}
+
+function getCanonicalLinks(html) {
+  return [...html.matchAll(/<link\b[^>]*>/gi)]
+    .map((match) => match[0])
+    .filter((tag) =>
+      getAttribute(tag, "rel")
+        ?.toLowerCase()
+        .split(/\s+/)
+        .includes("canonical"),
+    )
+    .map((tag) => getAttribute(tag, "href"))
+    .filter(Boolean);
+}
+
+async function validateCanonical(pathname, expectedUrl, sitemapDirectory) {
+  const htmlPath = join(
+    sitemapDirectory,
+    pathname === "/" ? "index.html" : pathname.slice(1),
+    ...(pathname === "/" ? [] : ["index.html"]),
+  );
+  let html;
+  try {
+    html = await readFile(htmlPath, "utf8");
+  } catch {
+    fail(`sitemap URL ${expectedUrl} has no generated HTML file: ${htmlPath}`);
+  }
+
+  const canonicalLinks = getCanonicalLinks(html);
+  if (canonicalLinks.length !== 1) {
+    fail(
+      `sitemap URL ${expectedUrl} expected exactly one canonical link, found ${canonicalLinks.length}`,
+    );
+  }
+  if (canonicalLinks[0] !== expectedUrl) {
+    fail(
+      `sitemap URL ${expectedUrl} does not match canonical link ${canonicalLinks[0]}`,
+    );
+  }
+}
+
 async function main() {
   const xml = await readFile(sitemapPath, "utf8");
   if (!xml.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')) {
@@ -47,7 +92,9 @@ async function main() {
   }
 
   const entries = parseUrls(xml);
-  const paths = entries.map(({ loc }, index) => {
+  const sitemapDirectory = dirname(sitemapPath);
+  const paths = [];
+  for (const [index, { loc }] of entries.entries()) {
     let url;
     try {
       url = new URL(loc);
@@ -68,8 +115,9 @@ async function main() {
       fail(`sitemap contains a disallowed path: ${url.pathname}`);
     }
 
-    return url.pathname;
-  });
+    await validateCanonical(url.pathname, loc, sitemapDirectory);
+    paths.push(url.pathname);
+  }
 
   const uniquePaths = new Set(paths);
   if (uniquePaths.size !== paths.length) {
