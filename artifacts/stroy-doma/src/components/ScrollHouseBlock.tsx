@@ -79,6 +79,12 @@ export default function ScrollHouseBlock() {
     setHouseProgress(Math.min(Math.max(v, 0), 1));
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
+  const BUILD_END = 0.5;
+  const buildProgress = Math.min(houseProgress / BUILD_END, 1);
+  const activeLayerIndex = Math.min(
+    CONSTRUCTION_LAYERS.length - 1,
+    Math.floor(buildProgress * CONSTRUCTION_LAYERS.length),
+  );
 
   // Warm the lazy 3D chunk, decoder, and model cache before the section reaches
   // the viewport. The Canvas itself mounts only when the user enters the block.
@@ -155,26 +161,64 @@ export default function ScrollHouseBlock() {
           right-3 top-1/2 -translate-y-1/2 flex-col gap-2 hidden md:flex"
           aria-hidden="true"
         >
-          {CONSTRUCTION_LAYERS.map((layer) => {
-            const isActive = houseProgress >= layer.from && houseProgress <= layer.to + 0.1;
+          {CONSTRUCTION_LAYERS.map((layer, layerIndex) => {
+            const isActive = layerIndex === activeLayerIndex;
+            const isBuilt =
+              buildProgress >= (layerIndex + 1) / CONSTRUCTION_LAYERS.length;
+            const isUpcoming = !isActive && !isBuilt;
             return (
               <div
                 key={layer.label}
-                className={`bg-background/90 backdrop-blur-sm border rounded-2xl px-3 py-2.5 shadow-lg transition-all duration-300 w-52 ${
+                className={`relative bg-background/90 backdrop-blur-sm border rounded-2xl px-3 py-2.5 shadow-lg transition-all duration-300 w-52 ${
                   isActive
-                    ? "border-secondary/60 shadow-secondary/10"
-                    : "border-border/50 opacity-50"
+                     ? "border-secondary shadow-secondary/25 scale-[1.03]"
+                     : isUpcoming
+                       ? "border-border/50 opacity-45"
+                       : "border-secondary/35 opacity-85"
                 }`}
               >
-                <div className="font-display text-sm font-bold text-foreground leading-tight">
-                  {layer.label}
+                <div className="flex items-start gap-2">
+                  <span
+                    className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold transition-colors ${
+                      isBuilt
+                        ? "bg-secondary text-secondary-foreground"
+                        : isActive
+                          ? "border border-secondary text-secondary"
+                          : "border border-border text-muted-foreground"
+                    }`}
+                  >
+                    {isBuilt ? "✓" : layerIndex + 1}
+                  </span>
+                  <div className="min-w-0">
+                    <div className="font-display text-sm font-bold text-foreground leading-tight">
+                      {layer.label}
+                    </div>
+                    <div className="text-xs text-secondary font-semibold mt-0.5">
+                      {layer.sub}
+                    </div>
+                    <div className="text-[11px] text-muted-foreground mt-0.5">
+                      {layer.detail}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-xs text-secondary font-semibold mt-0.5">
-                  {layer.sub}
-                </div>
-                <div className="text-[11px] text-muted-foreground mt-0.5">
-                  {layer.detail}
-                </div>
+                {isActive ? (
+                  <div className="absolute inset-x-3 -bottom-px h-0.5 overflow-hidden rounded-full bg-secondary/20">
+                    <div
+                      className="h-full rounded-full bg-secondary transition-[width] duration-150"
+                      style={{
+                        width: `${Math.max(
+                          8,
+                          Math.min(
+                            100,
+                            ((buildProgress * CONSTRUCTION_LAYERS.length -
+                              layerIndex) *
+                              100),
+                          ),
+                        )}%`,
+                      }}
+                    />
+                  </div>
+                ) : null}
               </div>
             );
           })}
