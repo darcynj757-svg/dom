@@ -75,6 +75,14 @@ test("repeated H1 headings fail before the page ships", async () => {
   assert.match(output, /expected exactly one non-empty <h1>, found 2/);
 });
 
+test("invalid Schema.org field values fail validation", async () => {
+  const result = await runValidator("invalid-schema-value");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(output, /WebPage\) field "url" must be an absolute http\(s\) URL/);
+});
+
 test("all expected fixture directories are present", async () => {
   const fixtures = (await readdir(fixturesDir, { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())
@@ -83,6 +91,7 @@ test("all expected fixture directories are present", async () => {
 
   assert.deepEqual(fixtures, [
     "alias-indexed",
+    "invalid-schema-value",
     "malformed-json",
     "missing-breadcrumb-item",
     "missing-local-business-field",
