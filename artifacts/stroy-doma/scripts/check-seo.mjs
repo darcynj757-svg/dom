@@ -484,6 +484,74 @@ function findDuplicates(valuesByRoute) {
   return [...routesByValue.values()].filter((routes) => routes.length > 1);
 }
 
+function sitemapHtmlPath(pathname) {
+  return join(
+    distRoot,
+    pathname === "/" ? "index.html" : pathname.slice(1),
+    ...(pathname === "/" ? [] : ["index.html"]),
+  );
+}
+
+async function validateSitemapCanonicals(htmlFiles, issues) {
+  const sitemapPath = join(distRoot, "sitemap.xml");
+  let sitemap;
+  try {
+    sitemap = await readFile(sitemapPath, "utf8");
+  } catch (error) {
+    if (error?.code === "ENOENT") return;
+    throw error;
+  }
+
+  const htmlFilesByRoute = new Map(
+    htmlFiles.map((filePath) => [routeFromFile(filePath), filePath]),
+  );
+  const urlBlocks = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)];
+
+  for (const [index, match] of urlBlocks.entries()) {
+    const loc = match[1].match(/<loc>([^<]+)<\/loc>/)?.[1]?.trim();
+    if (!loc) continue;
+
+    let url;
+    try {
+      url = new URL(loc);
+    } catch {
+      continue;
+    }
+
+    const route = url.pathname === "/" ? "/" : url.pathname.replace(/\/+$/, "");
+    const htmlPath = htmlFilesByRoute.get(route) ?? sitemapHtmlPath(route);
+    let html;
+    try {
+      html = await readFile(htmlPath, "utf8");
+    } catch {
+      addIssue(
+        issues,
+        `sitemap entry ${index + 1}`,
+        `URL ${loc} has no corresponding generated HTML page`,
+      );
+      continue;
+    }
+
+    const canonical = getCanonicalLinks(html);
+    if (canonical.length !== 1) {
+      addIssue(
+        issues,
+        route,
+        `sitemap URL ${loc} expected exactly one canonical link, found ${canonical.length}`,
+      );
+      continue;
+    }
+
+    if (canonical[0] !== loc) {
+      addIssue(
+        issues,
+        route,
+        `sitemap URL ${loc} does not match canonical link ${canonical[0]}`,
+      );
+    }
+  }
+}
+
 async function main() {
   let htmlFiles;
   try {
@@ -617,6 +685,8 @@ async function main() {
       });
     }
   }
+
+  await validateSitemapCanonicals(htmlFiles, issues);
 
   for (const [label, duplicates] of [
     ["title", findDuplicates(titles)],

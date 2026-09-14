@@ -179,6 +179,41 @@ test("missing local image references fail with the route and source", async () =
   }
 });
 
+test("sitemap URLs must match the canonical links in generated pages", async () => {
+  const fixturePath = await mkdtemp(join(tmpdir(), "check-seo-sitemap-"));
+  await cp(join(fixturesDir, "valid"), fixturePath, { recursive: true });
+
+  const indexPath = join(fixturePath, "index.html");
+  const html = await readFile(indexPath, "utf8");
+  await writeFile(
+    indexPath,
+    html.replace(
+      'href="https://kedr-tomsk.ru/"',
+      'href="https://kedr-tomsk.ru/services"',
+    ),
+  );
+  await writeFile(
+    join(fixturePath, "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://kedr-tomsk.ru/</loc></url>
+</urlset>`,
+  );
+
+  try {
+    const result = await runValidator(fixturePath);
+    const output = `${result.stdout}\n${result.stderr}`;
+
+    assert.notEqual(result.code, 0);
+    assert.match(
+      output,
+      /sitemap URL https:\/\/kedr-tomsk\.ru\/ does not match canonical link https:\/\/kedr-tomsk\.ru\/services/,
+    );
+  } finally {
+    await rm(fixturePath, { recursive: true, force: true });
+  }
+});
+
 test("all expected fixture directories are present", async () => {
   const fixtures = (await readdir(fixturesDir, { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())

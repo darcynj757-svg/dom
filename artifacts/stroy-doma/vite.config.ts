@@ -139,8 +139,6 @@ function staticSeoPages() {
       const outputDir = path.resolve(import.meta.dirname, "dist/public");
       const template = await readFile(path.join(outputDir, "index.html"), "utf8");
 
-      await writeFile(path.join(outputDir, "sitemap.xml"), createSitemapXml(), "utf8");
-
       for (const route of STATIC_SEO_ROUTES) {
         const html = template
           .replace(/<!-- SEO_HEAD_START -->[\s\S]*?<!-- SEO_HEAD_END -->/, seoHead(route))
@@ -152,6 +150,8 @@ function staticSeoPages() {
         await mkdir(routeDir, { recursive: true });
         await writeFile(path.join(routeDir, "index.html"), html);
       }
+
+      await writeFile(path.join(outputDir, "sitemap.xml"), createSitemapXml(), "utf8");
     },
   };
 }
