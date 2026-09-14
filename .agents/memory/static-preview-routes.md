@@ -15,8 +15,8 @@ Static publishing must not use a catch-all rewrite from `/*` to the root `index.
 
 **How to apply:** Leave nested prerendered directories to the static handler; only add a route-specific fallback when it targets the corresponding nested `index.html`.
 
-Published static deployments can still redirect a slashless nested URL to `/`; route-specific `deployment.rewrites` from the slashless path to its nested `index.html` preserve the canonical URL and avoid that redirect.
+In artifact-mode publications with a static web handler, the handler can intercept slashless nested URLs before the application server; root `.replit` rewrites are not a reliable fix for that mixed setup.
 
-**Why:** The site's sitemap and canonical links intentionally omit trailing slashes, while the default static directory handler treats `/path` as a directory request.
+**Why:** The site's sitemap and canonical links intentionally omit trailing slashes, while the artifact static handler treats `/path` as a directory request before the Express server can serve the prerendered file.
 
-**How to apply:** Add exact rewrites for top-level SEO pages and wildcard rewrites for detail collections such as `/projects/*` and `/articles/*`; never use a catch-all rewrite to the homepage.
+**How to apply:** For a mixed web/API deployment, let the application server own the web path and serve the generated route file before `express.static`; keep the static artifact handler out of the production path. Verify the published deployment logs before trusting local route behavior.

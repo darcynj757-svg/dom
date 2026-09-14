@@ -215,207 +215,242 @@ id = "KPABw7oJC3lRynusju4M6"
 uri = "file://attached_assets/image_search/logo_2.png"
 type = "image"
 title = "Villa Building Construction Logo"
+logical_id = "bd007df4-a3d5-4bc2-9232-c41af222d555"
 
 [[outputs]]
 id = "mthBpIIf2Ffi0ofITGtTI"
 uri = "file://attached_assets/image_search/logo_3.png"
 type = "image"
 title = "Two Building Construction Logo"
+logical_id = "00c62a70-b796-4669-b0f5-9e801b812887"
 
 [[outputs]]
 id = "Spe0RZwPoJkzdJ8gq-L-y"
 uri = "file://attached_assets/image_search/logo_4.png"
 type = "image"
 title = "Строительство дома — логотип и символ"
+logical_id = "afb88bc6-82ce-453e-81cf-1058d201460c"
 
 [[outputs]]
 id = "HTizChxMrU7K_jtdVc5ue"
 uri = "file://attached_assets/image_search/logo_6.png"
 type = "image"
 title = "Modern Log Cabin — деревянный дом"
+logical_id = "94c86802-6bea-41c9-be94-24259813755c"
 
 [[outputs]]
 id = "wjXJYuRN2A0OMWStCUUrB"
 uri = "file://attached_assets/generated_images/house_line_logo.png"
 type = "image"
 title = "Логотип дома (линии)"
+logical_id = "b727fe34-0b39-436d-9f98-8158ca8f5835"
 
 [[outputs]]
 id = "A62Wke5xaxRpELalrHYte"
 uri = "file://attached_assets/generated_images/kt_house_logo_v2.png"
 type = "image"
 title = "Логотип КТ — дом в объёме"
+logical_id = "7af5a656-5a3a-4641-8734-a7a2dceac77c"
 
 [[outputs]]
 id = "hxrchRAtRhRhASuLJfKDV"
 uri = "file://attached_assets/generated_images/kt_house_logo_v4.png"
 type = "image"
 title = "Вариант 4 — чёткий дом, плоский силуэт"
+logical_id = "4631b6ec-0983-4be6-994c-873579260b26"
 
 [[outputs]]
 id = "OEkZV96qZWXGlNScsChw-"
 uri = "file://attached_assets/generated_images/kt_house_logo_v3.png"
 type = "image"
 title = "Вариант 3 — изометрический объём"
+logical_id = "4cdad0f7-89dc-4e81-aa14-4d64f832b4f3"
 
 [[outputs]]
 id = "TjvNksEDaz1lJmR7o-bee"
 uri = "file://attached_assets/generated_images/kedr_logo_final.png"
 type = "image"
 title = "Логотип Кедр — в стиле референса"
+logical_id = "af4f53f7-528e-4be7-ab44-4ce6bfb7cfd3"
 
 [[outputs]]
 id = "0e9ZFzth9xDliuVC47X9v"
 uri = "file://attached_assets/generated_images/kt_v1_icon_labeled.png"
 type = "image"
 title = "Вариант 1 — в стиле вашего референса (двойная лента-крыша)"
+logical_id = "0d8368e8-cfb6-4ceb-9bd9-9f5225cdd742"
 
 [[outputs]]
 id = "q5gx0XE_XZ0q5SjFHtnf_"
 uri = "file://attached_assets/generated_images/kt_v2_icon_labeled.png"
 type = "image"
 title = "Вариант 2 — бревенчатый дом из брёвен (деревянное строительство)"
+logical_id = "4f82c6a4-97c5-4c86-a60a-2d5b0a77cf0e"
 
 [[outputs]]
 id = "2Tbk3Kn8Ol4ZU1AxizbVg"
 uri = "file://attached_assets/generated_images/kt_v3_icon_labeled.png"
 type = "image"
 title = "Вариант 3 — ель + дом (отсылка к «Кедру»)"
+logical_id = "4dfec075-3051-4fad-b226-0bf37de82ad6"
 
 [[outputs]]
 id = "PhswNLNIi0Mhum9DSMZz_"
 uri = "file://attached_assets/generated_images/kt_v4_icon_labeled.png"
 type = "image"
 title = "Вариант 4 — строгий знак в круге"
+logical_id = "ea072125-ab2e-4093-969f-3f971c611029"
 
 [[outputs]]
 id = "ItAp_83e1pdA4AQXR2ddr"
 uri = "file://attached_assets/generated_images/kt_perspective_v1.png"
 type = "image"
 title = "Вариант 1 — изометрический объёмный дом"
+logical_id = "c7f2af4d-983f-4b62-864f-3b5684b339f0"
 
 [[outputs]]
 id = "fvTG_oBwRZMt57zZCy2lt"
 uri = "file://attached_assets/generated_images/kt_perspective_v2.png"
 type = "image"
 title = "Вариант 2 — перспектива с точкой схода"
+logical_id = "0f619807-5d60-40ac-80a4-ee58113c7190"
 
 [[outputs]]
 id = "E5O61z3E21ikskTB8NiYU"
 uri = "file://attached_assets/generated_images/kt_persp_a.png"
 type = "image"
 title = "А — бревенчатый дом в изометрии"
+logical_id = "089b9efa-01f0-46ae-81f2-1026c4ad7ad2"
 
 [[outputs]]
 id = "Qbq9oiVqPprREBn4tPkuh"
 uri = "file://attached_assets/generated_images/kt_persp_b.png"
 type = "image"
 title = "Б — вид снизу вверх (драматичная перспектива)"
+logical_id = "82f736fc-0b74-49fc-84c1-219d4efdbc52"
 
 [[outputs]]
 id = "vkWXF8nuf4gE6c9Crw1qg"
 uri = "file://attached_assets/generated_images/kt_persp_c.png"
 type = "image"
 title = "В — «взорванная» конструкция (крыша отдельно)"
+logical_id = "935882e8-62cd-4dca-a8c5-40b0f61ae92d"
 
 [[outputs]]
 id = "VL36p6kqm29IIsuTzK3Ke"
 uri = "file://attached_assets/generated_images/kt_persp_d.png"
 type = "image"
 title = "Г — два слоя с эффектом глубины"
+logical_id = "bf46694d-2f5d-4315-b73d-dc1b4964bc69"
 
 [[outputs]]
 id = "4u0wha0CXjXSrrnfHRlbe"
 uri = "file://attached_assets/generated_images/kt_persp_e.png"
 type = "image"
 title = "Д — вид сверху на планировку дома"
+logical_id = "0cdb9029-b043-4d50-8e6b-b0f6f6bf0b8c"
 
 [[outputs]]
 id = "_cVEejvLtqbeVxge_xIHm"
 uri = "file://attached_assets/generated_images/kt_build_a.png"
 type = "image"
 title = "А — дом с крюком-крючком"
+logical_id = "1f8c7c67-1a8e-408f-a55d-983985664170"
 
 [[outputs]]
 id = "WfTswxyE8GE-UlTF313m6"
 uri = "file://attached_assets/generated_images/kt_build_b.png"
 type = "image"
 title = "Б — чертёж чертёжного плана"
+logical_id = "70b6460a-a603-4544-bf6a-d94a7061122d"
 
 [[outputs]]
 id = "Zn64vJeIutUxwuzkoRRyM"
 uri = "file://attached_assets/generated_images/kt_build_c.png"
 type = "image"
 title = "В — деревянный каркас дома (стройка)"
+logical_id = "8bbf420f-f42e-484c-b064-426c7a90b253"
 
 [[outputs]]
 id = "we_jcwzVsqX8O9kfeAvEv"
 uri = "file://attached_assets/generated_images/kt_build_d.png"
 type = "image"
 title = "Г — дом с восходящей стрелкой (рост)"
+logical_id = "e2673902-92e4-4f10-9d90-702b8a9978a8"
 
 [[outputs]]
 id = "5HTYyZ8i5plBvll4V21Mr"
 uri = "file://attached_assets/generated_images/kt_build_e.png"
 type = "image"
 title = "Д — дом в щите (надёжность)"
+logical_id = "ae08c8d2-0533-41a4-ac2d-a6eff18c4ad8"
 
 [[outputs]]
 id = "GV6ENnntSYYG91QG-0hY_"
 uri = "file://attached_assets/generated_images/kt_min_a.png"
 type = "image"
 title = "А — простой контур одной линией"
+logical_id = "9b3f6ec5-0d59-4bc2-af4e-6643a6f25c45"
 
 [[outputs]]
 id = "WKwTzgFT39j59bcac8Wst"
 uri = "file://attached_assets/generated_images/kt_min_b.png"
 type = "image"
 title = "Б — треугольник + квадрат (с зазором)"
+logical_id = "3175d012-1593-43fb-b06c-fab225e704da"
 
 [[outputs]]
 id = "3gGIHiFSzahJxpGaMJ_8e"
 uri = "file://attached_assets/generated_images/kt_min_c.png"
 type = "image"
 title = "В — тонкая изометрия с намёком на обшивку"
+logical_id = "6f7571f3-be91-4283-829a-f2e7b980a7eb"
 
 [[outputs]]
 id = "o0UmHptRn85yC5PHQfktu"
 uri = "file://attached_assets/generated_images/kt_min_d.png"
 type = "image"
 title = "Г — дом + стрелка вверх (негативное пространство)"
+logical_id = "418e5cf0-4ec3-4672-9fe8-6d22c32f0047"
 
 [[outputs]]
 id = "PVlEK_2LdnxivN9qh-e__"
 uri = "file://attached_assets/generated_images/kt_min_e.png"
 type = "image"
 title = "Д — шеврон-крыша с окном"
+logical_id = "032f08b6-e637-4ffb-b879-42c755ab8477"
 
 [[outputs]]
 id = "EQsfX9RQsB2Bha0UFgHId"
 uri = "file://attached_assets/generated_videos/kedr-house.mp4"
 type = "video"
 title = "Дом из кругляка — сгенерированное видео"
+logical_id = "afaa04ac-dd7f-4845-8ca8-9d93471a3f4a"
 
 [[outputs]]
 id = "Yww59I6vf-WSWkQEAyv_P"
 uri = "file://attached_assets/generated_videos/kedr-house-part2.mp4"
 type = "video"
 title = "Продолжение — дом из кругляка, часть 2"
+logical_id = "5149dcb4-7832-424c-9fc4-5e4e7ee7b16b"
 
 [[outputs]]
 id = "ob6sKdmYArJjqVt_bBqGy"
 uri = "file://attached_assets/generated_videos/cedar_log_mansion_continuation_8s.mp4"
 type = "video"
 title = "Продолжение героя +8 сек"
+logical_id = "658e0877-5a7c-49c0-873b-22a5fb084fed"
 
 [[outputs]]
 id = "iJIdaJg3UPAHoTcIroqDT"
 uri = "file://attached_assets/generated_videos/profiled-timber-house-hero.mp4"
 type = "video"
 title = "Hero-видео: Дом из профилированного бруса"
+logical_id = "99733ae4-08a7-42a9-9ab8-bc5348fbbb1b"
 
 [[outputs]]
 id = "TARb6V9oYcN2OEUihyFbC"
 uri = "file://attached_assets/generated_videos/rublenye-doma-hero.mp4"
 type = "video"
 title = "Рубленные дома — hero video"
+logical_id = "1bd9f751-b4ef-4b82-8232-f435a5986720"

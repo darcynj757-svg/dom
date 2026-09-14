@@ -63,17 +63,27 @@ if (clientDir) {
   };
 
   // Serve generated nested pages directly for both /route and /route/.
-  // express.static's default directory redirect would otherwise force a
-  // trailing slash that disagrees with sitemap and canonical URLs.
-  app.get(/^\/(?!api\/).*/, (req, res, next) => {
+  // express.static's directory handling can otherwise force a trailing slash
+  // that disagrees with sitemap and canonical URLs.
+  app.use((req, res, next) => {
+    if (req.method !== "GET" && req.method !== "HEAD") return next();
+    if (req.path === "/api" || req.path.startsWith("/api/")) return next();
+
     const pageFile = pageFileForPath(req.path);
     if (!pageFile) return next();
     return res.sendFile(pageFile);
   });
 
   app.use(express.static(resolvedClientDir, { redirect: false }));
-  app.get(/^\/(?!api\/).*/, (_req, res) => {
-    res.sendFile(path.join(resolvedClientDir, "index.html"));
+  app.use((req, res, next) => {
+    if (req.method !== "GET" && req.method !== "HEAD") return next();
+    if (req.path === "/api" || req.path.startsWith("/api/")) return next();
+
+    const notFoundFile = path.join(resolvedClientDir, "404.html");
+    if (fs.existsSync(notFoundFile)) {
+      return res.status(404).sendFile(notFoundFile);
+    }
+    return res.status(404).send("Not found");
   });
 }
 

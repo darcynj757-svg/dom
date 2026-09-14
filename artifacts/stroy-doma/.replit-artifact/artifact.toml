@@ -17,12 +17,6 @@ localPort = 19912
 [services.development]
 run = "pnpm --filter @workspace/stroy-doma run dev"
 
-[services.production]
-build = [ "pnpm", "--filter", "@workspace/stroy-doma", "run", "build" ]
-publicDir = "artifacts/stroy-doma/dist/public"
-serve = "static"
-
-
 [services.env]
 PORT = "19912"
 BASE_PATH = "/"
