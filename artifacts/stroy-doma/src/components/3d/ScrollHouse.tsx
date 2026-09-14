@@ -50,12 +50,14 @@ function HouseModel({
   progress,
   clipPlane,
   onBounds,
+  onReady,
   isMobile,
   modelUrl,
 }: {
   progress: number;
   clipPlane: THREE.Plane;
   onBounds: (bounds: Bounds) => void;
+  onReady: () => void;
   isMobile: boolean;
   modelUrl: string;
 }) {
@@ -113,7 +115,8 @@ function HouseModel({
     // focus point (which tracks the bounds captured above).
     groupRef.current.position.y += 0.6;
     groupRef.current.updateMatrixWorld(true);
-  }, [scene, normScale, clipPlane, onBounds]);
+    onReady();
+  }, [scene, normScale, clipPlane, onBounds, onReady]);
 
   // House stays fixed on the ground — clip plane handles the build reveal.
   useFrame(() => { /* no-op: position is set once in useLayoutEffect */ });
@@ -133,6 +136,7 @@ function Scene({
   clipPlane,
   boundsRef,
   onBounds,
+  onModelReady,
   isMobile,
   modelUrl,
 }: {
@@ -140,6 +144,7 @@ function Scene({
   clipPlane: THREE.Plane;
   boundsRef: React.MutableRefObject<Bounds>;
   onBounds: (bounds: Bounds) => void;
+  onModelReady: () => void;
   isMobile: boolean;
   modelUrl: string;
 }) {
@@ -220,6 +225,7 @@ function Scene({
           progress={progress}
           clipPlane={clipPlane}
           onBounds={onBounds}
+          onReady={onModelReady}
           isMobile={isMobile}
           modelUrl={modelUrl}
         />
@@ -263,6 +269,7 @@ export function preloadHouseModel(isMobile: boolean) {
 
 export default function ScrollHouse({ progress }: { progress: number }) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
+  const [modelReady, setModelReady] = useState(false);
   // Incrementing this key forces the Canvas to fully remount after context loss
   const [canvasKey, setCanvasKey] = useState(0);
   const retryCount = useRef(0);
@@ -279,7 +286,11 @@ export default function ScrollHouse({ progress }: { progress: number }) {
   const handleBounds = useCallback((bounds: Bounds) => {
     boundsRef.current = bounds;
   }, []);
+  const handleModelReady = useCallback(() => {
+    setModelReady(true);
+  }, []);
   useEffect(() => {
+    setModelReady(false);
     setWebglSupported(hasWebGL());
     // Load the decoder in parallel with the model, but only after this
     // below-the-fold component has been activated by an actual scroll.
@@ -295,7 +306,10 @@ export default function ScrollHouse({ progress }: { progress: number }) {
   }
 
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <div
+      className="absolute inset-0 pointer-events-none"
+      data-house-model-ready={modelReady ? "true" : "false"}
+    >
       {webglSupported && (
         <Canvas
           key={canvasKey}
@@ -303,6 +317,7 @@ export default function ScrollHouse({ progress }: { progress: number }) {
           camera={CAMERA_CONFIG}
           gl={GL_CONFIG}
           style={{ pointerEvents: "none" }}
+          data-house-canvas="true"
           // Cap pixel ratio on mobile to 1.5 — halves GPU fill-rate cost on high-DPI phones
           dpr={isMobile ? [1, 1.5] : [1, 2]}
           onCreated={({ gl }) => {
@@ -326,6 +341,7 @@ export default function ScrollHouse({ progress }: { progress: number }) {
             clipPlane={clipPlane}
             boundsRef={boundsRef}
             onBounds={handleBounds}
+            onModelReady={handleModelReady}
             isMobile={isMobile}
             modelUrl={modelUrl}
           />
