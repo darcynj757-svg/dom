@@ -6,7 +6,7 @@
  * immediately after prerendering without adding a parser dependency to the
  * frontend bundle.
  */
-import { readFile, readdir } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import { join, relative, resolve, sep } from "node:path";
 
 const appRoot = resolve(import.meta.dirname, "..");
@@ -112,6 +112,130 @@ function getJsonLdBlocks(html) {
   const pattern =
     /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
   return [...html.matchAll(pattern)].map((match) => match[1].trim());
+}
+
+function localAssetPath(reference) {
+  if (!reference || typeof reference !== "string") return null;
+
+  let url;
+  try {
+    url = new URL(reference, "https://kedr-tomsk.ru");
+  } catch {
+    return null;
+  }
+
+  if (url.origin !== "https://kedr-tomsk.ru" || !url.pathname.startsWith("/")) {
+    return null;
+  }
+
+  let pathname;
+  try {
+    pathname = decodeURIComponent(url.pathname);
+  } catch {
+    pathname = url.pathname;
+  }
+
+  const assetPath = resolve(distRoot, `.${pathname}`);
+  if (
+    assetPath !== distRoot &&
+    !assetPath.startsWith(`${distRoot}${sep}`)
+  ) {
+    return null;
+  }
+
+  return assetPath;
+}
+
+function collectSchemaMedia(value, references, location = "JSON-LD") {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) =>
+      collectSchemaMedia(item, references, `${location}[${index}]`),
+    );
+    return;
+  }
+
+  if (!value || typeof value !== "object") return;
+
+  for (const [key, child] of Object.entries(value)) {
+    const childLocation = `${location}.${key}`;
+    if (["image", "logo", "thumbnailUrl", "contentUrl"].includes(key)) {
+      if (typeof child === "string") {
+        references.push({ value: child, location: childLocation });
+      } else if (child && typeof child === "object" && !Array.isArray(child)) {
+        if (typeof child.url === "string") {
+          references.push({ value: child.url, location: `${childLocation}.url` });
+        }
+        if (typeof child.contentUrl === "string") {
+          references.push({
+            value: child.contentUrl,
+            location: `${childLocation}.contentUrl`,
+          });
+        }
+      }
+    }
+    collectSchemaMedia(child, references, childLocation);
+  }
+}
+
+function collectImageReferences(html, jsonLdBlocks) {
+  const references = [];
+
+  for (const tag of findTags(html, "img")) {
+    const src = tag.attributes.get("src");
+    if (src) references.push({ value: src, location: "<img src>" });
+    const srcset = tag.attributes.get("srcset");
+    if (srcset) {
+      srcset.split(",").forEach((candidate) => {
+        const value = candidate.trim().split(/\s+/)[0];
+        if (value) references.push({ value, location: "<img srcset>" });
+      });
+    }
+  }
+
+  for (const tag of findTags(html, "link")) {
+    if (tag.attributes.get("as")?.toLowerCase() === "image") {
+      const href = tag.attributes.get("href");
+      if (href) references.push({ value: href, location: '<link as="image">' });
+    }
+  }
+
+  for (const tag of findTags(html, "meta")) {
+    const property = tag.attributes.get("property")?.toLowerCase();
+    if (property === "og:image" || property === "twitter:image") {
+      const content = tag.attributes.get("content");
+      if (content) references.push({ value: content, location: property });
+    }
+  }
+
+  jsonLdBlocks.forEach((block, index) => {
+    try {
+      collectSchemaMedia(JSON.parse(block), references, `JSON-LD block ${index + 1}`);
+    } catch {
+      // JSON-LD syntax errors are reported by the main SEO validation below.
+    }
+  });
+
+  return references;
+}
+
+async function validateImageReferences(html, jsonLdBlocks, route, issues) {
+  const seen = new Set();
+
+  for (const reference of collectImageReferences(html, jsonLdBlocks)) {
+    const assetPath = localAssetPath(reference.value);
+    if (!assetPath || seen.has(assetPath)) continue;
+    seen.add(assetPath);
+
+    try {
+      await access(assetPath);
+    } catch {
+      addIssue(
+        issues,
+        route,
+        `${reference.location} references missing local image "${reference.value}"`,
+      );
+    }
+  }
 }
 
 const schemaFieldRules = {
@@ -387,6 +511,8 @@ async function main() {
     const h1 = findTextElements(html, "h1");
     const canonical = getCanonicalLinks(html);
     const jsonLd = getJsonLdBlocks(html);
+
+    await validateImageReferences(html, jsonLd, route, issues);
 
     if (title.length !== 1 || !title[0]) {
       addIssue(

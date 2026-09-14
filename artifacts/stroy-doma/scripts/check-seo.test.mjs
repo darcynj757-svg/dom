@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { readdir } from "node:fs/promises";
+import { cp, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { promisify } from "node:util";
 import { dirname, join } from "node:path";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
@@ -11,8 +12,10 @@ const scriptsDir = dirname(fileURLToPath(import.meta.url));
 const fixturesDir = join(scriptsDir, "fixtures", "check-seo");
 const validatorPath = join(scriptsDir, "check-seo.mjs");
 
-async function runValidator(fixtureName) {
-  const fixturePath = join(fixturesDir, fixtureName);
+async function runValidator(fixtureNameOrPath) {
+  const fixturePath = fixtureNameOrPath.includes("/")
+    ? fixtureNameOrPath
+    : join(fixturesDir, fixtureNameOrPath);
 
   try {
     const result = await execFileAsync(process.execPath, [validatorPath, fixturePath], {
@@ -146,6 +149,34 @@ test("duplicate descriptions are reported separately from page metadata errors",
     output,
     /duplicate metadata: description appears on \/, \/second/,
   );
+});
+
+test("missing local image references fail with the route and source", async () => {
+  const fixturePath = await mkdtemp(join(tmpdir(), "check-seo-image-"));
+  await cp(join(fixturesDir, "valid"), fixturePath, { recursive: true });
+
+  const indexPath = join(fixturePath, "index.html");
+  const html = await readFile(indexPath, "utf8");
+  await writeFile(
+    indexPath,
+    html.replace(
+      "</body>",
+      '<img src="/images/missing-project.webp" alt="missing"></body>',
+    ),
+  );
+
+  try {
+    const result = await runValidator(fixturePath);
+    const output = `${result.stdout}\n${result.stderr}`;
+
+    assert.notEqual(result.code, 0);
+    assert.match(
+      output,
+      /\/: <img src> references missing local image "\/images\/missing-project\.webp"/,
+    );
+  } finally {
+    await rm(fixturePath, { recursive: true, force: true });
+  }
 });
 
 test("all expected fixture directories are present", async () => {

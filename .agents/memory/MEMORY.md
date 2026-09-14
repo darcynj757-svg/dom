@@ -5,3 +5,4 @@
 - [Sitemap canonical deduplication](sitemap-regressions.md) — при совпадении canonical path в sitemap выбирается канонический маршрут, а не alias.
 - [Mobile budget network checks](mobile-budget-network.md) — для больших lazy-ресурсов проверяй момент запроса, а не завершение загрузки под throttling.
 - [Mobile media fallbacks](mobile-media-fallbacks.md) — для тяжёлых hero/3D-ресурсов используй отдельные mobile-ассеты и видимый fallback до готовности.
+- [SEO image references](seo-image-references.md) — prerender может оставлять Vite `/@fs` и encoded Unicode asset URLs; проверяй и переписывай их до публикации.

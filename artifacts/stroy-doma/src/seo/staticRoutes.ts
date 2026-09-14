@@ -121,7 +121,7 @@ const BASE_ROUTES: StaticSeoRoute[] = [
     description:
       "Каталог проектов деревянных домов и бань от Кедр Томск. Профилированный брус, рубленое бревно. Площадь от 30 до 350 м². Бесплатный проект при заказе.",
     h1: "Проекты деревянных домов и бань",
-    image: "/images/projects-hero.jpg",
+    image: "/posters/projects-hero.webp",
   },
   {
     path: "/articles",

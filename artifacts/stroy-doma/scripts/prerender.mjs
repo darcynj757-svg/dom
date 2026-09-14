@@ -22,7 +22,13 @@ function rewriteBuiltAssetUrls(html, builtAssets) {
   return html.replace(
     /(?:\/src\/assets\/|\/@fs\/[^"'?]*\/(?:attached_assets|assets)\/)([^"'?]+)(?:\?[^"']*)?/g,
     (match, sourcePath) => {
-      const filename = sourcePath.split("/").pop();
+      const encodedFilename = sourcePath.split("/").pop();
+      let filename;
+      try {
+        filename = decodeURIComponent(encodedFilename);
+      } catch {
+        filename = encodedFilename;
+      }
       if (!filename) return match;
       const extensionIndex = filename.lastIndexOf(".");
       const stem = extensionIndex === -1 ? filename : filename.slice(0, extensionIndex);
