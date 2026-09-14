@@ -59,6 +59,20 @@ function getCanonicalLinks(html) {
     .filter(Boolean);
 }
 
+function getTextElements(html, tagName) {
+  return [...html.matchAll(new RegExp(`<${tagName}\\b[^>]*>([\\s\\S]*?)<\\/${tagName}>`, "gi"))]
+    .map((match) => match[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+}
+
+function getMetaDescriptions(html) {
+  return [...html.matchAll(/<meta\b[^>]*>/gi)]
+    .map((match) => match[0].match(/\bname\s*=\s*["']description["']/i)
+      ? match[0].match(/\bcontent\s*=\s*["']([^"']*)["']/i)?.[1]?.trim() ?? ""
+      : "")
+    .filter(Boolean);
+}
+
 async function validateCanonical(pathname, expectedUrl, sitemapDirectory) {
   const htmlPath = join(
     sitemapDirectory,
@@ -83,6 +97,29 @@ async function validateCanonical(pathname, expectedUrl, sitemapDirectory) {
       `sitemap URL ${expectedUrl} does not match canonical link ${canonicalLinks[0]}`,
     );
   }
+
+  const titles = getTextElements(html, "title");
+  if (titles.length !== 1) {
+    fail(
+      `sitemap URL ${expectedUrl} expected exactly one non-empty title, found ${titles.length}`,
+    );
+  }
+
+  const descriptions = getMetaDescriptions(html);
+  if (descriptions.length !== 1) {
+    fail(
+      `sitemap URL ${expectedUrl} expected exactly one non-empty meta description, found ${descriptions.length}`,
+    );
+  }
+
+  const headings = getTextElements(html, "h1");
+  if (headings.length !== 1) {
+    fail(
+      `sitemap URL ${expectedUrl} expected exactly one non-empty H1, found ${headings.length}`,
+    );
+  }
+
+  return { title: titles[0], description: descriptions[0], h1: headings[0] };
 }
 
 async function main() {
@@ -94,6 +131,8 @@ async function main() {
   const entries = parseUrls(xml);
   const sitemapDirectory = dirname(sitemapPath);
   const paths = [];
+  const titles = new Map();
+  const descriptions = new Map();
   for (const [index, { loc }] of entries.entries()) {
     let url;
     try {
@@ -115,7 +154,22 @@ async function main() {
       fail(`sitemap contains a disallowed path: ${url.pathname}`);
     }
 
-    await validateCanonical(url.pathname, loc, sitemapDirectory);
+    const metadata = await validateCanonical(url.pathname, loc, sitemapDirectory);
+    const duplicateTitle = titles.get(metadata.title);
+    if (duplicateTitle) {
+      fail(
+        `sitemap routes ${duplicateTitle} and ${url.pathname} share the same title`,
+      );
+    }
+    titles.set(metadata.title, url.pathname);
+
+    const duplicateDescription = descriptions.get(metadata.description);
+    if (duplicateDescription) {
+      fail(
+        `sitemap routes ${duplicateDescription} and ${url.pathname} share the same meta description`,
+      );
+    }
+    descriptions.set(metadata.description, url.pathname);
     paths.push(url.pathname);
   }
 
