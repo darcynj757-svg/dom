@@ -83,6 +83,71 @@ test("invalid Schema.org field values fail validation", async () => {
   assert.match(output, /WebPage\) field "url" must be an absolute http\(s\) URL/);
 });
 
+test("missing title fails with a useful route and message", async () => {
+  const result = await runValidator("missing-title");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(output, /\/: expected exactly one non-empty <title>, found 0/);
+});
+
+test("missing description fails with a useful route and message", async () => {
+  const result = await runValidator("missing-description");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(
+    output,
+    /\/: expected exactly one non-empty meta description, found 0/,
+  );
+});
+
+test("missing H1 fails with a useful route and message", async () => {
+  const result = await runValidator("missing-h1");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(output, /\/: expected exactly one non-empty <h1>, found 0/);
+});
+
+test("missing canonical fails with a useful route and message", async () => {
+  const result = await runValidator("missing-canonical");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(output, /\/: expected exactly one non-empty canonical link, found 0/);
+});
+
+test("missing JSON-LD fails with a useful route and message", async () => {
+  const result = await runValidator("missing-json-ld");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(output, /\/: expected at least one JSON-LD script/);
+});
+
+test("duplicate titles are reported separately from page metadata errors", async () => {
+  const result = await runValidator("duplicate-title");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(
+    output,
+    /duplicate metadata: title appears on \/, \/second/,
+  );
+});
+
+test("duplicate descriptions are reported separately from page metadata errors", async () => {
+  const result = await runValidator("duplicate-description");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(
+    output,
+    /duplicate metadata: description appears on \/, \/second/,
+  );
+});
+
 test("all expected fixture directories are present", async () => {
   const fixtures = (await readdir(fixturesDir, { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())
@@ -91,10 +156,17 @@ test("all expected fixture directories are present", async () => {
 
   assert.deepEqual(fixtures, [
     "alias-indexed",
+    "duplicate-description",
+    "duplicate-title",
     "invalid-schema-value",
     "malformed-json",
     "missing-breadcrumb-item",
+    "missing-canonical",
+    "missing-description",
+    "missing-h1",
+    "missing-json-ld",
     "missing-local-business-field",
+    "missing-title",
     "repeated-h1",
     "valid",
   ]);
