@@ -4,7 +4,6 @@ import { ContactShadows, Grid } from "@react-three/drei";
 import * as THREE from "three";
 import {
   useGltfWithPlugin,
-  hasWebGL,
   cloneGltfScene,
   preloadDracoDecoder,
   getHouseModelUrl,
@@ -268,7 +267,6 @@ export function preloadHouseModel(isMobile: boolean) {
 }
 
 export default function ScrollHouse({ progress }: { progress: number }) {
-  const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
   const [modelReady, setModelReady] = useState(false);
   // Incrementing this key forces the Canvas to fully remount after context loss
   const [canvasKey, setCanvasKey] = useState(0);
@@ -291,7 +289,6 @@ export default function ScrollHouse({ progress }: { progress: number }) {
   }, []);
   useEffect(() => {
     setModelReady(false);
-    setWebglSupported(hasWebGL());
     // Load the decoder in parallel with the model, but only after this
     // below-the-fold component has been activated by an actual scroll.
     preloadDracoDecoder();
@@ -299,54 +296,46 @@ export default function ScrollHouse({ progress }: { progress: number }) {
     getGltfPromise(modelUrl);
   }, [modelUrl]);
 
-  if (webglSupported === false) {
-    return (
-      <div className="absolute inset-0 -z-10 pointer-events-none bg-gradient-to-b from-muted/40 to-background" />
-    );
-  }
-
   return (
     <div
       className="absolute inset-0 pointer-events-none"
       data-house-model-ready={modelReady ? "true" : "false"}
     >
-      {webglSupported && (
-        <Canvas
-          key={canvasKey}
-          shadows
-          camera={CAMERA_CONFIG}
-          gl={GL_CONFIG}
-          style={{ pointerEvents: "none" }}
-          data-house-canvas="true"
-          // Cap pixel ratio on mobile to 1.5 — halves GPU fill-rate cost on high-DPI phones
-          dpr={isMobile ? [1, 1.5] : [1, 2]}
-          onCreated={({ gl }) => {
-            gl.domElement.addEventListener(
-              "webglcontextlost",
-              (e) => {
-                e.preventDefault(); // allow browser to attempt restore
-                // If the context is not restored within 300 ms, force a remount
-                // so Three.js creates a brand-new WebGL context (max 3 retries)
-                if (retryCount.current < 3) {
-                  retryCount.current += 1;
-                  setTimeout(() => setCanvasKey((k) => k + 1), 300);
-                }
-              },
-              false,
-            );
-          }}
-        >
-          <Scene
-            progress={progress}
-            clipPlane={clipPlane}
-            boundsRef={boundsRef}
-            onBounds={handleBounds}
-            onModelReady={handleModelReady}
-            isMobile={isMobile}
-            modelUrl={modelUrl}
-          />
-        </Canvas>
-      )}
+      <Canvas
+        key={canvasKey}
+        shadows
+        camera={CAMERA_CONFIG}
+        gl={GL_CONFIG}
+        style={{ pointerEvents: "none" }}
+        data-house-canvas="true"
+        // Cap pixel ratio on mobile to 1.5 — halves GPU fill-rate cost on high-DPI phones
+        dpr={isMobile ? [1, 1.5] : [1, 2]}
+        onCreated={({ gl }) => {
+          gl.domElement.addEventListener(
+            "webglcontextlost",
+            (e) => {
+              e.preventDefault();
+              // Retry with a fresh renderer. We deliberately do not replace the
+              // requested 3D house with an unrelated static image.
+              if (retryCount.current < 3) {
+                retryCount.current += 1;
+                setTimeout(() => setCanvasKey((k) => k + 1), 300);
+              }
+            },
+            false,
+          );
+        }}
+      >
+        <Scene
+          progress={progress}
+          clipPlane={clipPlane}
+          boundsRef={boundsRef}
+          onBounds={handleBounds}
+          onModelReady={handleModelReady}
+          isMobile={isMobile}
+          modelUrl={modelUrl}
+        />
+      </Canvas>
     </div>
   );
 }

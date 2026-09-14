@@ -10,3 +10,4 @@
 - [Mixed deployment assets](mixed-deployment-assets.md) — при отключении static handler frontend нужно собирать production и включать `dist/public` в API runtime.
 - [Crawler resource headers](crawler-resource-headers.md) — robots.txt и sitemap.xml должны получать явные Content-Type в реальном API runtime, а не только в preflight mock-server.
 - [Deployment health endpoint](deployment-health-endpoint.md) — autoscale healthcheck probes `/api`, поэтому mount point должен возвращать 200 помимо `/api/healthz`.
+- [WebGL preview limits](webgl-preview-limits.md) — браузер автоматического mobile-теста может не иметь WebGL; это не подтверждает поведение 3D на реальном телефоне.

@@ -193,11 +193,19 @@ export function cloneGltfScene(scene: THREE.Object3D): THREE.Object3D {
 export function hasWebGL() {
   try {
     const canvas = document.createElement("canvas");
-    return !!(
+    const context = (
       canvas.getContext("webgl2") ||
       canvas.getContext("webgl") ||
       canvas.getContext("experimental-webgl")
-    );
+    ) as WebGLRenderingContext | WebGL2RenderingContext | null;
+    const supported = context !== null;
+
+    // Mobile browsers often enforce a small WebGL-context limit. Release the
+    // capability probe immediately so it cannot consume a slot needed by the
+    // real Three.js Canvas.
+    context?.getExtension("WEBGL_lose_context")?.loseContext();
+
+    return supported;
   } catch {
     return false;
   }
