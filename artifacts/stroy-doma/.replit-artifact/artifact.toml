@@ -4,6 +4,7 @@ title = "Строительство домов и бань"
 version = "1.0.0"
 id = "artifacts/stroy-doma"
 router = "path"
+videoAspectRatio = "16:9"
 
 [[integratedSkills]]
 name = "react-vite"

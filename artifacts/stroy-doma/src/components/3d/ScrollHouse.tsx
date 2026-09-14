@@ -4,6 +4,7 @@ import { ContactShadows, Grid } from "@react-three/drei";
 import * as THREE from "three";
 import {
   useGltfWithPlugin,
+  hasWebGL,
   cloneGltfScene,
   preloadDracoDecoder,
   getHouseModelUrl,
@@ -138,6 +139,7 @@ function Scene({
   onModelReady,
   isMobile,
   modelUrl,
+  backgroundColor,
 }: {
   progress: number;
   clipPlane: THREE.Plane;
@@ -146,8 +148,16 @@ function Scene({
   onModelReady: () => void;
   isMobile: boolean;
   modelUrl: string;
+  backgroundColor?: string;
 }) {
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
+
+  useEffect(() => {
+    scene.background = backgroundColor ? new THREE.Color(backgroundColor) : null;
+    return () => {
+      scene.background = null;
+    };
+  }, [backgroundColor, scene]);
 
   useFrame(() => {
     const { minY, maxY } = boundsRef.current;
@@ -266,7 +276,15 @@ export function preloadHouseModel(isMobile: boolean) {
   });
 }
 
-export default function ScrollHouse({ progress }: { progress: number }) {
+export default function ScrollHouse({
+  progress,
+  backgroundColor,
+}: {
+  progress: number;
+  /** Optional test-only canvas background; omitted in production scenes. */
+  backgroundColor?: string;
+}) {
+  const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
   const [modelReady, setModelReady] = useState(false);
   // Incrementing this key forces the Canvas to fully remount after context loss
   const [canvasKey, setCanvasKey] = useState(0);
@@ -289,6 +307,7 @@ export default function ScrollHouse({ progress }: { progress: number }) {
   }, []);
   useEffect(() => {
     setModelReady(false);
+    setWebglSupported(hasWebGL());
     // Load the decoder in parallel with the model, but only after this
     // below-the-fold component has been activated by an actual scroll.
     preloadDracoDecoder();
@@ -296,46 +315,59 @@ export default function ScrollHouse({ progress }: { progress: number }) {
     getGltfPromise(modelUrl);
   }, [modelUrl]);
 
+  if (webglSupported === false) {
+    return (
+      <div
+        className="absolute inset-0 pointer-events-none"
+        data-house-model-ready="unavailable"
+        aria-hidden="true"
+      />
+    );
+  }
+
   return (
     <div
       className="absolute inset-0 pointer-events-none"
       data-house-model-ready={modelReady ? "true" : "false"}
     >
-      <Canvas
-        key={canvasKey}
-        shadows
-        camera={CAMERA_CONFIG}
-        gl={GL_CONFIG}
-        style={{ pointerEvents: "none" }}
-        data-house-canvas="true"
-        // Cap pixel ratio on mobile to 1.5 — halves GPU fill-rate cost on high-DPI phones
-        dpr={isMobile ? [1, 1.5] : [1, 2]}
-        onCreated={({ gl }) => {
-          gl.domElement.addEventListener(
-            "webglcontextlost",
-            (e) => {
-              e.preventDefault();
-              // Retry with a fresh renderer. We deliberately do not replace the
-              // requested 3D house with an unrelated static image.
-              if (retryCount.current < 3) {
-                retryCount.current += 1;
-                setTimeout(() => setCanvasKey((k) => k + 1), 300);
-              }
-            },
-            false,
-          );
-        }}
-      >
-        <Scene
-          progress={progress}
-          clipPlane={clipPlane}
-          boundsRef={boundsRef}
-          onBounds={handleBounds}
-          onModelReady={handleModelReady}
-          isMobile={isMobile}
-          modelUrl={modelUrl}
-        />
-      </Canvas>
+      {webglSupported && (
+        <Canvas
+          key={canvasKey}
+          shadows
+          camera={CAMERA_CONFIG}
+          gl={GL_CONFIG}
+          style={{ pointerEvents: "none" }}
+          data-house-canvas="true"
+          // Cap pixel ratio on mobile to 1.5 — halves GPU fill-rate cost on high-DPI phones
+          dpr={isMobile ? [1, 1.5] : [1, 2]}
+          onCreated={({ gl }) => {
+            gl.domElement.addEventListener(
+              "webglcontextlost",
+              (e) => {
+                e.preventDefault();
+                // Retry with a fresh renderer. We deliberately do not replace the
+                // requested 3D house with an unrelated static image.
+                if (retryCount.current < 3) {
+                  retryCount.current += 1;
+                  setTimeout(() => setCanvasKey((k) => k + 1), 300);
+                }
+              },
+              false,
+            );
+          }}
+        >
+          <Scene
+            progress={progress}
+            clipPlane={clipPlane}
+            boundsRef={boundsRef}
+            onBounds={handleBounds}
+            onModelReady={handleModelReady}
+            isMobile={isMobile}
+            modelUrl={modelUrl}
+            backgroundColor={backgroundColor}
+          />
+        </Canvas>
+      )}
     </div>
   );
 }
