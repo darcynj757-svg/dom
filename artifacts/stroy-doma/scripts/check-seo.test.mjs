@@ -59,6 +59,14 @@ test("malformed JSON-LD fails before schema validation", async () => {
   assert.match(output, /JSON-LD block 1 is not valid JSON/);
 });
 
+test("canonical alias without noindex fails as a duplicate", async () => {
+  const result = await runValidator("alias-indexed");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(output, /canonical points to \/services, so robots must contain noindex/);
+});
+
 test("all expected fixture directories are present", async () => {
   const fixtures = (await readdir(fixturesDir, { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())
@@ -66,6 +74,7 @@ test("all expected fixture directories are present", async () => {
     .sort();
 
   assert.deepEqual(fixtures, [
+    "alias-indexed",
     "malformed-json",
     "missing-breadcrumb-item",
     "missing-local-business-field",

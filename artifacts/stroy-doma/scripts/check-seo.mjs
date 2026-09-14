@@ -293,6 +293,23 @@ async function main() {
         if (!["http:", "https:"].includes(canonicalUrl.protocol)) {
           addIssue(issues, route, `canonical URL must use http or https: ${canonical[0]}`);
         }
+        const normalizedRoute = route === "/" ? "/" : route.replace(/\/+$/, "");
+        const normalizedCanonicalPath =
+          canonicalUrl.pathname === "/"
+            ? "/"
+            : canonicalUrl.pathname.replace(/\/+$/, "");
+        if (
+          normalizedCanonicalPath !== normalizedRoute
+        ) {
+          const robots = getMetaContent(html, "robots").join(",").toLowerCase();
+          if (!robots.includes("noindex")) {
+            addIssue(
+              issues,
+              route,
+              `canonical points to ${canonicalUrl.pathname}, so robots must contain noindex`,
+            );
+          }
+        }
       } catch {
         addIssue(issues, route, `canonical URL is invalid: ${canonical[0]}`);
       }
