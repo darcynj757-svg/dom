@@ -111,6 +111,17 @@ test("invalid nested Schema.org object types fail validation", async () => {
   );
 });
 
+test("invalid Schema.org numeric values fail validation", async () => {
+  const result = await runValidator("invalid-schema-number");
+  const output = `${result.stdout}\n${result.stderr}`;
+
+  assert.notEqual(result.code, 0);
+  assert.match(
+    output,
+    /JSON-LD block 1\.geo \(GeoCoordinates\) field "latitude" must be a finite number/,
+  );
+});
+
 test("missing title fails with a useful route and message", async () => {
   const result = await runValidator("missing-title");
   const output = `${result.stdout}\n${result.stderr}`;
@@ -251,6 +262,7 @@ test("all expected fixture directories are present", async () => {
     "duplicate-title",
     "invalid-nested-schema-field-type",
     "invalid-schema-field-type",
+    "invalid-schema-number",
     "invalid-schema-value",
     "malformed-json",
     "missing-breadcrumb-item",
