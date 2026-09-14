@@ -215,6 +215,34 @@ test("missing local image references fail with the route and source", async () =
   }
 });
 
+test("missing responsive source image references fail with the route and source", async () => {
+  const fixturePath = await mkdtemp(join(tmpdir(), "check-seo-source-image-"));
+  await cp(join(fixturesDir, "valid"), fixturePath, { recursive: true });
+
+  const indexPath = join(fixturePath, "index.html");
+  const html = await readFile(indexPath, "utf8");
+  await writeFile(
+    indexPath,
+    html.replace(
+      "</body>",
+      '<picture><source srcset="/images/missing-responsive.webp 1x"></picture></body>',
+    ),
+  );
+
+  try {
+    const result = await runValidator(fixturePath);
+    const output = `${result.stdout}\n${result.stderr}`;
+
+    assert.notEqual(result.code, 0);
+    assert.match(
+      output,
+      /\/: <source srcset> references missing local image "\/images\/missing-responsive\.webp"/,
+    );
+  } finally {
+    await rm(fixturePath, { recursive: true, force: true });
+  }
+});
+
 test("sitemap URLs must match the canonical links in generated pages", async () => {
   const fixturePath = await mkdtemp(join(tmpdir(), "check-seo-sitemap-"));
   await cp(join(fixturesDir, "valid"), fixturePath, { recursive: true });

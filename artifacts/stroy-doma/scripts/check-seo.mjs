@@ -192,6 +192,18 @@ function collectImageReferences(html, jsonLdBlocks) {
     }
   }
 
+  for (const tag of findTags(html, "source")) {
+    const src = tag.attributes.get("src");
+    if (src) references.push({ value: src, location: "<source src>" });
+    const srcset = tag.attributes.get("srcset");
+    if (srcset) {
+      srcset.split(",").forEach((candidate) => {
+        const value = candidate.trim().split(/\s+/)[0];
+        if (value) references.push({ value, location: "<source srcset>" });
+      });
+    }
+  }
+
   for (const tag of findTags(html, "link")) {
     if (tag.attributes.get("as")?.toLowerCase() === "image") {
       const href = tag.attributes.get("href");
