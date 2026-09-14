@@ -22,6 +22,7 @@ const budget = {
   entryJsBytes: 160_000,
   heroPosterBytes: 600_000,
   mobileHeroVideoBytes: 7_000_000,
+  mobileHouseModelBytes: 19_000_000,
 };
 
 function fail(message) {
@@ -78,9 +79,10 @@ async function main() {
     "the local stylesheet",
   );
   const heroPoster = "/posters/cedar_log_mansion_flythrough_16s_compressed.webp";
-  const mobileHeroVideo = "/videos/hero-compressed.mp4";
+  const mobileHeroVideo = "/videos/hero-mobile.mp4";
+  const mobileHouseModel = "/house-mobile.glb";
 
-  const [entryJsSize, cssSize, heroPosterSize, mobileHeroVideoSize] =
+  const [entryJsSize, cssSize, heroPosterSize, mobileHeroVideoSize, mobileHouseModelSize] =
     await Promise.all([
       assertFileBudget(entryJs, "entry JavaScript", budget.entryJsBytes),
       assertFileBudget(css, "critical CSS", budget.cssBytes),
@@ -89,6 +91,11 @@ async function main() {
         mobileHeroVideo,
         "mobile hero video",
         budget.mobileHeroVideoBytes,
+      ),
+      assertFileBudget(
+        mobileHouseModel,
+        "mobile 3D house model",
+        budget.mobileHouseModelBytes,
       ),
     ]);
 
@@ -103,7 +110,7 @@ async function main() {
     "hero video must use metadata preload",
   );
   assert(
-    /<source\b[^>]*src="\/videos\/hero-compressed\.mp4"[^>]*media="\(max-width: 767px\)"/i.test(
+    /<source\b[^>]*src="\/videos\/hero-mobile\.mp4"[^>]*media="\(max-width: 767px\)"/i.test(
       html,
     ),
     "hero video must expose the compressed mobile source",
@@ -125,6 +132,7 @@ async function main() {
       `entry-js=${entryJsSize}B/${budget.entryJsBytes}B`,
       `poster=${heroPosterSize}B/${budget.heroPosterBytes}B`,
       `mobile-video=${mobileHeroVideoSize}B/${budget.mobileHeroVideoBytes}B`,
+      `mobile-3d=${mobileHouseModelSize}B/${budget.mobileHouseModelBytes}B`,
     ].join(" "),
   );
 }

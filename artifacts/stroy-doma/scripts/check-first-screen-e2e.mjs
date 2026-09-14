@@ -61,6 +61,7 @@ function formatCls(value) {
 
 function assetKind(url) {
   const pathname = new URL(url).pathname;
+  if (pathname.endsWith("/house-mobile.glb")) return "house-mobile.glb";
   if (pathname.endsWith("/house-draco.glb")) return "house-draco.glb";
   if (pathname.includes("/draco/")) return "draco decoder";
   return null;
@@ -301,9 +302,14 @@ async function runRoute(browser, route) {
       await page.waitForFunction(() => window.scrollY > 0, { timeout: 5_000 });
 
       await waitForCondition(
-        () => assetRequests.some((requestEvent) => requestEvent.kind === "house-draco.glb"),
+        () =>
+          assetRequests.some(
+            (requestEvent) =>
+              requestEvent.kind === "house-mobile.glb" ||
+              requestEvent.kind === "house-draco.glb",
+          ),
         10_000,
-        "home did not request /house-draco.glb within 10 seconds after entering the 3D block",
+        "home did not request a 3D house model within 10 seconds after entering the 3D block",
       );
       await waitForCondition(
         () => assetRequests.some((requestEvent) => requestEvent.kind === "draco decoder"),
@@ -313,8 +319,8 @@ async function runRoute(browser, route) {
 
       const postScrollKinds = new Set(assetRequests.map((requestEvent) => requestEvent.kind));
       assert(
-        postScrollKinds.has("house-draco.glb"),
-        "home did not request /house-draco.glb after entering the 3D block",
+        postScrollKinds.has("house-mobile.glb") || postScrollKinds.has("house-draco.glb"),
+        "home did not request a 3D house model after entering the 3D block",
       );
       assert(
         postScrollKinds.has("draco decoder"),

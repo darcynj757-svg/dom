@@ -7,6 +7,7 @@ import {
   hasWebGL,
   cloneGltfScene,
   preloadDracoDecoder,
+  getHouseModelUrl,
 } from "./houseLoader";
 import { getGltfPromise } from "./houseLoader";
 
@@ -50,14 +51,18 @@ function HouseModel({
   clipPlane,
   onBounds,
   isMobile,
+  modelUrl,
+  onReady,
 }: {
   progress: number;
   clipPlane: THREE.Plane;
   onBounds: (bounds: Bounds) => void;
   isMobile: boolean;
+  modelUrl: string;
+  onReady: () => void;
 }) {
   const groupRef = useRef<THREE.Group>(null!);
-  const gltf = useGltfWithPlugin();
+  const gltf = useGltfWithPlugin(modelUrl);
   // Independent clone — the cached gltf.scene is shared with other
   // simultaneously-mounted canvases (e.g. HeroHouseFlight), and an
   // Object3D can only belong to one parent at a time.
@@ -106,12 +111,13 @@ function HouseModel({
 
     const box = new THREE.Box3().setFromObject(groupRef.current);
     onBounds({ minY: box.min.y, maxY: box.max.y });
+    onReady();
 
     // Nudge the mesh up a bit within the frame without moving the camera's
     // focus point (which tracks the bounds captured above).
     groupRef.current.position.y += 0.6;
     groupRef.current.updateMatrixWorld(true);
-  }, [scene, normScale, clipPlane, onBounds]);
+  }, [scene, normScale, clipPlane, onBounds, onReady]);
 
   // House stays fixed on the ground — clip plane handles the build reveal.
   useFrame(() => { /* no-op: position is set once in useLayoutEffect */ });
@@ -132,12 +138,16 @@ function Scene({
   boundsRef,
   onBounds,
   isMobile,
+  modelUrl,
+  onReady,
 }: {
   progress: number;
   clipPlane: THREE.Plane;
   boundsRef: React.MutableRefObject<Bounds>;
   onBounds: (bounds: Bounds) => void;
   isMobile: boolean;
+  modelUrl: string;
+  onReady: () => void;
 }) {
   const { camera } = useThree();
 
@@ -212,7 +222,14 @@ function Scene({
       <directionalLight position={[-8, 6, -4]} intensity={1.0} />
       <directionalLight position={[0, 4, 12]} intensity={0.8} />
       <Suspense fallback={null}>
-        <HouseModel progress={progress} clipPlane={clipPlane} onBounds={onBounds} isMobile={isMobile} />
+        <HouseModel
+          progress={progress}
+          clipPlane={clipPlane}
+          onBounds={onBounds}
+          isMobile={isMobile}
+          modelUrl={modelUrl}
+          onReady={onReady}
+        />
       </Suspense>
       {/* Shadow fades in as the house builds: barely-there at start, solid at finish.
           Position y=0.6 matches the house-base nudge so the shadow sits under the walls. */}
@@ -249,6 +266,8 @@ export default function ScrollHouse({ progress }: { progress: number }) {
   const [canvasKey, setCanvasKey] = useState(0);
   const retryCount = useRef(0);
   const isMobile = useIsMobile();
+  const modelUrl = getHouseModelUrl(isMobile);
+  const [modelReady, setModelReady] = useState(false);
   const boundsRef = useRef<Bounds>({ minY: -0.2, maxY: 3.4 });
   // Local plane instance (not shared with the hero canvas) so each Canvas
   // controls its own reveal independently.
@@ -260,6 +279,13 @@ export default function ScrollHouse({ progress }: { progress: number }) {
   const handleBounds = useCallback((bounds: Bounds) => {
     boundsRef.current = bounds;
   }, []);
+  const handleModelReady = useCallback(() => {
+    setModelReady(true);
+  }, []);
+
+  useEffect(() => {
+    setModelReady(false);
+  }, [modelUrl]);
 
   useEffect(() => {
     setWebglSupported(hasWebGL());
@@ -267,17 +293,33 @@ export default function ScrollHouse({ progress }: { progress: number }) {
     // below-the-fold component has been activated by an actual scroll.
     preloadDracoDecoder();
     // Kick off the GLTF load immediately so it's ready when the canvas mounts
-    getGltfPromise();
-  }, []);
+    getGltfPromise(modelUrl);
+  }, [modelUrl]);
 
   if (webglSupported === false) {
     return (
-      <div className="absolute inset-0 -z-10 pointer-events-none bg-gradient-to-b from-muted/40 to-background" />
+      <div className="absolute inset-0 -z-10 pointer-events-none bg-gradient-to-b from-muted/40 to-background">
+        <img src="/posters/kedr-house-hero.webp" alt="" className="h-full w-full object-cover opacity-35" />
+      </div>
     );
   }
 
   return (
     <div className="absolute inset-0 pointer-events-none">
+      {!modelReady && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/20">
+          <div className="flex flex-col items-center gap-3 text-center">
+            <img
+              src="/posters/kedr-house-hero.webp"
+              alt=""
+              className="w-56 max-w-[55vw] rounded-2xl opacity-45 shadow-xl"
+            />
+            <span className="rounded-full bg-background/80 px-4 py-2 text-xs text-muted-foreground shadow-sm">
+              Загружаем 3D-модель дома…
+            </span>
+          </div>
+        </div>
+      )}
       {webglSupported && (
         <Canvas
           key={canvasKey}
@@ -309,6 +351,8 @@ export default function ScrollHouse({ progress }: { progress: number }) {
             boundsRef={boundsRef}
             onBounds={handleBounds}
             isMobile={isMobile}
+            modelUrl={modelUrl}
+            onReady={handleModelReady}
           />
         </Canvas>
       )}

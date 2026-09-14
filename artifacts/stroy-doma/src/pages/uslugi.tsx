@@ -1,6 +1,7 @@
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import { useHeroParallax } from "@/hooks/useHeroParallax";
-import { useIsMobile } from "@/hooks/useIsMobile";
+import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 import { Link, useLocation } from "wouter";
 import { ArrowRight, Phone } from "lucide-react";
 import Calculator from "@/components/Calculator";
@@ -149,30 +150,25 @@ export default function Uslugi() {
     canonical: "/services",
     robots: location === "/uslugi" ? "noindex, follow" : undefined,
   });
-  const isMobile = useIsMobile();
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const { sectionRef, y } = useHeroParallax();
+  useAutoplayVideo(heroVideoRef);
   return (
     <div>
       {/* ── Hero — video ── */}
       <section ref={sectionRef as React.RefObject<HTMLElement>} className="relative min-h-[80vh] flex items-end overflow-hidden">
         <motion.div className="absolute inset-x-0 -top-[20%] h-[140%] will-change-transform" style={{ y }}>
-          {isMobile ? (
-            <div
-              className="absolute inset-0 w-full h-full bg-cover bg-center"
-              style={{ backgroundImage: "url(/posters/siberian-logs-construction_2.webp)" }}
-            />
-          ) : (
-            <video
-              src={heroVideo}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              poster="/posters/siberian-logs-construction_2.webp"
-              className="absolute inset-0 w-full h-full object-cover object-top"
-            />
-          )}
+          <video
+            ref={heroVideoRef}
+            src={heroVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/posters/siberian-logs-construction_2.webp"
+            className="absolute inset-0 w-full h-full object-cover object-top"
+          />
         </motion.div>
         <div className="absolute inset-0 bg-black/40" />
 

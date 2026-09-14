@@ -6,6 +6,7 @@ import { ShieldCheck, Hammer, Clock, TreePine, Layers, Truck } from "lucide-reac
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/hooks/useSeo";
+import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 import prod1 from "@/assets/about/production-1.webp";
 import prod2 from "@/assets/about/production-2.webp";
@@ -67,8 +68,10 @@ export default function About() {
     description: "Кедр Томск — строим деревянные дома с 2001 года. Более 200 объектов, собственное производство профилированного бруса в Томске, бригады опытных плотников.",
   });
   const isMobile = useIsMobile();
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const ctaVideoRef = useRef<HTMLVideoElement>(null);
   const { sectionRef, y } = useHeroParallax();
+  useAutoplayVideo(heroVideoRef);
 
   useEffect(() => {
     const el = ctaVideoRef.current;
@@ -94,23 +97,19 @@ export default function About() {
       <section ref={sectionRef as React.RefObject<HTMLElement>} className="relative min-h-[70vh] flex items-start border-b border-border overflow-hidden">
         {/* Video background */}
         <motion.div className="absolute inset-x-0 -top-[20%] h-[140%] will-change-transform" style={{ y }}>
-          {isMobile ? (
-            <div
-              className="absolute inset-0 w-full h-full bg-cover bg-center"
-              style={{ backgroundImage: "url(/posters/kedr-house-hero.webp)" }}
-            />
-          ) : (
-            <video
-              src="/videos/kedr-house-hero.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              poster="/posters/kedr-house-hero.webp"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          )}
+          <video
+            ref={heroVideoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/posters/kedr-house-hero.webp"
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/videos/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+            <source src="/videos/hero-compressed.mp4" type="video/mp4" media="(min-width: 768px)" />
+          </video>
         </motion.div>
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/40" />

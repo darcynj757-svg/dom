@@ -14,6 +14,7 @@ import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_hq.mp4";
 const heroPhoto = "/images/gallery/photo-1.webp";
 import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 import { useSeo } from "@/hooks/useSeo";
+import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 const CalculatorComponent = lazy(() => import("@/components/Calculator"));
 
 
@@ -83,22 +84,7 @@ export default function Home() {
   const { sectionRef: heroRef, y: heroY } = useHeroParallax();
   const heroVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Программный play() — fallback для iOS Safari и Android Chrome,
-  // которые могут игнорировать атрибут autoplay без явного вызова
-  useEffect(() => {
-    const el = heroVideoRef.current;
-    if (!el) return;
-    const tryPlay = () => { el.play().catch(() => {}); };
-    // Пробуем сразу
-    tryPlay();
-    // И после первого взаимодействия пользователя (на случай политики браузера)
-    window.addEventListener("touchstart", tryPlay, { once: true, passive: true });
-    window.addEventListener("pointerdown", tryPlay, { once: true, passive: true });
-    return () => {
-      window.removeEventListener("touchstart", tryPlay);
-      window.removeEventListener("pointerdown", tryPlay);
-    };
-  }, []);
+  useAutoplayVideo(heroVideoRef);
 
   const carouselRef = useRef<HTMLDivElement>(null);
   const ctaVideoRef = useRef<HTMLVideoElement>(null);
@@ -190,9 +176,9 @@ export default function Home() {
             }}
             className="absolute inset-0 w-full h-full object-cover"
           >
-            {/* Сжатая версия для мобильных (6 МБ вместо 15 МБ) */}
+            {/* Беззвучная mobile-версия: 640 px, ~1.2 MB, fast-start. */}
             <source
-              src="/videos/hero-compressed.mp4"
+              src="/videos/hero-mobile.mp4"
               type="video/mp4"
               media="(max-width: 767px)"
             />

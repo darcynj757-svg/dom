@@ -7,6 +7,14 @@ export const MODEL_URL = `${import.meta.env.BASE_URL}house-draco.glb`.replace(
   /([^:])\/\//g,
   "$1/",
 );
+export const MOBILE_MODEL_URL = `${import.meta.env.BASE_URL}house-mobile.glb`.replace(
+  /([^:])\/\//g,
+  "$1/",
+);
+
+export function getHouseModelUrl(isMobile: boolean) {
+  return isMobile ? MOBILE_MODEL_URL : MODEL_URL;
+}
 
 // ---------------------------------------------------------------------------
 // KHR_materials_pbrSpecularGlossiness plugin
@@ -111,38 +119,53 @@ export function preloadDracoDecoder() {
 // house model so the (large) .glb file is only ever fetched once.
 // ---------------------------------------------------------------------------
 
-let _gltf: GLTF | null = null;
-let _error: unknown = null;
-let _suspendPromise: Promise<void> | null = null;
+type GltfCache = {
+  gltf: GLTF | null;
+  error: unknown;
+  promise: Promise<void> | null;
+};
 
-export function getGltfPromise(): Promise<void> {
-  if (!_suspendPromise) {
-    _suspendPromise = new Promise<void>((resolve, reject) => {
+const _cache = new Map<string, GltfCache>();
+
+function getCache(modelUrl: string) {
+  let cache = _cache.get(modelUrl);
+  if (!cache) {
+    cache = { gltf: null, error: null, promise: null };
+    _cache.set(modelUrl, cache);
+  }
+  return cache;
+}
+
+export function getGltfPromise(modelUrl = MODEL_URL): Promise<void> {
+  const cache = getCache(modelUrl);
+  if (!cache.promise) {
+    cache.promise = new Promise<void>((resolve, reject) => {
       const loader = new GLTFLoader();
       loader.setDRACOLoader(getDracoLoader());
       loader.register((parser) => new GLTFSpecularGlossinessExtension(parser));
       loader.load(
-        MODEL_URL,
+        modelUrl,
         (gltf) => {
-          _gltf = gltf;
+          cache.gltf = gltf;
           resolve();
         },
         undefined,
         (err) => {
-          _error = err;
+          cache.error = err;
           reject(err);
         },
       );
     });
   }
-  return _suspendPromise;
+  return cache.promise;
 }
 
 /** Suspense-compatible hook — throws while loading, returns when ready. */
-export function useGltfWithPlugin(): GLTF {
-  if (_error) throw _error;
-  if (_gltf) return _gltf;
-  throw getGltfPromise(); // Suspend
+export function useGltfWithPlugin(modelUrl = MODEL_URL): GLTF {
+  const cache = getCache(modelUrl);
+  if (cache.error) throw cache.error;
+  if (cache.gltf) return cache.gltf;
+  throw getGltfPromise(modelUrl); // Suspend
 }
 
 /**

@@ -80,8 +80,8 @@ export default function ScrollHouseBlock() {
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
 
-  // Mount the Canvas only after the section starts entering the viewport.
-  // This keeps the 23 MB GLB and WebGL context off the initial page load.
+  // Start loading before the section reaches the viewport. The mobile model
+  // is smaller, but it still needs a head start on cellular connections.
   const [showHouse, setShowHouse] = useState(false);
   useEffect(() => {
     const el = houseRef.current;
@@ -91,7 +91,7 @@ export default function ScrollHouseBlock() {
     const activateHouse = () => {
       if (activated || window.scrollY <= 0) return;
       const rect = el.getBoundingClientRect();
-      if (rect.top > window.innerHeight || rect.bottom < 0) return;
+      if (rect.top > window.innerHeight * 1.5 || rect.bottom < -200) return;
 
       activated = true;
       setShowHouse(true);
@@ -103,7 +103,7 @@ export default function ScrollHouseBlock() {
       ([entry]) => {
         if (entry.isIntersecting) activateHouse();
       },
-      { rootMargin: "0px 0px -15% 0px" },
+      { rootMargin: "100% 0px 50% 0px" },
     );
     observer.observe(el);
     window.addEventListener("scroll", activateHouse, { passive: true });
@@ -121,11 +121,26 @@ export default function ScrollHouseBlock() {
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
-          {showHouse && (
-            <Suspense fallback={null}>
+          {showHouse ? (
+            <Suspense
+              fallback={
+                <div className="absolute inset-0 flex items-center justify-center bg-background/20">
+                  <div className="flex flex-col items-center gap-3 text-center">
+                    <img
+                      src="/posters/kedr-house-hero.webp"
+                      alt=""
+                      className="w-56 max-w-[55vw] rounded-2xl opacity-45 shadow-xl"
+                    />
+                    <span className="rounded-full bg-background/80 px-4 py-2 text-xs text-muted-foreground shadow-sm">
+                      Загружаем 3D-модель дома…
+                    </span>
+                  </div>
+                </div>
+              }
+            >
               <ScrollHouse progress={houseProgress} />
             </Suspense>
-          )}
+          ) : null}
         </motion.div>
         <div
           className="absolute inset-x-0 top-12 flex flex-col items-center text-center pointer-events-none px-4 z-10"

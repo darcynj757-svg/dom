@@ -1,8 +1,8 @@
-import { useState, useMemo } from "react";
+import { useRef, useState, useMemo } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useHeroParallax } from "@/hooks/useHeroParallax";
-import { useIsMobile } from "@/hooks/useIsMobile";
+import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 import { PROJECTS } from "@/data/projects";
 import { Badge } from "@/components/ui/badge";
 import { Ruler, Layers, BedDouble, FileText, ArrowUpDown } from "lucide-react";
@@ -70,30 +70,27 @@ export default function Projects() {
     return list;
   }, [activeFilter, sortBy, areaRange]);
 
-  const isMobile = useIsMobile();
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+  useAutoplayVideo(heroVideoRef);
   return (
     <div>
       {/* Hero */}
       <section ref={sectionRef as React.RefObject<HTMLElement>} className="relative overflow-hidden border-b border-border py-20 md:py-28">
         {/* Background video */}
         <motion.div style={{ y }} className="absolute inset-x-0 -top-[15%] h-[130%]">
-          {isMobile ? (
-            <div
-              className="w-full h-full bg-cover bg-center"
-              style={{ backgroundImage: "url(/posters/projects-hero.webp)" }}
-            />
-          ) : (
-            <video
-              src={`${import.meta.env.BASE_URL}videos/projects-hero.mp4`}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster="/posters/projects-hero.webp"
-              className="w-full h-full object-cover"
-            />
-          )}
+          <video
+            ref={heroVideoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/posters/projects-hero.webp"
+            className="w-full h-full object-cover"
+          >
+            <source src={`${import.meta.env.BASE_URL}videos/projects-hero-mobile.mp4`} type="video/mp4" media="(max-width: 767px)" />
+            <source src={`${import.meta.env.BASE_URL}videos/projects-hero.mp4`} type="video/mp4" media="(min-width: 768px)" />
+          </video>
         </motion.div>
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/55" />

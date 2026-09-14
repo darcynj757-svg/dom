@@ -2,7 +2,13 @@ import { useRef, useEffect, useMemo, useState, useCallback, Suspense, useLayoutE
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows } from "@react-three/drei";
 import * as THREE from "three";
-import { useGltfWithPlugin, getGltfPromise, hasWebGL, cloneGltfScene } from "./houseLoader";
+import {
+  useGltfWithPlugin,
+  getGltfPromise,
+  getHouseModelUrl,
+  hasWebGL,
+  cloneGltfScene,
+} from "./houseLoader";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 // ---------------------------------------------------------------------------
@@ -33,12 +39,14 @@ type Bounds = { minY: number; maxY: number };
 function HouseModel({
   onBounds,
   isMobile,
+  modelUrl,
 }: {
   onBounds: (bounds: Bounds) => void;
   isMobile: boolean;
+  modelUrl: string;
 }) {
   const groupRef = useRef<THREE.Group>(null!);
-  const gltf = useGltfWithPlugin();
+  const gltf = useGltfWithPlugin(modelUrl);
   // Independent clone — the cached gltf.scene is shared with other
   // simultaneously-mounted canvases (e.g. ScrollHouse), and an
   // Object3D can only belong to one parent at a time.
@@ -157,6 +165,7 @@ function ClipAndCameraRig({ boundsRef, isMobile }: { boundsRef: React.MutableRef
 export default function HeroHouseFlight() {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
   const isMobile = useIsMobile();
+  const modelUrl = getHouseModelUrl(isMobile);
   const boundsRef = useRef<Bounds>({ minY: -0.2, maxY: 3.4 });
 
   const handleBounds = useCallback((bounds: Bounds) => {
@@ -166,8 +175,8 @@ export default function HeroHouseFlight() {
   useEffect(() => {
     setWebglSupported(hasWebGL());
     // Kick off the GLTF load immediately so it's ready as soon as possible
-    getGltfPromise();
-  }, []);
+    getGltfPromise(modelUrl);
+  }, [modelUrl]);
 
   if (webglSupported === false) {
     return <div className="absolute inset-0 bg-gradient-to-b from-neutral-800 to-neutral-950" />;
@@ -211,7 +220,7 @@ export default function HeroHouseFlight() {
           <directionalLight position={[0, 4, 12]} intensity={0.8} />
           <pointLight position={[0, 5, 8]} intensity={0.8} color="#ffdcb0" />
           <Suspense fallback={null}>
-            <HouseModel onBounds={handleBounds} isMobile={isMobile} />
+            <HouseModel onBounds={handleBounds} isMobile={isMobile} modelUrl={modelUrl} />
           </Suspense>
           <ClipAndCameraRig boundsRef={boundsRef} isMobile={isMobile} />
           <ContactShadows position={[0, 1.18, 0]} opacity={0.55} scale={16} blur={2.2} far={7} />
