@@ -1,2 +1,3 @@
 - [Static React prerender](ssr-prerender.md) — lazy-маршруты нужно рендерить потоковым SSR и обязательно await-ить результат перед записью HTML.
 - [First-screen performance](first-screen-performance.md) — заставка не ждёт видео, а 3D-модель загружается только при входе в свой блок.
+- [Splash and lazy routes](splash-lazy-routes.md) — первый экран не должен зависеть только от одноразового события короткой заставки.

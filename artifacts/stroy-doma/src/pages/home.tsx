@@ -11,7 +11,6 @@ import { PROJECTS } from "@/data/projects";
 import { GALLERY_ITEMS } from "@/pages/gallery";
 import { ARTICLES_META as ARTICLES } from "@/data/articles-meta";
 import heroVideo from "@assets/cedar_log_mansion_flythrough_16s_hq.mp4";
-import heroPoster from "@assets/hero-poster.webp";
 const heroPhoto = "/images/gallery/photo-1.webp";
 import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 import { useSeo } from "@/hooks/useSeo";
@@ -80,34 +79,9 @@ export default function Home() {
     description: "Кедр Томск — строительство деревянных домов из профилированного бруса и рубленого бревна с 2001 года. Более 200 объектов по всей России. Бесплатный проект при заказе.",
   });
 
-  // Hero text appears only after the splash logo animation finishes
-  const [heroReady, setHeroReady] = useState(false);
-  useEffect(() => {
-    // If splash was already removed (e.g. navigating back to home), show immediately
-    if (!document.getElementById("splash")) {
-      setHeroReady(true);
-      return;
-    }
-    const onDone = () => setHeroReady(true);
-    window.addEventListener("splash-done", onDone, { once: true });
-    return () => window.removeEventListener("splash-done", onDone);
-  }, []);
-
   const isMobile = useIsMobile();
   const { sectionRef: heroRef, y: heroY } = useHeroParallax();
   const heroVideoRef = useRef<HTMLVideoElement>(null);
-
-  // Сигнализируем splash-экрану что контент готов:
-  // — на десктопе: когда hero-видео может воспроизводиться (onCanPlay на video)
-  // — на мобиле: сигналим по таймауту, т.к. браузеры часто задерживают canplay
-  useEffect(() => {
-    if (isMobile) {
-      // Даём короткое время на попытку загрузки, затем скрываем splash
-      const t = setTimeout(() => window.dispatchEvent(new CustomEvent("hero-video-ready")), 300);
-      return () => clearTimeout(t);
-    }
-    return undefined;
-  }, [isMobile]);
 
   // Программный play() — fallback для iOS Safari и Android Chrome,
   // которые могут игнорировать атрибут autoplay без явного вызова
@@ -200,8 +174,11 @@ export default function Home() {
       <section ref={heroRef as React.RefObject<HTMLElement>} className="relative h-screen min-h-[600px] overflow-hidden bg-[#1c1a17]">
         <motion.div className="absolute inset-x-0 -top-[20%] h-[140%] will-change-transform" style={{ y: heroY }}>
           <video
-            ref={heroVideoRef}
-            poster={heroPoster}
+            ref={(el) => {
+              (heroVideoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
+              if (el) el.setAttribute("fetchpriority", "low");
+            }}
+            poster="/posters/cedar_log_mansion_flythrough_16s_compressed.webp"
             autoPlay
             loop
             muted
@@ -225,8 +202,8 @@ export default function Home() {
         {/* Hero content */}
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-14 md:pt-20">
           <motion.span
-            initial={{ opacity: 0, y: 16 }}
-            animate={heroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            initial={false}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="inline-block px-5 py-1.5 rounded-full glass text-white/90 text-xs md:text-sm tracking-[0.25em] font-semibold mb-5 md:mb-8"
           >
@@ -234,8 +211,8 @@ export default function Home() {
           </motion.span>
 
           <motion.h1
-            initial={{ opacity: 0, y: 32 }}
-            animate={heroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
+            initial={false}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.2 }}
             className="font-display font-black text-white leading-[1.05] max-w-6xl"
             style={{ fontSize: "clamp(2.15rem, 5.6vw, 80px)" }}
@@ -246,8 +223,8 @@ export default function Home() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={heroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            initial={false}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.38 }}
             className="mt-4 md:mt-7 max-w-lg text-sm md:text-lg text-white font-medium"
             style={{ textShadow: "0 1px 8px rgba(0,0,0,0.8)" }}
@@ -256,8 +233,8 @@ export default function Home() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={heroReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            initial={false}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.55 }}
             className="mt-6 md:mt-10 flex flex-wrap gap-3 md:gap-4 justify-center"
           >
@@ -275,8 +252,8 @@ export default function Home() {
 
           {/* Scroll indicator */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={heroReady ? { opacity: 1 } : { opacity: 0 }}
+            initial={false}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.9, duration: 0.8 }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 text-xs tracking-widest uppercase"
           >

@@ -7,7 +7,6 @@
  */
 import { useRef, useState, useEffect, Suspense, lazy } from "react";
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
-import { getGltfPromise } from "@/components/3d/houseLoader";
 
 const ScrollHouse = lazy(() => import("@/components/3d/ScrollHouse"));
 
@@ -81,9 +80,8 @@ export default function ScrollHouseBlock() {
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
 
-  // Mount the Canvas and start the GLB download only when the 3D section
-  // reaches the viewport. This keeps the model and Draco decoder off the
-  // critical path for the first screen.
+  // Mount the Canvas only after the section starts entering the viewport.
+  // This keeps the 23 MB GLB and WebGL context off the initial page load.
   const [showHouse, setShowHouse] = useState(false);
   useEffect(() => {
     const el = houseRef.current;
@@ -92,11 +90,10 @@ export default function ScrollHouseBlock() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setShowHouse(true);
-          getGltfPromise();
           observer.disconnect();
         }
       },
-      { rootMargin: "0px" },
+      { rootMargin: "0px 0px -15% 0px" },
     );
     observer.observe(el);
     return () => observer.disconnect();
