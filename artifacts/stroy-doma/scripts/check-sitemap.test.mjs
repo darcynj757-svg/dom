@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -92,5 +93,18 @@ test("sitemap contains unique canonical URLs and excludes aliases", () => {
     aliasesInSitemap,
     [],
     "Sitemap contains non-canonical route aliases",
+  );
+});
+
+test("static publishing does not rewrite nested routes to the homepage", async () => {
+  const artifactConfig = await readFile(
+    resolve(appRoot, ".replit-artifact", "artifact.toml"),
+    "utf8",
+  );
+
+  assert.doesNotMatch(
+    artifactConfig,
+    /\[\[services\.production\.rewrites\]\]\s*from = "\/\*"\s*to = "\/index\.html"/,
+    "static publishing must serve nested index.html files instead of rewriting every path to the homepage",
   );
 });

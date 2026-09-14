@@ -22,9 +22,6 @@ build = [ "pnpm", "--filter", "@workspace/stroy-doma", "run", "build" ]
 publicDir = "artifacts/stroy-doma/dist/public"
 serve = "static"
 
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
 
 [services.env]
 PORT = "19912"
