@@ -34,6 +34,7 @@ function lazyRoute(loadModule: () => Promise<PageModule>) {
 
 const Home = lazyRoute(() => import("@/pages/home"));
 const HouseScrollTest = lazyRoute(() => import("@/pages/house-scroll-test"));
+const HouseVideoScrollTest = lazyRoute(() => import("@/pages/house-video-scroll-test"));
 const Projects = lazyRoute(() => import("@/pages/projects"));
 const ProjectDetail = lazyRoute(() => import("@/pages/project-detail"));
 const About = lazyRoute(() => import("@/pages/about"));
@@ -58,6 +59,10 @@ const routePreloaders: Array<{
   {
     matches: (pathname) => pathname === "/house-scroll-test",
     preload: HouseScrollTest.preload,
+  },
+  {
+    matches: (pathname) => pathname === "/house-video-scroll-test",
+    preload: HouseVideoScrollTest.preload,
   },
   {
     matches: (pathname) => pathname === "/services/profilirovanny-brus",
@@ -139,6 +144,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Home.component} />
           <Route path="/house-scroll-test" component={HouseScrollTest.component} />
+          <Route path="/house-video-scroll-test" component={HouseVideoScrollTest.component} />
           <Route path="/services/profilirovanny-brus" component={ServicesProfBrus.component} />
           <Route path="/services/rublenye-doma" component={ServicesRublenye.component} />
           <Route path="/services" component={Uslugi.component} />

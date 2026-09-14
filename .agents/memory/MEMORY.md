@@ -11,3 +11,4 @@
 - [Crawler resource headers](crawler-resource-headers.md) — robots.txt и sitemap.xml должны получать явные Content-Type в реальном API runtime, а не только в preflight mock-server.
 - [Deployment health endpoint](deployment-health-endpoint.md) — autoscale healthcheck probes `/api`, поэтому mount point должен возвращать 200 помимо `/api/healthz`.
 - [WebGL preview limits](webgl-preview-limits.md) — браузер автоматического mobile-теста может не иметь WebGL; это не подтверждает поведение 3D на реальном телефоне.
+- [Video frame validation](video-frame-validation.md) — для сгенерированных MP4 проверяй реальные изменения кадров, а не только FPS и длительность.

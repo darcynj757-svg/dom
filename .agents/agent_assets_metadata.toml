@@ -468,3 +468,17 @@ mtime_ms = 1789414341766
 storage_uri = "gcs://replit-rams-assets-archer/rams/assets/repl:bb9b31a7-449d-4a10-8044-5ec9c3aa72b1/5959564e-4aad-4fe5-922a-352ac5749438/748caa06-452b-4410-a203-c5934b3b5732"
 storage_version_token = "1789414388031541"
 content_type = "video/mp4"
+
+[[outputs]]
+id = "gnpGou6E9ftIXU9hRlgVO"
+uri = "file://artifacts/stroy-doma/public/videos/cinematic-site-construction-test.mp4"
+type = "video"
+title = "Cinematic-тест стройки на реальном участке"
+description = "Отдельный 15-секундный scroll-controlled ролик: крупный план строительства деревянного дома переходит в кинематографический пролёт над готовым домом в лесу. 16:9, 1920×1080, 24 fps, без WebGL."
+logical_id = "60c7fe33-7a8c-4559-9559-d95a734f64af"
+content_hash = "sha256:724827619b2f1d85368a74ff02ccb295ce0310b696bf80bec5aab611dd0de2f8"
+size = 28033658
+mtime_ms = 1789414835332
+storage_uri = "gcs://replit-rams-assets-archer/rams/assets/repl:bb9b31a7-449d-4a10-8044-5ec9c3aa72b1/60c7fe33-7a8c-4559-9559-d95a734f64af/decbb04d-7b0b-4e5c-b522-f46a4eddc0f4"
+storage_version_token = "1789415090102498"
+content_type = "video/mp4"
