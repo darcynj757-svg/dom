@@ -77,6 +77,21 @@ test("production indexing preflight checks every sitemap URL over HTTP", async (
   }
 });
 
+test("production indexing preflight requires crawler-friendly content types", async () => {
+  const outputRoot = await createArtifact({
+    sitemap: validSitemap(["https://kedr-tomsk.ru/"]),
+    pages: ["/"],
+  });
+
+  try {
+    const result = await runCheck(outputRoot);
+    assert.equal(result.stderr, "");
+    assert.match(result.stdout, /HTTP 200/);
+  } finally {
+    await rm(outputRoot, { recursive: true, force: true });
+  }
+});
+
 test("production indexing preflight rejects malformed XML", async () => {
   const outputRoot = await createArtifact({
     sitemap:

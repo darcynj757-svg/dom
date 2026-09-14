@@ -153,7 +153,13 @@ async function startArtifactServer(outputRoot) {
 
       try {
         const content = await readFile(filePath);
-        response.writeHead(200);
+        const contentType =
+          relativePath === "robots.txt"
+            ? "text/plain; charset=utf-8"
+            : relativePath === "sitemap.xml"
+              ? "application/xml; charset=utf-8"
+              : undefined;
+        response.writeHead(200, contentType ? { "Content-Type": contentType } : undefined);
         if (request.method === "HEAD") {
           response.end();
         } else {
@@ -182,7 +188,7 @@ async function startArtifactServer(outputRoot) {
   };
 }
 
-async function assertHttp200(baseUrl, productionUrl) {
+async function assertHttp200(baseUrl, productionUrl, expectedContentType) {
   const productionPath = new URL(productionUrl).pathname;
   const checkUrl = `${baseUrl}${productionPath}`;
   let response;
@@ -199,6 +205,15 @@ async function assertHttp200(baseUrl, productionUrl) {
   if (response.status !== 200) {
     fail(
       `HTTP check failed for ${productionUrl}: expected 200, received ${response.status}`,
+    );
+  }
+  if (expectedContentType) {
+    const actualContentType = response.headers.get("content-type") ?? "";
+    assert(
+      actualContentType.toLowerCase().startsWith(expectedContentType),
+      `HTTP check failed for ${productionUrl}: expected Content-Type ${expectedContentType}, received ${
+        actualContentType || "<missing>"
+      }`,
     );
   }
   await response.arrayBuffer();
@@ -265,8 +280,8 @@ async function main() {
 
   const { server, baseUrl } = await startArtifactServer(outputRoot);
   try {
-    await assertHttp200(baseUrl, `${siteUrl}/robots.txt`);
-    await assertHttp200(baseUrl, sitemapUrl);
+    await assertHttp200(baseUrl, `${siteUrl}/robots.txt`, "text/plain");
+    await assertHttp200(baseUrl, sitemapUrl, "application/xml");
     for (const loc of locs) {
       await assertHttp200(baseUrl, loc);
     }
