@@ -46,6 +46,7 @@ export default function HouseScrollTest() {
   const frameRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const scrollStoryRef = useRef<HTMLElement>(null);
 
   const progress = elapsed / DURATION_SECONDS;
   const phase = getPhase(elapsed);
@@ -86,11 +87,12 @@ export default function HouseScrollTest() {
     if (!scrollLinked) return;
 
     const syncFromScroll = () => {
-      const stage = stageRef.current;
-      if (!stage) return;
+      const story = scrollStoryRef.current;
+      if (!story) return;
 
-      const start = Math.max(0, stage.offsetTop - 120);
-      const range = Math.max(stage.offsetHeight + window.innerHeight * 0.5, 1);
+      const start = story.offsetTop;
+      const end = story.offsetTop + story.offsetHeight - window.innerHeight;
+      const range = Math.max(end - start, 1);
       const nextProgress = Math.min(Math.max((window.scrollY - start) / range, 0), 1);
       setElapsed(nextProgress * DURATION_SECONDS);
     };
@@ -221,17 +223,18 @@ export default function HouseScrollTest() {
           </div>
         </header>
 
+        <section ref={scrollStoryRef} className="relative min-h-[220vh]">
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
           <section className="min-w-0">
             <div
               ref={stageRef}
               data-house-test-stage
               data-house-test-progress={progress.toFixed(4)}
-              className="group relative aspect-video overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#d9d1c0] shadow-[0_28px_90px_rgba(0,0,0,0.28)] [--grid-color:rgba(91,87,70,0.12)]"
+              className="group sticky top-20 z-10 relative aspect-video overflow-hidden rounded-[1.35rem] border border-[#dfe3dc] bg-white shadow-[0_28px_90px_rgba(24,35,27,0.16)] [--grid-color:rgba(75,93,79,0.1)]"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_53%_42%,rgba(251,246,229,0.96),rgba(207,199,180,0.86)_60%,rgba(158,153,139,0.9))]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_53%_42%,rgba(255,255,255,1),rgba(255,255,255,0.98)_60%,rgba(248,250,247,1))]" />
               <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(var(--grid-color)_1px,transparent_1px),linear-gradient(90deg,var(--grid-color)_1px,transparent_1px)] [background-size:4.2vw_4.2vw]" />
-              <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#25302c]/20 to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#25302c]/[0.06] to-transparent" />
               <div className="absolute bottom-[13%] left-[12%] right-[12%] h-px bg-[#6b6659]/30" />
 
               <div className="absolute left-[4.4%] top-[6.5%] z-10">
@@ -255,7 +258,7 @@ export default function HouseScrollTest() {
 
               <div className="absolute inset-0 z-[1]">
                 <Suspense fallback={null}>
-                  <ScrollHouse progress={progress} backgroundColor="#d9d1c0" />
+                  <ScrollHouse progress={progress} backgroundColor="#ffffff" smoothMotion showGrid={false} />
                 </Suspense>
               </div>
 
@@ -424,6 +427,7 @@ export default function HouseScrollTest() {
             </div>
           </aside>
         </div>
+        </section>
       </div>
     </main>
   );

@@ -31,6 +31,10 @@ function easeOutCubic(t: number) {
 function easeInOutCubic(t: number) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
+function smootherstep(t: number) {
+  const clamped = THREE.MathUtils.clamp(t, 0, 1);
+  return clamped * clamped * clamped * (clamped * (clamped * 6 - 15) + 10);
+}
 
 type Bounds = { minY: number; maxY: number };
 
@@ -140,6 +144,8 @@ function Scene({
   isMobile,
   modelUrl,
   backgroundColor,
+  smoothMotion,
+  showGrid,
 }: {
   progress: number;
   clipPlane: THREE.Plane;
@@ -149,8 +155,15 @@ function Scene({
   isMobile: boolean;
   modelUrl: string;
   backgroundColor?: string;
+  smoothMotion?: boolean;
+  showGrid?: boolean;
 }) {
   const { camera, scene } = useThree();
+  const targetCameraPosition = useRef(new THREE.Vector3());
+  const targetLookAt = useRef(new THREE.Vector3());
+  const smoothedLookAt = useRef(new THREE.Vector3());
+  const targetClipConstant = useRef(0);
+  const motionInitialized = useRef(false);
 
   useEffect(() => {
     scene.background = backgroundColor ? new THREE.Color(backgroundColor) : null;
@@ -159,7 +172,7 @@ function Scene({
     };
   }, [backgroundColor, scene]);
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     const { minY, maxY } = boundsRef.current;
     const midY = (minY + maxY) * 0.5;
 
@@ -180,10 +193,12 @@ function Scene({
       const angle = bp * Math.PI * 0.17;
       const zoomT = easeOutCubic(Math.max(0, (bp - 0.85) / 0.15));
       const dist = baseDist - zoomT * 2.0;
-      camera.position.x = Math.sin(angle) * dist;
-      camera.position.z = Math.cos(angle) * dist;
-      camera.position.y = midY + 2.5 + bp * 0.4;
-      camera.lookAt(0, midY + mobileLookAtOffset, 0);
+      targetCameraPosition.current.set(
+        Math.sin(angle) * dist,
+        midY + 2.5 + bp * 0.4,
+        Math.cos(angle) * dist,
+      );
+      targetLookAt.current.set(0, midY + mobileLookAtOffset, 0);
     } else {
       // Orbit phase — normalise to 0→1 (occupies 50% of total scroll = slower)
       const op = (progress - BUILD_END) / (1 - BUILD_END);
@@ -197,21 +212,48 @@ function Scene({
       const heightBob = Math.sin(op * Math.PI) * 1.2;
       const dropAtEnd = easeOutCubic(Math.max(0, (op - 0.7) / 0.3)) * 2.4;
       const camY = midY + 2.9 + heightBob - dropAtEnd;
-      camera.position.x = Math.sin(orbitAngle) * orbitDist;
-      camera.position.z = Math.cos(orbitAngle) * orbitDist;
-      camera.position.y = camY;
       // LookAt target also rises as camera drops — creates upward tilt at the end
       const lookAtY = midY + mobileLookAtOffset + easeOutCubic(Math.max(0, (op - 0.7) / 0.3)) * (maxY - midY) * 0.8;
-      camera.lookAt(0, lookAtY, 0);
+      targetCameraPosition.current.set(
+        Math.sin(orbitAngle) * orbitDist,
+        camY,
+        Math.cos(orbitAngle) * orbitDist,
+      );
+      targetLookAt.current.set(0, lookAtY, 0);
     }
 
     // ── Clip plane: build completes by BUILD_END, stays fully open after ──
     const INITIAL_BUILD = 0.15;
     const buildProgress = Math.min(progress / BUILD_END, 1);
-    const rawT = easeOutCubic(buildProgress);
+    const rawT = smoothMotion ? smootherstep(buildProgress) : easeOutCubic(buildProgress);
     const buildT = INITIAL_BUILD + rawT * (1 - INITIAL_BUILD);
     const buffer = (maxY - minY) * 0.6 || 1.0;
-    clipPlane.constant = THREE.MathUtils.lerp(minY, maxY + buffer, buildT);
+    targetClipConstant.current = THREE.MathUtils.lerp(minY, maxY + buffer, buildT);
+
+    if (smoothMotion) {
+      if (!motionInitialized.current) {
+        camera.position.copy(targetCameraPosition.current);
+        smoothedLookAt.current.copy(targetLookAt.current);
+        camera.lookAt(smoothedLookAt.current);
+        clipPlane.constant = targetClipConstant.current;
+        motionInitialized.current = true;
+      } else {
+        const damping = 1 - Math.exp(-delta / 0.13);
+        camera.position.lerp(targetCameraPosition.current, damping);
+        smoothedLookAt.current.lerp(targetLookAt.current, damping);
+        camera.lookAt(smoothedLookAt.current);
+        clipPlane.constant = THREE.MathUtils.damp(
+          clipPlane.constant,
+          targetClipConstant.current,
+          8,
+          delta,
+        );
+      }
+    } else {
+      camera.position.copy(targetCameraPosition.current);
+      camera.lookAt(targetLookAt.current);
+      clipPlane.constant = targetClipConstant.current;
+    }
   });
 
   return (
@@ -249,21 +291,23 @@ function Scene({
         far={3}
       />
       {/* Perspective grid for depth — fades in with build progress */}
-      <Grid
-        position={[0, 0.58, 0]}
-        args={[100, 100]}
-        cellSize={0.6}
-        cellThickness={0.5}
-        cellColor="#8a7a68"
-        sectionSize={3}
-        sectionThickness={0.8}
-        sectionColor="#6b5a48"
-        fadeDistance={22}
-        fadeStrength={2.0}
-        followCamera={false}
-        infiniteGrid
-        renderOrder={-1}
-      />
+      {showGrid !== false ? (
+        <Grid
+          position={[0, 0.58, 0]}
+          args={[100, 100]}
+          cellSize={0.6}
+          cellThickness={0.5}
+          cellColor="#8a7a68"
+          sectionSize={3}
+          sectionThickness={0.8}
+          sectionColor="#6b5a48"
+          fadeDistance={22}
+          fadeStrength={2.0}
+          followCamera={false}
+          infiniteGrid
+          renderOrder={-1}
+        />
+      ) : null}
     </>
   );
 }
@@ -279,10 +323,16 @@ export function preloadHouseModel(isMobile: boolean) {
 export default function ScrollHouse({
   progress,
   backgroundColor,
+  smoothMotion,
+  showGrid,
 }: {
   progress: number;
   /** Optional test-only canvas background; omitted in production scenes. */
   backgroundColor?: string;
+  /** Test-only temporal damping; production scenes keep their original timing. */
+  smoothMotion?: boolean;
+  /** Test-only background cleanup; production scenes keep their grid. */
+  showGrid?: boolean;
 }) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
   const [modelReady, setModelReady] = useState(false);
@@ -365,6 +415,8 @@ export default function ScrollHouse({
             isMobile={isMobile}
             modelUrl={modelUrl}
             backgroundColor={backgroundColor}
+            smoothMotion={smoothMotion}
+            showGrid={showGrid}
           />
         </Canvas>
       )}
