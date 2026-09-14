@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
@@ -35,7 +36,9 @@ app.use("/api", router);
 
 
 // Раздача собранного фронтенда, когда сервер публикуется целиком.
+const runtimeDir = path.dirname(fileURLToPath(import.meta.url));
 const clientDir = [
+  path.resolve(runtimeDir, "public"),
   path.resolve(process.cwd(), "artifacts/stroy-doma/dist/public"),
   path.resolve(process.cwd(), "../stroy-doma/dist/public"),
   path.resolve(process.cwd(), "dist/public"),
