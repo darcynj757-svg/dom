@@ -253,6 +253,14 @@ function Scene({
   );
 }
 
+export function preloadHouseModel(isMobile: boolean) {
+  preloadDracoDecoder();
+  void getGltfPromise(getHouseModelUrl(isMobile)).catch(() => {
+    // The Suspense consumer will surface the cached loader error if rendering
+    // is attempted; this catch only prevents an unhandled prefetch rejection.
+  });
+}
+
 export default function ScrollHouse({ progress }: { progress: number }) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
   // Incrementing this key forces the Canvas to fully remount after context loss

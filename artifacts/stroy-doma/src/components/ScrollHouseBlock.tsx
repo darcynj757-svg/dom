@@ -80,30 +80,40 @@ export default function ScrollHouseBlock() {
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
 
-  // Start loading before the section reaches the viewport. The mobile model
-  // is smaller, but it still needs a head start on cellular connections.
+  // Warm the lazy 3D chunk, decoder, and model cache before the section reaches
+  // the viewport. The Canvas itself mounts only when the user enters the block.
   const [showHouse, setShowHouse] = useState(false);
   useEffect(() => {
     const el = houseRef.current;
     if (!el) return;
-    let activated = false;
+    let preloadStarted = false;
+    let mounted = false;
 
     const activateHouse = () => {
-      if (activated || window.scrollY <= 0) return;
+      if (window.scrollY <= 0) return;
       const rect = el.getBoundingClientRect();
-      if (rect.top > window.innerHeight * 1.5 || rect.bottom < -200) return;
+      if (rect.bottom < -200) return;
 
-      activated = true;
-      setShowHouse(true);
-      observer.disconnect();
-      window.removeEventListener("scroll", activateHouse);
+      if (!preloadStarted && rect.top <= window.innerHeight * 2) {
+        preloadStarted = true;
+        void import("@/components/3d/ScrollHouse").then(({ preloadHouseModel }) => {
+          preloadHouseModel(window.innerWidth < 768);
+        });
+      }
+
+      if (!mounted && rect.top <= window.innerHeight * 0.65) {
+        mounted = true;
+        setShowHouse(true);
+        observer.disconnect();
+        window.removeEventListener("scroll", activateHouse);
+      }
     };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) activateHouse();
       },
-      { rootMargin: "100% 0px 50% 0px" },
+      { rootMargin: "200% 0px 100% 0px" },
     );
     observer.observe(el);
     window.addEventListener("scroll", activateHouse, { passive: true });
@@ -122,15 +132,7 @@ export default function ScrollHouseBlock() {
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
           {showHouse ? (
-            <Suspense
-              fallback={
-                <div className="absolute inset-0 flex items-center justify-center bg-background/20">
-                  <span className="rounded-full bg-background/80 px-4 py-2 text-xs text-muted-foreground shadow-sm">
-                    Загружаем 3D-модель дома…
-                  </span>
-                </div>
-              }
-            >
+            <Suspense fallback={null}>
               <ScrollHouse progress={houseProgress} />
             </Suspense>
           ) : null}
