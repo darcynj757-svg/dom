@@ -14,7 +14,7 @@
     "check:production-routes": "node scripts/check-production-routes.mjs",
     "check:404": "node scripts/check-404.mjs",
     "check:first-screen:e2e": "node scripts/check-first-screen-e2e.mjs",
-    "test:seo": "node --test scripts/check-seo.test.mjs scripts/check-sitemap.test.mjs scripts/check-production-indexing.test.mjs",
+    "test:seo": "node --test scripts/check-seo.test.mjs scripts/check-sitemap.test.mjs scripts/check-production-indexing.test.mjs scripts/check-production-routes.test.mjs",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
