@@ -97,6 +97,11 @@ function getDracoLoader(): DRACOLoader {
   return _dracoLoader;
 }
 
+/** Start decoder loading when the below-the-fold 3D scene is activated. */
+export function preloadDracoDecoder() {
+  getDracoLoader().preload();
+}
+
 // ---------------------------------------------------------------------------
 // We load directly with GLTFLoader (bypassing useLoader cache) so the plugin
 // is guaranteed to be registered before .load() runs.

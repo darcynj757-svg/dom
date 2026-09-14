@@ -3,3 +3,4 @@
 - [Splash and lazy routes](splash-lazy-routes.md) — первый экран не должен зависеть только от одноразового события короткой заставки.
 - [Static preview route resolution](static-preview-routes.md) — локальный Vite preview может отдавать главную для вложенного URL без завершающего слеша.
 - [Sitemap canonical deduplication](sitemap-regressions.md) — при совпадении canonical path в sitemap выбирается канонический маршрут, а не alias.
+- [Mobile budget network checks](mobile-budget-network.md) — для больших lazy-ресурсов проверяй момент запроса, а не завершение загрузки под throttling.

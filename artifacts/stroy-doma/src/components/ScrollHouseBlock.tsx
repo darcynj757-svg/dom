@@ -114,7 +114,11 @@ export default function ScrollHouseBlock() {
   }, []);
 
   return (
-    <section ref={houseRef} className="relative h-[500vh]">
+    <section
+      ref={houseRef}
+      data-first-screen-3d
+      className="relative h-[500vh]"
+    >
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
           {showHouse && (

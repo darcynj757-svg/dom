@@ -2,7 +2,12 @@ import { useRef, useEffect, useState, useMemo, useCallback, Suspense, useLayoutE
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Grid } from "@react-three/drei";
 import * as THREE from "three";
-import { useGltfWithPlugin, hasWebGL, cloneGltfScene } from "./houseLoader";
+import {
+  useGltfWithPlugin,
+  hasWebGL,
+  cloneGltfScene,
+  preloadDracoDecoder,
+} from "./houseLoader";
 import { getGltfPromise } from "./houseLoader";
 
 // Stable config objects outside the component so r3f never sees a new reference
@@ -258,6 +263,9 @@ export default function ScrollHouse({ progress }: { progress: number }) {
 
   useEffect(() => {
     setWebglSupported(hasWebGL());
+    // Load the decoder in parallel with the model, but only after this
+    // below-the-fold component has been activated by an actual scroll.
+    preloadDracoDecoder();
     // Kick off the GLTF load immediately so it's ready when the canvas mounts
     getGltfPromise();
   }, []);
