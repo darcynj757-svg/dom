@@ -147,6 +147,7 @@ export default function Uslugi() {
         ? "Услуги Кедр Томск: полный цикл строительства деревянных домов и бань в Томске — проектирование, фундамент, монтаж сруба и отделка под ключ."
         : "Полный цикл строительства деревянных домов и бань в Томске: проектирование, фундамент, монтаж сруба, отделка под ключ. Кедр Томск с 2001 года.",
     canonical: "/services",
+    robots: location === "/uslugi" ? "noindex, follow" : undefined,
   });
   const isMobile = useIsMobile();
   const { sectionRef, y } = useHeroParallax();

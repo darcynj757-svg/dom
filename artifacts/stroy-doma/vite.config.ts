@@ -107,7 +107,7 @@ function seoHead(route: StaticSeoRoute) {
   return [
     `<title>${escapeHtml(title)}</title>`,
     `<meta name="description" content="${escapeHtml(route.description)}">`,
-    `<meta name="robots" content="index, follow">`,
+    `<meta name="robots" content="${route.indexable === false ? "noindex, follow" : "index, follow"}">`,
     `<link rel="canonical" href="${escapeHtml(canonicalUrl)}">`,
     `<meta property="og:title" content="${escapeHtml(title)}">`,
     `<meta property="og:description" content="${escapeHtml(route.description)}">`,

@@ -25,6 +25,7 @@ export type StaticSeoRoute = {
   h1: string;
   image?: string;
   canonical?: string;
+  indexable?: boolean;
   sitemap?: boolean;
   kind?: "Article" | "WebPage";
 };
@@ -67,6 +68,7 @@ const BASE_ROUTES: StaticSeoRoute[] = [
       "Услуги Кедр Томск: полный цикл строительства деревянных домов и бань в Томске — проектирование, фундамент, монтаж сруба и отделка под ключ.",
     h1: "Все услуги — от фундамента до чистовой отделки",
     canonical: "/services",
+    indexable: false,
   },
   {
     path: "/services/profilirovanny-brus",
@@ -89,6 +91,7 @@ const BASE_ROUTES: StaticSeoRoute[] = [
       "Производство профилированного бруса в Томске: кедр, сосна и лиственница, объём до 500 м³ в месяц. Немецкий профиль, финский станок.",
     h1: "Профилированный брус",
     canonical: "/production/profilirovanny-brus",
+    indexable: false,
   },
   {
     path: "/production/profilirovanny-brus",
@@ -147,6 +150,7 @@ const BASE_ROUTES: StaticSeoRoute[] = [
     description:
       "Условия проектирования, строительства, оплаты и гарантийного обслуживания деревянных домов и бань компании «Кедр Томск».",
     h1: "Условия использования сайта",
+    indexable: false,
     sitemap: false,
   },
 ];

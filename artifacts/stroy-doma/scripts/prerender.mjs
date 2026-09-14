@@ -158,7 +158,12 @@ function injectSeo(template, pathname, appHtml, seo) {
   }
 
   html = setMeta(html, "name", "description", seo.description ?? "");
-  html = setMeta(html, "name", "robots", seo.robots ?? "index, follow");
+  html = setMeta(
+    html,
+    "name",
+    "robots",
+    seo.robots ?? (seo.indexable === false ? "noindex, follow" : "index, follow"),
+  );
   html = setMeta(html, "property", "og:title", fullTitle);
   html = setMeta(html, "property", "og:description", seo.description ?? "");
   html = setMeta(html, "property", "og:type", pathname.startsWith("/articles/") ? "article" : "website");

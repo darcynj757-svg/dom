@@ -71,6 +71,7 @@ export default function ProductionProfBrus() {
         ? "Производство профилированного бруса в Томске: кедр, сосна и лиственница, объём до 500 м³ в месяц. Немецкий профиль, финский станок."
         : "Собственное производство профилированного бруса в Томске. Кедр, сосна, лиственница. Объём до 500 м³ в месяц. Немецкий профиль, финский станок.",
     canonical: "/production/profilirovanny-brus",
+    robots: location === "/production" ? "noindex, follow" : undefined,
   });
   const { sectionRef, y } = useHeroParallax();
   return (
