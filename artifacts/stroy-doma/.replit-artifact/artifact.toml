@@ -1,5 +1,5 @@
 kind = "web"
-previewPath = "/"
+previewPath = "/__stroy-doma/"
 title = "Строительство домов и бань"
 version = "1.0.0"
 id = "artifacts/stroy-doma"
@@ -11,7 +11,7 @@ version = "1.0.0"
 
 [[services]]
 name = "web"
-paths = [ "/" ]
+paths = [ "/__stroy-doma" ]
 localPort = 19912
 
 [services.development]
@@ -19,4 +19,4 @@ run = "pnpm --filter @workspace/stroy-doma run dev"
 
 [services.env]
 PORT = "19912"
-BASE_PATH = "/"
+BASE_PATH = "/__stroy-doma/"
