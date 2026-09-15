@@ -225,7 +225,10 @@ function Scene({
     // ── Clip plane: start with the foundation footprint visible, then build
     // through the same model as the user scrolls. Keeping this reveal small
     // makes the first loaded frame read as the foundation from the reference.
-    const INITIAL_BUILD = 0.2;
+    // The mobile GLB has a different vertical fit than desktop, so its
+    // foundation needs a higher initial reveal to remain visible on narrow
+    // screens instead of being clipped below the frame.
+    const INITIAL_BUILD = isMobile ? 0.3 : 0.2;
     const buildProgress = Math.min(progress / BUILD_END, 1);
     const rawT = smoothMotion ? smootherstep(buildProgress) : easeOutCubic(buildProgress);
     const buildT = INITIAL_BUILD + rawT * (1 - INITIAL_BUILD);
