@@ -496,3 +496,17 @@ mtime_ms = 1789492344075
 storage_uri = "gcs://replit-rams-assets-archer/rams/assets/repl:bb9b31a7-449d-4a10-8044-5ec9c3aa72b1/fe6f9587-1da7-42eb-8800-03a00de3e815/bad58ded-4b8d-425f-8360-4ddc360a3b03"
 storage_version_token = "1789492352336902"
 content_type = "video/mp4"
+
+[[outputs]]
+id = "lYlnMDY53EkNaXMy1LwDP"
+uri = "file://artifacts/stroy-doma/public/videos/house-same-model-scroll.mp4"
+type = "video"
+title = "Scroll Hero с тем же домом из GLB"
+description = "15-секундный 16:9 ролик, записанный с той же GLB-модели, что на вашем скриншоте. 1920×1080, 30 fps, H.264; отдельный маршрут управляет кадром через прокрутку."
+logical_id = "76fd5352-b61f-49ad-947d-5dea309c80d6"
+content_hash = "sha256:d5ed255459f8c846f438e7b85442d30ae341eead28120915ceb9a961d1317610"
+size = 3353365
+mtime_ms = 1789492903753
+storage_uri = "gcs://replit-rams-assets-archer/rams/assets/repl:bb9b31a7-449d-4a10-8044-5ec9c3aa72b1/76fd5352-b61f-49ad-947d-5dea309c80d6/57cf7f86-9a42-40f9-81ba-a72b412b005c"
+storage_version_token = "1789492981584948"
+content_type = "video/mp4"

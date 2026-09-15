@@ -1,41 +1,41 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, Camera, Film, Pause, Play } from "lucide-react";
 
-const VIDEO_SRC = `${import.meta.env.BASE_URL}videos/cinematic-site-construction-test.mp4`;
-const POSTER_SRC = `${import.meta.env.BASE_URL}posters/cinematic-site-construction-test.jpg`;
+const VIDEO_SRC = `${import.meta.env.BASE_URL}videos/house-same-model-scroll.mp4`;
+const POSTER_SRC = `${import.meta.env.BASE_URL}posters/house-same-model-scroll.jpg`;
 const FALLBACK_DURATION = 15;
 
 const PHASES = [
   {
     label: "Фундамент",
-    eyebrow: "01 / Проект и фундамент",
-    title: "Начинаем с участка",
-    body: "Изучаем место, проектируем дом и закладываем основание, на котором он будет стоять десятилетиями.",
-    detail: "Планировка · фасады · точная смета",
+    eyebrow: "01 / Фундамент",
+    title: "Начинаем с основания",
+    body: "Первым появляется фундамент — точная опора для дома, который будет служить десятилетиями.",
+    detail: "Монолитный ж/б · глубина 1,8 м · арматура ø12 мм",
     start: 0,
   },
   {
-    label: "Кедр",
-    eyebrow: "02 / Заготовка кедра",
-    title: "Выбираем правильное дерево",
-    body: "Отбираем зимний сибирский кедр нужного диаметра и готовим каждое бревно для будущего сруба.",
-    detail: "Зимний лес · ручная тёска · канадская чаша",
+    label: "Лаги пола",
+    eyebrow: "02 / Лаги пола",
+    title: "Собираем основу дома",
+    body: "На фундамент устанавливаем лаги пола — прочную и ровную основу для первого венца.",
+    detail: "Лиственница 50×200 мм · шаг 600 мм · антисептик",
     start: 0.25,
   },
   {
-    label: "Сруб",
-    eyebrow: "03 / Сборка сруба",
+    label: "Стены",
+    eyebrow: "03 / Стены",
     title: "Дом растёт по венцам",
-    body: "Собираем стены, перекрытия и кровлю, затем камера проходит внутрь — туда, где появится ваша гостиная.",
-    detail: "Стены · второй этаж · тёплый контур",
+    body: "Профилированный брус поднимается слой за слоем, формируя тёплый контур и силуэт будущего дома.",
+    detail: "Кедр сибирский · брус 150×200 мм · межвенцовый утеплитель",
     start: 0.5,
   },
   {
-    label: "Ключи",
-    eyebrow: "04 / Отделка и ключи",
-    title: "Заходите. Это ваш дом.",
-    body: "Завершаем инженерные работы и отделку, вылетаем на террасу и показываем готовый дом в лесу.",
-    detail: "Окна · камин · инженерия · ключи",
+    label: "Кровля",
+    eyebrow: "04 / Кровля и облёт",
+    title: "Силуэт дома готов",
+    body: "Последний слой — кровля. Камера облетает тот же дом и показывает его готовую форму со всех сторон.",
+    detail: "Металлочерепица · обрешётка · гидробарьер",
     start: 0.75,
   },
 ];
@@ -102,15 +102,15 @@ export default function HouseVideoScrollTest() {
             Стройка на реальном участке
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#b7beb5] md:text-base">
-            Четыре главы строительства в одном scroll Hero: от участка и первого венца до
-            интерьера и готового дома.
+            Четыре главы строительства в одном scroll Hero. В ролике используется та же GLB-модель,
+            что и в текущем 3D-блоке.
           </p>
         </div>
         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#b7beb5]">
           <span className="rounded-full border border-[#d8bc78]/35 bg-[#d8bc78]/10 px-3 py-1.5 text-[#e8d498]">
             16:9
           </span>
-          <span className="rounded-full border border-white/10 px-3 py-1.5">Video / no WebGL</span>
+          <span className="rounded-full border border-white/10 px-3 py-1.5">Same GLB / video</span>
         </div>
       </header>
 

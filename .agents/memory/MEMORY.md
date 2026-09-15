@@ -12,3 +12,4 @@
 - [Deployment health endpoint](deployment-health-endpoint.md) — autoscale healthcheck probes `/api`, поэтому mount point должен возвращать 200 помимо `/api/healthz`.
 - [WebGL preview limits](webgl-preview-limits.md) — браузер автоматического mobile-теста может не иметь WebGL; это не подтверждает поведение 3D на реальном телефоне.
 - [Video frame validation](video-frame-validation.md) — для сгенерированных MP4 проверяй реальные изменения кадров, а не только FPS и длительность.
+- [House visual source of truth](house-visual-source.md) — для новых cinematic-вариантов архитектуру дома нужно якорить на текущей GLB-модели.
