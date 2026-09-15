@@ -225,7 +225,7 @@ function Scene({
     // ── Clip plane: start with the foundation footprint visible, then build
     // through the same model as the user scrolls. Keeping this reveal small
     // makes the first loaded frame read as the foundation from the reference.
-    const INITIAL_BUILD = 0.08;
+    const INITIAL_BUILD = 0.2;
     const buildProgress = Math.min(progress / BUILD_END, 1);
     const rawT = smoothMotion ? smootherstep(buildProgress) : easeOutCubic(buildProgress);
     const buildT = INITIAL_BUILD + rawT * (1 - INITIAL_BUILD);
