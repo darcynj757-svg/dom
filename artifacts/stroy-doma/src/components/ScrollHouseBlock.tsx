@@ -86,8 +86,9 @@ export default function ScrollHouseBlock() {
     Math.floor(buildProgress * CONSTRUCTION_LAYERS.length),
   );
 
-  // Warm the lazy 3D chunk, decoder, and model cache before the section reaches
-  // the viewport. The Canvas itself mounts only when the user enters the block.
+  // Warm the lazy 3D chunk, decoder, and model cache after Hero has mounted.
+  // The Canvas itself still mounts only when the user enters the block, so
+  // Hero does not pay for a second visible WebGL surface.
   const [showHouse, setShowHouse] = useState(false);
   useEffect(() => {
     const el = houseRef.current;
@@ -95,16 +96,21 @@ export default function ScrollHouseBlock() {
     let preloadStarted = false;
     let mounted = false;
 
+    const preloadHouse = () => {
+      if (preloadStarted) return;
+      preloadStarted = true;
+      void import("@/components/3d/ScrollHouse").then(({ preloadHouseModel }) => {
+        preloadHouseModel(window.innerWidth < 768);
+      });
+    };
+
     const activateHouse = () => {
       if (window.scrollY <= 0) return;
       const rect = el.getBoundingClientRect();
       if (rect.bottom < -200) return;
 
       if (!preloadStarted && rect.top <= window.innerHeight * 2) {
-        preloadStarted = true;
-        void import("@/components/3d/ScrollHouse").then(({ preloadHouseModel }) => {
-          preloadHouseModel(window.innerWidth < 768);
-        });
+        preloadHouse();
       }
 
        if (!mounted && rect.top <= window.innerHeight * 0.9) {
@@ -123,7 +129,11 @@ export default function ScrollHouseBlock() {
     );
     observer.observe(el);
     window.addEventListener("scroll", activateHouse, { passive: true });
+    // Start preparing the model after the Hero's first effect/paint. This
+    // makes the first 3D frame ready before a normal user reaches the block.
+    const preloadTimer = window.setTimeout(preloadHouse, 0);
     return () => {
+      window.clearTimeout(preloadTimer);
       observer.disconnect();
       window.removeEventListener("scroll", activateHouse);
     };
