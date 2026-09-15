@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, Camera, Film, Pause, Play } from "lucide-react";
 
-const VIDEO_SRC = `${import.meta.env.BASE_URL}videos/house-same-model-scroll.mp4`;
-const POSTER_SRC = `${import.meta.env.BASE_URL}posters/house-same-model-scroll.jpg`;
+const VIDEO_SRC = `${import.meta.env.BASE_URL}videos/cinematic-site-construction-test.mp4`;
+const POSTER_SRC = `${import.meta.env.BASE_URL}posters/cinematic-site-construction-test.jpg`;
 const FALLBACK_DURATION = 15;
 
 const PHASES = [
@@ -102,15 +102,15 @@ export default function HouseVideoScrollTest() {
             Стройка на реальном участке
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#b7beb5] md:text-base">
-            Четыре главы строительства в одном scroll Hero. В ролике используется та же GLB-модель,
-            что и в текущем 3D-блоке.
+            Временный cinematic fallback для проверки scroll Hero. Production HERO и текущая
+            3D-модель остаются без изменений.
           </p>
         </div>
         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#b7beb5]">
           <span className="rounded-full border border-[#d8bc78]/35 bg-[#d8bc78]/10 px-3 py-1.5 text-[#e8d498]">
             16:9
           </span>
-          <span className="rounded-full border border-white/10 px-3 py-1.5">Same GLB / video</span>
+          <span className="rounded-full border border-white/10 px-3 py-1.5">Fallback video</span>
         </div>
       </header>
 
