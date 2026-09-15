@@ -482,3 +482,17 @@ mtime_ms = 1789414835332
 storage_uri = "gcs://replit-rams-assets-archer/rams/assets/repl:bb9b31a7-449d-4a10-8044-5ec9c3aa72b1/60c7fe33-7a8c-4559-9559-d95a734f64af/decbb04d-7b0b-4e5c-b522-f46a4eddc0f4"
 storage_version_token = "1789415090102498"
 content_type = "video/mp4"
+
+[[outputs]]
+id = "u20rdgIyFmEdaPhdp0mSQ"
+uri = "file://artifacts/stroy-doma/public/videos/kedr-chapter-01-five-sec-test.mp4"
+type = "video"
+title = "5-секундный тест cinematic-сцены"
+description = "Короткое 16:9-превью для проверки темпа, плавности и будущей scroll-связки. 1920×1080, 24 fps, H.264."
+logical_id = "fe6f9587-1da7-42eb-8800-03a00de3e815"
+content_hash = "sha256:fbd9ac1822058b9ab48ab02a064f385c65767c3cf3de3eca69f5010c6e2a4eea"
+size = 6545231
+mtime_ms = 1789492344075
+storage_uri = "gcs://replit-rams-assets-archer/rams/assets/repl:bb9b31a7-449d-4a10-8044-5ec9c3aa72b1/fe6f9587-1da7-42eb-8800-03a00de3e815/bad58ded-4b8d-425f-8360-4ddc360a3b03"
+storage_version_token = "1789492352336902"
+content_type = "video/mp4"
