@@ -107,7 +107,7 @@ export default function ScrollHouseBlock() {
         });
       }
 
-      if (!mounted && rect.top <= window.innerHeight * 0.65) {
+       if (!mounted && rect.top <= window.innerHeight * 0.9) {
         mounted = true;
         setShowHouse(true);
         observer.disconnect();
@@ -236,7 +236,9 @@ export default function ScrollHouseBlock() {
             Math.floor(normalised * CONSTRUCTION_LAYERS.length),
           );
           const layer = CONSTRUCTION_LAYERS[bestIdx];
-          const isVisible = houseProgress > 0.01;
+           // The section should open on the foundation card immediately;
+           // the first construction stage is not hidden behind a scroll tick.
+           const isVisible = true;
           return (
             <div
               className="absolute z-[15] pointer-events-none inset-x-0 flex justify-center md:hidden"
