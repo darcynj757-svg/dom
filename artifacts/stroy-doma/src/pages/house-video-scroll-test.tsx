@@ -6,10 +6,38 @@ const POSTER_SRC = `${import.meta.env.BASE_URL}posters/cinematic-site-constructi
 const FALLBACK_DURATION = 15;
 
 const PHASES = [
-  { label: "Участок", start: 0 },
-  { label: "Строительство", start: 0.28 },
-  { label: "Готовый дом", start: 0.58 },
-  { label: "Облёт", start: 0.82 },
+  {
+    label: "Фундамент",
+    eyebrow: "01 / Проект и фундамент",
+    title: "Начинаем с участка",
+    body: "Изучаем место, проектируем дом и закладываем основание, на котором он будет стоять десятилетиями.",
+    detail: "Планировка · фасады · точная смета",
+    start: 0,
+  },
+  {
+    label: "Кедр",
+    eyebrow: "02 / Заготовка кедра",
+    title: "Выбираем правильное дерево",
+    body: "Отбираем зимний сибирский кедр нужного диаметра и готовим каждое бревно для будущего сруба.",
+    detail: "Зимний лес · ручная тёска · канадская чаша",
+    start: 0.25,
+  },
+  {
+    label: "Сруб",
+    eyebrow: "03 / Сборка сруба",
+    title: "Дом растёт по венцам",
+    body: "Собираем стены, перекрытия и кровлю, затем камера проходит внутрь — туда, где появится ваша гостиная.",
+    detail: "Стены · второй этаж · тёплый контур",
+    start: 0.5,
+  },
+  {
+    label: "Ключи",
+    eyebrow: "04 / Отделка и ключи",
+    title: "Заходите. Это ваш дом.",
+    body: "Завершаем инженерные работы и отделку, вылетаем на террасу и показываем готовый дом в лесу.",
+    detail: "Окна · камин · инженерия · ключи",
+    start: 0.75,
+  },
 ];
 
 function getPhase(progress: number) {
@@ -74,8 +102,8 @@ export default function HouseVideoScrollTest() {
             Стройка на реальном участке
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#b7beb5] md:text-base">
-            Альтернатива live 3D-модели: обычное плавное видео с природным фоном, кадр которого
-            привязан к прокрутке страницы.
+            Четыре главы строительства в одном scroll Hero: от участка и первого венца до
+            интерьера и готового дома.
           </p>
         </div>
         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#b7beb5]">
@@ -110,12 +138,24 @@ export default function HouseVideoScrollTest() {
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-black/20" />
 
             <div className="absolute left-[5%] top-[7%]">
-              <div className="flex items-center gap-2 text-[clamp(8px,0.7vw,12px)] font-bold uppercase tracking-[0.24em] text-white/75">
+              <div
+                data-house-slide-eyebrow
+                className="flex items-center gap-2 text-[clamp(8px,0.7vw,12px)] font-bold uppercase tracking-[0.24em] text-white/75"
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-[#d8bc78]" />
-                Kedr / Tomsk
+                {phase.eyebrow}
               </div>
-              <div className="mt-2 max-w-[70vw] font-display text-[clamp(20px,3.2vw,52px)] font-black leading-none tracking-[-0.05em]">
-                {phase.label}
+              <div
+                data-house-slide-title
+                className="mt-2 max-w-[70vw] font-display text-[clamp(20px,3.2vw,52px)] font-black leading-none tracking-[-0.05em]"
+              >
+                {phase.title}
+              </div>
+              <p className="mt-3 max-w-[34rem] text-[clamp(11px,1.1vw,17px)] leading-relaxed text-white/80">
+                {phase.body}
+              </p>
+              <div className="mt-3 text-[clamp(8px,0.62vw,11px)] font-bold uppercase tracking-[0.16em] text-[#e8d498]">
+                {phase.detail}
               </div>
             </div>
 
