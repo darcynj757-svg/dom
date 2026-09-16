@@ -288,7 +288,7 @@ export default function ScrollHouseBlock() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                className="ml-auto w-full max-w-[360px] rounded-[18px] border-2 border-secondary/65 bg-background/85 px-4 py-3 shadow-lg shadow-secondary/10 backdrop-blur-md"
+                className="ml-auto w-full max-w-[360px] rounded-[18px] border-2 border-secondary/65 bg-background/90 px-4 py-3 shadow-lg shadow-secondary/10 backdrop-blur-md"
               >
                 <div className="flex items-start gap-2.5">
                   <span
