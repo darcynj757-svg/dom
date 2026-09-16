@@ -98,6 +98,7 @@ export default function ScrollHouseBlock() {
   // The Canvas itself still mounts only when the user enters the block, so
   // Hero does not pay for a second visible WebGL surface.
   const [showHouse, setShowHouse] = useState(false);
+  const [mobileModelHint, setMobileModelHint] = useState<boolean | null>(null);
   useEffect(() => {
     const el = houseRef.current;
     if (!el) return;
@@ -107,12 +108,14 @@ export default function ScrollHouseBlock() {
     const preloadHouse = () => {
       if (preloadStarted) return;
       preloadStarted = true;
+      const isMobile = window.innerWidth < 768;
       // Mount the Canvas while the 3D section is still below the viewport.
       // Preloading only the GLB is not enough: WebGL context creation and
       // Suspense resolution can still cause a blank grid at the transition.
+      setMobileModelHint(isMobile);
       setShowHouse(true);
       void import("@/components/3d/ScrollHouse").then(({ preloadHouseModel }) => {
-        preloadHouseModel(window.innerWidth < 768);
+        preloadHouseModel(isMobile);
       });
     };
 
@@ -159,11 +162,12 @@ export default function ScrollHouseBlock() {
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
-          {showHouse ? (
+          {showHouse && mobileModelHint !== null ? (
             <div className="absolute inset-0 z-[5]">
               <Suspense fallback={null}>
                 <ScrollHouse
                   progress={houseProgress}
+                  mobileHint={mobileModelHint}
                 />
               </Suspense>
             </div>
