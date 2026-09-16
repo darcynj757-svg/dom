@@ -22,7 +22,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Фундамент",
     description:
       "Размечаем оси дома, подготавливаем грунт и собираем арматурный каркас. После заливки бетон набирает прочность, а основание защищаем от влаги.",
-    mobileDescription: "Закладываем прочное основание для будущего дома.",
+    mobileDescription: "Готовим прочное основание и защищаем его от влаги.",
     side: "left" as const,
     from: 0.04,
     to: 0.17,
@@ -34,7 +34,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Лаги пола",
     description:
       "После гидроизоляции укладываем лаги и выравниваем плоскость пола. Между ними закладываем утепление, чтобы первый венец дома стоял на сухом и ровном основании.",
-    mobileDescription: "Утепляем основание, чтобы в доме было сухо и тепло.",
+    mobileDescription: "Укладываем лаги и утепление для тёплого и ровного пола.",
     side: "right" as const,
     from: 0.14,
     to: 0.26,
@@ -46,7 +46,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Стены",
     description:
       "Каждый венец собираем по проекту, соединяем углы и прокладываем межвенцовый утеплитель. Постепенно появляются комнаты, проёмы, терраса и силуэт дома.",
-    mobileDescription: "Собираем стены венец за венцом — точно и надёжно.",
+    mobileDescription: "Собираем стены венец за венцом, проверяя каждое соединение.",
     side: "left" as const,
     from: 0.22,
     to: 0.42,
@@ -58,7 +58,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Кровля",
     description:
       "Устанавливаем стропильную систему, защищаем утеплитель от влаги и монтируем кровельное покрытие. После этого дом закрыт от осадков и готов к инженерным работам.",
-    mobileDescription: "Устанавливаем кровлю и защищаем дом от непогоды.",
+    mobileDescription: "Монтируем кровлю и защищаем дом от дождя, снега и ветра.",
     side: "right" as const,
     from: 0.37,
     to: 0.52,
@@ -288,11 +288,11 @@ export default function ScrollHouseBlock() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                className="ml-auto w-full max-w-[360px] rounded-[18px] border-2 border-secondary/65 bg-background/90 px-4 py-3 shadow-lg shadow-secondary/10 backdrop-blur-md"
+                className="ml-auto w-full max-w-[360px] rounded-2xl border-2 border-secondary/65 bg-background/90 px-3.5 py-2.5 shadow-lg shadow-secondary/10 backdrop-blur-md"
               >
-                <div className="flex items-start gap-2.5">
+                <div className="flex items-start gap-2">
                   <span
-                    className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+                    className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                       isBuilt
                         ? "bg-secondary text-secondary-foreground"
                         : "border border-secondary text-secondary"
@@ -301,15 +301,15 @@ export default function ScrollHouseBlock() {
                     {isBuilt ? "✓" : activeLayerIndex + 1}
                   </span>
                   <div className="min-w-0">
-                    <div className="font-display text-xl font-black leading-none tracking-tight text-foreground">
+                    <div className="font-display text-lg font-black leading-none tracking-tight text-foreground">
                       {layer.label}
                     </div>
-                    <div className="mt-1.5 line-clamp-2 text-base font-medium leading-snug text-foreground/75">
+                    <div className="mt-1 line-clamp-2 text-sm font-medium leading-5 text-foreground/75">
                       {layer.mobileDescription}
                     </div>
                   </div>
                 </div>
-                <div className="mt-3 h-1 overflow-hidden rounded-full bg-secondary/15">
+                <div className="mt-2.5 h-1 overflow-hidden rounded-full bg-secondary/15">
                   <div
                     className="h-full rounded-full bg-secondary transition-[width] duration-150"
                     style={{ width: `${progressInLayer}%` }}
