@@ -205,7 +205,7 @@ export default function ScrollHouseBlock() {
         {/* ── Construction layer annotations — fixed panel ───────────────── */}
         {/* The same progressive construction map stays visible on desktop and mobile. */}
         <div className="absolute z-[15] pointer-events-none
-          inset-x-6 top-[17%] flex max-w-[420px] ml-auto flex-col gap-2
+          inset-x-6 top-[17%] flex max-h-[50vh] max-w-[420px] ml-auto flex-col gap-2 overflow-hidden
           md:inset-x-auto md:right-3 md:top-1/2 md:w-52 md:max-w-none md:-translate-y-1/2"
         >
           {CONSTRUCTION_LAYERS.map((layer, layerIndex) => {
@@ -216,7 +216,7 @@ export default function ScrollHouseBlock() {
             return (
               <div
                 key={layer.label}
-                  className={`relative w-full bg-background/90 backdrop-blur-sm border rounded-2xl px-3 py-2.5 shadow-lg transition-all duration-300 ${
+                  className={`relative w-full bg-background backdrop-blur-sm border rounded-xl px-3 py-2 shadow-lg transition-all duration-300 md:rounded-2xl md:bg-background/90 md:px-3 md:py-2.5 ${
                   isActive
                      ? "border-secondary shadow-secondary/25 scale-[1.03]"
                      : isUpcoming
@@ -237,18 +237,18 @@ export default function ScrollHouseBlock() {
                     {isBuilt ? "✓" : layerIndex + 1}
                   </span>
                   <div className="min-w-0">
-                    <div className="font-display text-sm font-bold text-foreground leading-tight">
+                    <div className="font-display text-xs font-bold text-foreground leading-tight md:text-sm">
                       {layer.label}
                     </div>
-                    <div className="text-xs text-secondary font-semibold mt-0.5">
+                    <div className="text-[11px] text-secondary font-semibold mt-0.5 md:text-xs">
                       {layer.sub}
                     </div>
-                    <div className="text-[11px] text-muted-foreground mt-0.5">
+                    <div className="text-[10px] text-muted-foreground mt-0.5 md:text-[11px]">
                       {layer.detail}
                     </div>
                     <div
-                      className={`overflow-hidden text-[11px] leading-relaxed text-foreground/75 transition-all duration-300 ${
-                        isActive ? "mt-2 max-h-24 opacity-100" : "mt-0 max-h-0 opacity-0"
+                      className={`line-clamp-3 overflow-hidden text-[10px] leading-snug text-foreground/75 transition-all duration-300 md:text-[11px] md:leading-relaxed ${
+                        isActive ? "mt-1 max-h-12 opacity-100 md:mt-2 md:max-h-24" : "mt-0 max-h-0 opacity-0"
                       }`}
                     >
                       {layer.description}
