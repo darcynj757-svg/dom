@@ -39,8 +39,8 @@ function smootherstep(t: number) {
 type Bounds = { minY: number; maxY: number };
 
 const HOUSE_FINISH_START = 0.70;
-const WHITE_PAINT_START = 0.84;
-const WHITE_PAINT_COLOR = new THREE.Color("#ffffff");
+const VARNISH_START = 0.84;
+const VARNISH_ROUGHNESS = 0.22;
 const DELAYED_PART_MATERIALS = new Set([
   // Roof structure and dark roofing surface.
   "Material15",
@@ -64,15 +64,17 @@ type DelayedMesh = {
   materials: DelayedMaterial[];
 };
 
-type PaintableMaterial = THREE.Material & {
+type VarnishableMaterial = THREE.Material & {
   color?: THREE.Color;
-  map?: THREE.Texture | null;
+  roughness?: number;
+  envMapIntensity?: number;
 };
 
-type WhitePaintTarget = {
-  material: PaintableMaterial;
+type VarnishTarget = {
+  material: VarnishableMaterial;
   baseColor: THREE.Color;
-  paintUniform?: { value: number };
+  baseRoughness?: number;
+  baseEnvMapIntensity?: number;
 };
 
 function useIsMobile(initialValue = false) {
@@ -127,8 +129,8 @@ function HouseModel({
     });
     return parts;
   }, [scene]);
-  const whitePaintTargets = useMemo<WhitePaintTarget[]>(() => {
-    const targets: WhitePaintTarget[] = [];
+  const varnishTargets = useMemo<VarnishTarget[]>(() => {
+    const targets: VarnishTarget[] = [];
 
     scene.traverse((child) => {
       const mesh = child as THREE.Mesh;
@@ -137,30 +139,16 @@ function HouseModel({
       const materialName = mesh.name.replace(/_\d+$/, "");
       if (DELAYED_PART_MATERIALS.has(materialName)) return;
 
-      const materials = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as PaintableMaterial[];
+      const materials = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as VarnishableMaterial[];
       materials.forEach((material) => {
         if (!material.color?.isColor) return;
 
-        const target: WhitePaintTarget = {
+        targets.push({
           material,
           baseColor: material.color.clone(),
-        };
-
-        if (material.map) {
-          const baseOnBeforeCompile = material.onBeforeCompile;
-          material.onBeforeCompile = (shader, renderer) => {
-            baseOnBeforeCompile(shader, renderer);
-            shader.uniforms.houseWhitePaint = { value: 0 };
-            shader.fragmentShader = `uniform float houseWhitePaint;\n${shader.fragmentShader.replace(
-              "#include <map_fragment>",
-              '#include <map_fragment>\n diffuseColor.rgb = mix(diffuseColor.rgb, vec3(1.0), houseWhitePaint);',
-            )}`;
-            target.paintUniform = shader.uniforms.houseWhitePaint;
-          };
-          material.needsUpdate = true;
-        }
-
-        targets.push(target);
+          baseRoughness: material.roughness,
+          baseEnvMapIntensity: material.envMapIntensity,
+        });
       });
     });
 
@@ -234,9 +222,9 @@ function HouseModel({
       1,
     );
     const reveal = easeInOutCubic(finishProgress);
-    const whitePaintProgress = smootherstep(
+    const varnishProgress = smootherstep(
       THREE.MathUtils.clamp(
-        (progress - WHITE_PAINT_START) / (1 - WHITE_PAINT_START),
+        (progress - VARNISH_START) / (1 - VARNISH_START),
         0,
         1,
       ),
@@ -254,9 +242,25 @@ function HouseModel({
       });
     });
 
-    whitePaintTargets.forEach(({ material, baseColor, paintUniform }) => {
-      material.color?.copy(baseColor).lerp(WHITE_PAINT_COLOR, whitePaintProgress);
-      if (paintUniform) paintUniform.value = whitePaintProgress;
+    varnishTargets.forEach(({ material, baseColor, baseRoughness, baseEnvMapIntensity }) => {
+      material.color?.copy(baseColor);
+      if (typeof baseRoughness === "number" && typeof material.roughness === "number") {
+        material.roughness = THREE.MathUtils.lerp(
+          baseRoughness,
+          Math.min(baseRoughness, VARNISH_ROUGHNESS),
+          varnishProgress,
+        );
+      }
+      if (
+        typeof baseEnvMapIntensity === "number" &&
+        typeof material.envMapIntensity === "number"
+      ) {
+        material.envMapIntensity = THREE.MathUtils.lerp(
+          baseEnvMapIntensity,
+          Math.max(baseEnvMapIntensity, 1.15),
+          varnishProgress,
+        );
+      }
     });
   });
 
