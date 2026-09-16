@@ -6,6 +6,7 @@
 - [Sitemap canonical deduplication](sitemap-regressions.md) — при совпадении canonical path в sitemap выбирается канонический маршрут, а не alias.
 - [Mobile budget network checks](mobile-budget-network.md) — для больших lazy-ресурсов проверяй момент запроса, а не завершение загрузки под throttling.
 - [Mobile media fallbacks](mobile-media-fallbacks.md) — для тяжёлых hero/3D-ресурсов используй отдельные mobile-ассеты и видимый fallback до готовности.
+- [Mobile GLB compression](mobile-glb-optimization.md) — уже Draco-сжатый mobile GLB лучше повторно сжимать glTF Transform, а не gltf-pipeline.
 - [SEO image references](seo-image-references.md) — prerender может оставлять Vite `/@fs` и encoded Unicode asset URLs; проверяй и переписывай их до публикации.
 - [Mixed deployment assets](mixed-deployment-assets.md) — при отключении static handler frontend нужно собирать production и включать `dist/public` в API runtime.
 - [Crawler resource headers](crawler-resource-headers.md) — robots.txt и sitemap.xml должны получать явные Content-Type в реальном API runtime, а не только в preflight mock-server.
