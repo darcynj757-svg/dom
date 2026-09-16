@@ -330,6 +330,7 @@ export default function ScrollHouse({
   backgroundColor,
   smoothMotion,
   showGrid,
+  onReady,
 }: {
   progress: number;
   /** Optional test-only canvas background; omitted in production scenes. */
@@ -338,6 +339,8 @@ export default function ScrollHouse({
   smoothMotion?: boolean;
   /** Test-only background cleanup; production scenes keep their grid. */
   showGrid?: boolean;
+  /** Called when the selected GLB is mounted and ready to render. */
+  onReady?: () => void;
 }) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
   const [modelReady, setModelReady] = useState(false);
@@ -359,7 +362,8 @@ export default function ScrollHouse({
   }, []);
   const handleModelReady = useCallback(() => {
     setModelReady(true);
-  }, []);
+    onReady?.();
+  }, [onReady]);
   useEffect(() => {
     setModelReady(false);
     setWebglSupported(hasWebGL());

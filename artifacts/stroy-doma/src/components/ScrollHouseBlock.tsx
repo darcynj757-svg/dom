@@ -93,12 +93,12 @@ export default function ScrollHouseBlock() {
 
   const { scrollYProgress } = useScroll({ target: houseRef, offset: ["start start", "end end"] });
   const [houseProgress, setHouseProgress] = useState(0);
+  const [houseReady, setHouseReady] = useState(false);
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setHouseProgress(Math.min(Math.max(v, 0), 1));
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
   const BUILD_END = 0.5;
-  const FOUNDATION_PREVIEW_END = 0.06;
   const buildProgress = Math.min(houseProgress / BUILD_END, 1);
   const activeLayerIndex = Math.min(
     CONSTRUCTION_LAYERS.length - 1,
@@ -170,12 +170,17 @@ export default function ScrollHouseBlock() {
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
+          <FoundationFallback visible={!houseReady} />
           {showHouse ? (
-            <Suspense fallback={null}>
-              <ScrollHouse progress={houseProgress} />
-            </Suspense>
+            <div className="absolute inset-0 z-[5]">
+              <Suspense fallback={null}>
+                <ScrollHouse
+                  progress={houseProgress}
+                  onReady={() => setHouseReady(true)}
+                />
+              </Suspense>
+            </div>
           ) : null}
-          <FoundationFallback visible={houseProgress <= FOUNDATION_PREVIEW_END} />
         </motion.div>
         <div
           className="absolute inset-x-0 top-12 flex flex-col items-center text-center pointer-events-none px-4 z-10"
