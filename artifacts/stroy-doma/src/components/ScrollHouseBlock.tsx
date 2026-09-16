@@ -22,7 +22,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Фундамент",
     description:
       "Размечаем оси дома, подготавливаем грунт и собираем арматурный каркас. После заливки бетон набирает прочность, а основание защищаем от влаги.",
-    mobileDescription: "Готовим фундамент, который выдержит дом.",
+    mobileDescription: "Закладываем прочное основание для будущего дома.",
     side: "left" as const,
     from: 0.04,
     to: 0.17,
@@ -34,7 +34,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Лаги пола",
     description:
       "После гидроизоляции укладываем лаги и выравниваем плоскость пола. Между ними закладываем утепление, чтобы первый венец дома стоял на сухом и ровном основании.",
-    mobileDescription: "Укладываем лаги и утепление, чтобы пол был сухим и тёплым.",
+    mobileDescription: "Утепляем основание, чтобы в доме было сухо и тепло.",
     side: "right" as const,
     from: 0.14,
     to: 0.26,
@@ -46,7 +46,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Стены",
     description:
       "Каждый венец собираем по проекту, соединяем углы и прокладываем межвенцовый утеплитель. Постепенно появляются комнаты, проёмы, терраса и силуэт дома.",
-    mobileDescription: "Собираем стены венец за венцом, создавая тёплый и прочный дом.",
+    mobileDescription: "Собираем стены венец за венцом — точно и надёжно.",
     side: "left" as const,
     from: 0.22,
     to: 0.42,
@@ -58,7 +58,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Кровля",
     description:
       "Устанавливаем стропильную систему, защищаем утеплитель от влаги и монтируем кровельное покрытие. После этого дом закрыт от осадков и готов к инженерным работам.",
-    mobileDescription: "Монтируем крышу и защищаем дом от осадков.",
+    mobileDescription: "Устанавливаем кровлю и защищаем дом от непогоды.",
     side: "right" as const,
     from: 0.37,
     to: 0.52,
@@ -323,7 +323,7 @@ export default function ScrollHouseBlock() {
         {/* Stats overlay */}
         <div className="absolute inset-x-0 bottom-0 z-20 pointer-events-none">
           <div className="container mx-auto px-4 md:px-6 pb-2 md:pb-2">
-            <div className="grid translate-y-2 grid-cols-2 gap-6 md:grid-cols-4 md:gap-4">
+            <div className="grid translate-y-4 grid-cols-2 gap-6 md:grid-cols-4 md:gap-4">
               {STATS.map((s) => {
                 const countProgress = Math.min(1, Math.max(0, houseProgress / 0.9));
                 const displayed = Math.round(s.value * countProgress);
