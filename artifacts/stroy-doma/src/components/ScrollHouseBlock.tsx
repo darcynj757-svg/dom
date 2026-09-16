@@ -21,9 +21,12 @@ const CONSTRUCTION_LAYERS = [
   {
     label: "Фундамент",
     sub: "Готовим надёжное основание",
+    mobileSub: "Надёжное основание",
     detail: "Размечаем участок · армируем · заливаем бетон",
+    mobileDetail: "Разметка · армирование · бетон",
     description:
       "Размечаем оси дома, подготавливаем грунт и собираем арматурный каркас. После заливки бетон набирает прочность, а основание защищаем от влаги.",
+    mobileDescription: "Готовим фундамент, который выдержит дом.",
     side: "left" as const,
     from: 0.04,
     to: 0.17,
@@ -34,9 +37,12 @@ const CONSTRUCTION_LAYERS = [
   {
     label: "Лаги пола",
     sub: "Собираем основание пола",
+    mobileSub: "Тёплый пол",
     detail: "Гидроизоляция · лаги · утепление · черновой пол",
+    mobileDetail: "Гидроизоляция · лаги · утепление",
     description:
       "После гидроизоляции укладываем лаги и выравниваем плоскость пола. Между ними закладываем утепление, чтобы первый венец дома стоял на сухом и ровном основании.",
+    mobileDescription: "Собираем сухое и ровное основание.",
     side: "right" as const,
     from: 0.14,
     to: 0.26,
@@ -47,9 +53,12 @@ const CONSTRUCTION_LAYERS = [
   {
     label: "Стены",
     sub: "Поднимаем стены венец за венцом",
+    mobileSub: "Поднимаем стены",
     detail: "Собираем сруб · утепляем стыки · проверяем геометрию",
+    mobileDetail: "Сруб · утепление · проёмы",
     description:
       "Каждый венец собираем по проекту, соединяем углы и прокладываем межвенцовый утеплитель. Постепенно появляются комнаты, проёмы, терраса и силуэт дома.",
+    mobileDescription: "Собираем дом венец за венцом.",
     side: "left" as const,
     from: 0.22,
     to: 0.42,
@@ -60,9 +69,12 @@ const CONSTRUCTION_LAYERS = [
   {
     label: "Кровля",
     sub: "Закрываем дом от непогоды",
+    mobileSub: "Закрываем дом",
     detail: "Стропила · обрешётка · утепление · кровельное покрытие",
+    mobileDetail: "Стропила · утепление · покрытие",
     description:
       "Устанавливаем стропильную систему, защищаем утеплитель от влаги и монтируем кровельное покрытие. После этого дом закрыт от осадков и готов к инженерным работам.",
+    mobileDescription: "Монтируем крышу и защищаем дом от осадков.",
     side: "right" as const,
     from: 0.37,
     to: 0.52,
@@ -298,11 +310,11 @@ export default function ScrollHouseBlock() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                className="ml-auto w-full max-w-[360px] rounded-2xl border border-secondary/70 bg-background/70 px-4 py-3 shadow-lg shadow-secondary/10 backdrop-blur-md"
+                className="ml-auto w-full max-w-[360px] rounded-[22px] border-2 border-secondary/65 bg-background/85 px-5 py-4 shadow-xl shadow-secondary/10 backdrop-blur-md"
               >
-                <div className="flex items-start gap-2">
+                <div className="flex items-start gap-3">
                   <span
-                    className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                    className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-base font-bold ${
                       isBuilt
                         ? "bg-secondary text-secondary-foreground"
                         : "border border-secondary text-secondary"
@@ -311,21 +323,21 @@ export default function ScrollHouseBlock() {
                     {isBuilt ? "✓" : activeLayerIndex + 1}
                   </span>
                   <div className="min-w-0">
-                    <div className="font-display text-base font-bold leading-tight text-foreground">
+                    <div className="font-display text-2xl font-black leading-none tracking-tight text-foreground">
                       {layer.label}
                     </div>
-                    <div className="mt-1 text-sm font-semibold leading-tight text-secondary">
-                      {layer.sub}
+                    <div className="mt-1.5 text-lg font-bold leading-tight text-secondary">
+                      {layer.mobileSub}
                     </div>
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      {layer.detail}
+                    <div className="mt-2 text-sm font-medium leading-snug text-muted-foreground">
+                      {layer.mobileDetail}
                     </div>
-                    <div className="mt-2 text-xs leading-relaxed text-foreground/75">
-                      {layer.description}
+                    <div className="mt-3 text-sm font-medium leading-relaxed text-foreground/75">
+                      {layer.mobileDescription}
                     </div>
                   </div>
                 </div>
-                <div className="mt-3 h-1 overflow-hidden rounded-full bg-secondary/15">
+                <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-secondary/15">
                   <div
                     className="h-full rounded-full bg-secondary transition-[width] duration-150"
                     style={{ width: `${progressInLayer}%` }}
