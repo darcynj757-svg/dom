@@ -292,13 +292,13 @@ export default function ScrollHouseBlock() {
             ),
           );
           return (
-            <div className="absolute z-[15] inset-x-6 top-[21%] pointer-events-none md:hidden">
+            <div className="absolute z-[15] inset-x-6 top-[18%] pointer-events-none md:hidden">
               <motion.div
                 key={layer.label}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                className="ml-auto w-full max-w-[360px] rounded-2xl border border-secondary bg-background px-4 py-3 shadow-lg shadow-secondary/10"
+                className="ml-auto w-full max-w-[360px] rounded-2xl border border-secondary/70 bg-background/70 px-4 py-3 shadow-lg shadow-secondary/10 backdrop-blur-md"
               >
                 <div className="flex items-start gap-2">
                   <span
