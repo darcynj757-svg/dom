@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useMemo, useCallback, Suspense, useLayoutE
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Grid } from "@react-three/drei";
 import * as THREE from "three";
+import type { MotionValue } from "framer-motion";
 import {
   useGltfWithPlugin,
   hasWebGL,
@@ -38,6 +39,48 @@ function smootherstep(t: number) {
 }
 
 type Bounds = { minY: number; maxY: number };
+type ScrollProgress = number | MotionValue<number>;
+
+function readProgress(progress: ScrollProgress) {
+  return typeof progress === "number" ? progress : progress.get();
+}
+
+function ProgressiveContactShadows({
+  progress,
+  isMobile,
+}: {
+  progress: ScrollProgress;
+  isMobile: boolean;
+}) {
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame(() => {
+    const group = groupRef.current;
+    if (!group) return;
+
+    const opacity = 0.1 + readProgress(progress) * 0.5;
+    group.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      materials.forEach((material) => {
+        material.opacity = opacity;
+      });
+    });
+  });
+
+  return (
+    <ContactShadows
+      ref={groupRef}
+      position={[0, 0.6, 0]}
+      opacity={0.1}
+      scale={12}
+      blur={1.2}
+      far={3}
+      frames={isMobile ? 1 : Infinity}
+    />
+  );
+}
 
 const HOUSE_FINISH_START = 0.70;
 const HOUSE_STAIN_START = 0.76;
@@ -125,7 +168,7 @@ function HouseModel({
   isMobile,
   modelUrl,
 }: {
-  progress: number;
+  progress: ScrollProgress;
   clipPlane: THREE.Plane;
   onBounds: (bounds: Bounds) => void;
   onReady: () => void;
@@ -310,22 +353,23 @@ function HouseModel({
   }, [scene, normScale, clipPlane, delayedParts, onBounds, onReady]);
 
   useFrame((state) => {
+    const currentProgress = THREE.MathUtils.clamp(readProgress(progress), 0, 1);
     const finishProgress = THREE.MathUtils.clamp(
-      (progress - HOUSE_FINISH_START) / (1 - HOUSE_FINISH_START),
+      (currentProgress - HOUSE_FINISH_START) / (1 - HOUSE_FINISH_START),
       0,
       1,
     );
     const reveal = easeInOutCubic(finishProgress);
     const varnishProgress = smootherstep(
       THREE.MathUtils.clamp(
-        (progress - VARNISH_START) / (1 - VARNISH_START),
+        (currentProgress - VARNISH_START) / (1 - VARNISH_START),
         0,
         1,
       ),
     );
     const stainProgress = smootherstep(
       THREE.MathUtils.clamp(
-        (progress - HOUSE_STAIN_START) / (1 - HOUSE_STAIN_START),
+        (currentProgress - HOUSE_STAIN_START) / (1 - HOUSE_STAIN_START),
         0,
         1,
       ),
@@ -402,7 +446,7 @@ function Scene({
   smoothMotion,
   showGrid,
 }: {
-  progress: number;
+  progress: ScrollProgress;
   clipPlane: THREE.Plane;
   boundsRef: React.MutableRefObject<Bounds>;
   onBounds: (bounds: Bounds) => void;
@@ -428,6 +472,7 @@ function Scene({
   }, [backgroundColor, scene]);
 
   useFrame((_, delta) => {
+    const currentProgress = THREE.MathUtils.clamp(readProgress(progress), 0, 1);
     const { minY, maxY } = boundsRef.current;
     const midY = (minY + maxY) * 0.5;
 
@@ -452,9 +497,9 @@ function Scene({
     // detailed text never sits over the roof or upper walls.
     const mobileLookAtOffset = isMobile ? 0.9 : 0;
 
-    if (progress <= BUILD_END) {
+    if (currentProgress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
-      const bp = progress / BUILD_END;
+      const bp = currentProgress / BUILD_END;
       const buildEase = easeInOutCubic(bp);
       const angle = THREE.MathUtils.lerp(-Math.PI * 0.2, FINISHED_AZIMUTH, buildEase);
       const dist = baseDist + 1.8 - Math.sin(bp * Math.PI) * 1.0;
@@ -469,7 +514,7 @@ function Scene({
       // Cinematic orbit — normalise to 0→1 (exactly one 360° turn).
       // Start close to the front facade, rise above the roof for the
       // silhouette reveal, then settle back into the selected final frame.
-      const op = (progress - BUILD_END) / (1 - BUILD_END);
+      const op = (currentProgress - BUILD_END) / (1 - BUILD_END);
       // Use one shared smooth curve for the orbit and its secondary motion so
       // the camera does not snap while the scroll reaches the final frame.
       const eop = smootherstep(op);
@@ -509,7 +554,7 @@ function Scene({
     // foundation needs a higher initial reveal to remain visible on narrow
     // screens instead of being clipped below the frame.
     const INITIAL_BUILD = isMobile ? 0.26 : 0.22;
-    const buildProgress = Math.min(progress / BUILD_END, 1);
+    const buildProgress = Math.min(currentProgress / BUILD_END, 1);
     // Ease in and out instead of revealing most of the house in the first
     // scroll beats. The actual GLB foundation remains visible at progress 0.
     const rawT = smoothMotion ? smootherstep(buildProgress) : easeInOutCubic(buildProgress);
@@ -571,13 +616,7 @@ function Scene({
       </Suspense>
       {/* Shadow fades in as the house builds: barely-there at start, solid at finish.
           Position y=0.6 matches the house-base nudge so the shadow sits under the walls. */}
-      <ContactShadows
-        position={[0, 0.6, 0]}
-        opacity={0.1 + progress * 0.5}
-        scale={12}
-        blur={1.2}
-        far={3}
-      />
+      <ProgressiveContactShadows progress={progress} isMobile={isMobile} />
       {/* Perspective grid for depth — fades in with build progress */}
       {showGrid !== false ? (
         <Grid
@@ -631,7 +670,7 @@ export default function ScrollHouse({
   showGrid,
   mobileHint,
 }: {
-  progress: number;
+  progress: ScrollProgress;
   /** Optional test-only canvas background; omitted in production scenes. */
   backgroundColor?: string;
   /** Test-only temporal damping; production scenes keep their original timing. */

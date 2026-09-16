@@ -6,7 +6,13 @@
  * not the entire Home page (which is 800+ lines of JSX).
  */
 import { useRef, useState, useEffect, Suspense, lazy } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useMotionValueEvent,
+} from "framer-motion";
 
 const ScrollHouse = lazy(() => import("@/components/3d/ScrollHouse"));
 
@@ -116,11 +122,52 @@ export default function ScrollHouseBlock() {
   const houseRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({ target: houseRef, offset: ["start start", "end end"] });
-  const [houseProgress, setHouseProgress] = useState(0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setHouseProgress(Math.min(Math.max(v, 0), 1));
+  // Keep the scroll-linked scene on a MotionValue so the 3D canvas can update
+  // on the render loop without forcing this whole block through React on every
+  // wheel/touch event.
+  const smoothScrollProgress = useSpring(scrollYProgress, {
+    stiffness: 110,
+    damping: 28,
+    mass: 0.4,
   });
-  const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
+  const [houseProgress, setHouseProgress] = useState(0);
+  const renderedProgressRef = useRef(0);
+  const pendingProgressRef = useRef(0);
+  const progressFrameRef = useRef<number | null>(null);
+  useMotionValueEvent(smoothScrollProgress, "change", (v) => {
+    pendingProgressRef.current = v;
+    if (progressFrameRef.current !== null) return;
+
+    progressFrameRef.current = requestAnimationFrame(() => {
+      progressFrameRef.current = null;
+      const nextProgress = Math.min(Math.max(pendingProgressRef.current, 0), 1);
+      // The detailed stage UI does not need sub-pixel scroll updates. Capping
+      // these React updates keeps the card text responsive without competing
+      // with the WebGL render loop.
+      if (
+        Math.abs(nextProgress - renderedProgressRef.current) < 0.003 &&
+        nextProgress !== 0 &&
+        nextProgress !== 1
+      ) {
+        return;
+      }
+      renderedProgressRef.current = nextProgress;
+      setHouseProgress(nextProgress);
+    });
+  });
+  useEffect(() => {
+    const initialProgress = Math.min(Math.max(smoothScrollProgress.get(), 0), 1);
+    renderedProgressRef.current = initialProgress;
+    setHouseProgress(initialProgress);
+  }, [smoothScrollProgress]);
+  useEffect(() => {
+    return () => {
+      if (progressFrameRef.current !== null) {
+        cancelAnimationFrame(progressFrameRef.current);
+      }
+    };
+  }, []);
+  const heroSceneOpacity = useTransform(smoothScrollProgress, [0.92, 1], [1, 0.9]);
   const nextStageIndex = CONSTRUCTION_STAGE_STARTS.findIndex(
     (stageStart) => houseProgress < stageStart,
   );
@@ -216,7 +263,7 @@ export default function ScrollHouseBlock() {
             <div className="absolute inset-0 z-[5]">
               <Suspense fallback={null}>
                 <ScrollHouse
-                  progress={houseProgress}
+                  progress={smoothScrollProgress}
                   mobileHint={mobileModelHint}
                 />
               </Suspense>

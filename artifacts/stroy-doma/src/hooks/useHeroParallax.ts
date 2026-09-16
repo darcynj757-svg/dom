@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useScroll, useTransform, type MotionValue } from "framer-motion";
+import { useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
 
 /**
  * True parallax hook for hero sections.
@@ -22,6 +22,11 @@ export function useHeroParallax(): {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const smoothScrollProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    mass: 0.35,
+  });
+  const y = useTransform(smoothScrollProgress, [0, 1], ["0%", "50%"]);
   return { sectionRef, y };
 }
