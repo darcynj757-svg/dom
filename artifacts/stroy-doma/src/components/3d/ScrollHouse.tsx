@@ -521,7 +521,7 @@ function Scene({
         far={3}
       />
       {/* Perspective grid for depth — fades in with build progress */}
-      {showGrid !== false ? (
+      {showGrid !== false && progress < 0.9 ? (
         <Grid
           position={[0, 0.58, 0]}
           args={[100, 100]}
