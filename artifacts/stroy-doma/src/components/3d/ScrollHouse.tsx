@@ -470,10 +470,12 @@ function Scene({
       // Start close to the front facade, rise above the roof for the
       // silhouette reveal, then settle back into the selected final frame.
       const op = (progress - BUILD_END) / (1 - BUILD_END);
-      const eop = easeInOutCubic(op);
+      // Use one shared smooth curve for the orbit and its secondary motion so
+      // the camera does not snap while the scroll reaches the final frame.
+      const eop = smootherstep(op);
       const startAngle = FINISHED_AZIMUTH;
       const orbitAngle =
-        startAngle + eop * Math.PI * 2 + Math.sin(op * Math.PI * 2) * 0.12;
+        startAngle + eop * Math.PI * 2 + Math.sin(eop * Math.PI * 2) * 0.06;
       const facadePush = easeOutCubic(Math.min(op / 0.24, 1)) * 0.85;
       const roofRise = easeOutCubic(Math.min(op / 0.34, 1)) * 0.9;
       // Move in for the facade, open up around the roof/rear reveal, and
@@ -483,15 +485,15 @@ function Scene({
         0.35 -
         facadePush -
         eop * 1.9 -
-        Math.sin(op * Math.PI) * 0.65 -
-        Math.sin(op * Math.PI * 2) * 0.35;
+        Math.sin(eop * Math.PI) * 0.65 -
+        Math.sin(eop * Math.PI * 2) * 0.18;
       // Rise early enough to expose the roof while the camera is still
       // travelling across the front and side elevations.
-      const heightBob = roofRise + Math.sin(op * Math.PI) * 0.72;
-      const secondaryBob = Math.sin(op * Math.PI * 2) * 0.55;
+      const heightBob = roofRise + Math.sin(eop * Math.PI) * 0.72;
+      const secondaryBob = Math.sin(eop * Math.PI * 2) * 0.30;
       const endDrop = easeOutCubic(Math.max(0, (op - 0.78) / 0.22)) * 1.0;
       const camY = midY + 2.45 + heightBob + secondaryBob - endDrop;
-      const lookAtY = midY + mobileLookAtOffset + Math.sin(op * Math.PI) * 0.22;
+      const lookAtY = midY + mobileLookAtOffset + Math.sin(eop * Math.PI) * 0.22;
       targetCameraPosition.current.set(
         Math.sin(orbitAngle) * orbitDist,
         camY,
@@ -523,7 +525,7 @@ function Scene({
         clipPlane.constant = targetClipConstant.current;
         motionInitialized.current = true;
       } else {
-        const damping = 1 - Math.exp(-delta / 0.13);
+        const damping = 1 - Math.exp(-delta / (isMobile ? 0.20 : 0.16));
         camera.position.lerp(targetCameraPosition.current, damping);
         smoothedLookAt.current.lerp(targetLookAt.current, damping);
         camera.lookAt(smoothedLookAt.current);
