@@ -280,24 +280,31 @@ function Scene({
       );
       targetLookAt.current.set(0, midY + mobileLookAtOffset, 0);
     } else {
-      // Orbit phase — normalise to 0→1 (exactly one 360° turn).
+      // Cinematic orbit — normalise to 0→1 (exactly one 360° turn).
+      // Start close to the front facade, rise above the roof for the
+      // silhouette reveal, then settle back into the selected final frame.
       const op = (progress - BUILD_END) / (1 - BUILD_END);
       const eop = easeInOutCubic(op);
       const startAngle = FINISHED_AZIMUTH;
       const orbitAngle =
         startAngle + eop * Math.PI * 2 + Math.sin(op * Math.PI * 2) * 0.12;
-      // Alternate a wide reveal and a closer inspection during the orbit.
+      const facadePush = easeOutCubic(Math.min(op / 0.24, 1)) * 0.85;
+      const roofRise = easeOutCubic(Math.min(op / 0.34, 1)) * 0.9;
+      // Move in for the facade, open up around the roof/rear reveal, and
+      // finish at the same close final distance as the selected frame.
       const orbitDist =
         baseDist -
-        0.5 -
+        0.35 -
+        facadePush -
         eop * 1.9 -
-        Math.sin(op * Math.PI * 2) * 0.9;
-      // Rise high enough to expose the roof, dip around the rear, then return
-      // to a lower, more intimate finished-house view.
-      const heightBob = Math.sin(op * Math.PI) * 1.8;
+        Math.sin(op * Math.PI) * 0.65 -
+        Math.sin(op * Math.PI * 2) * 0.35;
+      // Rise early enough to expose the roof while the camera is still
+      // travelling across the front and side elevations.
+      const heightBob = roofRise + Math.sin(op * Math.PI) * 0.72;
       const secondaryBob = Math.sin(op * Math.PI * 2) * 0.55;
       const endDrop = easeOutCubic(Math.max(0, (op - 0.78) / 0.22)) * 1.0;
-      const camY = midY + 2.65 + heightBob + secondaryBob - endDrop;
+      const camY = midY + 2.45 + heightBob + secondaryBob - endDrop;
       const lookAtY = midY + mobileLookAtOffset + Math.sin(op * Math.PI) * 0.22;
       targetCameraPosition.current.set(
         Math.sin(orbitAngle) * orbitDist,
