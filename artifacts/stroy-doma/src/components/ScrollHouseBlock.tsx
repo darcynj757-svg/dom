@@ -99,6 +99,10 @@ export default function ScrollHouseBlock() {
     const preloadHouse = () => {
       if (preloadStarted) return;
       preloadStarted = true;
+      // Mount the Canvas while the 3D section is still below the viewport.
+      // Preloading only the GLB is not enough: WebGL context creation and
+      // Suspense resolution can still cause a blank grid at the transition.
+      setShowHouse(true);
       void import("@/components/3d/ScrollHouse").then(({ preloadHouseModel }) => {
         preloadHouseModel(window.innerWidth < 768);
       });
