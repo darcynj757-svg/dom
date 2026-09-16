@@ -9,6 +9,7 @@
 - [Mobile GLB compression](mobile-glb-optimization.md) — уже Draco-сжатый mobile GLB лучше повторно сжимать glTF Transform, а не gltf-pipeline.
 - [SEO image references](seo-image-references.md) — prerender может оставлять Vite `/@fs` и encoded Unicode asset URLs; проверяй и переписывай их до публикации.
 - [Mixed deployment assets](mixed-deployment-assets.md) — при отключении static handler frontend нужно собирать production и включать `dist/public` в API runtime.
+- [Base-aware public assets](base-aware-public-assets.md) — пути к public-изображениям должны проходить через assetUrl, иначе непустой Vite base path даёт 404.
 - [Crawler resource headers](crawler-resource-headers.md) — robots.txt и sitemap.xml должны получать явные Content-Type в реальном API runtime, а не только в preflight mock-server.
 - [Deployment health endpoint](deployment-health-endpoint.md) — autoscale healthcheck probes `/api`, поэтому mount point должен возвращать 200 помимо `/api/healthz`.
 - [WebGL preview limits](webgl-preview-limits.md) — браузер автоматического mobile-теста может не иметь WebGL; это не подтверждает поведение 3D на реальном телефоне.

@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function assetUrl(path: string) {
   if (/^https?:\/\//.test(path)) return path;
-  const base = import.meta.env.BASE_URL || "/";
+  const base = import.meta.env?.BASE_URL || "/";
   const cleanBase = base.endsWith("/") ? base : `${base}/`;
   const cleanPath = path.startsWith("/") ? path.slice(1) : path;
   return `${cleanBase}${cleanPath}`;

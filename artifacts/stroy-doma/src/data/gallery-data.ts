@@ -9,7 +9,9 @@
  *   2. Добавьте путь вида "/images/gallery/имя-файла.webp" в массив images
  */
 
-const G = "/images/gallery";
+import { assetUrl } from "../lib/utils";
+
+const G = assetUrl("/images/gallery");
 
 export type GalleryCategory = "Дома" | "Бани";
 

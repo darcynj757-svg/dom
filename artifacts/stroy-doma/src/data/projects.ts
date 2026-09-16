@@ -3,8 +3,10 @@
 //   1. Положите .webp в public/images/projects/houses/ или /baths/
 //   2. Используйте путь вида "/images/projects/houses/имя-файла.webp"
 
-const H = "/images/projects/houses";
-const B = "/images/projects/baths";
+import { assetUrl } from "../lib/utils";
+
+const H = assetUrl("/images/projects/houses");
+const B = assetUrl("/images/projects/baths");
 
 export interface Project {
   id: number;
