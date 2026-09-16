@@ -22,6 +22,8 @@ const CONSTRUCTION_LAYERS = [
     label: "Фундамент",
     sub: "Готовим надёжное основание",
     detail: "Размечаем участок · армируем · заливаем бетон",
+    description:
+      "Размечаем оси дома, подготавливаем грунт и собираем арматурный каркас. После заливки бетон набирает прочность, а основание защищаем от влаги.",
     side: "left" as const,
     from: 0.04,
     to: 0.17,
@@ -33,6 +35,8 @@ const CONSTRUCTION_LAYERS = [
     label: "Лаги пола",
     sub: "Собираем основание пола",
     detail: "Гидроизоляция · лаги · утепление · черновой пол",
+    description:
+      "После гидроизоляции укладываем лаги и выравниваем плоскость пола. Между ними закладываем утепление, чтобы первый венец дома стоял на сухом и ровном основании.",
     side: "right" as const,
     from: 0.14,
     to: 0.26,
@@ -44,6 +48,8 @@ const CONSTRUCTION_LAYERS = [
     label: "Стены",
     sub: "Поднимаем стены венец за венцом",
     detail: "Собираем сруб · утепляем стыки · проверяем геометрию",
+    description:
+      "Каждый венец собираем по проекту, соединяем углы и прокладываем межвенцовый утеплитель. Постепенно появляются комнаты, проёмы, терраса и силуэт дома.",
     side: "left" as const,
     from: 0.22,
     to: 0.42,
@@ -55,6 +61,8 @@ const CONSTRUCTION_LAYERS = [
     label: "Кровля",
     sub: "Закрываем дом от непогоды",
     detail: "Стропила · обрешётка · утепление · кровельное покрытие",
+    description:
+      "Устанавливаем стропильную систему, защищаем утеплитель от влаги и монтируем кровельное покрытие. После этого дом закрыт от осадков и готов к инженерным работам.",
     side: "right" as const,
     from: 0.37,
     to: 0.52,
@@ -237,6 +245,13 @@ export default function ScrollHouseBlock() {
                     </div>
                     <div className="text-[11px] text-muted-foreground mt-0.5">
                       {layer.detail}
+                    </div>
+                    <div
+                      className={`overflow-hidden text-[11px] leading-relaxed text-foreground/75 transition-all duration-300 ${
+                        isActive ? "mt-2 max-h-24 opacity-100" : "mt-0 max-h-0 opacity-0"
+                      }`}
+                    >
+                      {layer.description}
                     </div>
                   </div>
                 </div>
