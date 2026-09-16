@@ -22,7 +22,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Фундамент",
     description:
       "Размечаем оси дома, подготавливаем грунт и собираем арматурный каркас. После заливки бетон набирает прочность, а основание защищаем от влаги.",
-    mobileDescription: "Готовим прочное основание и защищаем его от влаги.",
+    mobileDescription: "Готовим прочное основание, защищаем его от влаги и подготавливаем к монтажу дома.",
     side: "left" as const,
     from: 0.04,
     to: 0.17,
@@ -34,7 +34,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Лаги пола",
     description:
       "После гидроизоляции укладываем лаги и выравниваем плоскость пола. Между ними закладываем утепление, чтобы первый венец дома стоял на сухом и ровном основании.",
-    mobileDescription: "Укладываем лаги и утепление для тёплого и ровного пола.",
+    mobileDescription: "Укладываем лаги и утепление, чтобы пол был тёплым, ровным и защищённым от влаги.",
     side: "right" as const,
     from: 0.14,
     to: 0.26,
@@ -46,7 +46,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Стены",
     description:
       "Каждый венец собираем по проекту, соединяем углы и прокладываем межвенцовый утеплитель. Постепенно появляются комнаты, проёмы, терраса и силуэт дома.",
-    mobileDescription: "Собираем стены венец за венцом, проверяя каждое соединение.",
+    mobileDescription: "Собираем стены венец за венцом, проверяем соединения и формируем будущие комнаты.",
     side: "left" as const,
     from: 0.22,
     to: 0.42,
@@ -58,7 +58,7 @@ const CONSTRUCTION_LAYERS = [
     label: "Кровля",
     description:
       "Устанавливаем стропильную систему, защищаем утеплитель от влаги и монтируем кровельное покрытие. После этого дом закрыт от осадков и готов к инженерным работам.",
-    mobileDescription: "Монтируем кровлю и защищаем дом от дождя, снега и ветра.",
+    mobileDescription: "Монтируем кровлю и надёжно защищаем дом от дождя, снега и сильного ветра на весь срок службы.",
     side: "right" as const,
     from: 0.37,
     to: 0.52,
@@ -304,7 +304,7 @@ export default function ScrollHouseBlock() {
                     <div className="font-display text-lg font-black leading-none tracking-tight text-foreground">
                       {layer.label}
                     </div>
-                    <div className="mt-1 line-clamp-2 text-sm font-medium leading-5 text-foreground/75">
+                    <div className="mt-1 line-clamp-3 text-sm font-medium leading-5 text-foreground/75">
                       {layer.mobileDescription}
                     </div>
                   </div>
