@@ -182,7 +182,9 @@ function Scene({
     // locked to one angle while the first layers appear. Once the house is
     // complete, the remaining scroll becomes a full orbit with a gentle rise,
     // dip, and push-in.
-    const BUILD_END = 0.50;
+    // Keep the construction story on screen longer before the camera enters
+    // the fast reveal orbit.
+    const BUILD_END = 0.66;
     const baseDist = isMobile ? 15 : 12;
 
     // On mobile the title + stats overlays eat ~35% of the screen,
@@ -194,9 +196,9 @@ function Scene({
       // Build phase: front three-quarter view → side three-quarter view.
       const bp = progress / BUILD_END;
       const buildEase = easeInOutCubic(bp);
-      const angle = THREE.MathUtils.lerp(-Math.PI * 0.12, Math.PI * 0.24, buildEase);
-      const dist = baseDist + 1.4 - Math.sin(bp * Math.PI) * 0.8;
-      const height = midY + 2.35 + Math.sin(bp * Math.PI) * 0.7 + bp * 0.25;
+      const angle = THREE.MathUtils.lerp(-Math.PI * 0.2, Math.PI * 0.42, buildEase);
+      const dist = baseDist + 1.8 - Math.sin(bp * Math.PI) * 1.0;
+      const height = midY + 2.25 + Math.sin(bp * Math.PI) * 0.9 + bp * 0.3;
       targetCameraPosition.current.set(
         Math.sin(angle) * dist,
         height,
@@ -207,16 +209,22 @@ function Scene({
       // Orbit phase — normalise to 0→1 (one full cinematic turn).
       const op = (progress - BUILD_END) / (1 - BUILD_END);
       const eop = easeInOutCubic(op);
-      const startAngle = Math.PI * 0.24;
-      const orbitAngle = startAngle + eop * Math.PI * 2;
+      const startAngle = Math.PI * 0.42;
+      const orbitAngle =
+        startAngle + eop * Math.PI * 2.35 + Math.sin(op * Math.PI * 2) * 0.12;
       // Alternate a wide reveal and a closer inspection during the orbit.
-      const orbitDist = baseDist - 0.6 - eop * 1.8 - Math.sin(op * Math.PI) * 0.7;
-      // Rise to see the roof, then lower toward the finished front view.
-      const heightBob = Math.sin(op * Math.PI) * 1.45;
-      const secondaryBob = Math.sin(op * Math.PI * 2) * 0.3;
-      const endDrop = easeOutCubic(Math.max(0, (op - 0.78) / 0.22)) * 0.8;
-      const camY = midY + 2.8 + heightBob + secondaryBob - endDrop;
-      const lookAtY = midY + mobileLookAtOffset + Math.sin(op * Math.PI) * 0.16;
+      const orbitDist =
+        baseDist -
+        0.5 -
+        eop * 1.9 -
+        Math.sin(op * Math.PI * 2) * 0.9;
+      // Rise high enough to expose the roof, dip around the rear, then return
+      // to a lower, more intimate finished-house view.
+      const heightBob = Math.sin(op * Math.PI) * 1.8;
+      const secondaryBob = Math.sin(op * Math.PI * 2) * 0.55;
+      const endDrop = easeOutCubic(Math.max(0, (op - 0.78) / 0.22)) * 1.0;
+      const camY = midY + 2.65 + heightBob + secondaryBob - endDrop;
+      const lookAtY = midY + mobileLookAtOffset + Math.sin(op * Math.PI) * 0.22;
       targetCameraPosition.current.set(
         Math.sin(orbitAngle) * orbitDist,
         camY,
