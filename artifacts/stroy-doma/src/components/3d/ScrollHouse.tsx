@@ -39,6 +39,8 @@ function smootherstep(t: number) {
 type Bounds = { minY: number; maxY: number };
 
 const HOUSE_FINISH_START = 0.70;
+const WHITE_PAINT_START = 0.84;
+const WHITE_PAINT_COLOR = new THREE.Color("#ffffff");
 const DELAYED_PART_MATERIALS = new Set([
   // Roof structure and dark roofing surface.
   "Material15",
@@ -60,6 +62,17 @@ type DelayedMaterial = {
 type DelayedMesh = {
   mesh: THREE.Mesh;
   materials: DelayedMaterial[];
+};
+
+type PaintableMaterial = THREE.Material & {
+  color?: THREE.Color;
+  map?: THREE.Texture | null;
+};
+
+type WhitePaintTarget = {
+  material: PaintableMaterial;
+  baseColor: THREE.Color;
+  paintUniform?: { value: number };
 };
 
 function useIsMobile(initialValue = false) {
@@ -113,6 +126,45 @@ function HouseModel({
       parts.push({ mesh, materials });
     });
     return parts;
+  }, [scene]);
+  const whitePaintTargets = useMemo<WhitePaintTarget[]>(() => {
+    const targets: WhitePaintTarget[] = [];
+
+    scene.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+
+      const materialName = mesh.name.replace(/_\d+$/, "");
+      if (DELAYED_PART_MATERIALS.has(materialName)) return;
+
+      const materials = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as PaintableMaterial[];
+      materials.forEach((material) => {
+        if (!material.color?.isColor) return;
+
+        const target: WhitePaintTarget = {
+          material,
+          baseColor: material.color.clone(),
+        };
+
+        if (material.map) {
+          const baseOnBeforeCompile = material.onBeforeCompile;
+          material.onBeforeCompile = (shader, renderer) => {
+            baseOnBeforeCompile(shader, renderer);
+            shader.uniforms.houseWhitePaint = { value: 0 };
+            shader.fragmentShader = `uniform float houseWhitePaint;\n${shader.fragmentShader.replace(
+              "#include <map_fragment>",
+              '#include <map_fragment>\n diffuseColor.rgb = mix(diffuseColor.rgb, vec3(1.0), houseWhitePaint);',
+            )}`;
+            target.paintUniform = shader.uniforms.houseWhitePaint;
+          };
+          material.needsUpdate = true;
+        }
+
+        targets.push(target);
+      });
+    });
+
+    return targets;
   }, [scene]);
 
   const { normScale, centerOffset } = useMemo(() => {
@@ -182,6 +234,13 @@ function HouseModel({
       1,
     );
     const reveal = easeInOutCubic(finishProgress);
+    const whitePaintProgress = smootherstep(
+      THREE.MathUtils.clamp(
+        (progress - WHITE_PAINT_START) / (1 - WHITE_PAINT_START),
+        0,
+        1,
+      ),
+    );
 
     delayedParts.forEach(({ mesh, materials }) => {
       mesh.visible = reveal > 0.001;
@@ -193,6 +252,11 @@ function HouseModel({
           material.needsUpdate = true;
         }
       });
+    });
+
+    whitePaintTargets.forEach(({ material, baseColor, paintUniform }) => {
+      material.color?.copy(baseColor).lerp(WHITE_PAINT_COLOR, whitePaintProgress);
+      if (paintUniform) paintUniform.value = whitePaintProgress;
     });
   });
 
