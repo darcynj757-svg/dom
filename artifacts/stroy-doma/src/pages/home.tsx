@@ -318,10 +318,14 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 0, y: 14, scale: 0.98 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={
+              isMobile
+                ? { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+                : { duration: 0.6 }
+            }
             className="text-center mb-14"
           >
             <span className="text-xs uppercase tracking-[0.3em] text-secondary font-medium">Преимущества</span>
@@ -338,10 +342,29 @@ export default function Home() {
             ].map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 24 }}
+                initial={
+                  isMobile
+                    ? {
+                        opacity: 0,
+                        x: i % 2 === 0 ? -28 : 28,
+                        y: 12,
+                        scale: 0.975,
+                      }
+                    : { opacity: 0, y: 24 }
+                }
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
+                transition={
+                  isMobile
+                    ? {
+                        type: "spring",
+                        stiffness: 90,
+                        damping: 18,
+                        mass: 0.75,
+                        delay: i * 0.11,
+                      }
+                    : { duration: 0.5, delay: i * 0.08 }
+                }
                 className="group relative p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/10 to-transparent rounded-tr-2xl rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity" />
