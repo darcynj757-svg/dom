@@ -203,10 +203,10 @@ export default function ScrollHouseBlock() {
         </div>
 
         {/* ── Construction layer annotations — fixed panel ───────────────── */}
-        {/* The same progressive construction map stays visible on desktop and mobile. */}
+        {/* Desktop: the full progressive map stays visible in the right column. */}
         <div className="absolute z-[15] pointer-events-none
-          inset-x-6 top-[17%] flex max-h-[50vh] max-w-[420px] ml-auto flex-col gap-2 overflow-hidden
-          md:inset-x-auto md:right-3 md:top-1/2 md:w-52 md:max-w-none md:-translate-y-1/2"
+          hidden md:flex md:inset-x-auto md:right-3 md:top-1/2 md:w-52 md:max-w-none md:-translate-y-1/2
+          flex-col gap-2"
         >
           {CONSTRUCTION_LAYERS.map((layer, layerIndex) => {
             const isActive = layerIndex === activeLayerIndex;
@@ -277,6 +277,64 @@ export default function ScrollHouseBlock() {
             );
           })}
         </div>
+
+        {/* Mobile: show one detailed stage at a time so the house and stats
+            keep their own space while the story advances with scroll. */}
+        {(() => {
+          const layer = CONSTRUCTION_LAYERS[activeLayerIndex];
+          const isBuilt =
+            buildProgress >= (activeLayerIndex + 1) / CONSTRUCTION_LAYERS.length;
+          const progressInLayer = Math.max(
+            8,
+            Math.min(
+              100,
+              ((buildProgress * CONSTRUCTION_LAYERS.length - activeLayerIndex) * 100),
+            ),
+          );
+          return (
+            <div className="absolute z-[15] inset-x-6 top-[21%] pointer-events-none md:hidden">
+              <motion.div
+                key={layer.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="ml-auto w-full max-w-[360px] rounded-2xl border border-secondary bg-background px-4 py-3 shadow-lg shadow-secondary/10"
+              >
+                <div className="flex items-start gap-2">
+                  <span
+                    className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                      isBuilt
+                        ? "bg-secondary text-secondary-foreground"
+                        : "border border-secondary text-secondary"
+                    }`}
+                  >
+                    {isBuilt ? "✓" : activeLayerIndex + 1}
+                  </span>
+                  <div className="min-w-0">
+                    <div className="font-display text-base font-bold leading-tight text-foreground">
+                      {layer.label}
+                    </div>
+                    <div className="mt-1 text-sm font-semibold leading-tight text-secondary">
+                      {layer.sub}
+                    </div>
+                    <div className="mt-1 text-xs text-muted-foreground">
+                      {layer.detail}
+                    </div>
+                    <div className="mt-2 text-xs leading-relaxed text-foreground/75">
+                      {layer.description}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3 h-1 overflow-hidden rounded-full bg-secondary/15">
+                  <div
+                    className="h-full rounded-full bg-secondary transition-[width] duration-150"
+                    style={{ width: `${progressInLayer}%` }}
+                  />
+                </div>
+              </motion.div>
+            </div>
+          );
+        })()}
 
         {/* Stats overlay */}
         <div className="absolute inset-x-0 bottom-0 z-20 pointer-events-none">
