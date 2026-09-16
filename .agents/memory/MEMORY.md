@@ -18,3 +18,4 @@
 - [Normalized 3D overlays](normalized-3d-overlays.md) — процедурные подсветка и мебель должны учитывать нормализацию GLB и вертикальный сдвиг базы.
 - [Cinematic house orbit](cinematic-house-orbit.md) — выбран облёт с близким проходом по фасаду, подъёмом над крышей и возвратом к финальному ракурсу.
 - [GLTF material tinting](gltf-material-tinting.md) — для плавной перекраски текстурированных GLTF-материалов custom shader uniform нужно объявлять в fragment shader.
+- [Natural lacquered house finish](natural-lacquered-house-finish.md) — финальный вид должен сохранять натуральную древесину и добавлять мягкий лаковый блик, без белой перекраски.
