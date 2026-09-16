@@ -184,7 +184,7 @@ function Scene({
     // dip, and push-in.
     // Keep the construction story on screen longer before the camera enters
     // the fast reveal orbit.
-    const BUILD_END = 0.66;
+    const BUILD_END = 0.70;
     const baseDist = isMobile ? 15 : 12;
 
     // On mobile the title + stats overlays eat ~35% of the screen,
@@ -206,12 +206,12 @@ function Scene({
       );
       targetLookAt.current.set(0, midY + mobileLookAtOffset, 0);
     } else {
-      // Orbit phase — normalise to 0→1 (one full cinematic turn).
+      // Orbit phase — normalise to 0→1 (exactly one 360° turn).
       const op = (progress - BUILD_END) / (1 - BUILD_END);
       const eop = easeInOutCubic(op);
       const startAngle = Math.PI * 0.42;
       const orbitAngle =
-        startAngle + eop * Math.PI * 2.35 + Math.sin(op * Math.PI * 2) * 0.12;
+        startAngle + eop * Math.PI * 2 + Math.sin(op * Math.PI * 2) * 0.12;
       // Alternate a wide reveal and a closer inspection during the orbit.
       const orbitDist =
         baseDist -
@@ -239,9 +239,11 @@ function Scene({
     // The mobile GLB has a different vertical fit than desktop, so its
     // foundation needs a higher initial reveal to remain visible on narrow
     // screens instead of being clipped below the frame.
-    const INITIAL_BUILD = isMobile ? 0.3 : 0.2;
+    const INITIAL_BUILD = isMobile ? 0.26 : 0.22;
     const buildProgress = Math.min(progress / BUILD_END, 1);
-    const rawT = smoothMotion ? smootherstep(buildProgress) : easeOutCubic(buildProgress);
+    // Ease in and out instead of revealing most of the house in the first
+    // scroll beats. The actual GLB foundation remains visible at progress 0.
+    const rawT = smoothMotion ? smootherstep(buildProgress) : easeInOutCubic(buildProgress);
     const buildT = INITIAL_BUILD + rawT * (1 - INITIAL_BUILD);
     const buffer = (maxY - minY) * 0.6 || 1.0;
     targetClipConstant.current = THREE.MathUtils.lerp(minY, maxY + buffer, buildT);

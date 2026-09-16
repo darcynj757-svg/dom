@@ -89,7 +89,7 @@ export default function ScrollHouseBlock() {
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
   // Keep the construction story visible longer before the camera enters the
   // more dynamic finished-house orbit.
-  const BUILD_END = 0.66;
+  const BUILD_END = 0.70;
   const buildProgress = Math.min(houseProgress / BUILD_END, 1);
   const activeLayerIndex = Math.min(
     CONSTRUCTION_LAYERS.length - 1,
