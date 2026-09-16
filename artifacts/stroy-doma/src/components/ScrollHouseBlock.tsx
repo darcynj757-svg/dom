@@ -101,6 +101,11 @@ const CONSTRUCTION_LAYERS = [
   },
 ] as const;
 
+// Keep the story milestones aligned with what the model visibly reveals.
+// The dark roof starts fading in at 70% inside ScrollHouse's final orbit.
+const CONSTRUCTION_STAGE_STARTS = [0, 0.12, 0.24, 0.40, 0.70, 0.80, 0.90] as const;
+const CONSTRUCTION_STAGE_ENDS = [0.12, 0.24, 0.40, 0.70, 0.80, 0.90, 0.96] as const;
+
 function layerOpacity(p: number, from: number, to: number) {
   const fi = Math.min(1, Math.max(0, (p - from) / 0.04));
   const fo = Math.min(1, Math.max(0, (to - p) / 0.04));
@@ -116,14 +121,13 @@ export default function ScrollHouseBlock() {
     setHouseProgress(Math.min(Math.max(v, 0), 1));
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
-  // Keep each construction card visible longer before the camera enters the
-  // more dynamic finished-house orbit.
-  const BUILD_END = 0.82;
-  const buildProgress = Math.min(houseProgress / BUILD_END, 1);
-  const activeLayerIndex = Math.min(
-    CONSTRUCTION_LAYERS.length - 1,
-    Math.floor(buildProgress * CONSTRUCTION_LAYERS.length),
+  const nextStageIndex = CONSTRUCTION_STAGE_STARTS.findIndex(
+    (stageStart) => houseProgress < stageStart,
   );
+  const activeLayerIndex =
+    nextStageIndex === -1
+      ? CONSTRUCTION_LAYERS.length - 1
+      : Math.max(0, nextStageIndex - 1);
 
   // Warm the lazy 3D chunk, decoder, and model cache after Hero has mounted.
   // The Canvas itself still mounts only when the user enters the block, so
@@ -239,8 +243,7 @@ export default function ScrollHouseBlock() {
         >
           {CONSTRUCTION_LAYERS.map((layer, layerIndex) => {
             const isActive = layerIndex === activeLayerIndex;
-            const isBuilt =
-              buildProgress >= (layerIndex + 1) / CONSTRUCTION_LAYERS.length;
+            const isBuilt = houseProgress >= CONSTRUCTION_STAGE_ENDS[layerIndex];
             const isUpcoming = !isActive && !isBuilt;
             return (
               <div
@@ -287,9 +290,10 @@ export default function ScrollHouseBlock() {
                           8,
                           Math.min(
                             100,
-                            ((buildProgress * CONSTRUCTION_LAYERS.length -
-                              layerIndex) *
-                              100),
+                            ((houseProgress - CONSTRUCTION_STAGE_STARTS[layerIndex]) /
+                              (CONSTRUCTION_STAGE_ENDS[layerIndex] -
+                                CONSTRUCTION_STAGE_STARTS[layerIndex])) *
+                              100,
                           ),
                         )}%`,
                       }}
@@ -306,12 +310,14 @@ export default function ScrollHouseBlock() {
         {(() => {
           const layer = CONSTRUCTION_LAYERS[activeLayerIndex];
           const isBuilt =
-            buildProgress >= (activeLayerIndex + 1) / CONSTRUCTION_LAYERS.length;
+            houseProgress >= CONSTRUCTION_STAGE_ENDS[activeLayerIndex];
+          const stageStart = CONSTRUCTION_STAGE_STARTS[activeLayerIndex];
+          const stageEnd = CONSTRUCTION_STAGE_ENDS[activeLayerIndex];
           const progressInLayer = Math.max(
             8,
             Math.min(
               100,
-              ((buildProgress * CONSTRUCTION_LAYERS.length - activeLayerIndex) * 100),
+              ((houseProgress - stageStart) / (stageEnd - stageStart)) * 100,
             ),
           );
           return (
