@@ -66,7 +66,6 @@ type DelayedMesh = {
 
 type VarnishableMaterial = THREE.Material & {
   color?: THREE.Color;
-  map?: THREE.Texture | null;
   roughness?: number;
   envMapIntensity?: number;
 };
@@ -78,8 +77,6 @@ type VarnishTarget = {
   baseColor: THREE.Color;
   baseRoughness?: number;
   baseEnvMapIntensity?: number;
-  lacquerUniform?: ShaderUniform;
-  timeUniform?: ShaderUniform;
 };
 
 type GlassTarget = {
@@ -161,31 +158,6 @@ function HouseModel({
           baseRoughness: material.roughness,
           baseEnvMapIntensity: material.envMapIntensity,
         };
-
-        if (material.map) {
-          const baseOnBeforeCompile = material.onBeforeCompile;
-          material.onBeforeCompile = (shader, renderer) => {
-            baseOnBeforeCompile(shader, renderer);
-            shader.uniforms.lacquerProgress = { value: 0 };
-            shader.uniforms.lacquerTime = { value: 0 };
-            shader.fragmentShader = [
-              "uniform float lacquerProgress;",
-              "uniform float lacquerTime;",
-              shader.fragmentShader.replace(
-                "#include <map_fragment>",
-                [
-                  "#include <map_fragment>",
-                  "float lacquerWave = 0.5 + 0.5 * sin(gl_FragCoord.x * 0.008 + gl_FragCoord.y * 0.002 + lacquerTime * 0.7);",
-                  "float lacquerHighlight = smoothstep(0.91, 0.99, lacquerWave) * lacquerProgress;",
-                  "diffuseColor.rgb += vec3(1.0, 0.9, 0.72) * lacquerHighlight * 0.075;",
-                ].join("\n"),
-              ),
-            ].join("\n");
-            target.lacquerUniform = shader.uniforms.lacquerProgress;
-            target.timeUniform = shader.uniforms.lacquerTime;
-          };
-          material.needsUpdate = true;
-        }
 
         targets.push(target);
       });
@@ -343,11 +315,6 @@ function HouseModel({
           varnishProgress,
         );
       }
-    });
-
-    varnishTargets.forEach(({ lacquerUniform, timeUniform }) => {
-      if (lacquerUniform) lacquerUniform.value = varnishProgress;
-      if (timeUniform) timeUniform.value = state.clock.elapsedTime;
     });
 
     glassTargets.forEach(({ material, baseRoughness, highlightUniform, timeUniform }) => {
@@ -516,6 +483,7 @@ function Scene({
       camera.lookAt(targetLookAt.current);
       clipPlane.constant = targetClipConstant.current;
     }
+
   });
 
   return (
