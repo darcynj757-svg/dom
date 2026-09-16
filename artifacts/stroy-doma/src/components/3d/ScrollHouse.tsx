@@ -40,8 +40,20 @@ function smootherstep(t: number) {
 type Bounds = { minY: number; maxY: number };
 
 const HOUSE_FINISH_START = 0.70;
+const HOUSE_STAIN_START = 0.76;
 const VARNISH_START = 0.84;
 const VARNISH_ROUGHNESS = 0.22;
+const HOUSE_STAIN_COLOR = new THREE.Color("#a5653e");
+const HOUSE_STAIN_STRENGTH = 0.52;
+const WOOD_MATERIALS = new Set([
+  // Facade, timber walls, and warm wood trim. Roof, glass, stone, and brick
+  // materials intentionally stay outside this set.
+  "Material12",
+  "Material19",
+  "Material22",
+  "Material14",
+  "Material6",
+]);
 const DELAYED_PART_MATERIALS = new Set([
   // Roof structure and dark roofing surface.
   "Material15",
@@ -85,6 +97,11 @@ type GlassTarget = {
   baseRoughness?: number;
   highlightUniform?: ShaderUniform;
   timeUniform?: ShaderUniform;
+};
+
+type WoodTarget = VarnishTarget & {
+  tintUniform?: { value: THREE.Color };
+  tintStrengthUniform?: ShaderUniform;
 };
 
 function useIsMobile(initialValue = false) {
@@ -139,27 +156,49 @@ function HouseModel({
     });
     return parts;
   }, [scene]);
-  const varnishTargets = useMemo<VarnishTarget[]>(() => {
-    const targets: VarnishTarget[] = [];
+  const varnishTargets = useMemo<WoodTarget[]>(() => {
+    const targets: WoodTarget[] = [];
 
     scene.traverse((child) => {
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
 
       const materialName = mesh.name.replace(/_\d+$/, "");
-      if (DELAYED_PART_MATERIALS.has(materialName)) return;
+      if (DELAYED_PART_MATERIALS.has(materialName) || !WOOD_MATERIALS.has(materialName)) {
+        return;
+      }
 
       const materials = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as VarnishableMaterial[];
       materials.forEach((material) => {
         if (!material.color?.isColor) return;
 
-        const target: VarnishTarget = {
+        const target: WoodTarget = {
           material,
           baseColor: material.color.clone(),
           baseRoughness: material.roughness,
           baseEnvMapIntensity: material.envMapIntensity,
         };
 
+        const baseOnBeforeCompile = material.onBeforeCompile;
+        material.onBeforeCompile = (shader, renderer) => {
+          baseOnBeforeCompile(shader, renderer);
+          shader.uniforms.woodTint = { value: HOUSE_STAIN_COLOR.clone() };
+          shader.uniforms.woodTintStrength = { value: 0 };
+          shader.fragmentShader = [
+            "uniform vec3 woodTint;",
+            "uniform float woodTintStrength;",
+            shader.fragmentShader.replace(
+              "#include <map_fragment>",
+              [
+                "#include <map_fragment>",
+                "diffuseColor.rgb *= mix(vec3(1.0), woodTint, woodTintStrength);",
+              ].join("\n"),
+            ),
+          ].join("\n");
+          target.tintUniform = shader.uniforms.woodTint;
+          target.tintStrengthUniform = shader.uniforms.woodTintStrength;
+        };
+        material.needsUpdate = true;
         targets.push(target);
       });
     });
@@ -284,6 +323,13 @@ function HouseModel({
         1,
       ),
     );
+    const stainProgress = smootherstep(
+      THREE.MathUtils.clamp(
+        (progress - HOUSE_STAIN_START) / (1 - HOUSE_STAIN_START),
+        0,
+        1,
+      ),
+    );
 
     delayedParts.forEach(({ mesh, materials }) => {
       mesh.visible = reveal > 0.001;
@@ -315,6 +361,13 @@ function HouseModel({
           Math.max(baseEnvMapIntensity, 1.15),
           varnishProgress,
         );
+      }
+    });
+
+    varnishTargets.forEach(({ tintUniform, tintStrengthUniform }) => {
+      if (tintUniform) tintUniform.value.copy(HOUSE_STAIN_COLOR);
+      if (tintStrengthUniform) {
+        tintStrengthUniform.value = stainProgress * HOUSE_STAIN_STRENGTH;
       }
     });
 
