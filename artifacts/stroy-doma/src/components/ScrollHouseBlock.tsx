@@ -315,15 +315,15 @@ export default function ScrollHouseBlock() {
             ),
           );
           return (
-            <div className="absolute z-[15] inset-x-6 top-[18%] pointer-events-none md:hidden">
+            <div className="absolute z-[15] inset-x-0 top-[22%] flex justify-center px-4 pointer-events-none md:hidden">
               <motion.div
                 key={layer.label}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                className="ml-auto w-full max-w-[360px] rounded-2xl border-2 border-secondary/65 bg-background/90 px-3.5 py-2.5 shadow-lg shadow-secondary/10 backdrop-blur-md"
+                className="w-full max-w-[360px] rounded-2xl border-2 border-secondary/65 bg-background/90 px-3.5 py-2.5 shadow-lg shadow-secondary/10 backdrop-blur-md"
               >
-                <div className="flex items-start gap-2">
+                <div className="flex items-start justify-center gap-2 text-center">
                   <span
                     className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                       isBuilt
@@ -333,7 +333,7 @@ export default function ScrollHouseBlock() {
                   >
                     {isBuilt ? "✓" : activeLayerIndex + 1}
                   </span>
-                  <div className="min-w-0">
+                  <div className="min-w-0 text-center">
                     <div className="font-display text-lg font-black leading-none tracking-tight text-foreground">
                       {layer.label}
                     </div>
