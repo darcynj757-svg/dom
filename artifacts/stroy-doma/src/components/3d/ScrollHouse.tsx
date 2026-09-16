@@ -395,7 +395,9 @@ function Scene({
     // On mobile the title + stats overlays eat ~35% of the screen,
     // so shift the lookAt target up to keep the house visually centred
     // in the uncovered middle zone.
-    const mobileLookAtOffset = isMobile ? 0.2 : 0;
+    // Reserve the upper mobile band for the active construction card so its
+    // detailed text never sits over the roof or upper walls.
+    const mobileLookAtOffset = isMobile ? 0.55 : 0;
 
     if (progress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
