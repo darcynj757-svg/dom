@@ -205,7 +205,9 @@ function InteriorFurniture({
 
   return (
     <group
-      position={[0, 0.6, 0]}
+      // The GLB base is nudged to Y=0.6; furniture gets a lower local origin
+      // so its feet stay on the interior floor instead of reaching the roof.
+      position={[0, 0.2, 0]}
       scale={scale}
       visible={reveal > 0.001}
     >

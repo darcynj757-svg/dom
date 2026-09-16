@@ -14,3 +14,4 @@
 - [WebGL preview limits](webgl-preview-limits.md) — браузер автоматического mobile-теста может не иметь WebGL; это не подтверждает поведение 3D на реальном телефоне.
 - [Video frame validation](video-frame-validation.md) — для сгенерированных MP4 проверяй реальные изменения кадров, а не только FPS и длительность.
 - [House visual source of truth](house-visual-source.md) — для новых cinematic-вариантов архитектуру дома нужно якорить на текущей GLB-модели.
+- [Normalized 3D overlays](normalized-3d-overlays.md) — процедурные подсветка и мебель должны учитывать нормализацию GLB и вертикальный сдвиг базы.
