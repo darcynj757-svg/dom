@@ -7,7 +7,6 @@
  */
 import { useRef, useState, useEffect, Suspense, lazy } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
-import { assetUrl } from "@/lib/utils";
 
 const ScrollHouse = lazy(() => import("@/components/3d/ScrollHouse"));
 
@@ -17,8 +16,6 @@ const STATS = [
   { value: 500, suffix: "", label: "М³ бруса в месяц" },
   { value: 30, suffix: "+", label: "Мастеров в команде" },
 ];
-
-const SUNSET_BACKGROUND_URL = assetUrl("/images/open-lot-sunset-background.jpg");
 
 const CONSTRUCTION_LAYERS = [
   {
@@ -90,10 +87,6 @@ export default function ScrollHouseBlock() {
     setHouseProgress(Math.min(Math.max(v, 0), 1));
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
-  const sunsetBackgroundOpacity = Math.min(
-    0.92,
-    Math.max(0, ((houseProgress - 0.78) / 0.18) * 0.92),
-  );
   // Keep the construction story visible longer before the camera enters the
   // more dynamic finished-house orbit.
   const BUILD_END = 0.70;
@@ -185,14 +178,6 @@ export default function ScrollHouseBlock() {
       className="relative h-[500vh]"
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        <motion.div
-          aria-hidden="true"
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            opacity: sunsetBackgroundOpacity,
-            backgroundImage: `url("${SUNSET_BACKGROUND_URL}")`,
-          }}
-        />
         <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
           {showHouse && mobileModelHint !== null ? (
             <div className="absolute inset-0 z-[5]">
