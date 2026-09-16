@@ -90,7 +90,10 @@ export default function ScrollHouseBlock() {
     setHouseProgress(Math.min(Math.max(v, 0), 1));
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
-  const sunsetBackgroundOpacity = useTransform(scrollYProgress, [0.78, 0.96], [0, 0.92]);
+  const sunsetBackgroundOpacity = Math.min(
+    0.92,
+    Math.max(0, ((houseProgress - 0.78) / 0.18) * 0.92),
+  );
   // Keep the construction story visible longer before the camera enters the
   // more dynamic finished-house orbit.
   const BUILD_END = 0.70;
@@ -189,9 +192,7 @@ export default function ScrollHouseBlock() {
             opacity: sunsetBackgroundOpacity,
             backgroundImage: `url("${SUNSET_BACKGROUND_URL}")`,
           }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-background/45 via-transparent to-background/10" />
-        </motion.div>
+        />
         <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
           {showHouse && mobileModelHint !== null ? (
             <div className="absolute inset-0 z-[5]">

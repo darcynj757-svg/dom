@@ -18,6 +18,7 @@ const CAMERA_CONFIG = { position: [0, 5, 12] as [number, number, number], fov: 4
 const isMobileDevice = typeof window !== "undefined" && window.innerWidth < 768;
 
 const GL_CONFIG = {
+  alpha: true,
   localClippingEnabled: true,
   failIfMajorPerformanceCaveat: false,
   // Disable antialias on mobile — big perf win, barely noticeable on high-DPI screens
@@ -640,6 +641,7 @@ export default function ScrollHouse({
           // Cap pixel ratio on mobile to 1.5 — halves GPU fill-rate cost on high-DPI phones
           dpr={isMobile ? [1, 1.5] : [1, 2]}
           onCreated={({ gl }) => {
+            gl.setClearColor(0x000000, 0);
             gl.domElement.addEventListener(
               "webglcontextlost",
               (e) => {
