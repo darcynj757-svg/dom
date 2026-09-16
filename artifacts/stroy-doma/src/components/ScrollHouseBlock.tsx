@@ -109,6 +109,21 @@ export default function ScrollHouseBlock() {
       if (preloadStarted) return;
       preloadStarted = true;
       const isMobile = window.innerWidth < 768;
+      const variant = isMobile ? "mobile" : "desktop";
+      const modelFile = isMobile ? "house-mobile.glb" : "house-draco.glb";
+      const modelUrl = `${import.meta.env.BASE_URL}${modelFile}`.replace(
+        /([^:])\/\//g,
+        "$1/",
+      );
+      if (!document.querySelector(`link[data-house-model-preload="${variant}"]`)) {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "fetch";
+        link.crossOrigin = "anonymous";
+        link.href = modelUrl;
+        link.dataset.houseModelPreload = variant;
+        document.head.appendChild(link);
+      }
       // Mount the Canvas while the 3D section is still below the viewport.
       // Preloading only the GLB is not enough: WebGL context creation and
       // Suspense resolution can still cause a blank grid at the transition.

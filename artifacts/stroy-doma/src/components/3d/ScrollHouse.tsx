@@ -38,9 +38,10 @@ function smootherstep(t: number) {
 
 type Bounds = { minY: number; maxY: number };
 
-function useIsMobile() {
-  // Match SSR output on the first client render; update after hydration.
-  const [isMobile, setIsMobile] = useState(false);
+function useIsMobile(initialValue = false) {
+  // ScrollHouse mounts client-side after the parent has measured the viewport,
+  // so the first render can select the correct GLB without loading desktop first.
+  const [isMobile, setIsMobile] = useState(initialValue);
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
     onResize();
@@ -319,7 +320,23 @@ function Scene({
 
 export function preloadHouseModel(isMobile: boolean) {
   preloadDracoDecoder();
-  void getGltfPromise(getHouseModelUrl(isMobile)).catch(() => {
+  const modelUrl = getHouseModelUrl(isMobile);
+  if (typeof document !== "undefined") {
+    const variant = isMobile ? "mobile" : "desktop";
+    const existing = document.querySelector(
+      `link[data-house-model-preload="${variant}"]`,
+    );
+    if (!existing) {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "fetch";
+      link.crossOrigin = "anonymous";
+      link.href = modelUrl;
+      link.dataset.houseModelPreload = variant;
+      document.head.appendChild(link);
+    }
+  }
+  void getGltfPromise(modelUrl).catch(() => {
     // The Suspense consumer will surface the cached loader error if rendering
     // is attempted; this catch only prevents an unhandled prefetch rejection.
   });
@@ -330,6 +347,7 @@ export default function ScrollHouse({
   backgroundColor,
   smoothMotion,
   showGrid,
+  mobileHint,
 }: {
   progress: number;
   /** Optional test-only canvas background; omitted in production scenes. */
@@ -338,13 +356,15 @@ export default function ScrollHouse({
   smoothMotion?: boolean;
   /** Test-only background cleanup; production scenes keep their grid. */
   showGrid?: boolean;
+  /** Viewport measured by the parent before this client-only component mounts. */
+  mobileHint?: boolean;
 }) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
   const [modelReady, setModelReady] = useState(false);
   // Incrementing this key forces the Canvas to fully remount after context loss
   const [canvasKey, setCanvasKey] = useState(0);
   const retryCount = useRef(0);
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(mobileHint);
   const modelUrl = getHouseModelUrl(isMobile);
   const boundsRef = useRef<Bounds>({ minY: -0.2, maxY: 3.4 });
   // Local plane instance (not shared with the hero canvas) so each Canvas
