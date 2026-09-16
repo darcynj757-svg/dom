@@ -66,15 +66,27 @@ type DelayedMesh = {
 
 type VarnishableMaterial = THREE.Material & {
   color?: THREE.Color;
+  map?: THREE.Texture | null;
   roughness?: number;
   envMapIntensity?: number;
 };
+
+type ShaderUniform = { value: number };
 
 type VarnishTarget = {
   material: VarnishableMaterial;
   baseColor: THREE.Color;
   baseRoughness?: number;
   baseEnvMapIntensity?: number;
+  lacquerUniform?: ShaderUniform;
+  timeUniform?: ShaderUniform;
+};
+
+type GlassTarget = {
+  material: VarnishableMaterial;
+  baseRoughness?: number;
+  highlightUniform?: ShaderUniform;
+  timeUniform?: ShaderUniform;
 };
 
 function useIsMobile(initialValue = false) {
@@ -143,12 +155,82 @@ function HouseModel({
       materials.forEach((material) => {
         if (!material.color?.isColor) return;
 
-        targets.push({
+        const target: VarnishTarget = {
           material,
           baseColor: material.color.clone(),
           baseRoughness: material.roughness,
           baseEnvMapIntensity: material.envMapIntensity,
-        });
+        };
+
+        if (material.map) {
+          const baseOnBeforeCompile = material.onBeforeCompile;
+          material.onBeforeCompile = (shader, renderer) => {
+            baseOnBeforeCompile(shader, renderer);
+            shader.uniforms.lacquerProgress = { value: 0 };
+            shader.uniforms.lacquerTime = { value: 0 };
+            shader.fragmentShader = [
+              "uniform float lacquerProgress;",
+              "uniform float lacquerTime;",
+              shader.fragmentShader.replace(
+                "#include <map_fragment>",
+                [
+                  "#include <map_fragment>",
+                  "float lacquerWave = 0.5 + 0.5 * sin(gl_FragCoord.x * 0.008 + gl_FragCoord.y * 0.002 + lacquerTime * 0.7);",
+                  "float lacquerHighlight = smoothstep(0.91, 0.99, lacquerWave) * lacquerProgress;",
+                  "diffuseColor.rgb += vec3(1.0, 0.9, 0.72) * lacquerHighlight * 0.075;",
+                ].join("\n"),
+              ),
+            ].join("\n");
+            target.lacquerUniform = shader.uniforms.lacquerProgress;
+            target.timeUniform = shader.uniforms.lacquerTime;
+          };
+          material.needsUpdate = true;
+        }
+
+        targets.push(target);
+      });
+    });
+
+    return targets;
+  }, [scene]);
+  const glassTargets = useMemo<GlassTarget[]>(() => {
+    const targets: GlassTarget[] = [];
+
+    scene.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const materialName = mesh.name.replace(/_\d+$/, "");
+      if (materialName !== "Material23") return;
+
+      const materials = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as VarnishableMaterial[];
+      materials.forEach((material) => {
+        const target: GlassTarget = {
+          material,
+          baseRoughness: material.roughness,
+        };
+        const baseOnBeforeCompile = material.onBeforeCompile;
+        material.onBeforeCompile = (shader, renderer) => {
+          baseOnBeforeCompile(shader, renderer);
+          shader.uniforms.glassHighlight = { value: 0 };
+          shader.uniforms.glassTime = { value: 0 };
+          shader.fragmentShader = [
+            "uniform float glassHighlight;",
+            "uniform float glassTime;",
+            shader.fragmentShader.replace(
+              "#include <emissivemap_fragment>",
+              [
+                "#include <emissivemap_fragment>",
+                "float glassWave = 0.5 + 0.5 * sin(gl_FragCoord.x * 0.018 + gl_FragCoord.y * 0.004 + glassTime * 1.4);",
+                "float glassSweep = smoothstep(0.94, 0.995, glassWave) * glassHighlight;",
+                "totalEmissiveRadiance += vec3(0.48, 0.72, 1.0) * (0.08 * glassHighlight + 0.62 * glassSweep);",
+              ].join("\n"),
+            ),
+          ].join("\n");
+          target.highlightUniform = shader.uniforms.glassHighlight;
+          target.timeUniform = shader.uniforms.glassTime;
+        };
+        material.needsUpdate = true;
+        targets.push(target);
       });
     });
 
@@ -215,7 +297,7 @@ function HouseModel({
     onReady();
   }, [scene, normScale, clipPlane, delayedParts, onBounds, onReady]);
 
-  useFrame(() => {
+  useFrame((state) => {
     const finishProgress = THREE.MathUtils.clamp(
       (progress - HOUSE_FINISH_START) / (1 - HOUSE_FINISH_START),
       0,
@@ -261,6 +343,19 @@ function HouseModel({
           varnishProgress,
         );
       }
+    });
+
+    varnishTargets.forEach(({ lacquerUniform, timeUniform }) => {
+      if (lacquerUniform) lacquerUniform.value = varnishProgress;
+      if (timeUniform) timeUniform.value = state.clock.elapsedTime;
+    });
+
+    glassTargets.forEach(({ material, baseRoughness, highlightUniform, timeUniform }) => {
+      if (typeof baseRoughness === "number" && typeof material.roughness === "number") {
+        material.roughness = THREE.MathUtils.lerp(baseRoughness, 0.08, varnishProgress);
+      }
+      if (highlightUniform) highlightUniform.value = varnishProgress;
+      if (timeUniform) timeUniform.value = state.clock.elapsedTime;
     });
   });
 
