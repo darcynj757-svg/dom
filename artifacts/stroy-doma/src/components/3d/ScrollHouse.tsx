@@ -39,6 +39,7 @@ function smootherstep(t: number) {
 type Bounds = { minY: number; maxY: number };
 
 const HOUSE_FINISH_START = 0.70;
+const INTERIOR_REVEAL_START = 0.78;
 const DELAYED_PART_MATERIALS = new Set([
   // Roof structure and dark roofing surface.
   "Material15",
@@ -120,21 +121,21 @@ function UnderRoofGlow({
       {/* Continuous warm light under the four roof edges. The bars are kept
           just below the eaves so the glow follows the roof rather than
           reading as a single floating lamp. */}
-      <RoofGlowBar position={[0, 1.62, 1.84]} size={[4.75, 0.026, 0.04]} strength={strength} />
-      <RoofGlowBar position={[0, 1.62, -1.84]} size={[4.75, 0.026, 0.04]} strength={strength} />
-      <RoofGlowBar position={[-2.42, 1.62, 0]} size={[0.04, 0.026, 3.6]} strength={strength} />
-      <RoofGlowBar position={[2.42, 1.62, 0]} size={[0.04, 0.026, 3.6]} strength={strength} />
+      <RoofGlowBar position={[0, 1.70, 2.05]} size={[5.15, 0.032, 0.05]} strength={strength} />
+      <RoofGlowBar position={[0, 1.70, -2.05]} size={[5.15, 0.032, 0.05]} strength={strength} />
+      <RoofGlowBar position={[-2.62, 1.70, 0]} size={[0.05, 0.032, 4.0]} strength={strength} />
+      <RoofGlowBar position={[2.62, 1.70, 0]} size={[0.05, 0.032, 4.0]} strength={strength} />
       <pointLight
         position={[-1.85, 1.72, 1.25]}
         color="#ffd28a"
-        intensity={0.42 * strength * mobileScale}
+        intensity={0.18 * strength * mobileScale}
         distance={3.8}
         decay={2}
       />
       <pointLight
         position={[1.85, 1.72, -1.25]}
         color="#f7b765"
-        intensity={0.38 * strength * mobileScale}
+        intensity={0.16 * strength * mobileScale}
         distance={3.8}
         decay={2}
       />
@@ -148,6 +149,181 @@ function UnderRoofGlow({
         />
       )}
     </>
+  );
+}
+
+function FurnitureBox({
+  position,
+  size,
+  color,
+  opacity,
+  clipPlane,
+  radius = 0,
+}: {
+  position: [number, number, number];
+  size: [number, number, number];
+  color: string;
+  opacity: number;
+  clipPlane: THREE.Plane;
+  radius?: number;
+}) {
+  return (
+    <mesh position={position} castShadow receiveShadow>
+      <boxGeometry
+        args={radius > 0 ? [size[0] * 0.99, size[1], size[2] * 0.99] : size}
+      />
+      <meshStandardMaterial
+        color={color}
+        roughness={0.72}
+        metalness={0}
+        transparent
+        opacity={opacity}
+        depthWrite={opacity > 0.92}
+        clippingPlanes={[clipPlane]}
+      />
+    </mesh>
+  );
+}
+
+function InteriorFurniture({
+  progress,
+  clipPlane,
+  isMobile,
+}: {
+  progress: number;
+  clipPlane: THREE.Plane;
+  isMobile: boolean;
+}) {
+  const interiorProgress = THREE.MathUtils.clamp(
+    (progress - INTERIOR_REVEAL_START) / (1 - INTERIOR_REVEAL_START),
+    0,
+    1,
+  );
+  const reveal = easeInOutCubic(interiorProgress);
+  const opacity = 0.94 * reveal;
+  const scale = isMobile ? 0.94 : 1;
+
+  return (
+    <group
+      position={[0, 0.6, 0]}
+      scale={scale}
+      visible={reveal > 0.001}
+    >
+      {/* Living-room sofa facing the front windows. */}
+      <FurnitureBox
+        position={[-1.0, 0.76, 1.02]}
+        size={[1.35, 0.34, 0.62]}
+        color="#76503a"
+        opacity={opacity}
+        clipPlane={clipPlane}
+        radius={0.08}
+      />
+      <FurnitureBox
+        position={[-1.0, 1.13, 1.25]}
+        size={[1.35, 0.68, 0.18]}
+        color="#8e6347"
+        opacity={opacity}
+        clipPlane={clipPlane}
+        radius={0.07}
+      />
+      <FurnitureBox
+        position={[-1.64, 1.08, 1.02]}
+        size={[0.18, 0.58, 0.62]}
+        color="#8e6347"
+        opacity={opacity}
+        clipPlane={clipPlane}
+        radius={0.06}
+      />
+      <FurnitureBox
+        position={[-0.36, 1.08, 1.02]}
+        size={[0.18, 0.58, 0.62]}
+        color="#8e6347"
+        opacity={opacity}
+        clipPlane={clipPlane}
+        radius={0.06}
+      />
+
+      {/* Low coffee table in the centre of the room. */}
+      <FurnitureBox
+        position={[0.05, 0.68, 0.72]}
+        size={[1.05, 0.14, 0.56]}
+        color="#a97849"
+        opacity={opacity}
+        clipPlane={clipPlane}
+        radius={0.05}
+      />
+      <FurnitureBox
+        position={[-0.37, 0.43, 0.5]}
+        size={[0.1, 0.48, 0.1]}
+        color="#6b422b"
+        opacity={opacity}
+        clipPlane={clipPlane}
+      />
+      <FurnitureBox
+        position={[0.47, 0.43, 0.5]}
+        size={[0.1, 0.48, 0.1]}
+        color="#6b422b"
+        opacity={opacity}
+        clipPlane={clipPlane}
+      />
+      <FurnitureBox
+        position={[-0.37, 0.43, 0.94]}
+        size={[0.1, 0.48, 0.1]}
+        color="#6b422b"
+        opacity={opacity}
+        clipPlane={clipPlane}
+      />
+      <FurnitureBox
+        position={[0.47, 0.43, 0.94]}
+        size={[0.1, 0.48, 0.1]}
+        color="#6b422b"
+        opacity={opacity}
+        clipPlane={clipPlane}
+      />
+
+      {/* Two compact chairs on the opposite side make the interior read as a
+          furnished room even when the camera is moving around the model. */}
+      <FurnitureBox
+        position={[1.03, 0.72, 0.92]}
+        size={[0.58, 0.26, 0.58]}
+        color="#755039"
+        opacity={opacity}
+        clipPlane={clipPlane}
+        radius={0.06}
+      />
+      <FurnitureBox
+        position={[1.03, 1.05, 1.15]}
+        size={[0.58, 0.54, 0.16]}
+        color="#8d6246"
+        opacity={opacity}
+        clipPlane={clipPlane}
+        radius={0.05}
+      />
+      <FurnitureBox
+        position={[1.67, 0.72, 0.92]}
+        size={[0.58, 0.26, 0.58]}
+        color="#755039"
+        opacity={opacity}
+        clipPlane={clipPlane}
+        radius={0.06}
+      />
+      <FurnitureBox
+        position={[1.67, 1.05, 1.15]}
+        size={[0.58, 0.54, 0.16]}
+        color="#8d6246"
+        opacity={opacity}
+        clipPlane={clipPlane}
+        radius={0.05}
+      />
+
+      <pointLight
+        position={[0, 1.9, 1.0]}
+        color="#ffd18a"
+        intensity={0.32 * reveal}
+        distance={3.8}
+        decay={2}
+      />
+    </group>
   );
 }
 
@@ -453,6 +629,7 @@ function Scene({
       <directionalLight position={[-8, 6, -4]} intensity={1.0} />
       <directionalLight position={[0, 4, 12]} intensity={0.8} />
       <UnderRoofGlow progress={progress} isMobile={isMobile} />
+      <InteriorFurniture progress={progress} clipPlane={clipPlane} isMobile={isMobile} />
       <Suspense fallback={null}>
         <HouseModel
           progress={progress}
