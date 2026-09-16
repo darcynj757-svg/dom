@@ -70,6 +70,24 @@ function layerOpacity(p: number, from: number, to: number) {
   return fi * fo;
 }
 
+function FoundationFallback({ visible }: { visible: boolean }) {
+  return (
+    <div
+      className={`absolute inset-0 z-[4] pointer-events-none transition-opacity duration-300 ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
+      aria-hidden="true"
+    >
+      <div className="absolute left-1/2 top-[53%] h-24 w-[min(78vw,460px)] -translate-x-1/2 -translate-y-1/2 [perspective:700px] md:top-[55%] md:h-32 md:w-[min(52vw,560px)]">
+        <div className="absolute inset-x-[5%] bottom-0 h-[68%] -skew-x-[10deg] rounded-[3px] bg-[#26343d] shadow-[0_18px_22px_rgba(39,49,54,0.18)] [transform:rotateX(54deg)_rotateZ(-2deg)] md:h-[74%]" />
+        <div className="absolute left-[2%] top-[13%] h-[28%] w-[28%] rounded-[2px] bg-[#c8a769] shadow-[0_8px_10px_rgba(118,91,42,0.12)] [transform:rotateX(54deg)_rotateZ(-2deg)]" />
+        <div className="absolute right-[7%] top-[21%] h-[21%] w-[18%] rounded-[2px] bg-[#c8a769] shadow-[0_8px_10px_rgba(118,91,42,0.12)] [transform:rotateX(54deg)_rotateZ(-2deg)]" />
+        <div className="absolute left-1/2 top-[25%] h-[20%] w-[16%] -translate-x-1/2 rounded-[2px] bg-[#b89455] [transform:rotateX(54deg)_rotateZ(-2deg)]" />
+      </div>
+    </div>
+  );
+}
+
 export default function ScrollHouseBlock() {
   const houseRef = useRef<HTMLDivElement>(null);
 
@@ -80,6 +98,7 @@ export default function ScrollHouseBlock() {
   });
   const heroSceneOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0.9]);
   const BUILD_END = 0.5;
+  const FOUNDATION_PREVIEW_END = 0.06;
   const buildProgress = Math.min(houseProgress / BUILD_END, 1);
   const activeLayerIndex = Math.min(
     CONSTRUCTION_LAYERS.length - 1,
@@ -156,6 +175,7 @@ export default function ScrollHouseBlock() {
               <ScrollHouse progress={houseProgress} />
             </Suspense>
           ) : null}
+          <FoundationFallback visible={houseProgress <= FOUNDATION_PREVIEW_END} />
         </motion.div>
         <div
           className="absolute inset-x-0 top-12 flex flex-col items-center text-center pointer-events-none px-4 z-10"
