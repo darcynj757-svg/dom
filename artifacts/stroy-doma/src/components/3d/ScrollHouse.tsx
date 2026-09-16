@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState, useMemo, useCallback, Suspense, useLayoutEffect } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree, useLoader } from "@react-three/fiber";
 import { ContactShadows, Grid } from "@react-three/drei";
 import * as THREE from "three";
+import { assetUrl } from "@/lib/utils";
 import {
   useGltfWithPlugin,
   hasWebGL,
@@ -26,6 +27,8 @@ const GL_CONFIG = {
   powerPreference: (isMobileDevice ? "high-performance" : "default") as WebGLPowerPreference,
 };
 
+const SUNSET_BACKGROUND_URL = assetUrl("/images/open-lot-sunset-background.jpg");
+
 function easeOutCubic(t: number) {
   return 1 - Math.pow(1 - t, 3);
 }
@@ -35,6 +38,45 @@ function easeInOutCubic(t: number) {
 function smootherstep(t: number) {
   const clamped = THREE.MathUtils.clamp(t, 0, 1);
   return clamped * clamped * clamped * (clamped * (clamped * 6 - 15) + 10);
+}
+
+function SunsetEnvironment({ progress }: { progress: number }) {
+  const sourceTexture = useLoader(THREE.TextureLoader, SUNSET_BACKGROUND_URL);
+  const groundTexture = useMemo(() => {
+    const texture = sourceTexture.clone();
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    // Use the lower part as a texture on a real horizontal plane so the
+    // ground follows the house camera's perspective during the orbit.
+    texture.repeat.set(1, 0.46);
+    texture.offset.set(0, 0);
+    texture.needsUpdate = true;
+    return texture;
+  }, [sourceTexture]);
+  const environmentOpacity = smootherstep(
+    THREE.MathUtils.clamp((progress - 0.78) / 0.18, 0, 1),
+  );
+
+  return (
+    <mesh
+      position={[0, 0.57, 0]}
+      rotation={[-Math.PI / 2, 0, 0]}
+      receiveShadow
+      renderOrder={-2}
+    >
+      <planeGeometry args={[80, 80]} />
+      <meshStandardMaterial
+        map={groundTexture}
+        color="#ffffff"
+        roughness={1}
+        metalness={0}
+        transparent
+        opacity={environmentOpacity}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
+  );
 }
 
 type Bounds = { minY: number; maxY: number };
@@ -502,6 +544,9 @@ function Scene({
       />
       <directionalLight position={[-8, 6, -4]} intensity={1.0} />
       <directionalLight position={[0, 4, 12]} intensity={0.8} />
+      <Suspense fallback={null}>
+        <SunsetEnvironment progress={progress} />
+      </Suspense>
       <Suspense fallback={null}>
         <HouseModel
           progress={progress}
