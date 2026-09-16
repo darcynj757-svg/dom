@@ -177,9 +177,11 @@ function Scene({
     const { minY, maxY } = boundsRef.current;
     const midY = (minY + maxY) * 0.5;
 
-    // ── Two phases ─────────────────────────────────────────────────────────
-    // 0 → BUILD_END : house assembles, camera moves slightly (original feel)
-    // BUILD_END → 1 : house fully built, camera orbits ~330° around it
+    // ── Cinematic camera path ────────────────────────────────────────────────
+    // The camera starts moving during construction, so the model does not feel
+    // locked to one angle while the first layers appear. Once the house is
+    // complete, the remaining scroll becomes a full orbit with a gentle rise,
+    // dip, and push-in.
     const BUILD_END = 0.50;
     const baseDist = isMobile ? 15 : 12;
 
@@ -189,32 +191,32 @@ function Scene({
     const mobileLookAtOffset = isMobile ? 0.2 : 0;
 
     if (progress <= BUILD_END) {
-      // Build phase — normalise to 0→1
+      // Build phase: front three-quarter view → side three-quarter view.
       const bp = progress / BUILD_END;
-      const angle = bp * Math.PI * 0.17;
-      const zoomT = easeOutCubic(Math.max(0, (bp - 0.85) / 0.15));
-      const dist = baseDist - zoomT * 2.0;
+      const buildEase = easeInOutCubic(bp);
+      const angle = THREE.MathUtils.lerp(-Math.PI * 0.12, Math.PI * 0.24, buildEase);
+      const dist = baseDist + 1.4 - Math.sin(bp * Math.PI) * 0.8;
+      const height = midY + 2.35 + Math.sin(bp * Math.PI) * 0.7 + bp * 0.25;
       targetCameraPosition.current.set(
         Math.sin(angle) * dist,
-        midY + 2.5 + bp * 0.4,
+        height,
         Math.cos(angle) * dist,
       );
       targetLookAt.current.set(0, midY + mobileLookAtOffset, 0);
     } else {
-      // Orbit phase — normalise to 0→1 (occupies 50% of total scroll = slower)
+      // Orbit phase — normalise to 0→1 (one full cinematic turn).
       const op = (progress - BUILD_END) / (1 - BUILD_END);
       const eop = easeInOutCubic(op);
-      // Start angle where build phase left off (~30°) and sweep ~300° around
-      const startAngle = Math.PI * 0.17;
-      const orbitAngle = startAngle + eop * Math.PI * 1.67;
-      // Zoom in toward the end: gets closer as orbit finishes
-      const orbitDist = baseDist - 2.0 - eop * 2.5;
-      // Height: rises slightly mid-orbit, then drops low at the end
-      const heightBob = Math.sin(op * Math.PI) * 1.2;
-      const dropAtEnd = easeOutCubic(Math.max(0, (op - 0.7) / 0.3)) * 2.4;
-      const camY = midY + 2.9 + heightBob - dropAtEnd;
-      // LookAt target also rises as camera drops — creates upward tilt at the end
-      const lookAtY = midY + mobileLookAtOffset + easeOutCubic(Math.max(0, (op - 0.7) / 0.3)) * (maxY - midY) * 0.8;
+      const startAngle = Math.PI * 0.24;
+      const orbitAngle = startAngle + eop * Math.PI * 2;
+      // Alternate a wide reveal and a closer inspection during the orbit.
+      const orbitDist = baseDist - 0.6 - eop * 1.8 - Math.sin(op * Math.PI) * 0.7;
+      // Rise to see the roof, then lower toward the finished front view.
+      const heightBob = Math.sin(op * Math.PI) * 1.45;
+      const secondaryBob = Math.sin(op * Math.PI * 2) * 0.3;
+      const endDrop = easeOutCubic(Math.max(0, (op - 0.78) / 0.22)) * 0.8;
+      const camY = midY + 2.8 + heightBob + secondaryBob - endDrop;
+      const lookAtY = midY + mobileLookAtOffset + Math.sin(op * Math.PI) * 0.16;
       targetCameraPosition.current.set(
         Math.sin(orbitAngle) * orbitDist,
         camY,
