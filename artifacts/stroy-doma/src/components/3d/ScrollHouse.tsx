@@ -38,6 +38,119 @@ function smootherstep(t: number) {
 
 type Bounds = { minY: number; maxY: number };
 
+const HOUSE_FINISH_START = 0.70;
+const DELAYED_PART_MATERIALS = new Set([
+  // Roof structure and dark roofing surface.
+  "Material15",
+  "Material58",
+  "Material60",
+  // Window frames, glass and dark opening details.
+  "Material5",
+  "Material11",
+  "Material13",
+  "Material23",
+]);
+
+type DelayedMaterial = {
+  material: THREE.Material;
+  baseOpacity: number;
+  baseDepthWrite: boolean;
+};
+
+type DelayedMesh = {
+  mesh: THREE.Mesh;
+  materials: DelayedMaterial[];
+};
+
+function RoofGlowBar({
+  position,
+  size,
+  strength,
+}: {
+  position: [number, number, number];
+  size: [number, number, number];
+  strength: number;
+}) {
+  return (
+    <group position={position}>
+      <mesh>
+        <boxGeometry args={size} />
+        <meshBasicMaterial
+          color="#ffd184"
+          transparent
+          opacity={0.72 * strength}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      <mesh scale={[1.04, 2.8, 2.8]}>
+        <boxGeometry args={size} />
+        <meshBasicMaterial
+          color="#ffbd5c"
+          transparent
+          opacity={0.055 * strength}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+function UnderRoofGlow({
+  progress,
+  isMobile,
+}: {
+  progress: number;
+  isMobile: boolean;
+}) {
+  const finishProgress = THREE.MathUtils.clamp(
+    (progress - HOUSE_FINISH_START) / (1 - HOUSE_FINISH_START),
+    0,
+    1,
+  );
+  const reveal = easeInOutCubic(finishProgress);
+  const pulse = 0.94 + Math.sin(finishProgress * Math.PI) * 0.06;
+  const strength = reveal * pulse;
+  const mobileScale = isMobile ? 0.78 : 1;
+
+  return (
+    <>
+      {/* Continuous warm light under the four roof edges. The bars are kept
+          just below the eaves so the glow follows the roof rather than
+          reading as a single floating lamp. */}
+      <RoofGlowBar position={[0, 1.62, 1.84]} size={[4.75, 0.026, 0.04]} strength={strength} />
+      <RoofGlowBar position={[0, 1.62, -1.84]} size={[4.75, 0.026, 0.04]} strength={strength} />
+      <RoofGlowBar position={[-2.42, 1.62, 0]} size={[0.04, 0.026, 3.6]} strength={strength} />
+      <RoofGlowBar position={[2.42, 1.62, 0]} size={[0.04, 0.026, 3.6]} strength={strength} />
+      <pointLight
+        position={[-1.85, 1.72, 1.25]}
+        color="#ffd28a"
+        intensity={0.42 * strength * mobileScale}
+        distance={3.8}
+        decay={2}
+      />
+      <pointLight
+        position={[1.85, 1.72, -1.25]}
+        color="#f7b765"
+        intensity={0.38 * strength * mobileScale}
+        distance={3.8}
+        decay={2}
+      />
+      {!isMobile && (
+        <pointLight
+          position={[0, 2.15, 1.45]}
+          color="#ffe0a7"
+          intensity={0.55 * strength}
+          distance={4.2}
+          decay={2}
+        />
+      )}
+    </>
+  );
+}
+
 function useIsMobile(initialValue = false) {
   // ScrollHouse mounts client-side after the parent has measured the viewport,
   // so the first render can select the correct GLB without loading desktop first.
@@ -72,6 +185,24 @@ function HouseModel({
   // simultaneously-mounted canvases (e.g. HeroHouseFlight), and an
   // Object3D can only belong to one parent at a time.
   const scene = useMemo(() => cloneGltfScene(gltf.scene), [gltf.scene]);
+  const delayedParts = useMemo<DelayedMesh[]>(() => {
+    const parts: DelayedMesh[] = [];
+    scene.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const materialName = mesh.name.replace(/_\d+$/, "");
+      if (!DELAYED_PART_MATERIALS.has(materialName)) return;
+      const materials = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map(
+        (material) => ({
+          material: material as THREE.Material,
+          baseOpacity: (material as THREE.Material).opacity,
+          baseDepthWrite: (material as THREE.Material).depthWrite,
+        }),
+      );
+      parts.push({ mesh, materials });
+    });
+    return parts;
+  }, [scene]);
 
   const { normScale, centerOffset } = useMemo(() => {
     const box = new THREE.Box3().setFromObject(scene);
@@ -103,6 +234,16 @@ function HouseModel({
       }
     });
 
+    delayedParts.forEach(({ mesh, materials }) => {
+      mesh.visible = false;
+      materials.forEach(({ material }) => {
+        material.transparent = true;
+        material.opacity = 0;
+        material.depthWrite = false;
+        material.needsUpdate = true;
+      });
+    });
+
     groupRef.current.scale.setScalar(normScale);
     groupRef.current.position.set(0, 0, 0);
     // House aligned parallel to the grid (no rotation offset)
@@ -121,10 +262,28 @@ function HouseModel({
     groupRef.current.position.y += 0.6;
     groupRef.current.updateMatrixWorld(true);
     onReady();
-  }, [scene, normScale, clipPlane, onBounds, onReady]);
+  }, [scene, normScale, clipPlane, delayedParts, onBounds, onReady]);
 
-  // House stays fixed on the ground — clip plane handles the build reveal.
-  useFrame(() => { /* no-op: position is set once in useLayoutEffect */ });
+  useFrame(() => {
+    const finishProgress = THREE.MathUtils.clamp(
+      (progress - HOUSE_FINISH_START) / (1 - HOUSE_FINISH_START),
+      0,
+      1,
+    );
+    const reveal = easeInOutCubic(finishProgress);
+
+    delayedParts.forEach(({ mesh, materials }) => {
+      mesh.visible = reveal > 0.001;
+      materials.forEach(({ material, baseOpacity, baseDepthWrite }) => {
+        material.opacity = baseOpacity * reveal;
+        const shouldWriteDepth = reveal >= 0.999 ? baseDepthWrite : false;
+        if (material.depthWrite !== shouldWriteDepth) {
+          material.depthWrite = shouldWriteDepth;
+          material.needsUpdate = true;
+        }
+      });
+    });
+  });
 
   return (
     <group ref={groupRef}>
@@ -185,6 +344,10 @@ function Scene({
     // Keep the construction story on screen longer before the camera enters
     // the fast reveal orbit.
     const BUILD_END = 0.70;
+    // Preferred finished-house frame: front three-quarter view with the
+    // entrance/terrace readable on the left and the long wall opening to the
+    // right. The 360° orbit starts and ends on this same azimuth.
+    const FINISHED_AZIMUTH = Math.PI * 0.20;
     const baseDist = isMobile ? 15 : 12;
 
     // On mobile the title + stats overlays eat ~35% of the screen,
@@ -196,7 +359,7 @@ function Scene({
       // Build phase: front three-quarter view → side three-quarter view.
       const bp = progress / BUILD_END;
       const buildEase = easeInOutCubic(bp);
-      const angle = THREE.MathUtils.lerp(-Math.PI * 0.2, Math.PI * 0.42, buildEase);
+      const angle = THREE.MathUtils.lerp(-Math.PI * 0.2, FINISHED_AZIMUTH, buildEase);
       const dist = baseDist + 1.8 - Math.sin(bp * Math.PI) * 1.0;
       const height = midY + 2.25 + Math.sin(bp * Math.PI) * 0.9 + bp * 0.3;
       targetCameraPosition.current.set(
@@ -209,7 +372,7 @@ function Scene({
       // Orbit phase — normalise to 0→1 (exactly one 360° turn).
       const op = (progress - BUILD_END) / (1 - BUILD_END);
       const eop = easeInOutCubic(op);
-      const startAngle = Math.PI * 0.42;
+      const startAngle = FINISHED_AZIMUTH;
       const orbitAngle =
         startAngle + eop * Math.PI * 2 + Math.sin(op * Math.PI * 2) * 0.12;
       // Alternate a wide reveal and a closer inspection during the orbit.
@@ -289,6 +452,7 @@ function Scene({
       />
       <directionalLight position={[-8, 6, -4]} intensity={1.0} />
       <directionalLight position={[0, 4, 12]} intensity={0.8} />
+      <UnderRoofGlow progress={progress} isMobile={isMobile} />
       <Suspense fallback={null}>
         <HouseModel
           progress={progress}
