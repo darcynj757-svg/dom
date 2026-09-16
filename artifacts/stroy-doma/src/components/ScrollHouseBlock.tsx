@@ -237,7 +237,7 @@ export default function ScrollHouseBlock() {
                       {layer.label}
                     </div>
                     <div
-                        className={`line-clamp-2 overflow-hidden text-[9px] leading-snug text-foreground/75 transition-all duration-300 md:text-[10px] md:leading-relaxed ${
+                        className={`line-clamp-2 overflow-hidden text-[10px] leading-snug text-foreground/75 transition-all duration-300 md:text-[11px] md:leading-relaxed ${
                         isActive ? "mt-0.5 max-h-8 opacity-100 md:mt-1 md:max-h-12" : "mt-0 max-h-0 opacity-0"
                       }`}
                     >
@@ -304,7 +304,7 @@ export default function ScrollHouseBlock() {
                     <div className="font-display text-xl font-black leading-none tracking-tight text-foreground">
                       {layer.label}
                     </div>
-                    <div className="mt-1.5 line-clamp-2 text-sm font-medium leading-snug text-foreground/75">
+                    <div className="mt-1.5 line-clamp-2 text-base font-medium leading-snug text-foreground/75">
                       {layer.mobileDescription}
                     </div>
                   </div>
@@ -323,7 +323,7 @@ export default function ScrollHouseBlock() {
         {/* Stats overlay */}
         <div className="absolute inset-x-0 bottom-0 z-20 pointer-events-none">
           <div className="container mx-auto px-4 md:px-6 pb-2 md:pb-2">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
+            <div className="grid translate-y-2 grid-cols-2 gap-6 md:grid-cols-4 md:gap-4">
               {STATS.map((s) => {
                 const countProgress = Math.min(1, Math.max(0, houseProgress / 0.9));
                 const displayed = Math.round(s.value * countProgress);
