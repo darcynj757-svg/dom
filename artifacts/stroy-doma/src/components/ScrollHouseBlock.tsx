@@ -6,7 +6,7 @@
  * not the entire Home page (which is 800+ lines of JSX).
  */
 import { useRef, useState, useEffect, Suspense, lazy } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
 const ScrollHouse = lazy(() => import("@/components/3d/ScrollHouse"));
 
@@ -195,10 +195,10 @@ export default function ScrollHouseBlock() {
         </div>
 
         {/* ── Construction layer annotations — fixed panel ───────────────── */}
-        {/* Desktop: vertical column on the right; Mobile: 2×2 grid above stats */}
+        {/* The same progressive construction map stays visible on desktop and mobile. */}
         <div className="absolute z-[15] pointer-events-none
-          right-3 top-1/2 -translate-y-1/2 flex-col gap-2 hidden md:flex"
-          aria-hidden="true"
+          inset-x-6 top-[17%] flex max-w-[420px] ml-auto flex-col gap-2
+          md:inset-x-auto md:right-3 md:top-1/2 md:w-52 md:max-w-none md:-translate-y-1/2"
         >
           {CONSTRUCTION_LAYERS.map((layer, layerIndex) => {
             const isActive = layerIndex === activeLayerIndex;
@@ -208,7 +208,7 @@ export default function ScrollHouseBlock() {
             return (
               <div
                 key={layer.label}
-                className={`relative bg-background/90 backdrop-blur-sm border rounded-2xl px-3 py-2.5 shadow-lg transition-all duration-300 w-52 ${
+                  className={`relative w-full bg-background/90 backdrop-blur-sm border rounded-2xl px-3 py-2.5 shadow-lg transition-all duration-300 ${
                   isActive
                      ? "border-secondary shadow-secondary/25 scale-[1.03]"
                      : isUpcoming
@@ -262,65 +262,6 @@ export default function ScrollHouseBlock() {
             );
           })}
         </div>
-
-        {/* Mobile: single card above the house, swaps on scroll */}
-        {(() => {
-          // Stretch cards evenly across the full scroll (0 → 0.95),
-          // so each of the 4 cards occupies ~25% of scroll instead of
-          // the narrow build-animation windows used on desktop.
-          const TOTAL = 0.95;
-          const normalised = Math.min(houseProgress / TOTAL, 1);
-          const bestIdx = Math.min(
-            CONSTRUCTION_LAYERS.length - 1,
-            Math.floor(normalised * CONSTRUCTION_LAYERS.length),
-          );
-          const layer = CONSTRUCTION_LAYERS[bestIdx];
-           // The section should open on the foundation card immediately;
-           // the first construction stage is not hidden behind a scroll tick.
-           const isVisible = true;
-          return (
-            <div
-              className="absolute z-[15] pointer-events-none inset-x-0 flex justify-center md:hidden"
-              style={{ top: "21%" }}
-              aria-hidden="true"
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={bestIdx}
-                  initial={{ opacity: 0, y: 10, scale: 0.97 }}
-                  animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 10, scale: isVisible ? 1 : 0.97 }}
-                  exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                  transition={{ duration: 0.28, ease: "easeOut" }}
-                  className="mx-6 w-full max-w-[280px] bg-background/90 backdrop-blur-sm border border-secondary/60 shadow-lg shadow-secondary/10 rounded-2xl px-4 py-3"
-                >
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                    <span className="font-display text-sm font-bold text-foreground leading-tight">
-                      {layer.label}
-                    </span>
-                  </div>
-                  <div className="text-xs text-secondary font-semibold mt-0.5 pl-3.5">
-                    {layer.sub}
-                  </div>
-                  <div className="text-[11px] text-muted-foreground mt-0.5 pl-3.5">
-                    {layer.detail}
-                  </div>
-                  {/* progress dots */}
-                  <div className="flex gap-1 mt-2 pl-3.5">
-                    {CONSTRUCTION_LAYERS.map((_, i) => (
-                      <span
-                        key={i}
-                        className={`h-1 rounded-full transition-all duration-300 ${
-                          i === bestIdx ? "w-4 bg-secondary" : "w-1 bg-border"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          );
-        })()}
 
         {/* Stats overlay */}
         <div className="absolute inset-x-0 bottom-0 z-20 pointer-events-none">
