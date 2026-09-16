@@ -20,10 +20,6 @@ const STATS = [
 const CONSTRUCTION_LAYERS = [
   {
     label: "Фундамент",
-    sub: "Готовим надёжное основание",
-    mobileSub: "Надёжное основание",
-    detail: "Размечаем участок · армируем · заливаем бетон",
-    mobileDetail: "Разметка · армирование · бетон",
     description:
       "Размечаем оси дома, подготавливаем грунт и собираем арматурный каркас. После заливки бетон набирает прочность, а основание защищаем от влаги.",
     mobileDescription: "Готовим фундамент, который выдержит дом.",
@@ -36,10 +32,6 @@ const CONSTRUCTION_LAYERS = [
   },
   {
     label: "Лаги пола",
-    sub: "Собираем основание пола",
-    mobileSub: "Тёплый пол",
-    detail: "Гидроизоляция · лаги · утепление · черновой пол",
-    mobileDetail: "Гидроизоляция · лаги · утепление",
     description:
       "После гидроизоляции укладываем лаги и выравниваем плоскость пола. Между ними закладываем утепление, чтобы первый венец дома стоял на сухом и ровном основании.",
     mobileDescription: "Собираем сухое и ровное основание.",
@@ -52,10 +44,6 @@ const CONSTRUCTION_LAYERS = [
   },
   {
     label: "Стены",
-    sub: "Поднимаем стены венец за венцом",
-    mobileSub: "Поднимаем стены",
-    detail: "Собираем сруб · утепляем стыки · проверяем геометрию",
-    mobileDetail: "Сруб · утепление · проёмы",
     description:
       "Каждый венец собираем по проекту, соединяем углы и прокладываем межвенцовый утеплитель. Постепенно появляются комнаты, проёмы, терраса и силуэт дома.",
     mobileDescription: "Собираем дом венец за венцом.",
@@ -68,10 +56,6 @@ const CONSTRUCTION_LAYERS = [
   },
   {
     label: "Кровля",
-    sub: "Закрываем дом от непогоды",
-    mobileSub: "Закрываем дом",
-    detail: "Стропила · обрешётка · утепление · кровельное покрытие",
-    mobileDetail: "Стропила · утепление · покрытие",
     description:
       "Устанавливаем стропильную систему, защищаем утеплитель от влаги и монтируем кровельное покрытие. После этого дом закрыт от осадков и готов к инженерным работам.",
     mobileDescription: "Монтируем крышу и защищаем дом от осадков.",
@@ -228,7 +212,7 @@ export default function ScrollHouseBlock() {
             return (
               <div
                 key={layer.label}
-                  className={`relative w-full bg-background backdrop-blur-sm border rounded-xl px-3 py-2 shadow-lg transition-all duration-300 md:rounded-2xl md:bg-background/90 md:px-3 md:py-2.5 ${
+                  className={`relative w-full bg-background backdrop-blur-sm border rounded-lg px-2.5 py-1.5 shadow-lg transition-all duration-300 md:rounded-xl md:bg-background/90 md:px-2.5 md:py-2 ${
                   isActive
                      ? "border-secondary shadow-secondary/25 scale-[1.03]"
                      : isUpcoming
@@ -236,9 +220,9 @@ export default function ScrollHouseBlock() {
                        : "border-secondary/35 opacity-85"
                 }`}
               >
-                <div className="flex items-start gap-2">
+                <div className="flex items-start gap-1.5">
                   <span
-                    className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold transition-colors ${
+                    className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold transition-colors ${
                       isBuilt
                         ? "bg-secondary text-secondary-foreground"
                         : isActive
@@ -249,18 +233,12 @@ export default function ScrollHouseBlock() {
                     {isBuilt ? "✓" : layerIndex + 1}
                   </span>
                   <div className="min-w-0">
-                    <div className="font-display text-xs font-bold text-foreground leading-tight md:text-sm">
+                    <div className="font-display text-[11px] font-bold text-foreground leading-tight md:text-xs">
                       {layer.label}
                     </div>
-                    <div className="text-[11px] text-secondary font-semibold mt-0.5 md:text-xs">
-                      {layer.sub}
-                    </div>
-                    <div className="text-[10px] text-muted-foreground mt-0.5 md:text-[11px]">
-                      {layer.detail}
-                    </div>
                     <div
-                      className={`line-clamp-3 overflow-hidden text-[10px] leading-snug text-foreground/75 transition-all duration-300 md:text-[11px] md:leading-relaxed ${
-                        isActive ? "mt-1 max-h-12 opacity-100 md:mt-2 md:max-h-24" : "mt-0 max-h-0 opacity-0"
+                        className={`line-clamp-2 overflow-hidden text-[9px] leading-snug text-foreground/75 transition-all duration-300 md:text-[10px] md:leading-relaxed ${
+                        isActive ? "mt-0.5 max-h-8 opacity-100 md:mt-1 md:max-h-12" : "mt-0 max-h-0 opacity-0"
                       }`}
                     >
                       {layer.description}
@@ -310,11 +288,11 @@ export default function ScrollHouseBlock() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                className="ml-auto w-full max-w-[360px] rounded-[22px] border-2 border-secondary/65 bg-background/85 px-5 py-4 shadow-xl shadow-secondary/10 backdrop-blur-md"
+                className="ml-auto w-full max-w-[360px] rounded-[18px] border-2 border-secondary/65 bg-background/85 px-4 py-3 shadow-lg shadow-secondary/10 backdrop-blur-md"
               >
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-2.5">
                   <span
-                    className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-base font-bold ${
+                    className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
                       isBuilt
                         ? "bg-secondary text-secondary-foreground"
                         : "border border-secondary text-secondary"
@@ -323,21 +301,15 @@ export default function ScrollHouseBlock() {
                     {isBuilt ? "✓" : activeLayerIndex + 1}
                   </span>
                   <div className="min-w-0">
-                    <div className="font-display text-2xl font-black leading-none tracking-tight text-foreground">
+                    <div className="font-display text-xl font-black leading-none tracking-tight text-foreground">
                       {layer.label}
                     </div>
-                    <div className="mt-1.5 text-lg font-bold leading-tight text-secondary">
-                      {layer.mobileSub}
-                    </div>
-                    <div className="mt-2 text-sm font-medium leading-snug text-muted-foreground">
-                      {layer.mobileDetail}
-                    </div>
-                    <div className="mt-3 text-sm font-medium leading-relaxed text-foreground/75">
+                    <div className="mt-1.5 line-clamp-2 text-sm font-medium leading-snug text-foreground/75">
                       {layer.mobileDescription}
                     </div>
                   </div>
                 </div>
-                <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-secondary/15">
+                <div className="mt-3 h-1 overflow-hidden rounded-full bg-secondary/15">
                   <div
                     className="h-full rounded-full bg-secondary transition-[width] duration-150"
                     style={{ width: `${progressInLayer}%` }}

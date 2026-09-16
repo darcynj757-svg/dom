@@ -397,7 +397,7 @@ function Scene({
     // in the uncovered middle zone.
     // Reserve the upper mobile band for the active construction card so its
     // detailed text never sits over the roof or upper walls.
-    const mobileLookAtOffset = isMobile ? 0.75 : 0;
+    const mobileLookAtOffset = isMobile ? 0.9 : 0;
 
     if (progress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
