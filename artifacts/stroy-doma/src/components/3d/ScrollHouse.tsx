@@ -83,6 +83,9 @@ function ProgressiveContactShadows({
 }
 
 const HOUSE_FINISH_START = 0.70;
+// Reserve a short, camera-locked completion beat before the final orbit. The
+// house finishes in place instead of feeling like it is being scrolled upward.
+const HOUSE_FINISH_END = 0.82;
 const HOUSE_STAIN_START = 0.76;
 const VARNISH_START = 0.84;
 const VARNISH_ROUGHNESS = 0.22;
@@ -355,7 +358,7 @@ function HouseModel({
   useFrame((state) => {
     const currentProgress = THREE.MathUtils.clamp(readProgress(progress), 0, 1);
     const finishProgress = THREE.MathUtils.clamp(
-      (currentProgress - HOUSE_FINISH_START) / (1 - HOUSE_FINISH_START),
+      (currentProgress - HOUSE_FINISH_START) / (HOUSE_FINISH_END - HOUSE_FINISH_START),
       0,
       1,
     );
@@ -463,6 +466,7 @@ function Scene({
   const smoothedLookAt = useRef(new THREE.Vector3());
   const targetClipConstant = useRef(0);
   const motionInitialized = useRef(false);
+  const completionLightRef = useRef<THREE.PointLight>(null);
 
   useEffect(() => {
     scene.background = backgroundColor ? new THREE.Color(backgroundColor) : null;
@@ -481,9 +485,8 @@ function Scene({
     // locked to one angle while the first layers appear. Once the house is
     // complete, the remaining scroll becomes a full orbit with a gentle rise,
     // dip, and push-in.
-    // Keep the construction story on screen longer before the camera enters
-    // the fast reveal orbit.
-    const BUILD_END = 0.70;
+    // Keep the construction story on screen longer before the completion beat.
+    const BUILD_END = HOUSE_FINISH_START;
     // Preferred finished-house frame: front three-quarter view with the
     // entrance/terrace readable on the left and the long wall opening to the
     // right. The 360° orbit starts and ends on this same azimuth.
@@ -496,6 +499,12 @@ function Scene({
     // Reserve the upper mobile band for the active construction card so its
     // detailed text never sits over the roof or upper walls.
     const mobileLookAtOffset = isMobile ? 0.9 : 0;
+
+    const completionProgress = THREE.MathUtils.clamp(
+      (currentProgress - HOUSE_FINISH_START) / (HOUSE_FINISH_END - HOUSE_FINISH_START),
+      0,
+      1,
+    );
 
     if (currentProgress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
@@ -510,11 +519,27 @@ function Scene({
         Math.cos(angle) * dist,
       );
       targetLookAt.current.set(0, midY + mobileLookAtOffset, 0);
+    } else if (currentProgress < HOUSE_FINISH_END) {
+      // Completion beat: settle into the final frame without rotating. This
+      // gives the roof, windows, and finish a clear reveal moment.
+      const settle = easeOutCubic(completionProgress);
+      const holdDistance = baseDist - 0.35;
+      const holdHeight = midY + 2.45;
+      const buildEndDistance = baseDist + 1.8;
+      const buildEndHeight = midY + 2.55;
+      targetCameraPosition.current.set(
+        Math.sin(FINISHED_AZIMUTH) *
+          THREE.MathUtils.lerp(buildEndDistance, holdDistance, settle),
+        THREE.MathUtils.lerp(buildEndHeight, holdHeight, settle),
+        Math.cos(FINISHED_AZIMUTH) *
+          THREE.MathUtils.lerp(buildEndDistance, holdDistance, settle),
+      );
+      targetLookAt.current.set(0, midY + mobileLookAtOffset, 0);
     } else {
       // Cinematic orbit — normalise to 0→1 (exactly one 360° turn).
       // Start close to the front facade, rise above the roof for the
       // silhouette reveal, then settle back into the selected final frame.
-      const op = (currentProgress - BUILD_END) / (1 - BUILD_END);
+      const op = (currentProgress - HOUSE_FINISH_END) / (1 - HOUSE_FINISH_END);
       // Use one shared smooth curve for the orbit and its secondary motion so
       // the camera does not snap while the scroll reaches the final frame.
       const eop = smootherstep(op);
@@ -545,6 +570,19 @@ function Scene({
         Math.cos(orbitAngle) * orbitDist,
       );
       targetLookAt.current.set(0, lookAtY, 0);
+    }
+
+    // A warm moving light marks the exact moment the construction state
+    // becomes a finished home. It peaks in the middle of the locked beat and
+    // disappears before the orbit begins.
+    if (completionLightRef.current) {
+      const sweep = Math.sin(completionProgress * Math.PI);
+      completionLightRef.current.position.set(
+        THREE.MathUtils.lerp(-5.5, 5.5, completionProgress),
+        midY + 1.8,
+        3.5,
+      );
+      completionLightRef.current.intensity = sweep * (isMobile ? 1.8 : 2.6);
     }
 
     // ── Clip plane: start with the foundation footprint visible, then build
@@ -604,6 +642,13 @@ function Scene({
       />
       <directionalLight position={[-8, 6, -4]} intensity={1.0} />
       <directionalLight position={[0, 4, 12]} intensity={0.8} />
+      <pointLight
+        ref={completionLightRef}
+        color="#f4c27a"
+        intensity={0}
+        distance={12}
+        decay={2}
+      />
       <Suspense fallback={null}>
         <HouseModel
           progress={progress}
