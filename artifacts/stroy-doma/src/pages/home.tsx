@@ -342,29 +342,14 @@ export default function Home() {
             ].map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={
-                  isMobile
-                    ? {
-                        opacity: 0,
-                        x: i % 2 === 0 ? -28 : 28,
-                        y: 12,
-                        scale: 0.975,
-                      }
-                    : { opacity: 0, y: 24 }
-                }
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={
-                  isMobile
-                    ? {
-                        type: "spring",
-                        stiffness: 90,
-                        damping: 18,
-                        mass: 0.75,
-                        delay: i * 0.11,
-                      }
-                    : { duration: 0.5, delay: i * 0.08 }
-                }
+                initial={{ opacity: 0, y: 22, scale: 0.985 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{
+                  duration: 0.55,
+                  delay: i * (isMobile ? 0.08 : 0.07),
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 className="group relative p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/10 to-transparent rounded-tr-2xl rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity" />
