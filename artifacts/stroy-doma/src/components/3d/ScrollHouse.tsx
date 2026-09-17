@@ -536,7 +536,7 @@ function Scene({
     const mobileLookAtOffset = isMobile ? 0.9 : 0;
     // The mobile stats and stage card leave slightly more visual weight on the
     // left side, so frame the house a little to the right on narrow screens.
-    const mobileFrameOffsetX = isMobile ? 0.28 : 0;
+    const mobileFrameOffsetX = isMobile ? 0.46 : 0;
 
     if (currentProgress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
