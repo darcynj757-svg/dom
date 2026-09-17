@@ -534,9 +534,10 @@ function Scene({
     // Reserve the upper mobile band for the active construction card so its
     // detailed text never sits over the roof or upper walls.
     const mobileLookAtOffset = isMobile ? 0.9 : 0;
-    // The mobile stats and stage card leave slightly more visual weight on the
-    // left side, so frame the house a little to the right on narrow screens.
-    const mobileFrameOffsetX = isMobile ? 0.88 : 0;
+    // A negative look-at offset frames the house to the right on screen. The
+    // previous positive value pushed the visible model left and left a white
+    // strip on the right edge of narrow screens.
+    const mobileFrameOffsetX = isMobile ? -0.45 : 0;
 
     if (currentProgress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
