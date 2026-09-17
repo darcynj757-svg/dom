@@ -524,7 +524,9 @@ function Scene({
     // entrance/terrace readable on the left and the long wall opening to the
     // right. The 360° orbit starts and ends on this same azimuth.
     const FINISHED_AZIMUTH = Math.PI * 0.20;
-    const baseDist = isMobile ? 15 : 12;
+    // Give the mobile overlays more breathing room while keeping the desktop
+    // house large enough to read the facade and terrace details.
+    const baseDist = isMobile ? 16.5 : 10.8;
 
     // On mobile the title + stats overlays eat ~35% of the screen,
     // so shift the lookAt target up to keep the house visually centred
