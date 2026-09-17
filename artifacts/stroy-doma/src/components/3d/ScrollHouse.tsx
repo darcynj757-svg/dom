@@ -581,7 +581,7 @@ function Scene({
       const secondaryBob = Math.sin(eop * Math.PI * 2) * 0.12;
       // Lower the final frame a little so the house reads from the facade
       // rather than from a high, roof-dominant angle.
-      const endDrop = easeOutCubic(Math.max(0, (eop - 0.78) / 0.22)) * 1.0;
+      const endDrop = easeOutCubic(Math.max(0, (eop - 0.78) / 0.22)) * 1.55;
       const camY = midY + 2.45 + heightBob + secondaryBob - endDrop;
       const lookAtY = midY + mobileLookAtOffset + Math.sin(eop * Math.PI) * 0.22;
       targetCameraPosition.current.set(
