@@ -534,6 +534,9 @@ function Scene({
     // Reserve the upper mobile band for the active construction card so its
     // detailed text never sits over the roof or upper walls.
     const mobileLookAtOffset = isMobile ? 0.9 : 0;
+    // The mobile stats and stage card leave slightly more visual weight on the
+    // left side, so frame the house a little to the right on narrow screens.
+    const mobileFrameOffsetX = isMobile ? 0.28 : 0;
 
     if (currentProgress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
@@ -547,7 +550,7 @@ function Scene({
         height,
         Math.cos(angle) * dist,
       );
-      targetLookAt.current.set(0, midY + mobileLookAtOffset, 0);
+      targetLookAt.current.set(mobileFrameOffsetX, midY + mobileLookAtOffset, 0);
     } else {
       // Cinematic orbit — normalise to 0→1 (exactly one 360° turn).
       // Start close to the front facade, rise above the roof for the
@@ -585,7 +588,7 @@ function Scene({
         camY,
         Math.cos(orbitAngle) * orbitDist,
       );
-      targetLookAt.current.set(0, lookAtY, 0);
+      targetLookAt.current.set(mobileFrameOffsetX, lookAtY, 0);
     }
 
     if (!isMobile) {
