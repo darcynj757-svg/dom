@@ -111,7 +111,6 @@ const CONSTRUCTION_LAYERS = [
 // The dark roof starts fading in at 70% inside ScrollHouse's final orbit.
 const CONSTRUCTION_STAGE_STARTS = [0, 0.12, 0.24, 0.40, 0.70, 0.80, 0.90] as const;
 const CONSTRUCTION_STAGE_ENDS = [0.12, 0.24, 0.40, 0.70, 0.80, 0.90, 0.96] as const;
-const HOUSE_FINISH_PROGRESS = 0.82;
 
 function layerOpacity(p: number, from: number, to: number) {
   const fi = Math.min(1, Math.max(0, (p - from) / 0.04));
@@ -176,7 +175,6 @@ export default function ScrollHouseBlock() {
     nextStageIndex === -1
       ? CONSTRUCTION_LAYERS.length - 1
       : Math.max(0, nextStageIndex - 1);
-  const isHouseFinished = houseProgress >= HOUSE_FINISH_PROGRESS;
 
   // Warm the lazy 3D chunk, decoder, and model cache after Hero has mounted.
   // The Canvas itself still mounts only when the user enters the block, so
@@ -276,17 +274,11 @@ export default function ScrollHouseBlock() {
           className="absolute inset-x-0 top-12 flex flex-col items-center text-center pointer-events-none px-4 z-10"
         >
           <span className="inline-block px-4 py-1 rounded-full bg-secondary/20 text-secondary text-xs uppercase tracking-[0.25em] font-semibold mb-3">
-            {isHouseFinished ? "Дом готов" : "Интерактивная 3D-модель"}
+            Интерактивная 3D-модель
           </span>
-          <motion.p
-            key={isHouseFinished ? "finished" : "building"}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="font-display text-2xl md:text-3xl font-bold text-foreground/80"
-          >
-            {isHouseFinished ? "Дом готов к жизни" : "Дом строится на ваших глазах"}
-          </motion.p>
+          <p className="font-display text-2xl md:text-3xl font-bold text-foreground/80">
+            Дом строится на ваших глазах
+          </p>
           <p className="mt-1 text-muted-foreground text-sm">прокрутите вниз</p>
         </div>
 
