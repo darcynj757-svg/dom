@@ -537,7 +537,7 @@ function Scene({
     // A negative look-at offset frames the house to the right on screen. The
     // previous positive value pushed the visible model left and left a white
     // strip on the right edge of narrow screens.
-    const mobileFrameOffsetX = isMobile ? -0.45 : 0;
+    const mobileFrameOffsetX = isMobile ? -0.30 : 0;
 
     if (currentProgress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
