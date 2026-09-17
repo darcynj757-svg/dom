@@ -520,10 +520,10 @@ function Scene({
     // Keep the construction story on screen longer before the camera enters
     // the fast reveal orbit.
     const BUILD_END = 0.70;
-    // Preferred finished-house frame: front three-quarter view with the
-    // entrance/terrace readable on the left and the long wall opening to the
-    // right. The 360° orbit starts and ends on this same azimuth.
-    const FINISHED_AZIMUTH = Math.PI * 0.20;
+    // Preferred finished-house frame: a more front-facing three-quarter view
+    // with the entrance/terrace readable without looking down from above. The
+    // 360° orbit starts and ends on this same azimuth.
+    const FINISHED_AZIMUTH = Math.PI * 0.14;
     // Give the mobile overlays more breathing room while keeping the desktop
     // house large enough to read the facade and terrace details.
     const baseDist = isMobile ? 16.5 : 10.8;
@@ -575,7 +575,9 @@ function Scene({
       // travelling across the front and side elevations.
       const heightBob = roofRise + Math.sin(eop * Math.PI) * 0.42;
       const secondaryBob = Math.sin(eop * Math.PI * 2) * 0.12;
-      const endDrop = easeOutCubic(Math.max(0, (eop - 0.78) / 0.22)) * 0.65;
+      // Lower the final frame a little so the house reads from the facade
+      // rather than from a high, roof-dominant angle.
+      const endDrop = easeOutCubic(Math.max(0, (eop - 0.78) / 0.22)) * 1.0;
       const camY = midY + 2.45 + heightBob + secondaryBob - endDrop;
       const lookAtY = midY + mobileLookAtOffset + Math.sin(eop * Math.PI) * 0.22;
       targetCameraPosition.current.set(
