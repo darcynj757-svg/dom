@@ -285,7 +285,7 @@ export default function ScrollHouseBlock() {
         {/* ── Construction layer annotations — fixed panel ───────────────── */}
         {/* Desktop: the full progressive map stays visible in the right column. */}
         <div className="absolute z-[15] pointer-events-none
-          hidden md:flex md:inset-x-auto md:right-3 md:top-1/2 md:w-52 md:max-w-none md:-translate-y-1/2
+          hidden md:flex md:inset-x-auto md:right-3 md:top-1/2 md:w-60 md:max-w-none md:-translate-y-1/2
           flex-col gap-2"
         >
           {CONSTRUCTION_LAYERS.map((layer, layerIndex) => {
@@ -295,7 +295,7 @@ export default function ScrollHouseBlock() {
             return (
               <div
                 key={layer.label}
-                  className={`relative w-full bg-background backdrop-blur-sm border rounded-lg px-2.5 py-1.5 shadow-lg transition-all duration-300 md:rounded-xl md:bg-background/90 md:px-2.5 md:py-2 ${
+                  className={`relative w-full bg-background backdrop-blur-sm border rounded-lg px-2.5 py-1.5 shadow-lg transition-all duration-300 md:rounded-xl md:bg-background/90 md:px-3 md:py-2.5 ${
                   isActive
                      ? "border-secondary shadow-secondary/25 scale-[1.03]"
                      : isUpcoming
