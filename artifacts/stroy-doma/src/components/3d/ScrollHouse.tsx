@@ -38,6 +38,20 @@ function smootherstep(t: number) {
   return clamped * clamped * clamped * (clamped * (clamped * 6 - 15) + 10);
 }
 
+function cinematicOrbitProgress(t: number) {
+  // Keep the beginning and the final frame calm while allowing the middle
+  // section to carry the visual travel. The last 6% is an intentional hold
+  // so the finished house can be read instead of stopping mid-motion.
+  const active = THREE.MathUtils.clamp(t / 0.94, 0, 1);
+  if (active < 0.22) {
+    return smootherstep(active / 0.22) * 0.12;
+  }
+  if (active < 0.78) {
+    return 0.12 + smootherstep((active - 0.22) / 0.56) * 0.76;
+  }
+  return 0.88 + smootherstep((active - 0.78) / 0.22) * 0.12;
+}
+
 type Bounds = { minY: number; maxY: number };
 type ScrollProgress = number | MotionValue<number>;
 
@@ -463,6 +477,28 @@ function Scene({
   const smoothedLookAt = useRef(new THREE.Vector3());
   const targetClipConstant = useRef(0);
   const motionInitialized = useRef(false);
+  const finishLightRef = useRef<THREE.PointLight>(null);
+  const pointerTarget = useRef(new THREE.Vector2());
+  const pointerOffset = useRef(new THREE.Vector2());
+
+  useEffect(() => {
+    if (isMobile) return;
+
+    const onPointerMove = (event: PointerEvent) => {
+      pointerTarget.current.set(
+        (event.clientX / window.innerWidth - 0.5) * 2,
+        (event.clientY / window.innerHeight - 0.5) * 2,
+      );
+    };
+    const resetPointer = () => pointerTarget.current.set(0, 0);
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("blur", resetPointer);
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("blur", resetPointer);
+    };
+  }, [isMobile]);
 
   useEffect(() => {
     scene.background = backgroundColor ? new THREE.Color(backgroundColor) : null;
@@ -515,14 +551,15 @@ function Scene({
       // Start close to the front facade, rise above the roof for the
       // silhouette reveal, then settle back into the selected final frame.
       const op = (currentProgress - BUILD_END) / (1 - BUILD_END);
-      // Use one shared smooth curve for the orbit and its secondary motion so
-      // the camera does not snap while the scroll reaches the final frame.
-      const eop = smootherstep(op);
+      // Slow in, faster architectural reveal, slow out, then hold the final
+      // frame. This keeps the one full revolution but avoids a constant-speed
+      // mechanical spin.
+      const eop = cinematicOrbitProgress(op);
       const startAngle = FINISHED_AZIMUTH;
       const orbitAngle =
         startAngle + eop * Math.PI * 2 + Math.sin(eop * Math.PI * 2) * 0.06;
       const facadePush = easeOutCubic(Math.min(op / 0.24, 1)) * 0.85;
-      const roofRise = easeOutCubic(Math.min(op / 0.34, 1)) * 0.9;
+      const roofRise = easeOutCubic(Math.min(op / 0.34, 1)) * 0.65;
       // Move in for the facade, open up around the roof/rear reveal, and
       // finish at the same close final distance as the selected frame.
       const orbitDist =
@@ -534,9 +571,9 @@ function Scene({
         Math.sin(eop * Math.PI * 2) * 0.18;
       // Rise early enough to expose the roof while the camera is still
       // travelling across the front and side elevations.
-      const heightBob = roofRise + Math.sin(eop * Math.PI) * 0.72;
-      const secondaryBob = Math.sin(eop * Math.PI * 2) * 0.30;
-      const endDrop = easeOutCubic(Math.max(0, (op - 0.78) / 0.22)) * 1.0;
+      const heightBob = roofRise + Math.sin(eop * Math.PI) * 0.42;
+      const secondaryBob = Math.sin(eop * Math.PI * 2) * 0.12;
+      const endDrop = easeOutCubic(Math.max(0, (eop - 0.78) / 0.22)) * 0.65;
       const camY = midY + 2.45 + heightBob + secondaryBob - endDrop;
       const lookAtY = midY + mobileLookAtOffset + Math.sin(eop * Math.PI) * 0.22;
       targetCameraPosition.current.set(
@@ -545,6 +582,26 @@ function Scene({
         Math.cos(orbitAngle) * orbitDist,
       );
       targetLookAt.current.set(0, lookAtY, 0);
+    }
+
+    if (!isMobile) {
+      pointerOffset.current.lerp(pointerTarget.current, 1 - Math.exp(-delta / 0.24));
+      targetCameraPosition.current.x += pointerOffset.current.x * 0.24;
+      targetCameraPosition.current.y -= pointerOffset.current.y * 0.14;
+      targetLookAt.current.x += pointerOffset.current.x * 0.08;
+      targetLookAt.current.y -= pointerOffset.current.y * 0.05;
+    }
+
+    const finishLight = finishLightRef.current;
+    if (finishLight) {
+      const lightProgress = smootherstep(
+        THREE.MathUtils.clamp((currentProgress - 0.82) / 0.16, 0, 1),
+      );
+      const sweep = smootherstep(
+        THREE.MathUtils.clamp((currentProgress - 0.84) / 0.12, 0, 1),
+      );
+      finishLight.position.set(-5.5 + sweep * 11, 4.2 + Math.sin(sweep * Math.PI) * 1.2, 4.5);
+      finishLight.intensity = lightProgress * 0.7;
     }
 
     // ── Clip plane: start with the foundation footprint visible, then build
@@ -604,6 +661,13 @@ function Scene({
       />
       <directionalLight position={[-8, 6, -4]} intensity={1.0} />
       <directionalLight position={[0, 4, 12]} intensity={0.8} />
+      <pointLight
+        ref={finishLightRef}
+        color="#ffd4a3"
+        intensity={0}
+        distance={14}
+        decay={2}
+      />
       <Suspense fallback={null}>
         <HouseModel
           progress={progress}
