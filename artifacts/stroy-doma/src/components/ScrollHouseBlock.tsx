@@ -320,8 +320,8 @@ export default function ScrollHouseBlock() {
                       {layer.label}
                     </div>
                     <div
-                        className={`line-clamp-2 overflow-hidden text-[10px] leading-snug text-foreground/75 transition-all duration-300 md:text-[11px] md:leading-relaxed ${
-                        isActive ? "mt-0.5 max-h-8 opacity-100 md:mt-1 md:max-h-12" : "mt-0 max-h-0 opacity-0"
+                        className={`line-clamp-3 overflow-hidden text-[10px] leading-snug text-foreground/75 transition-all duration-300 md:text-[11px] md:leading-relaxed ${
+                        isActive ? "mt-0.5 max-h-8 opacity-100 md:mt-1 md:max-h-16" : "mt-0 max-h-0 opacity-0"
                       }`}
                     >
                       {layer.description}
