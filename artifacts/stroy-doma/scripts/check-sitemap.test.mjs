@@ -108,7 +108,7 @@ test("aliases stay available but are explicitly excluded from indexing", () => {
 
   assert.deepEqual(
     aliases.map((route) => route.path).sort(),
-    ["/production", "/uslugi"],
+    ["/uslugi"],
   );
   assert.ok(
     aliases.every(
