@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
-import profbrusHeroVideo from "@assets/cedar_log_mansion_flythrough_16s_compressed.mp4";
 
 export function ProfbrusHeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -19,7 +18,7 @@ export function ProfbrusHeroVideo() {
           videoRef.current = el;
           if (el) el.setAttribute("fetchpriority", "high");
         }}
-        src={profbrusHeroVideo}
+        src={`${import.meta.env.BASE_URL}videos/hero-compressed.mp4`}
         className="absolute inset-0 w-full h-full object-cover"
       />
     </div>
