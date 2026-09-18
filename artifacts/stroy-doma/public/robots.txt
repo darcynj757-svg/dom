@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 Disallow: /terms
+Clean-param: from&utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&gclid&ysclid&_openstat&fbclid&from-reactor
 
 Sitemap: https://kedr-tomsk.ru/sitemap.xml

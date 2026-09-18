@@ -1,9 +1,11 @@
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
-import { Suspense, createElement, lazy, useEffect, type ComponentType } from "react";
+import { Suspense, createElement, lazy, useEffect, useRef, type ComponentType } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/layout/Layout";
+import { ymHit } from "@/lib/metrika";
+import { ymHit } from "@/lib/metrika";
 // Lazy-load all pages for route-based code splitting. The loaded component is
 // also exposed synchronously after preload so prerendered pages can hydrate
 // without rendering the Suspense fallback first.
@@ -118,6 +120,32 @@ function PageLoader() {
   );
 }
 
+function MetrikaPageviews() {
+  const [location] = useLocation();
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    ymHit(window.location.href, document.title);
+  }, [location]);
+  return null;
+}
+
+function MetrikaPageviews() {
+  const [location] = useLocation();
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    ymHit(window.location.href, document.title);
+  }, [location]);
+  return null;
+}
+
 function ScrollToTop() {
   const [location] = useLocation();
   useEffect(() => {
@@ -140,6 +168,7 @@ function Router() {
   return (
     <Layout>
       <ScrollToTop />
+      <MetrikaPageviews />
       <Suspense fallback={<PageLoader />}>
         <Switch>
           <Route path="/" component={Home.component} />

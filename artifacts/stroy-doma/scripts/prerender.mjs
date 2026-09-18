@@ -162,6 +162,49 @@ function getBreadcrumbSchema(pathname, seo) {
   };
 }
 
+const SITE_NAVIGATION = [
+  ["Главная", "/"],
+  ["О компании", "/about"],
+  ["Услуги", "/services"],
+  ["Производство", "/production"],
+  ["Проекты", "/projects"],
+  ["Галерея", "/gallery"],
+  ["Статьи", "/articles"],
+  ["Контакты", "/contacts"],
+];
+
+function getSiteNavigationSchema() {
+  return {
+    "@type": "SiteNavigationElement",
+    name: SITE_NAVIGATION.map(([label]) => label),
+    url: SITE_NAVIGATION.map(([, path]) => `${siteUrl}${path}`),
+  };
+}
+
+function getArticleSchema(seo, canonicalUrl, image) {
+  if (seo.kind !== "Article") return null;
+  const schema = {
+    "@type": "Article",
+    headline: seo.title,
+    description: seo.description ?? "",
+    image,
+    url: canonicalUrl,
+    mainEntityOfPage: canonicalUrl,
+    author: { "@type": "Organization", name: siteName, url: siteUrl },
+    publisher: {
+      "@type": "Organization",
+      name: siteName,
+      url: siteUrl,
+      logo: { "@type": "ImageObject", url: `${siteUrl}/logo-icon.png` },
+    },
+  };
+  if (seo.datePublished) {
+    schema.datePublished = seo.datePublished;
+    schema.dateModified = seo.datePublished;
+  }
+  return schema;
+}
+
 function injectSeo(template, pathname, appHtml, seo) {
   const canonicalPath = seo.canonical ?? pathname;
   const canonicalUrl = `${siteUrl}${canonicalPath}`;
@@ -218,6 +261,9 @@ function injectSeo(template, pathname, appHtml, seo) {
   ];
   const breadcrumb = getBreadcrumbSchema(pathname, seo);
   if (breadcrumb) graph.push(breadcrumb);
+  graph.push(getSiteNavigationSchema());
+  const articleSchema = getArticleSchema(seo, canonicalUrl, image);
+  if (articleSchema) graph.push(articleSchema);
   const schema = `<script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
     "@graph": graph,

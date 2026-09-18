@@ -1,3 +1,4 @@
+import { canonicalHost, legacyRedirects } from "./legacy-redirects";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -33,6 +34,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+
+// 301-редиректы со старых URL и склейка www-зеркала (до раздачи статики).
+app.use(canonicalHost);
+app.use(legacyRedirects);
 
 
 // Раздача собранного фронтенда, когда сервер публикуется целиком.

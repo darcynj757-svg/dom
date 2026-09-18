@@ -39,7 +39,7 @@ function prefetch(href: string) {
 
 const NAV_LINKS: NavItem[] = [
   { href: "/about", label: "О компании" },
-  { href: "/uslugi", label: "Услуги" },
+  { href: "/services", label: "Услуги" },
   {
     href: "/services",
     label: "Строительство",

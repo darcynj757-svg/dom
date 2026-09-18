@@ -28,6 +28,7 @@ export type StaticSeoRoute = {
   indexable?: boolean;
   sitemap?: boolean;
   kind?: "Article" | "WebPage";
+  datePublished?: string;
 };
 
 export function canonicalPath(route: StaticSeoRoute) {
@@ -95,13 +96,10 @@ const BASE_ROUTES: StaticSeoRoute[] = [
   },
   {
     path: "/production",
-    title: "Производство профилированного бруса в Томске",
+    title: "Производство",
     description:
-      "Производство профилированного бруса в Томске: кедр, сосна и лиственница, объём до 500 м³ в месяц. Немецкий профиль, финский станок.",
-    h1: "Профилированный брус",
-    canonical: "/production/profilirovanny-brus",
-    indexable: false,
-    sitemap: false,
+      "Собственное производство профилированного бруса, столярных изделий и пиломатериала в Томске. Финский 4-х сторонний станок, до 500 м³ в месяц.",
+    h1: "Собственное производство в г. Томске",
   },
   {
     path: "/production/profilirovanny-brus",
@@ -173,6 +171,12 @@ const PROJECT_ROUTES: StaticSeoRoute[] = PROJECTS.map((project) => ({
   image: project.imageUrl,
 }));
 
+function toIsoDate(value: string): string | undefined {
+  const match = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(value.trim());
+  if (!match) return undefined;
+  return `${match[3]}-${match[2]}-${match[1]}`;
+}
+
 const ARTICLE_ROUTES: StaticSeoRoute[] = ARTICLES_META.map((article) => ({
   path: `/articles/${article.slug}`,
   title: article.title,
@@ -180,6 +184,7 @@ const ARTICLE_ROUTES: StaticSeoRoute[] = ARTICLES_META.map((article) => ({
   h1: article.title,
   image: article.image,
   kind: "Article",
+  datePublished: toIsoDate(article.date),
 }));
 
 export const STATIC_SEO_ROUTES: StaticSeoRoute[] = [
