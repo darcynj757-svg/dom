@@ -741,6 +741,7 @@ export default function ScrollHouse({
   smoothMotion,
   showGrid,
   mobileHint,
+  onReady,
 }: {
   progress: ScrollProgress;
   /** Optional test-only canvas background; omitted in production scenes. */
@@ -751,6 +752,8 @@ export default function ScrollHouse({
   showGrid?: boolean;
   /** Viewport measured by the parent before this client-only component mounts. */
   mobileHint?: boolean;
+  /** Signals that the real GLB has mounted so the immediate foundation can hide. */
+  onReady?: () => void;
 }) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
   const [modelReady, setModelReady] = useState(false);
@@ -772,7 +775,8 @@ export default function ScrollHouse({
   }, []);
   const handleModelReady = useCallback(() => {
     setModelReady(true);
-  }, []);
+    onReady?.();
+  }, [onReady]);
   useEffect(() => {
     setModelReady(false);
     setWebglSupported(hasWebGL());

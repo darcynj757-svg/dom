@@ -5,7 +5,7 @@
  * state updates on every scroll frame only re-render THIS component,
  * not the entire Home page (which is 800+ lines of JSX).
  */
-import { useRef, useState, useEffect, Suspense, lazy } from "react";
+import { useRef, useState, useEffect, useCallback, Suspense, lazy } from "react";
 import {
   motion,
   useScroll,
@@ -118,8 +118,68 @@ function layerOpacity(p: number, from: number, to: number) {
   return fi * fo;
 }
 
+function ImmediateFoundation({ visible }: { visible: boolean }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`absolute inset-0 z-[2] overflow-hidden transition-opacity duration-300 ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
+      style={{
+        background:
+          "radial-gradient(circle at 50% 56%, rgba(210, 202, 190, 0.38), rgba(255, 255, 255, 0) 48%)",
+      }}
+    >
+      <svg
+        viewBox="0 0 800 500"
+        className="absolute left-1/2 top-[58%] w-[min(96vw,900px)] -translate-x-1/2 -translate-y-1/2"
+      >
+        <defs>
+          <linearGradient id="foundation-top" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#ddd8cf" />
+            <stop offset="1" stopColor="#aaa298" />
+          </linearGradient>
+          <linearGradient id="foundation-front" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#aaa299" />
+            <stop offset="1" stopColor="#817a72" />
+          </linearGradient>
+          <filter id="foundation-shadow" x="-20%" y="-20%" width="140%" height="160%">
+            <feDropShadow dx="0" dy="18" stdDeviation="18" floodColor="#554c43" floodOpacity="0.28" />
+          </filter>
+        </defs>
+        <g opacity="0.38" stroke="#aa9e90" strokeWidth="1">
+          <path d="M55 380 400 220 745 380 400 492Z" fill="none" />
+          <path d="M125 402 400 274 675 402" fill="none" />
+          <path d="M200 426 400 333 600 426" fill="none" />
+          <path d="M275 450 400 392 525 450" fill="none" />
+          <path d="M150 336 400 492M250 290 500 450M350 244 600 426M450 244 675 402M550 290 745 380" />
+        </g>
+        <g filter="url(#foundation-shadow)">
+          <path d="M205 320 405 228 610 324 400 422Z" fill="url(#foundation-top)" />
+          <path d="M205 320 400 422 400 470 205 366Z" fill="url(#foundation-front)" />
+          <path d="M400 422 610 324 610 370 400 470Z" fill="#918980" />
+          <path
+            d="M283 320 405 264 530 322 400 382Z"
+            fill="#7d766e"
+            opacity="0.7"
+          />
+          <path
+            d="M304 319 405 273 509 322 400 372Z"
+            fill="#f5f1e9"
+            opacity="0.92"
+          />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 export default function ScrollHouseBlock() {
   const houseRef = useRef<HTMLDivElement>(null);
+  const [houseModelReady, setHouseModelReady] = useState(false);
+  const handleHouseModelReady = useCallback(() => {
+    setHouseModelReady(true);
+  }, []);
 
   const { scrollYProgress } = useScroll({ target: houseRef, offset: ["start start", "end end"] });
   // Keep the scroll-linked scene on a MotionValue so the 3D canvas can update
@@ -191,8 +251,8 @@ export default function ScrollHouseBlock() {
       if (preloadStarted) return;
       preloadStarted = true;
       const isMobile = window.innerWidth < 768;
-      const variant = isMobile ? "mobile" : "desktop";
-      const modelFile = isMobile ? "house-mobile.glb" : "house-draco.glb";
+      const variant = "optimized";
+      const modelFile = "house-mobile.glb";
       const modelUrl = `${import.meta.env.BASE_URL}${modelFile}`.replace(
         /([^:])\/\//g,
         "$1/",
@@ -258,6 +318,7 @@ export default function ScrollHouseBlock() {
       className="relative h-[500vh]"
     >
       <div className="sticky top-0 h-screen overflow-hidden">
+        <ImmediateFoundation visible={!houseModelReady} />
         <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
           {showHouse && mobileModelHint !== null ? (
             <div className="absolute inset-0 z-[5]">
@@ -265,6 +326,7 @@ export default function ScrollHouseBlock() {
                 <ScrollHouse
                   progress={smoothScrollProgress}
                   mobileHint={mobileModelHint}
+                  onReady={handleHouseModelReady}
                 />
               </Suspense>
             </div>

@@ -3,17 +3,16 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 
-export const MODEL_URL = `${import.meta.env.BASE_URL}house-draco.glb`.replace(
+// Use the optimized 1.5 MB model on every viewport. The previous desktop
+// variant was ~23.7 MB and could leave the 3D section blank on a cold load.
+export const MODEL_URL = `${import.meta.env.BASE_URL}house-mobile.glb`.replace(
   /([^:])\/\//g,
   "$1/",
 );
-export const MOBILE_MODEL_URL = `${import.meta.env.BASE_URL}house-mobile.glb`.replace(
-  /([^:])\/\//g,
-  "$1/",
-);
+export const MOBILE_MODEL_URL = MODEL_URL;
 
-export function getHouseModelUrl(isMobile: boolean) {
-  return isMobile ? MOBILE_MODEL_URL : MODEL_URL;
+export function getHouseModelUrl(_isMobile: boolean) {
+  return MODEL_URL;
 }
 
 // ---------------------------------------------------------------------------
