@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/layout/Layout";
 import { ymHit } from "@/lib/metrika";
-import { ymHit } from "@/lib/metrika";
 // Lazy-load all pages for route-based code splitting. The loaded component is
 // also exposed synchronously after preload so prerendered pages can hydrate
 // without rendering the Suspense fallback first.
@@ -118,19 +117,6 @@ function PageLoader() {
       <div className="w-8 h-8 border-2 border-yellow-400/30 border-t-yellow-400 rounded-full animate-spin" />
     </div>
   );
-}
-
-function MetrikaPageviews() {
-  const [location] = useLocation();
-  const isFirstRender = useRef(true);
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    ymHit(window.location.href, document.title);
-  }, [location]);
-  return null;
 }
 
 function MetrikaPageviews() {
