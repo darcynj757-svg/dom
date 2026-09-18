@@ -259,6 +259,14 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "three"],
+    // Replit workflows inherit NODE_ENV=production, but Vite's dev transform
+    // still calls jsxDEV. Force the dependency prebundle to use React's
+    // development runtime so jsxDEV is available in the preview.
+    esbuildOptions: {
+      define: {
+        "process.env.NODE_ENV": JSON.stringify("development"),
+      },
+    },
   },
   server: {
     port,
