@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
-import profbrusHeroPoster from "@assets/a404eeaf-94f9-41b7-a6a4-ed9de3b003e7_1784948204328.webp";
-import profbrusHeroVideo from "@assets/generated_videos/profbrus-hero-house-orbit.mp4";
+import profbrusHeroPoster from "@assets/generated_images/profbrus-modern-house-hero.png";
+import profbrusHeroVideo from "@assets/generated_videos/profbrus-modern-house-hero.mp4";
 
 export function ProfbrusHeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
