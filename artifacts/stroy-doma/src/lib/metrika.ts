@@ -1,4 +1,4 @@
-export const YM_COUNTER_ID = 105664721;
+export const YM_COUNTER_ID = 112787674;
 
 type YmFunction = (
   counterId: number,
