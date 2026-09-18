@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
+import profbrusHeroPoster from "@assets/a404eeaf-94f9-41b7-a6a4-ed9de3b003e7_1784948204328.webp";
+import profbrusHeroVideo from "@assets/generated_videos/profbrus-hero-house-orbit.mp4";
 
 export function ProfbrusHeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -13,12 +15,12 @@ export function ProfbrusHeroVideo() {
         loop
         playsInline
         preload="metadata"
-        poster="/posters/hero-profbrus-gen.webp"
+        poster={profbrusHeroPoster}
         ref={(el) => {
           videoRef.current = el;
           if (el) el.setAttribute("fetchpriority", "high");
         }}
-        src={`${import.meta.env.BASE_URL}videos/hero-compressed.mp4`}
+        src={profbrusHeroVideo}
         className="absolute inset-0 w-full h-full object-cover"
       />
     </div>
