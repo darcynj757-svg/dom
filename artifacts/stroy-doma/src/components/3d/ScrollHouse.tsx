@@ -507,7 +507,7 @@ function Scene({
     };
   }, [backgroundColor, scene]);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const currentProgress = THREE.MathUtils.clamp(readProgress(progress), 0, 1);
     const { minY, maxY } = boundsRef.current;
     const midY = (minY + maxY) * 0.5;
@@ -534,10 +534,14 @@ function Scene({
     // Reserve the upper mobile band for the active construction card so its
     // detailed text never sits over the roof or upper walls.
     const mobileLookAtOffset = isMobile ? 0.9 : 0;
-    // A negative look-at offset frames the house to the right on screen. The
-    // previous positive value pushed the visible model left and left a white
-    // strip on the right edge of narrow screens.
-    const mobileFrameOffsetX = isMobile ? -0.15 : 0;
+    // Keep the house centred in both the full browser and the narrower Replit
+    // preview iframe. Looking a little to the right moves the model left on
+    // screen; on a wide desktop viewport the model needs the opposite nudge.
+    const frameOffsetX = isMobile
+      ? 0.35
+      : state.size.width < 900
+        ? 1.4
+        : -1.6;
 
     if (currentProgress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
@@ -551,7 +555,7 @@ function Scene({
         height,
         Math.cos(angle) * dist,
       );
-      targetLookAt.current.set(mobileFrameOffsetX, midY + mobileLookAtOffset, 0);
+      targetLookAt.current.set(frameOffsetX, midY + mobileLookAtOffset, 0);
     } else {
       // Cinematic orbit — normalise to 0→1 (exactly one 360° turn).
       // Start close to the front facade, rise above the roof for the
@@ -589,7 +593,7 @@ function Scene({
         camY,
         Math.cos(orbitAngle) * orbitDist,
       );
-      targetLookAt.current.set(mobileFrameOffsetX, lookAtY, 0);
+      targetLookAt.current.set(frameOffsetX, lookAtY, 0);
     }
 
     if (!isMobile) {
