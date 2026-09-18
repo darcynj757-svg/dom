@@ -542,7 +542,7 @@ function Scene({
     const frameOffsetX = isMobile
       ? 0.35
       : state.size.width < 1200
-        ? 1.4
+        ? 1.15
         : -1.6;
 
     if (currentProgress <= BUILD_END) {
