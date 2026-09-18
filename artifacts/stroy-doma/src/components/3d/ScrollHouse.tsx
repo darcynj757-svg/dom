@@ -536,10 +536,12 @@ function Scene({
     const mobileLookAtOffset = isMobile ? 0.9 : 0;
     // Keep the house centred in both the full browser and the narrower Replit
     // preview iframe. Looking a little to the right moves the model left on
-    // screen; on a wide desktop viewport the model needs the opposite nudge.
+    // screen. Replit's tablet-sized preview still has the desktop nav width,
+    // but needs the preview correction because the stage panel uses the right
+    // side of the frame.
     const frameOffsetX = isMobile
       ? 0.35
-      : state.size.width < 900
+      : state.size.width < 1200
         ? 1.4
         : -1.6;
 
