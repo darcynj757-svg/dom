@@ -20,3 +20,4 @@
 - [GLTF material tinting](gltf-material-tinting.md) — для плавной перекраски текстурированных GLTF-материалов custom shader uniform нужно объявлять в fragment shader.
 - [Natural lacquered house finish](natural-lacquered-house-finish.md) — финальный вид должен сохранять натуральную древесину и добавлять мягкий лаковый блик, без белой перекраски.
 - [White final background](sunset-final-background.md) — финальный кадр остаётся на чистом белом фоне без неба, травы и фотографического окружения.
+- [Vite React JSX dev runtime](vite-jsx-dev-runtime.md) — React JSX dev subpaths нужно явно включать в Vite optimizeDeps, иначе preview падает на jsxDEV.

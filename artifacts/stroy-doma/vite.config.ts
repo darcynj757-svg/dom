@@ -258,7 +258,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "three"],
+    include: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "three"],
   },
   server: {
     port,
