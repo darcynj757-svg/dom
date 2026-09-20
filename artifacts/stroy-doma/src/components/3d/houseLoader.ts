@@ -3,9 +3,10 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 
-// Use the optimized 1.5 MB model on every viewport. The previous desktop
-// variant was ~23.7 MB and could leave the 3D section blank on a cold load.
-export const MODEL_URL = `${import.meta.env.BASE_URL}house-mobile.glb`.replace(
+// One optimized model for every viewport (~1.36 MB, Draco geometry +
+// WebP textures). The old desktop variant was ~23.7 MB and regularly left the
+// 3D section blank on a cold start, especially on mobile networks.
+export const MODEL_URL = `${import.meta.env.BASE_URL}house-v2.glb`.replace(
   /([^:])\/\//g,
   "$1/",
 );
@@ -124,6 +125,9 @@ type GltfCache = {
   promise: Promise<void> | null;
 };
 
+const MAX_LOAD_ATTEMPTS = 3;
+const LOAD_TIMEOUT_MS = 25000;
+
 const _cache = new Map<string, GltfCache>();
 
 function getCache(modelUrl: string) {
@@ -135,28 +139,78 @@ function getCache(modelUrl: string) {
   return cache;
 }
 
+function loadGltfOnce(modelUrl: string): Promise<GLTF> {
+  return new Promise<GLTF>((resolve, reject) => {
+    const loader = new GLTFLoader();
+    loader.setDRACOLoader(getDracoLoader());
+    loader.register((parser) => new GLTFSpecularGlossinessExtension(parser));
+
+    let settled = false;
+    // A stalled mobile connection never fires onError, so the block would wait
+    // forever. Fail fast instead and let the retry loop start a fresh request.
+    const timer = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      reject(new Error(`House model request timed out after ${LOAD_TIMEOUT_MS}ms`));
+    }, LOAD_TIMEOUT_MS);
+
+    loader.load(
+      modelUrl,
+      (gltf) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        resolve(gltf);
+      },
+      undefined,
+      (err) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        reject(err);
+      },
+    );
+  });
+}
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Loads the house model, retrying with backoff. A cold start on a flaky mobile
+ * connection must never leave the 3D block permanently empty, so a failed fetch
+ * is retried instead of being cached as a terminal error.
+ */
 export function getGltfPromise(modelUrl = MODEL_URL): Promise<void> {
   const cache = getCache(modelUrl);
+  if (cache.gltf) return Promise.resolve();
   if (!cache.promise) {
-    cache.promise = new Promise<void>((resolve, reject) => {
-      const loader = new GLTFLoader();
-      loader.setDRACOLoader(getDracoLoader());
-      loader.register((parser) => new GLTFSpecularGlossinessExtension(parser));
-      loader.load(
-        modelUrl,
-        (gltf) => {
-          cache.gltf = gltf;
-          resolve();
-        },
-        undefined,
-        (err) => {
-          cache.error = err;
-          reject(err);
-        },
-      );
-    });
+    cache.promise = (async () => {
+      let lastError: unknown = null;
+      for (let attempt = 0; attempt < MAX_LOAD_ATTEMPTS; attempt += 1) {
+        try {
+          cache.gltf = await loadGltfOnce(modelUrl);
+          cache.error = null;
+          return;
+        } catch (err) {
+          lastError = err;
+          if (attempt < MAX_LOAD_ATTEMPTS - 1) {
+            await wait(500 * 2 ** attempt);
+          }
+        }
+      }
+      cache.error = lastError;
+      throw lastError;
+    })();
   }
   return cache.promise;
+}
+
+/** Clears a terminal failure so the scene can ask for a fresh download. */
+export function resetGltfCache(modelUrl = MODEL_URL) {
+  const cache = getCache(modelUrl);
+  if (cache.gltf) return;
+  cache.error = null;
+  cache.promise = null;
 }
 
 /** Suspense-compatible hook — throws while loading, returns when ready. */

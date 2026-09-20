@@ -91,7 +91,30 @@ if (clientDir) {
     return res.sendFile(pageFile);
   });
 
-  app.use(express.static(resolvedClientDir, { redirect: false }));
+  const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
+  const alwaysRevalidate = /(?:^|\/)(?:sw\.js|registerSW\.js|workbox-[^/]+\.js|manifest\.webmanifest|robots\.txt|sitemap\.xml)$/;
+  // Content-addressed output (Vite's /assets/*, the versioned GLB, the Draco
+  // decoder, fonts) never changes under its own name, so it can be cached for a
+  // year. Without this every cold start re-downloaded the 3D model.
+  const immutableAsset = /(?:\/assets\/|\.(?:glb|wasm|woff2?)$|\/draco\/)/;
+
+  app.use(
+    express.static(resolvedClientDir, {
+      redirect: false,
+      setHeaders(res, filePath) {
+        const normalized = filePath.split(path.sep).join("/");
+        if (normalized.endsWith(".html") || alwaysRevalidate.test(normalized)) {
+          res.setHeader("Cache-Control", "no-cache");
+          return;
+        }
+        if (immutableAsset.test(normalized)) {
+          res.setHeader("Cache-Control", `public, max-age=${ONE_YEAR_SECONDS}, immutable`);
+          return;
+        }
+        res.setHeader("Cache-Control", "public, max-age=86400");
+      },
+    }),
+  );
   app.use((req, res, next) => {
     if (req.method !== "GET" && req.method !== "HEAD") return next();
     if (req.path === "/api" || req.path.startsWith("/api/")) return next();

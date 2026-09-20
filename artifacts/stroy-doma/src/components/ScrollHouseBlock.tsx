@@ -192,7 +192,7 @@ export default function ScrollHouseBlock() {
       preloadStarted = true;
       const isMobile = window.innerWidth < 768;
       const variant = "optimized";
-      const modelFile = "house-mobile.glb";
+      const modelFile = "house-v2.glb";
       const modelUrl = `${import.meta.env.BASE_URL}${modelFile}`.replace(
         /([^:])\/\//g,
         "$1/",
@@ -201,7 +201,6 @@ export default function ScrollHouseBlock() {
         const link = document.createElement("link");
         link.rel = "preload";
         link.as = "fetch";
-        link.crossOrigin = "anonymous";
         link.href = modelUrl;
         link.dataset.houseModelPreload = variant;
         document.head.appendChild(link);

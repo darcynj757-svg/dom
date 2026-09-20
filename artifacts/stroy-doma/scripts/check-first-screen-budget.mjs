@@ -22,7 +22,7 @@ const budget = {
   entryJsBytes: 160_000,
   heroPosterBytes: 600_000,
   heroVideoBytes: 7_000_000,
-  mobileHouseModelBytes: 19_000_000,
+  mobileHouseModelBytes: 1_600_000,
 };
 
 function fail(message) {
@@ -80,7 +80,7 @@ async function main() {
   );
   const heroPoster = "/posters/cedar_log_mansion_flythrough_16s_compressed.webp";
   const heroVideo = "/videos/hero-compressed.mp4";
-  const mobileHouseModel = "/house-mobile.glb";
+  const mobileHouseModel = "/house-v2.glb";
 
   const [entryJsSize, cssSize, heroPosterSize, heroVideoSize, mobileHouseModelSize] =
     await Promise.all([

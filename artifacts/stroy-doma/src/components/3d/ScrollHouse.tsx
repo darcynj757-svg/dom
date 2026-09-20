@@ -1,4 +1,14 @@
-import { useRef, useEffect, useState, useMemo, useCallback, Suspense, useLayoutEffect } from "react";
+import {
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  Suspense,
+  useLayoutEffect,
+  Component,
+  type ReactNode,
+} from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Grid } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,6 +19,7 @@ import {
   cloneGltfScene,
   preloadDracoDecoder,
   getHouseModelUrl,
+  resetGltfCache,
 } from "./houseLoader";
 import { getGltfPromise } from "./houseLoader";
 
@@ -539,11 +550,10 @@ function Scene({
     // screen. Replit's tablet-sized preview still has the desktop nav width,
     // but needs the preview correction because the stage panel uses the right
     // side of the frame.
-    const frameOffsetX = isMobile
-      ? 0.35
-      : state.size.width < 1200
-        ? 1.15
-        : -1.6;
+    // The house is framed dead centre of the canvas on every width: looking
+    // at x = 0 puts the model's own centre on the horizontal centre of the
+    // frame, on desktop and on mobile alike.
+    const frameOffsetX = 0;
 
     if (currentProgress <= BUILD_END) {
       // Build phase: front three-quarter view → side three-quarter view.
@@ -717,6 +727,76 @@ function Scene({
   );
 }
 
+const HOUSE_POSTER_URL = `${import.meta.env.BASE_URL}posters/kedr-house-hero.webp`.replace(
+  /([^:])\/\//g,
+  "$1/",
+);
+
+/**
+ * Shown only when the 3D scene genuinely cannot run: no WebGL context, or the
+ * model failed every retry. The block then still shows a real Kedr house photo
+ * instead of an empty grid, and offers one manual retry.
+ */
+function HouseFallback({ onRetry }: { onRetry?: () => void }) {
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden"
+      data-house-model-ready="unavailable"
+    >
+      <img
+        src={HOUSE_POSTER_URL}
+        alt="   ,    "
+        loading="lazy"
+        decoding="async"
+        className="h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/70" />
+      {onRetry ? (
+        <button
+          type="button"
+          onClick={onRetry}
+          className="pointer-events-auto absolute bottom-28 left-1/2 -translate-x-1/2 rounded-full border border-secondary/60 bg-background/85 px-4 py-2 text-xs font-semibold text-foreground shadow-lg backdrop-blur-sm"
+        >
+           3D-  
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * Catches render-time failures inside the Canvas (lost context, GLB decode
+ * errors, Suspense rejections) so a single bad load can never blank the block.
+ */
+class HouseSceneBoundary extends Component<
+  { children: ReactNode; onError: () => void; onRetry: () => void },
+  { failed: boolean }
+> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch() {
+    this.props.onError();
+  }
+
+  render() {
+    if (this.state.failed) {
+      return (
+        <HouseFallback
+          onRetry={() => {
+            this.setState({ failed: false });
+            this.props.onRetry();
+          }}
+        />
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export function preloadHouseModel(isMobile: boolean) {
   preloadDracoDecoder();
   const modelUrl = getHouseModelUrl(isMobile);
@@ -729,7 +809,6 @@ export function preloadHouseModel(isMobile: boolean) {
       const link = document.createElement("link");
       link.rel = "preload";
       link.as = "fetch";
-      link.crossOrigin = "anonymous";
       link.href = modelUrl;
       link.dataset.houseModelPreload = variant;
       document.head.appendChild(link);
@@ -762,6 +841,7 @@ export default function ScrollHouse({
   onReady?: () => void;
 }) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [modelReady, setModelReady] = useState(false);
   // Incrementing this key forces the Canvas to fully remount after context loss
   const [canvasKey, setCanvasKey] = useState(0);
@@ -779,6 +859,15 @@ export default function ScrollHouse({
   const handleBounds = useCallback((bounds: Bounds) => {
     boundsRef.current = bounds;
   }, []);
+  const handleRetry = useCallback(() => {
+    resetGltfCache(modelUrl);
+    retryCount.current = 0;
+    setLoadFailed(false);
+    setModelReady(false);
+    setCanvasKey((k) => k + 1);
+    getGltfPromise(modelUrl).catch(() => setLoadFailed(true));
+  }, [modelUrl]);
+
   const handleModelReady = useCallback(() => {
     setModelReady(true);
     onReady?.();
@@ -790,16 +879,17 @@ export default function ScrollHouse({
     // below-the-fold component has been activated by an actual scroll.
     preloadDracoDecoder();
     // Kick off the GLTF load immediately so it's ready when the canvas mounts
-    getGltfPromise(modelUrl);
+    setLoadFailed(false);
+    getGltfPromise(modelUrl).catch(() => setLoadFailed(true));
   }, [modelUrl]);
 
-  if (webglSupported === false) {
+  if (webglSupported === false || loadFailed) {
     return (
-      <div
-        className="absolute inset-0 pointer-events-none"
-        data-house-model-ready="unavailable"
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 pointer-events-none">
+        <HouseFallback
+          onRetry={webglSupported === false ? undefined : handleRetry}
+        />
+      </div>
     );
   }
 
@@ -809,7 +899,11 @@ export default function ScrollHouse({
       data-house-model-ready={modelReady ? "true" : "false"}
     >
       {webglSupported && (
-        <Canvas
+        <HouseSceneBoundary
+          onError={() => setLoadFailed(true)}
+          onRetry={handleRetry}
+        >
+          <Canvas
           key={canvasKey}
           shadows
           camera={CAMERA_CONFIG}
@@ -847,7 +941,8 @@ export default function ScrollHouse({
             smoothMotion={smoothMotion}
             showGrid={showGrid}
           />
-        </Canvas>
+          </Canvas>
+        </HouseSceneBoundary>
       )}
     </div>
   );
