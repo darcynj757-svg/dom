@@ -245,7 +245,7 @@ export default function ProjectDetail() {
                     </a>
 
                     <a
-                      href="https://max.ru/kedrtomsk"
+                      href="https://max.ru/79138534439"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-muted/50 hover:bg-[#5B5FEF]/10 hover:border-[#5B5FEF]/40 transition-all duration-200 py-2.5 text-xs font-medium group"

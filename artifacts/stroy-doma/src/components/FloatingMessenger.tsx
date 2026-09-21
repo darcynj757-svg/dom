@@ -29,7 +29,7 @@ const MESSENGERS = [
   {
     key: "max",
     label: "Макс",
-    href: "https://max.ru/kedrtomsk",
+    href: "https://max.ru/79138534439",
     color: "#5B5FEF",
     icon: (
       <img src={maxIcon} alt="Макс" className="w-8 h-8 object-contain rounded-sm" />

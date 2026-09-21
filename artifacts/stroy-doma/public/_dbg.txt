@@ -1,179 +1,70 @@
-76a91f1 Update home page content and layout
-c066ebc Add screenshot asset
-d243a80 Published your App
-8221f63 Speed up first load and 3D model on mobile
-1d470c9 Published your App
-084bbad Add profiled timber flythrough video assets and update hero component
-cd2d48f Add screenshot asset
-475cb80 Published your App
-src/main.tsx:2
-src/components/ScrollHouseBlock.tsx:1
-
-found 0 vulnerabilities
-
- OVERVIEW
- ────────────────────────────────────────────
-| key                | value                                                                             |
-| ---                | ---                                                                               |
-| version            | 2.0                                                                               |
-| generator          | glTF-Transform v4.5.0                                                             |
-| extensionsUsed     | EXT_texture_webp, KHR_draco_mesh_compression, KHR_materials_pbrSpecularGlossiness |
-| extensionsRequired | EXT_texture_webp, KHR_draco_mesh_compression, KHR_materials_pbrSpecularGlossiness |
-
-
-
- SCENES
- ────────────────────────────────────────────
-| #   | name            | rootName        | bboxMin                   | bboxMax                | renderVertexCount¹ | uploadVertexCount | uploadNaiveVertexCount |
-| --- | ---             | ---             | ---                       | ---                    | ---                | ---               | ---                    |
-| 0   | Sketchfab_Scene | Sketchfab_model | 27.76, -0.30154, 54.26627 | 43.6, 4.87393, 66.5089 | 975,817            | 507,642           | 507,642                |
-
-¹ Expected number of vertices processed by the vertex shader for one render
-  pass, without considering the vertex cache.
-
-² Expected number of vertices uploaded to GPU, assuming each Accessor
-  is uploaded only once. Actual number uploaded may be higher, 
-  dependent on the implementation and vertex buffer layout.
-
-³ Expected number of vertices uploaded to GPU, assuming each Primitive
-  is uploaded once, duplicating vertex attributes shared among Primitives.
-
-
-
- MESHES
- ────────────────────────────────────────────
-| #   | name        | mode      | meshPrimitives | glPrimitives | vertices | indices | attributes                               | instances | size¹     |
-| --- | ---         | ---       | ---            | ---          | ---      | ---     | ---                                      | ---       | ---       |
-| 0   | Material54  | TRIANGLES | 1              | 2            | 4        | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 140 Bytes |
-| 1   | Material45  | TRIANGLES | 1              | 30           | 42       | u16     | NORMAL:f32, POSITION:f32                 | 1         | 1.19 KB   |
-| 2   | Material12  | TRIANGLES | 1              | 6,560        | 9,968    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 358.34 KB |
-| 3   | Material12  | TRIANGLES | 1              | 6,304        | 9,514    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 342.27 KB |
-| 4   | Material12  | TRIANGLES | 1              | 5,855        | 8,821    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 317.4 KB  |
-| 5   | Material12  | TRIANGLES | 1              | 6,552        | 9,838    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 354.13 KB |
-| 6   | Material12  | TRIANGLES | 1              | 6,073        | 9,153    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 329.33 KB |
-| 7   | Material12  | TRIANGLES | 1              | 4,466        | 6,784    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 243.88 KB |
-| 8   | Material12  | TRIANGLES | 1              | 2,660        | 3,990    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 143.64 KB |
-| 9   | Material11  | TRIANGLES | 1              | 564          | 1,008    | u16     | NORMAL:f32, POSITION:f32                 | 1         | 27.58 KB  |
-| 10  | Material22  | TRIANGLES | 1              | 4,745        | 8,593    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 303.45 KB |
-| 11  | Material13  | TRIANGLES | 1              | 5,401        | 9,927    | u16     | NORMAL:f32, POSITION:f32                 | 1         | 270.65 KB |
-| 12  | Material13  | TRIANGLES | 1              | 138          | 234      | u16     | NORMAL:f32, POSITION:f32                 | 1         | 6.44 KB   |
-| 13  | Material24  | TRIANGLES | 1              | 2,416        | 4,188    | u16     | NORMAL:f32, POSITION:f32                 | 1         | 115.01 KB |
-| 14  | Material5   | TRIANGLES | 1              | 958          | 1,718    | u16     | NORMAL:f32, POSITION:f32                 | 1         | 46.98 KB  |
-| 15  | Material23  | TRIANGLES | 1              | 2,232        | 4,464    | u16     | NORMAL:f32, POSITION:f32                 | 1         | 120.53 KB |
-| 16  | Material108 | LINES     | 1              | 710          | 1,266    | u16     | POSITION:f32                             | 1         | 18.03 KB  |
-| 17  | Material19  | TRIANGLES | 1              | 456          | 912      | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 31.92 KB  |
-| 18  | Material14  | TRIANGLES | 1              | 223          | 425      | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 14.94 KB  |
-| 19  | Material4   | TRIANGLES | 1              | 6            | 12       | u16     | NORMAL:f32, POSITION:f32                 | 1         | 324 Bytes |
-| 20  | Material21  | TRIANGLES | 1              | 554          | 928      | u16     | NORMAL:f32, POSITION:f32                 | 1         | 25.6 KB   |
-| 21  | Material9   | TRIANGLES | 1              | 177          | 243      | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 8.84 KB   |
-| 22  | Material6   | TRIANGLES | 1              | 64           | 92       | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 3.33 KB   |
-| 23  | Material10  | TRIANGLES | 1              | 18           | 30       | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 1.07 KB   |
-| 24  | Material15  | TRIANGLES | 1              | 505          | 997      | u16     | NORMAL:f32, POSITION:f32                 | 1         | 26.96 KB  |
-| 25  | Material7   | TRIANGLES | 1              | 48           | 94       | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 3.3 KB    |
-| 26  | Material51  | TRIANGLES | 1              | 16           | 32       | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 1.12 KB   |
-| 27  | Material58  | TRIANGLES | 1              | 5,938        | 9,238    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 331.24 KB |
-| 28  | Material58  | TRIANGLES | 1              | 6,013        | 9,359    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 335.57 KB |
-| 29  | Material58  | TRIANGLES | 1              | 5,963        | 9,285    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 332.9 KB  |
-| 30  | Material58  | TRIANGLES | 1              | 6,060        | 9,442    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 338.5 KB  |
-| 31  | Material58  | TRIANGLES | 1              | 4,447        | 7,091    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 253.59 KB |
-| 32  | Material58  | TRIANGLES | 1              | 5,612        | 8,794    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 315.08 KB |
-| 33  | Material58  | TRIANGLES | 1              | 6,032        | 9,388    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 336.61 KB |
-| 34  | Material58  | TRIANGLES | 1              | 6,016        | 9,360    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 335.62 KB |
-| 35  | Material58  | TRIANGLES | 1              | 5,940        | 9,236    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 331.19 KB |
-| 36  | Material58  | TRIANGLES | 1              | 5,958        | 9,320    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 333.99 KB |
-| 37  | Material58  | TRIANGLES | 1              | 5,994        | 9,310    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 333.88 KB |
-| 38  | Material58  | TRIANGLES | 1              | 6,032        | 9,320    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 334.43 KB |
-| 39  | Material58  | TRIANGLES | 1              | 5,978        | 9,324    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 334.24 KB |
-| 40  | Material58  | TRIANGLES | 1              | 6,011        | 9,341    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 334.98 KB |
-| 41  | Material58  | TRIANGLES | 1              | 5,174        | 8,300    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 296.64 KB |
-| 42  | Material58  | TRIANGLES | 1              | 5,940        | 9,390    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 336.12 KB |
-| 43  | Material58  | TRIANGLES | 1              | 5,926        | 9,310    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 333.48 KB |
-| 44  | Material58  | TRIANGLES | 1              | 5,911        | 9,283    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 332.52 KB |
-| 45  | Material58  | TRIANGLES | 1              | 6,024        | 9,374    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 336.11 KB |
-| 46  | Material58  | TRIANGLES | 1              | 5,984        | 9,298    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 333.44 KB |
-| 47  | Material58  | TRIANGLES | 1              | 6,008        | 9,382    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 336.27 KB |
-| 48  | Material58  | TRIANGLES | 1              | 5,906        | 9,226    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 330.67 KB |
-| 49  | Material58  | TRIANGLES | 1              | 6,089        | 9,441    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 338.65 KB |
-| 50  | Material58  | TRIANGLES | 1              | 6,067        | 9,429    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 338.13 KB |
-| 51  | Material58  | TRIANGLES | 1              | 6,046        | 9,390    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 336.76 KB |
-| 52  | Material58  | TRIANGLES | 1              | 2,662        | 4,238    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 151.59 KB |
-| 53  | Material58  | TRIANGLES | 1              | 5,209        | 8,113    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 290.87 KB |
-| 54  | Material58  | TRIANGLES | 1              | 5,990        | 9,264    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 332.39 KB |
-| 55  | Material58  | TRIANGLES | 1              | 5,997        | 9,343    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 334.96 KB |
-| 56  | Material58  | TRIANGLES | 1              | 5,968        | 9,408    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 336.86 KB |
-| 57  | Material58  | TRIANGLES | 1              | 5,954        | 9,386    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 336.08 KB |
-| 58  | Material58  | TRIANGLES | 1              | 6,009        | 9,331    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 334.65 KB |
-| 59  | Material58  | TRIANGLES | 1              | 5,960        | 9,266    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 332.27 KB |
-| 60  | Material58  | TRIANGLES | 1              | 4,653        | 7,273    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 260.65 KB |
-| 61  | Material58  | TRIANGLES | 1              | 4,462        | 6,985    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 250.29 KB |
-| 62  | Material58  | TRIANGLES | 1              | 5,680        | 8,822    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 316.38 KB |
-| 63  | Material58  | TRIANGLES | 1              | 6,004        | 9,316    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 334.14 KB |
-| 64  | Material58  | TRIANGLES | 1              | 6,014        | 9,322    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 334.39 KB |
-| 65  | Material58  | TRIANGLES | 1              | 5,995        | 9,341    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 334.88 KB |
-| 66  | Material58  | TRIANGLES | 1              | 6,000        | 9,302    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 333.66 KB |
-| 67  | Material58  | TRIANGLES | 1              | 5,974        | 9,284    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 332.93 KB |
-| 68  | Material58  | TRIANGLES | 1              | 6,070        | 9,410    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 337.54 KB |
-| 69  | Material58  | TRIANGLES | 1              | 5,965        | 9,303    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 333.49 KB |
-| 70  | Material58  | TRIANGLES | 1              | 6,062        | 9,408    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 337.43 KB |
-| 71  | Material58  | TRIANGLES | 1              | 6,090        | 9,418    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 337.92 KB |
-| 72  | Material58  | TRIANGLES | 1              | 2,343        | 3,643    | u16     | NORMAL:f32, POSITION:f32, TEXCOORD_0:f32 | 1         | 130.63 KB |
-| 73  | Material60  | TRIANGLES | 1              | 5,646        | 5,558    | u16     | NORMAL:f32, POSITION:f32                 | 1         | 167.27 KB |
-
-⁴ size estimates GPU memory required by a mesh, in isolation. If accessors are
-  shared by other mesh primitives, but the meshes themselves are not reused, then
-  the sum of all mesh sizes will overestimate the asset's total size. See "dedup".
-
-
-
- MATERIALS
- ────────────────────────────────────────────
-| #   | name        | instances | textures       | alphaMode | doubleSided |
-| --- | ---         | ---       | ---            | ---       | ---         |
-| 0   | Material12  | 7         | diffuseTexture | OPAQUE    | ✓           |
-| 1   | Material11  | 1         |                | OPAQUE    | ✓           |
-| 2   | Material22  | 1         | diffuseTexture | OPAQUE    | ✓           |
-| 3   | Material13  | 2         |                | OPAQUE    | ✓           |
-| 4   | Material24  | 1         |                | OPAQUE    | ✓           |
-| 5   | Material5   | 1         |                | OPAQUE    | ✓           |
-| 6   | Material23  | 1         |                | BLEND     | ✓           |
-| 7   | Material108 | 1         |                | BLEND     | ✓           |
-| 8   | Material19  | 1         | diffuseTexture | OPAQUE    | ✓           |
-| 9   | Material14  | 1         | diffuseTexture | OPAQUE    | ✓           |
-| 10  | Material4   | 1         |                | OPAQUE    | ✓           |
-| 11  | Material54  | 1         | diffuseTexture | OPAQUE    | ✓           |
-| 12  | Material21  | 1         |                | OPAQUE    | ✓           |
-| 13  | Material9   | 1         | diffuseTexture | OPAQUE    | ✓           |
-| 14  | Material6   | 1         | diffuseTexture | OPAQUE    | ✓           |
-| 15  | Material10  | 1         | diffuseTexture | OPAQUE    | ✓           |
-| 16  | Material15  | 1         |                | OPAQUE    | ✓           |
-| 17  | Material45  | 1         |                | OPAQUE    | ✓           |
-| 18  | Material7   | 1         | diffuseTexture | OPAQUE    | ✓           |
-| 19  | Material51  | 1         | diffuseTexture | OPAQUE    | ✓           |
-| 20  | Material58  | 46        | diffuseTexture | OPAQUE    | ✓           |
-| 21  | Material60  | 1         |                | OPAQUE    | ✓           |
-
-
-
- TEXTURES
- ────────────────────────────────────────────
-| #   | name   | uri | slots          | instances | mimeType   | compression | resolution | size     | gpuSize⁵  |
-| --- | ---    | --- | ---            | ---       | ---        | ---         | ---        | ---      | ---       |
-| 0   | house0 |     | diffuseTexture | 2         | image/webp |             | 512x512    | 24.94 KB | 1.4 MB    |
-| 1   | house1 |     | diffuseTexture | 1         | image/webp |             | 512x256    | 9.06 KB  | 699.05 KB |
-| 2   | house2 |     | diffuseTexture | 2         | image/webp |             | 512x512    | 21.24 KB | 1.4 MB    |
-| 3   | house3 |     | diffuseTexture | 1         | image/webp |             | 512x512    | 59.2 KB  | 1.4 MB    |
-| 4   | house4 |     | diffuseTexture | 1         | image/webp |             | 512x512    | 18.83 KB | 1.4 MB    |
-| 5   | house5 |     | diffuseTexture | 1         | image/webp |             | 512x256    | 7.61 KB  | 699.05 KB |
-| 6   | house6 |     | diffuseTexture | 1         | image/webp |             | 512x512    | 66.73 KB | 1.4 MB    |
-| 7   | house7 |     | diffuseTexture | 1         | image/webp |             | 512x512    | 51.42 KB | 1.4 MB    |
-| 8   | house8 |     | diffuseTexture | 1         | image/webp |             | 64x64      | 66 Bytes | 21.84 KB  |
-
-⁵ gpuSize estimates minimum VRAM memory allocation. Older devices may require
-  additional memory for GPU compression formats.
-
-
-
- ANIMATIONS
- ────────────────────────────────────────────
-No animations found.
-
+before { meshes: 74, verts: 507642 }
+prune: Removed types... Node (3)
+prune: Removed types... Mesh (52), Node (52), Primitive (55), Accessor (218)
+simplify: Skipped 1 primitives: Unsupported draw mode.
+prune: Detected single-color diffuseTexture texture. Pruning diffuseTexture not yet supported.
+after { meshes: 22, verts: 501135 } names Material54,Material45,Material12,Material11,Material22,Material13,Material24,Material5,Material23,Material108,Material19,Material14,Material4,Material21,Material9,Material6,Material10,Material15,Material7,Material51,Material58,Material60
+prune: Removed types... Accessor (76)
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+prune: Removed types... Accessor (43)
+prune: Removed types... Accessor (76)
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+prune: Removed types... Accessor (43)
+extensions EXT_texture_webp,KHR_materials_pbrSpecularGlossiness,KHR_mesh_quantization,EXT_meshopt_compression
+before { meshes: 74, verts: 507642 }
+prune: Removed types... Node (3)
+prune: Removed types... Mesh (52), Node (52), Primitive (55), Accessor (218)
+simplify: Skipped 1 primitives: Unsupported draw mode.
+prune: Detected single-color diffuseTexture texture. Pruning diffuseTexture not yet supported.
+after { meshes: 22, verts: 505225 } names Material54,Material45,Material12,Material11,Material22,Material13,Material24,Material5,Material23,Material108,Material19,Material14,Material4,Material21,Material9,Material6,Material10,Material15,Material7,Material51,Material58,Material60
+prune: Removed types... Accessor (76)
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+prune: Removed types... Accessor (43)
+prune: Removed types... Accessor (76)
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+quantize: Skipping TEXCOORD_0; out of [0,1] range.
+prune: Removed types... Accessor (43)
+extensions EXT_texture_webp,KHR_materials_pbrSpecularGlossiness,KHR_mesh_quantization,EXT_meshopt_compression
+-rw-r--r-- 1 runner runner 6433884 Sep 21 08:34 out-a.glb
+-rw-r--r-- 1 runner runner 6458188 Sep 21 08:34 out-b.glb
+2094470
+2121658
