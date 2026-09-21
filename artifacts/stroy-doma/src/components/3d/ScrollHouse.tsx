@@ -21,7 +21,7 @@ import {
   getHouseModelUrl,
   resetGltfCache,
 } from "./houseLoader";
-import { getGltfPromise } from "./houseLoader";
+import { getGltfPromise, getCachedGltf, ROOF_MODEL_URL } from "./houseLoader";
 
 // Stable config objects outside the component so r3f never sees a new reference
 // and never recreates the WebGL renderer on re-renders caused by scroll events.
@@ -205,7 +205,35 @@ function HouseModel({
   // Independent clone — the cached gltf.scene is shared with other
   // simultaneously-mounted canvases (e.g. HeroHouseFlight), and an
   // Object3D can only belong to one parent at a time.
-  const scene = useMemo(() => cloneGltfScene(gltf.scene), [gltf.scene]);
+  const scene = useMemo(() => {
+    const cloned = cloneGltfScene(gltf.scene);
+    const fullBounds = gltf.scene.userData?.fullBounds as
+      | { min: number[]; max: number[] }
+      | undefined;
+    if (fullBounds) {
+      // The roof ships in a second file. This invisible box keeps the bounds,
+      // scale and camera framing exactly as if the whole house was loaded.
+      const min = new THREE.Vector3().fromArray(fullBounds.min);
+      const max = new THREE.Vector3().fromArray(fullBounds.max);
+      const size = max.clone().sub(min);
+      const proxy = new THREE.Mesh(
+        new THREE.BoxGeometry(size.x, size.y, size.z),
+        new THREE.MeshBasicMaterial({ visible: false }),
+      );
+      proxy.position.copy(min.add(max).multiplyScalar(0.5));
+      proxy.name = "__houseBounds";
+      proxy.visible = false;
+      cloned.add(proxy);
+    }
+    return cloned;
+  }, [gltf.scene]);
+  const gl = useThree((state) => state.gl);
+  const camera = useThree((state) => state.camera);
+  const threeScene = useThree((state) => state.scene);
+  const invalidate = useThree((state) => state.invalidate);
+  const roofParts = useRef<DelayedMesh[]>([]);
+  const compiledRef = useRef(false);
+  const firstFrameSent = useRef(false);
   const delayedParts = useMemo<DelayedMesh[]>(() => {
     const parts: DelayedMesh[] = [];
     scene.traverse((child) => {
@@ -334,7 +362,7 @@ function HouseModel({
 
     scene.traverse((child) => {
       const mesh = child as THREE.Mesh;
-      if (mesh.isMesh) {
+      if (mesh.isMesh && mesh.name !== "__houseBounds") {
         mesh.castShadow = true;
         mesh.receiveShadow = true;
         const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
@@ -346,6 +374,26 @@ function HouseModel({
         });
       }
     });
+
+    // Compile every program (including parts revealed later) off the critical
+    // path, while the visitor is still on the hero screen. The group stays
+    // hidden until the GPU programs are ready so the first frame never stalls.
+    compiledRef.current = false;
+    groupRef.current.visible = false;
+    let compilePromise: Promise<unknown>;
+    try {
+      compilePromise = gl.compileAsync(scene, camera, threeScene);
+    } catch {
+      compilePromise = Promise.resolve();
+    }
+    const group = groupRef.current;
+    void compilePromise
+      .catch(() => {})
+      .then(() => {
+        compiledRef.current = true;
+        group.visible = true;
+        invalidate();
+      });
 
     delayedParts.forEach(({ mesh, materials }) => {
       mesh.visible = false;
@@ -374,10 +422,72 @@ function HouseModel({
     // focus point (which tracks the bounds captured above).
     groupRef.current.position.y += 0.6;
     groupRef.current.updateMatrixWorld(true);
-    onReady();
-  }, [scene, normScale, clipPlane, delayedParts, onBounds, onReady]);
+    invalidate();
+  }, [scene, normScale, clipPlane, delayedParts, onBounds, gl, camera, threeScene, invalidate]);
+
+  // Roof: loaded after the base, prepared, compiled and attached while hidden.
+  useEffect(() => {
+    let cancelled = false;
+    getGltfPromise(ROOF_MODEL_URL)
+      .then(async () => {
+        const roofGltf = getCachedGltf(ROOF_MODEL_URL);
+        if (cancelled || !roofGltf) return;
+        const roofScene = cloneGltfScene(roofGltf.scene);
+        const meshes: THREE.Mesh[] = [];
+        roofScene.traverse((child) => {
+          const mesh = child as THREE.Mesh;
+          if (mesh.isMesh) meshes.push(mesh);
+        });
+        const parts: DelayedMesh[] = [];
+        meshes.forEach((mesh) => {
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+          const mats = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as THREE.Material[];
+          const entries = mats.map((material) => {
+            const entry = {
+              material,
+              baseOpacity: material.opacity,
+              baseDepthWrite: material.depthWrite,
+            };
+            material.clippingPlanes = [clipPlane];
+            material.clipShadows = true;
+            material.transparent = true;
+            material.opacity = 0;
+            material.depthWrite = false;
+            material.needsUpdate = true;
+            return entry;
+          });
+          if (DELAYED_PART_MATERIALS.has(mesh.name.replace(/_\d+$/, ""))) {
+            parts.push({ mesh, materials: entries });
+          }
+        });
+        try {
+          await gl.compileAsync(roofScene, camera, threeScene);
+        } catch {
+          // Compilation will simply happen on first reveal.
+        }
+        if (cancelled) return;
+        parts.forEach(({ mesh }) => {
+          mesh.visible = false;
+        });
+        [...roofScene.children].forEach((child) => scene.add(child));
+        roofParts.current = parts;
+        invalidate();
+      })
+      .catch(() => {
+        // The base house stays fully usable without the roof file.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [scene, clipPlane, gl, camera, threeScene, invalidate]);
 
   useFrame((state) => {
+    if (compiledRef.current && !firstFrameSent.current) {
+      firstFrameSent.current = true;
+      // Report readiness after this frame has actually been drawn.
+      requestAnimationFrame(() => onReady());
+    }
     const currentProgress = THREE.MathUtils.clamp(readProgress(progress), 0, 1);
     const finishProgress = THREE.MathUtils.clamp(
       (currentProgress - HOUSE_FINISH_START) / (1 - HOUSE_FINISH_START),
@@ -400,7 +510,7 @@ function HouseModel({
       ),
     );
 
-    delayedParts.forEach(({ mesh, materials }) => {
+    const applyReveal = ({ mesh, materials }: DelayedMesh) => {
       mesh.visible = reveal > 0.001;
       materials.forEach(({ material, baseOpacity, baseDepthWrite }) => {
         material.opacity = baseOpacity * reveal;
@@ -410,7 +520,9 @@ function HouseModel({
           material.needsUpdate = true;
         }
       });
-    });
+    };
+    delayedParts.forEach(applyReveal);
+    roofParts.current.forEach(applyReveal);
 
     varnishTargets.forEach(({ material, baseColor, baseRoughness, baseEnvMapIntensity }) => {
       material.color?.copy(baseColor);
@@ -815,7 +927,9 @@ export function preloadHouseModel(isMobile: boolean) {
       document.head.appendChild(link);
     }
   }
-  void getGltfPromise(modelUrl).catch(() => {
+  void getGltfPromise(modelUrl)
+    .then(() => getGltfPromise(ROOF_MODEL_URL))
+    .catch(() => {
     // The Suspense consumer will surface the cached loader error if rendering
     // is attempted; this catch only prevents an unhandled prefetch rejection.
   });
@@ -846,6 +960,23 @@ export default function ScrollHouse({
   const [modelReady, setModelReady] = useState(false);
   // Incrementing this key forces the Canvas to fully remount after context loss
   const [canvasKey, setCanvasKey] = useState(0);
+  // Keep the scene prepared but idle (no 60fps rendering) while the visitor is
+  // still on the hero; switch to continuous rendering just before it is seen.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [nearViewport, setNearViewport] = useState(false);
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setNearViewport(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setNearViewport(entry.isIntersecting),
+      { rootMargin: "60% 0px 60% 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
   const retryCount = useRef(0);
   const isMobile = useIsMobile(mobileHint);
   const modelUrl = getHouseModelUrl(isMobile);
@@ -896,6 +1027,7 @@ export default function ScrollHouse({
 
   return (
     <div
+      ref={rootRef}
       className="absolute inset-0 pointer-events-none"
       data-house-model-ready={modelReady ? "true" : "false"}
     >
@@ -906,6 +1038,7 @@ export default function ScrollHouse({
         >
           <Canvas
           key={canvasKey}
+          frameloop={nearViewport ? "always" : "demand"}
           shadows
           camera={CAMERA_CONFIG}
           gl={GL_CONFIG}

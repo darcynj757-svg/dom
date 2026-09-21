@@ -70,7 +70,7 @@ function formatCls(value) {
 
 function assetKind(url) {
   const pathname = new URL(url).pathname;
-  if (pathname.endsWith("/house-v2.glb")) return "house-v2.glb";
+  if (pathname.endsWith("/house-v3-base.glb")) return "house-v3-base.glb";
   if (pathname.endsWith("/house-draco.glb")) return "house-draco.glb";
   if (pathname.includes("/draco/")) return "draco decoder";
   return null;
@@ -319,7 +319,7 @@ async function runRoute(browser, route) {
         () =>
           assetRequests.some(
             (requestEvent) =>
-              requestEvent.kind === "house-v2.glb" ||
+              requestEvent.kind === "house-v3-base.glb" ||
               requestEvent.kind === "house-draco.glb",
           ),
         10_000,
@@ -351,7 +351,7 @@ async function runRoute(browser, route) {
 
       const postScrollKinds = new Set(assetRequests.map((requestEvent) => requestEvent.kind));
       assert(
-        postScrollKinds.has("house-v2.glb") || postScrollKinds.has("house-draco.glb"),
+        postScrollKinds.has("house-v3-base.glb") || postScrollKinds.has("house-draco.glb"),
         "home did not request a 3D house model after entering the 3D block",
       );
       assert(

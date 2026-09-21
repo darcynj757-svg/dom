@@ -80,7 +80,7 @@ async function main() {
   );
   const heroPoster = "/posters/cedar_log_mansion_flythrough_16s_compressed.webp";
   const heroVideo = "/videos/hero-mobile-1080.mp4";
-  const mobileHouseModel = "/house-v2.glb";
+  const mobileHouseModel = "/house-v3-base.glb";
 
   const [entryJsSize, cssSize, heroPosterSize, heroVideoSize, mobileHouseModelSize] =
     await Promise.all([

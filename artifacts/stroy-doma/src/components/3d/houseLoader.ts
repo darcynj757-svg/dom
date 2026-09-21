@@ -6,11 +6,18 @@ import * as THREE from "three";
 // One optimized model for every viewport (~1.36 MB, Draco geometry +
 // WebP textures). The old desktop variant was ~23.7 MB and regularly left the
 // 3D section blank on a cold start, especially on mobile networks.
-export const MODEL_URL = `${import.meta.env.BASE_URL}house-v2.glb`.replace(
+export const MODEL_URL = `${import.meta.env.BASE_URL}house-v3-base.glb`.replace(
   /([^:])\/\//g,
   "$1/",
 );
 export const MOBILE_MODEL_URL = MODEL_URL;
+
+// The dark roof surface is ~80% of all triangles but only appears after 70% of
+// the scroll story, so it ships as a separate file that loads after the base.
+export const ROOF_MODEL_URL = `${import.meta.env.BASE_URL}house-v3-roof.glb`.replace(
+  /([^:])\/\//g,
+  "$1/",
+);
 
 export function getHouseModelUrl(_isMobile: boolean) {
   return MODEL_URL;
@@ -215,6 +222,11 @@ export function resetGltfCache(modelUrl = MODEL_URL) {
   if (cache.gltf) return;
   cache.error = null;
   cache.promise = null;
+}
+
+/** Returns the parsed model if it has already finished loading. */
+export function getCachedGltf(modelUrl: string): GLTF | null {
+  return _cache.get(modelUrl)?.gltf ?? null;
 }
 
 /** Suspense-compatible hook — throws while loading, returns when ready. */

@@ -1,8 +1,0 @@
-v-join.glb ratio 1 err 0 {"meshes":74,"verts":507642,"tris":325272} -> {"meshes":22,"verts":505225,"tris":325272}
-v-50.glb ratio 0.5 err 0.004 {"meshes":74,"verts":507642,"tris":325272} -> {"meshes":22,"verts":501093,"tris":321136}
-v-30.glb ratio 0.3 err 0.008 {"meshes":74,"verts":507642,"tris":325272} -> {"meshes":22,"verts":499931,"tris":319979}
-v-15.glb ratio 0.15 err 0.02 {"meshes":74,"verts":507642,"tris":325272} -> {"meshes":21,"verts":498924,"tris":319015}
--rw-r--r-- 1 runner runner 1273080 Sep 21 08:36 v-15.glb
--rw-r--r-- 1 runner runner 1276380 Sep 21 08:36 v-30.glb
--rw-r--r-- 1 runner runner 1278748 Sep 21 08:36 v-50.glb
--rw-r--r-- 1 runner runner 1287344 Sep 21 08:36 v-join.glb

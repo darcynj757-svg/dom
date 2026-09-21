@@ -23,7 +23,7 @@ async function startApp() {
   const currentPath = window.location.pathname.replace(/\/?$/, "/");
   if (currentPath === base) {
     const earlyFiles: Array<[string, string | null]> = [
-      ["house-v2.glb", "optimized"],
+      ["house-v3-base.glb", "optimized"],
       ["draco/draco_wasm_wrapper.js", null],
       ["draco/draco_decoder.wasm", null],
     ];
