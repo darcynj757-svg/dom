@@ -341,12 +341,12 @@ export default function Home() {
             ].map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 22, scale: 0.985 }}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.12 }}
                 transition={{
-                  duration: 0.55,
-                  delay: i * (isMobile ? 0.08 : 0.07),
+                  duration: 0.65,
+                  delay: isMobile ? 0.02 : 0.04,
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 className="group relative p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
