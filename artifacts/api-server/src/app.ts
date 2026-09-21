@@ -43,6 +43,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Temporary: field diagnostics sent by the 3D block on real phones.
+app.post("/api/client-log", (req, res) => {
+  req.log.info({ clientLog: req.body }, "client-log");
+  res.status(204).end();
+});
+
 app.use("/api", router);
 
 // 301-редиректы со старых URL и склейка www-зеркала (до раздачи статики).

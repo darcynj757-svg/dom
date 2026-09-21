@@ -1,3 +1,4 @@
+import "./lib/houseDiag";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App, { preloadRoute } from "./App";
 import "./index.css";

@@ -2,6 +2,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
+import { diag } from "@/lib/houseDiag";
 
 // One optimized model for every viewport (~1.36 MB, Draco geometry +
 // WebP textures). The old desktop variant was ~23.7 MB and regularly left the
@@ -147,6 +148,8 @@ function getCache(modelUrl: string) {
 }
 
 function loadGltfOnce(modelUrl: string): Promise<GLTF> {
+  const fileName = modelUrl.split("/").pop() ?? modelUrl;
+  diag("gltf-start", fileName);
   return new Promise<GLTF>((resolve, reject) => {
     const loader = new GLTFLoader();
     loader.setDRACOLoader(getDracoLoader());
@@ -167,6 +170,7 @@ function loadGltfOnce(modelUrl: string): Promise<GLTF> {
         if (settled) return;
         settled = true;
         clearTimeout(timer);
+        diag("gltf-loaded", fileName);
         resolve(gltf);
       },
       undefined,
@@ -174,6 +178,7 @@ function loadGltfOnce(modelUrl: string): Promise<GLTF> {
         if (settled) return;
         settled = true;
         clearTimeout(timer);
+        diag("gltf-error", `${fileName} ${String(err)}`);
         reject(err);
       },
     );

@@ -12,6 +12,7 @@ import {
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Grid } from "@react-three/drei";
 import * as THREE from "three";
+import { diag, flushDiag } from "@/lib/houseDiag";
 import type { MotionValue } from "framer-motion";
 import {
   useGltfWithPlugin,
@@ -375,25 +376,16 @@ function HouseModel({
       }
     });
 
-    // Compile every program (including parts revealed later) off the critical
-    // path, while the visitor is still on the hero screen. The group stays
-    // hidden until the GPU programs are ready so the first frame never stalls.
-    compiledRef.current = false;
-    groupRef.current.visible = false;
-    let compilePromise: Promise<unknown>;
+    // Compile every GPU program now (including parts revealed later) while
+    // the visitor is still on the hero screen, so nothing compiles mid-scroll.
+    // Synchronous on purpose: it works the same in every browser.
     try {
-      compilePromise = gl.compileAsync(scene, camera, threeScene);
-    } catch {
-      compilePromise = Promise.resolve();
+      gl.compile(scene, camera, threeScene);
+      diag("house-compiled");
+    } catch (error) {
+      diag("house-compile-error", String(error));
     }
-    const group = groupRef.current;
-    void compilePromise
-      .catch(() => {})
-      .then(() => {
-        compiledRef.current = true;
-        group.visible = true;
-        invalidate();
-      });
+    compiledRef.current = true;
 
     delayedParts.forEach(({ mesh, materials }) => {
       mesh.visible = false;
@@ -462,7 +454,7 @@ function HouseModel({
           }
         });
         try {
-          await gl.compileAsync(roofScene, camera, threeScene);
+          gl.compile(roofScene, camera, threeScene);
         } catch {
           // Compilation will simply happen on first reveal.
         }
@@ -472,6 +464,7 @@ function HouseModel({
         });
         [...roofScene.children].forEach((child) => scene.add(child));
         roofParts.current = parts;
+        diag("roof-attached");
         invalidate();
       })
       .catch(() => {
@@ -486,7 +479,10 @@ function HouseModel({
     if (compiledRef.current && !firstFrameSent.current) {
       firstFrameSent.current = true;
       // Report readiness after this frame has actually been drawn.
-      requestAnimationFrame(() => onReady());
+      requestAnimationFrame(() => {
+        diag("house-first-frame");
+        onReady();
+      });
     }
     const currentProgress = THREE.MathUtils.clamp(readProgress(progress), 0, 1);
     const finishProgress = THREE.MathUtils.clamp(
@@ -971,7 +967,10 @@ export default function ScrollHouse({
       return;
     }
     const observer = new IntersectionObserver(
-      ([entry]) => setNearViewport(entry.isIntersecting),
+      ([entry]) => {
+        setNearViewport(entry.isIntersecting);
+        if (entry.isIntersecting) diag("near-viewport", String(Math.round(window.scrollY)));
+      },
       { rootMargin: "60% 0px 60% 0px" },
     );
     observer.observe(el);
@@ -1047,11 +1046,17 @@ export default function ScrollHouse({
           // Cap pixel ratio on mobile to 1.5 — halves GPU fill-rate cost on high-DPI phones
           dpr={isMobile ? [1, 1.5] : [1, 2]}
           onCreated={({ gl }) => {
+            diag(
+              "canvas-created",
+              `webgl2=${gl.capabilities.isWebGL2} maxTex=${gl.capabilities.maxTextureSize}`,
+            );
             gl.setClearColor(0x000000, 0);
             gl.domElement.addEventListener(
               "webglcontextlost",
               (e) => {
                 e.preventDefault();
+                diag("context-lost", String(retryCount.current));
+                flushDiag("context-lost");
                 // Retry with a fresh renderer. We deliberately do not replace the
                 // requested 3D house with an unrelated static image.
                 if (retryCount.current < 3) {

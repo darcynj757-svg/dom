@@ -180,9 +180,6 @@ export default function ScrollHouseBlock() {
   // The Canvas itself still mounts only when the user enters the block, so
   // Hero does not pay for a second visible WebGL surface.
   const [showHouse, setShowHouse] = useState(false);
-  // A pre-rendered frame of the foundation is visible instantly; it fades out
-  // once the live WebGL scene has drawn its first frame on top of it.
-  const [houseReady, setHouseReady] = useState(false);
   const [mobileModelHint, setMobileModelHint] = useState<boolean | null>(null);
   useEffect(() => {
     const el = houseRef.current;
@@ -262,30 +259,12 @@ export default function ScrollHouseBlock() {
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ opacity: heroSceneOpacity }} className="absolute inset-0">
-          <picture>
-            <source
-              media="(max-width: 767px)"
-              srcSet={`${import.meta.env.BASE_URL}posters/house-foundation-mobile.webp`}
-            />
-            <img
-              src={`${import.meta.env.BASE_URL}posters/house-foundation-desktop.webp`}
-              alt=""
-              aria-hidden="true"
-              decoding="async"
-              draggable={false}
-              data-house-foundation-poster
-              className={`pointer-events-none absolute left-1/2 top-0 h-full w-auto max-w-none -translate-x-1/2 select-none transition-opacity duration-500 ${
-                houseReady ? "opacity-0" : "opacity-100"
-              }`}
-            />
-          </picture>
           {showHouse && mobileModelHint !== null ? (
             <div className="absolute inset-0 z-[5]">
               <Suspense fallback={null}>
                 <ScrollHouse
                   progress={smoothScrollProgress}
                   mobileHint={mobileModelHint}
-                  onReady={() => setHouseReady(true)}
                 />
               </Suspense>
             </div>
