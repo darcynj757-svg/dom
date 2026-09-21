@@ -1,5 +1,15 @@
-t=1753ms {"ready":"none","canvas":false}
-t=4060ms {"ready":"false","canvas":true}
-client-log"},"clientLog":{"reason":"pagehide","ua":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36","viewport":[390,844,2],"net":"4g 1.6","scrollY":2321,"events":[["boot",1179,null],["gltf-start",1904,"house-v3-base.glb"],["gltf-loaded",2247,"house-v3-base.glb"],["gltf-start",2252,"house-v3-roof.glb"],["near-viewport",2263,"0"],["house-compiled",2508,null],["canvas-created",2511,"webgl2=true maxTex=8192"],["house-first-frame",4055,null],["gltf-loaded",4752,"house-v3-roof.glb"],["roof-attached",4756,null]]},"msg":"client-log"}
-client-log"},"res":{"statusCode":204},"responseTime":18,"msg":"request completed"}
-client-log"},"clientLog":{"reason":"hidden","ua":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36","viewport":[390,844,2],"net":"4g 1.6","scrollY":2321,"events":[["boot",1179,null],["gltf-start",1904,"house-v3-base.glb"],["gltf-loaded",2247,"house-v3-base.glb"],["gltf-start",2252,"house-v3-roof.glb"],["near-viewport",2263,"0"],["house-compiled",2508,null],["canvas-created",2511,"webgl2=true maxTex=8192"],["house-first-frame",4055,null],["gltf-loaded",4752,"house-v3-roof.glb"],["roof-attached",4756,null]]},"msg":"client-log"}
+src/components/ui/tooltip.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+First-screen mobile budget passed: HTML=84949B/150000B CSS=154378B/180000B entry-js=118744B/160000B poster=221220B/600000B hero-video=2623401B/7000000B mobile-3d=279008B/1600000B
+Sitemap validation passed for 83 unique route(s) from /home/runner/workspace/artifacts/stroy-doma/dist/public/sitemap.xml.
+Production indexing preflight passed for /home/runner/workspace/artifacts/stroy-doma/dist/public: HTTP 200 for robots.txt, sitemap.xml, and 83 sitemap URL(s) (14 project, 56 article).
+Custom 404 validation passed: /home/runner/workspace/artifacts/stroy-doma/dist/public/404.html
+SEO validation passed for 85 generated route(s).
+# Subtest: published route checker reports every failed direct URL and rejects redirects/non-HTML
+ok 8 - published route checker reports every failed direct URL and rejects redirects/non-HTML
+# Subtest: duplicate titles are reported separately from page metadata errors
+ok 24 - duplicate titles are reported separately from page metadata errors
+# Subtest: duplicate descriptions are reported separately from page metadata errors
+ok 25 - duplicate descriptions are reported separately from page metadata errors
+# pass 34
+# fail 0
+06628c2 Start 3D model download at boot, 256px model textures (471->279 KB), lighter hero poster
