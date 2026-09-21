@@ -79,7 +79,7 @@ async function main() {
     "the local stylesheet",
   );
   const heroPoster = "/posters/cedar_log_mansion_flythrough_16s_compressed.webp";
-  const heroVideo = "/videos/hero-compressed.mp4";
+  const heroVideo = "/videos/hero-mobile-1080.mp4";
   const mobileHouseModel = "/house-v2.glb";
 
   const [entryJsSize, cssSize, heroPosterSize, heroVideoSize, mobileHouseModelSize] =
@@ -104,13 +104,13 @@ async function main() {
     `mobile hero poster must be preloaded: ${heroPoster}`,
   );
   assert(
-    /<video\b[^>]*poster="\/posters\/cedar_log_mansion_flythrough_16s_compressed\.webp"[^>]*preload="metadata"/i.test(
+    /<video\b[^>]*poster="\/posters\/cedar_log_mansion_flythrough_16s_compressed\.webp"[^>]*preload="(?:metadata|none)"/i.test(
       html,
     ),
-    "hero video must use metadata preload",
+    "hero video must use metadata or deferred (none) preload",
   );
   assert(
-    /<source\b[^>]*src="\/videos\/hero-compressed\.mp4"[^>]*media="\(max-width: 767px\)"/i.test(
+    /<source\b[^>]*src="\/videos\/hero-mobile-1080\.mp4"[^>]*media="\(max-width: 767px\)"/i.test(
       html,
     ),
     "hero video must expose the high-quality mobile source",

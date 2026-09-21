@@ -15,6 +15,30 @@ async function startApp() {
   createRoot(rootElement).render(<App />);
 }
 
+// Start the 3D house downloads right away on the home page, before hydration.
+// crossOrigin must match the fetch() used by GLTFLoader/DRACOLoader, otherwise
+// the browser ignores the preload and downloads the files a second time.
+{
+  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+  const currentPath = window.location.pathname.replace(/\/?$/, "/");
+  if (currentPath === base) {
+    const earlyFiles: Array<[string, string | null]> = [
+      ["house-v2.glb", "optimized"],
+      ["draco/draco_wasm_wrapper.js", null],
+      ["draco/draco_decoder.wasm", null],
+    ];
+    for (const [file, variant] of earlyFiles) {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "fetch";
+      link.crossOrigin = "anonymous";
+      link.href = base + file;
+      if (variant) link.dataset.houseModelPreload = variant;
+      document.head.appendChild(link);
+    }
+  }
+}
+
 void startApp();
 
 // ── Логика splash-экрана ────────────────────────────────────────────────────

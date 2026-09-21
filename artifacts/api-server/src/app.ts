@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import express, { type Express } from "express";
+import compression from "compression";
 import cors from "cors";
 import pinoHttp from "pino-http";
 import router from "./routes";
@@ -27,6 +28,15 @@ app.use(
         };
       },
     },
+  }),
+);
+// Compress text assets (HTML/JS/CSS/JSON/SVG/WASM). Already-compressed media
+// (GLB with Draco+WebP, video, images, fonts) is skipped.
+const alreadyCompressed = /\.(?:glb|mp4|webm|webp|avif|png|jpe?g|gif|woff2?)$/i;
+app.use(
+  compression({
+    filter: (req, res) =>
+      !alreadyCompressed.test(req.path) && compression.filter(req, res),
   }),
 );
 app.use(cors());

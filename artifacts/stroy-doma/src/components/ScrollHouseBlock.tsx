@@ -201,6 +201,7 @@ export default function ScrollHouseBlock() {
         const link = document.createElement("link");
         link.rel = "preload";
         link.as = "fetch";
+      link.crossOrigin = "anonymous";
         link.href = modelUrl;
         link.dataset.houseModelPreload = variant;
         document.head.appendChild(link);

@@ -189,6 +189,10 @@ export function getGltfPromise(modelUrl = MODEL_URL): Promise<void> {
       for (let attempt = 0; attempt < MAX_LOAD_ATTEMPTS; attempt += 1) {
         try {
           cache.gltf = await loadGltfOnce(modelUrl);
+        if (typeof window !== "undefined") {
+          (window as unknown as { __houseModelLoaded?: boolean }).__houseModelLoaded = true;
+          window.dispatchEvent(new CustomEvent("house-model-loaded"));
+        }
           cache.error = null;
           return;
         } catch (err) {

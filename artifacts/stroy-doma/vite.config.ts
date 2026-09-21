@@ -169,10 +169,21 @@ export default defineConfig({
       injectRegister: "auto",
       workbox: {
         // Cache static assets (JS, CSS, fonts, images) with stale-while-revalidate
-        globPatterns: ["**/*.{js,css,woff2,webp,png,svg}"],
+        globPatterns: ["**/*.{js,css,woff2,svg}"],
         // Don't pre-cache the large GLB — it's fetched on demand
-        globIgnores: ["**/*.{glb,mp4,wasm}"],
+        globIgnores: ["**/*.{glb,mp4,wasm}", "**/draco/**", "**/assets/draco_decoder-*.js"],
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         runtimeCaching: [
+          {
+            // Images are cached as the visitor actually sees them instead of
+            // being precached all at once on the first visit.
+            urlPattern: /\.(?:webp|png|jpe?g|avif)$/,
+            handler: "StaleWhileRevalidate",
+            options: {
+              cacheName: "images",
+              expiration: { maxEntries: 150, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
           {
             urlPattern: /\.(?:glb|mp4)$/,
             handler: "CacheFirst",

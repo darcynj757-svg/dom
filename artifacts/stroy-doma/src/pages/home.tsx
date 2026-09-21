@@ -83,7 +83,7 @@ export default function Home() {
   const { sectionRef: heroRef, y: heroY } = useHeroParallax();
   const heroVideoRef = useRef<HTMLVideoElement>(null);
 
-  useAutoplayVideo(heroVideoRef);
+  useAutoplayVideo(heroVideoRef, { deferOnMobileUntilHouse: true });
 
   const carouselRef = useRef<HTMLDivElement>(null);
   const ctaVideoRef = useRef<HTMLVideoElement>(null);
@@ -164,11 +164,10 @@ export default function Home() {
               if (el) el.setAttribute("fetchpriority", "low");
             }}
             poster="/posters/cedar_log_mansion_flythrough_16s_compressed.webp"
-            autoPlay
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="none"
             onCanPlay={() => {
               heroVideoRef.current?.play().catch(() => {});
               window.dispatchEvent(new CustomEvent("hero-video-ready"));
@@ -178,7 +177,7 @@ export default function Home() {
             {/* На главной используем полноценный 1920px hero и на мобильных,
                 чтобы дом и фон не выглядели размытыми. */}
             <source
-              src="/videos/hero-compressed.mp4"
+              src="/videos/hero-mobile-1080.mp4"
               type="video/mp4"
               media="(max-width: 767px)"
             />
@@ -602,7 +601,6 @@ export default function Home() {
           <video
             ref={ctaVideoRef}
             src={ctaVideo}
-            autoPlay
             loop
             muted
             playsInline
