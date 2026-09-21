@@ -37,6 +37,11 @@ async function startApp() {
       if (variant) link.dataset.houseModelPreload = variant;
       document.head.appendChild(link);
     }
+    // Start fetching + decoding the 3D house immediately, in parallel with
+    // hydration, instead of waiting for the home page to mount first.
+    void import("./components/3d/ScrollHouse")
+      .then(({ preloadHouseModel }) => preloadHouseModel(window.innerWidth < 768))
+      .catch(() => {});
   }
 }
 
