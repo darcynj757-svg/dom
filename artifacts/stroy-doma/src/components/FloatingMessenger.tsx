@@ -7,7 +7,7 @@ const MESSENGERS = [
   {
     key: "whatsapp",
     label: "WhatsApp",
-    href: "https://wa.me/73822334439",
+    href: "https://wa.me/79138534439",
     color: "#25D366",
     icon: (
       <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#25D366]">
@@ -18,7 +18,7 @@ const MESSENGERS = [
   {
     key: "telegram",
     label: "Telegram",
-    href: "https://t.me/+73822334439",
+    href: "https://t.me/Pavelss75",
     color: "#229ED9",
     icon: (
       <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#229ED9]">

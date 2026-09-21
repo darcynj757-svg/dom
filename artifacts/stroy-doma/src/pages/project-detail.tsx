@@ -221,7 +221,7 @@ export default function ProjectDetail() {
                   </p>
                   <div className="grid grid-cols-3 gap-2">
                     <a
-                      href="https://wa.me/73822334439"
+                      href="https://wa.me/79138534439"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-muted/50 hover:bg-[#25D366]/10 hover:border-[#25D366]/40 transition-all duration-200 py-2.5 text-xs font-medium group"
@@ -233,7 +233,7 @@ export default function ProjectDetail() {
                     </a>
 
                     <a
-                      href="https://t.me/+73822334439"
+                      href="https://t.me/Pavelss75"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-muted/50 hover:bg-[#229ED9]/10 hover:border-[#229ED9]/40 transition-all duration-200 py-2.5 text-xs font-medium group"
