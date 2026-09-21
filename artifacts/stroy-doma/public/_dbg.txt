@@ -1,70 +1,8 @@
-before { meshes: 74, verts: 507642 }
-prune: Removed types... Node (3)
-prune: Removed types... Mesh (52), Node (52), Primitive (55), Accessor (218)
-simplify: Skipped 1 primitives: Unsupported draw mode.
-prune: Detected single-color diffuseTexture texture. Pruning diffuseTexture not yet supported.
-after { meshes: 22, verts: 501135 } names Material54,Material45,Material12,Material11,Material22,Material13,Material24,Material5,Material23,Material108,Material19,Material14,Material4,Material21,Material9,Material6,Material10,Material15,Material7,Material51,Material58,Material60
-prune: Removed types... Accessor (76)
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-prune: Removed types... Accessor (43)
-prune: Removed types... Accessor (76)
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-prune: Removed types... Accessor (43)
-extensions EXT_texture_webp,KHR_materials_pbrSpecularGlossiness,KHR_mesh_quantization,EXT_meshopt_compression
-before { meshes: 74, verts: 507642 }
-prune: Removed types... Node (3)
-prune: Removed types... Mesh (52), Node (52), Primitive (55), Accessor (218)
-simplify: Skipped 1 primitives: Unsupported draw mode.
-prune: Detected single-color diffuseTexture texture. Pruning diffuseTexture not yet supported.
-after { meshes: 22, verts: 505225 } names Material54,Material45,Material12,Material11,Material22,Material13,Material24,Material5,Material23,Material108,Material19,Material14,Material4,Material21,Material9,Material6,Material10,Material15,Material7,Material51,Material58,Material60
-prune: Removed types... Accessor (76)
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-prune: Removed types... Accessor (43)
-prune: Removed types... Accessor (76)
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-quantize: Skipping TEXCOORD_0; out of [0,1] range.
-prune: Removed types... Accessor (43)
-extensions EXT_texture_webp,KHR_materials_pbrSpecularGlossiness,KHR_mesh_quantization,EXT_meshopt_compression
--rw-r--r-- 1 runner runner 6433884 Sep 21 08:34 out-a.glb
--rw-r--r-- 1 runner runner 6458188 Sep 21 08:34 out-b.glb
-2094470
-2121658
+v-join.glb ratio 1 err 0 {"meshes":74,"verts":507642,"tris":325272} -> {"meshes":22,"verts":505225,"tris":325272}
+v-50.glb ratio 0.5 err 0.004 {"meshes":74,"verts":507642,"tris":325272} -> {"meshes":22,"verts":501093,"tris":321136}
+v-30.glb ratio 0.3 err 0.008 {"meshes":74,"verts":507642,"tris":325272} -> {"meshes":22,"verts":499931,"tris":319979}
+v-15.glb ratio 0.15 err 0.02 {"meshes":74,"verts":507642,"tris":325272} -> {"meshes":21,"verts":498924,"tris":319015}
+-rw-r--r-- 1 runner runner 1273080 Sep 21 08:36 v-15.glb
+-rw-r--r-- 1 runner runner 1276380 Sep 21 08:36 v-30.glb
+-rw-r--r-- 1 runner runner 1278748 Sep 21 08:36 v-50.glb
+-rw-r--r-- 1 runner runner 1287344 Sep 21 08:36 v-join.glb
