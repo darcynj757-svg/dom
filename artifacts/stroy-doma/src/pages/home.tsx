@@ -28,6 +28,11 @@ function StatCard({ value, suffix, label }: { value: number; suffix: string; lab
   );
 }
 
+// One consistent scroll-reveal: start when ~15% of the element is on screen,
+// short distance, soft ease-out. Keeps blocks from "popping" at the edge.
+const REVEAL_VIEWPORT = { once: true, amount: 0.15 } as const;
+const REVEAL_EASE = [0.22, 1, 0.36, 1] as const;
+
 function FeaturedProjectCard({
   project,
   index,
@@ -42,8 +47,8 @@ function FeaturedProjectCard({
       className="snap-center shrink-0 w-[78vw] md:w-[420px] relative"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, root: scrollRef, margin: "0px" }}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.55, delay: Math.min(index, 3) * 0.07, ease: REVEAL_EASE }}
     >
       <Link href={`/projects/${project.id}`}>
         <div className="group relative overflow-hidden rounded-2xl cursor-pointer shadow-md hover:shadow-xl active:shadow-xl transition-shadow duration-300">
@@ -193,7 +198,7 @@ export default function Home() {
           <motion.span
             initial={false}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: REVEAL_EASE }}
             className="inline-block px-5 py-1.5 rounded-full glass text-white/90 text-xs md:text-sm tracking-[0.25em] font-semibold mb-5 md:mb-8"
           >
             Строительство деревянных домов под ключ
@@ -202,7 +207,7 @@ export default function Home() {
           <motion.h1
             initial={false}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: REVEAL_EASE }}
             className="font-display font-black text-white leading-[1.05] max-w-6xl"
             style={{ fontSize: "clamp(2.15rem, 5.6vw, 80px)" }}
           >
@@ -214,7 +219,7 @@ export default function Home() {
           <motion.p
             initial={false}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.38 }}
+            transition={{ duration: 0.7, delay: 0.38, ease: REVEAL_EASE }}
             className="mt-4 md:mt-7 max-w-lg text-sm md:text-lg text-white font-medium"
             style={{ textShadow: "0 1px 8px rgba(0,0,0,0.8)" }}
           >
@@ -224,7 +229,7 @@ export default function Home() {
           <motion.div
             initial={false}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
+            transition={{ duration: 0.7, delay: 0.55, ease: REVEAL_EASE }}
             className="mt-6 md:mt-10 flex flex-wrap gap-3 md:gap-4 justify-center"
           >
             <Link href="/projects">
@@ -267,8 +272,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={REVEAL_VIEWPORT}
+            transition={{ duration: 0.6, ease: REVEAL_EASE }}
             className="max-w-2xl mb-8 md:mb-12"
           >
             <span className="text-xs uppercase tracking-[0.3em] text-secondary font-semibold">Избранные проекты</span>
@@ -285,7 +290,7 @@ export default function Home() {
                         snap-x snap-mandatory
                         -mx-4 px-4 md:-mx-6 md:px-6
                         scrollbar-none pb-2
-                        [touch-action:pan-x]"
+                        [touch-action:pan-x_pan-y]"
           >
             {featured.map((project, i) => (
               <FeaturedProjectCard
@@ -319,7 +324,7 @@ export default function Home() {
           <motion.div
             initial={isMobile ? { opacity: 0, y: 14, scale: 0.98 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={REVEAL_VIEWPORT}
             transition={
               isMobile
                 ? { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
@@ -343,13 +348,13 @@ export default function Home() {
                 key={item.title}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.12 }}
+                viewport={REVEAL_VIEWPORT}
                 transition={{
                   duration: 0.65,
-                  delay: isMobile ? 0.02 : 0.04,
+                  delay: isMobile ? 0.02 : (i % 3) * 0.06,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="group relative p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                className="group relative p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-lg hover:-translate-y-1 transition-[border-color,box-shadow,translate] duration-300"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/10 to-transparent rounded-tr-2xl rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity" />
                 <div className="relative">
@@ -371,8 +376,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={REVEAL_VIEWPORT}
+            transition={{ duration: 0.6, ease: REVEAL_EASE }}
             className="text-center mb-14"
           >
             <span className="text-xs uppercase tracking-[0.3em] text-secondary font-medium">Процесс</span>
@@ -394,8 +399,8 @@ export default function Home() {
                   key={item.title}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.12 }}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={{ duration: 0.5, delay: i * 0.12, ease: REVEAL_EASE }}
                   className="relative text-center"
                 >
                   <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center shadow-lg shadow-primary/20 mb-6 relative z-10">
@@ -420,8 +425,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={REVEAL_VIEWPORT}
+            transition={{ duration: 0.6, ease: REVEAL_EASE }}
             className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
           >
             <div>
@@ -458,8 +463,8 @@ export default function Home() {
                   key={`mob-${item.id}`}
                   initial={{ opacity: 0, scale: 0.97 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={{ duration: 0.4, delay: i * 0.05, ease: REVEAL_EASE }}
                   style={{ gridColumn: span.col, gridRow: span.row }}
                   className="group relative overflow-hidden rounded-xl bg-muted cursor-pointer"
                   onClick={() => openHomeLightbox(span.gi)}
@@ -515,8 +520,8 @@ export default function Home() {
                   key={`desk-${item.id}`}
                   initial={{ opacity: 0, scale: 0.96 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={{ duration: 0.4, delay: i * 0.06, ease: REVEAL_EASE }}
                   style={{ gridColumn: span.col, gridRow: span.row }}
                   className="group relative overflow-hidden rounded-2xl bg-muted cursor-pointer"
                   onClick={() => openHomeLightbox(i)}
@@ -544,8 +549,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={REVEAL_VIEWPORT}
+            transition={{ duration: 0.6, ease: REVEAL_EASE }}
             className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 md:mb-12"
           >
             <div>
@@ -564,9 +569,9 @@ export default function Home() {
               <motion.article
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="group rounded-xl md:rounded-2xl bg-card border border-border/60 overflow-hidden hover:border-primary/40 hover:shadow-md transition-all duration-300 cursor-pointer
+                viewport={REVEAL_VIEWPORT}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: REVEAL_EASE }}
+                className="group rounded-xl md:rounded-2xl bg-card border border-border/60 overflow-hidden hover:border-primary/40 hover:shadow-md transition-[border-color,box-shadow] duration-300 cursor-pointer
                            flex flex-row md:flex-col"
               >
                 {/* Image — square on mobile, 16/9 on desktop */}
@@ -639,7 +644,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.2, ease: REVEAL_EASE }}
             className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
             onClick={closeHomeLightbox}
           >
@@ -663,7 +668,7 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.97 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.2, ease: REVEAL_EASE }}
               className="relative max-w-5xl w-full max-h-[85vh] flex flex-col items-center"
               onClick={(e) => e.stopPropagation()}
             >

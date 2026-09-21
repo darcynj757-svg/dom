@@ -1,6 +1,7 @@
 import "./lib/houseDiag";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App, { preloadRoute } from "./App";
+import { MotionConfig } from "framer-motion";
 import "./index.css";
 
 const rootElement = document.getElementById("root")!;
@@ -9,11 +10,20 @@ const hasPrerenderedApp = import.meta.env.PROD && !rootElement.querySelector("#s
 async function startApp() {
   if (hasPrerenderedApp) {
     await preloadRoute(window.location.pathname);
-    hydrateRoot(rootElement, <App />);
+    hydrateRoot(
+      rootElement,
+      <MotionConfig reducedMotion="user">
+        <App />
+      </MotionConfig>,
+    );
     return;
   }
 
-  createRoot(rootElement).render(<App />);
+  createRoot(rootElement).render(
+    <MotionConfig reducedMotion="user">
+      <App />
+    </MotionConfig>,
+  );
 }
 
 // Start the 3D house downloads right away on the home page, before hydration.

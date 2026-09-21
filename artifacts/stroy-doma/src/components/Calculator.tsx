@@ -118,8 +118,8 @@ export default function Calculator() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.12 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-12"
         >
           <span className="text-xs uppercase tracking-[0.3em] text-secondary font-medium">
@@ -136,8 +136,8 @@ export default function Calculator() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          viewport={{ once: true, amount: 0.12 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-5xl mx-auto"
         >
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
@@ -195,7 +195,7 @@ export default function Calculator() {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.25 }}
+                      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                     >
                       <p className="text-xs uppercase tracking-widest text-muted-foreground font-semibold mb-3">
                         Этажность
@@ -319,7 +319,7 @@ export default function Calculator() {
                     key={`${min}-${max}`}
                     initial={{ opacity: 0.5, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                     className="mt-4"
                   >
                     <div className="text-4xl font-black leading-none">
