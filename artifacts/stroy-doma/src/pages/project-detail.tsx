@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useParams, Link } from "wouter";
 import { motion } from "framer-motion";
-import { getProjectById } from "@/data/projects";
+import { getProjectById, PROJECTS } from "@/data/projects";
+import { ProjectMiniCard } from "@/components/ProjectMiniCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -65,6 +66,11 @@ export default function ProjectDetail() {
       : [project.imageUrl];
   const plans = project.plans ?? [];
   const allImages = [...images, ...plans];
+  const similar = PROJECTS.filter(
+    (p) => p.id !== project.id && p.category === project.category,
+  )
+    .sort((a, b) => Math.abs(a.area - project.area) - Math.abs(b.area - project.area))
+    .slice(0, 3);
 
   return (
     <div>
@@ -333,6 +339,18 @@ export default function ProjectDetail() {
         </div>
       </div>
       </div>
+      {similar.length > 0 && (
+        <div className="border-t border-border bg-muted/30 py-16">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="font-serif text-2xl font-bold mb-8">Похожие проекты</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {similar.map((p) => (
+                <ProjectMiniCard key={p.id} project={p} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

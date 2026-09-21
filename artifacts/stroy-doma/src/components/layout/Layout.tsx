@@ -45,7 +45,7 @@ const NAV_LINKS: NavItem[] = [
     label: "Строительство",
     children: [
       { href: "/services/profilirovanny-brus", label: "Дома из профилированного бруса" },
-      { href: "/services/rublenye-doma", label: "Рубленные дома" },
+      { href: "/services/rublenye-doma", label: "Рубленые дома" },
     ],
   },
   { href: "/projects", label: "Проекты" },
@@ -120,8 +120,8 @@ function DesktopDropdown({
         />
       </button>
 
-      {open && (
-        <div className="absolute top-full left-0 pt-1 min-w-[220px] z-50">
+      {(
+        <div className={`absolute top-full left-0 pt-1 min-w-[220px] z-50 ${open ? "" : "hidden"}`}>
         <div className="rounded-xl shadow-lg overflow-hidden bg-white border border-border/30">
           {item.children!.map((child) => (
             <Link
@@ -171,7 +171,7 @@ export function Navbar() {
       : "glass-nav py-3";
 
   return (
-    <header
+    <header data-nosnippet
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 transform-gpu ${navClass}`}
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -388,7 +388,7 @@ export function Navbar() {
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background border-t border-border/10">
+    <footer data-nosnippet className="bg-foreground text-background border-t border-border/10">
       {/* Compact footer body */}
       <div className="container mx-auto px-4 md:px-6 py-8">
         <div className="flex flex-col md:flex-row md:items-start gap-8">
@@ -407,6 +407,9 @@ export function Footer() {
             {[
               { href: "/about", label: "О компании" },
               { href: "/services", label: "Строительство" },
+              { href: "/services/profilirovanny-brus", label: "Дома из бруса" },
+              { href: "/services/rublenye-doma", label: "Рубленые дома" },
+              { href: "/production/pilomaterial", label: "Пиломатериал" },
               { href: "/production", label: "Производство" },
               { href: "/projects", label: "Проекты" },
               { href: "/gallery", label: "Галерея" },
@@ -464,7 +467,7 @@ const JSON_LD_SCHEMA = JSON.stringify({
   "@type": "LocalBusiness",
   name: COMPANY.name,
   url: COMPANY.url,
-  logo: `${COMPANY.url}/logo-icon.png`,
+  logo: `${COMPANY.url}/icon-512.png`,
   image: `${COMPANY.url}/opengraph.jpg`,
   telephone: COMPANY.phone,
   email: COMPANY.email,

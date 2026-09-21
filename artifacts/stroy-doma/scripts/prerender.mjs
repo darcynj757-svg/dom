@@ -163,11 +163,11 @@ function getBreadcrumbSchema(pathname, seo) {
 }
 
 const SITE_NAVIGATION = [
-  ["Главная", "/"],
   ["О компании", "/about"],
-  ["Услуги", "/services"],
-  ["Производство", "/production"],
+  ["Дома из профилированного бруса", "/services/profilirovanny-brus"],
+  ["Рубленые дома", "/services/rublenye-doma"],
   ["Проекты", "/projects"],
+  ["Производство", "/production"],
   ["Галерея", "/gallery"],
   ["Статьи", "/articles"],
   ["Контакты", "/contacts"],
@@ -195,7 +195,7 @@ function getArticleSchema(seo, canonicalUrl, image) {
       "@type": "Organization",
       name: siteName,
       url: siteUrl,
-      logo: { "@type": "ImageObject", url: `${siteUrl}/logo-icon.png` },
+      logo: { "@type": "ImageObject", url: `${siteUrl}/icon-512.png` },
     },
   };
   if (seo.datePublished) {
@@ -256,7 +256,7 @@ function injectSeo(template, pathname, appHtml, seo) {
       "@id": `${siteUrl}/#organization`,
       name: siteName,
       url: `${siteUrl}/`,
-      logo: `${siteUrl}/logo-icon.png`,
+      logo: `${siteUrl}/icon-512.png`,
     },
   ];
   const breadcrumb = getBreadcrumbSchema(pathname, seo);

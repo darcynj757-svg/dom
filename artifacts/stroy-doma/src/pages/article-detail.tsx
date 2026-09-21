@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useHeroParallax } from "@/hooks/useHeroParallax";
 import { Calendar, Clock, ArrowLeft, ChevronRight } from "lucide-react";
 import { ARTICLES } from "@/data/articles-data";
+import { PROJECTS } from "@/data/projects";
+import { ProjectMiniCard } from "@/components/ProjectMiniCard";
 import { useSeo } from "@/hooks/useSeo";
 
 export default function ArticleDetail() {
@@ -28,6 +30,15 @@ export default function ArticleDetail() {
       </div>
     );
   }
+
+  // Перелинковка статья → проекты: к статьям про бани — бани, к остальным — дома
+  const articleKey = `${article.slug} ${article.title}`.toLowerCase();
+  const isBathArticle = /ban[iy]|бан[яиь]/.test(articleKey);
+  const relatedProjects = PROJECTS.filter(
+    (p) => p.category === (isBathArticle ? "bath" : "house"),
+  )
+    .sort((a, b) => Number(!!b.featured) - Number(!!a.featured))
+    .slice(0, 3);
 
   // Related: same category, different article
   const related = ARTICLES.filter(
@@ -176,6 +187,40 @@ export default function ArticleDetail() {
           </Link>
         </div>
       </div>
+
+      {/* Проекты — переводим читателя статьи на коммерческие страницы */}
+      {relatedProjects.length > 0 && (
+        <div className="border-t border-border py-16">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+              <div>
+                <h2 className="font-serif text-2xl font-bold">
+                  {isBathArticle ? "Строим бани под ключ" : "Мы строим такие дома с 2001 года"}
+                </h2>
+                <p className="mt-2 text-muted-foreground">
+                  Из профилированного бруса и рубленого бревна — в Томске и по всей России.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Link href="/services/profilirovanny-brus" className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted transition-colors">
+                  Дома из профилированного бруса
+                </Link>
+                <Link href="/services/rublenye-doma" className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted transition-colors">
+                  Рубленые дома
+                </Link>
+                <Link href="/projects" className="rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity">
+                  Все проекты
+                </Link>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {relatedProjects.map((p) => (
+                <ProjectMiniCard key={p.id} project={p} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Related articles */}
       {related.length > 0 && (

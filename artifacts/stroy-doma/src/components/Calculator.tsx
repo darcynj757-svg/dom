@@ -107,7 +107,7 @@ export default function Calculator() {
   }, [objType, material, area, floors, withFoundation, withFinishing]);
 
   const minArea = objType === "bath" ? 20 : 50;
-  const maxArea = objType === "bath" ? 200 : 350;
+  const maxArea = objType === "bath" ? 200 : 1000;
   const pct = ((area - minArea) / (maxArea - minArea)) * 100;
 
   return (
@@ -155,7 +155,7 @@ export default function Calculator() {
                     active={objType === "house"}
                     onClick={() => {
                       setObjType("house");
-                      setArea(Math.min(Math.max(area, 50), 350));
+                      setArea(Math.min(Math.max(area, 50), 1000));
                     }}
                     icon={Home}
                     label="Дом"
