@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
+import { useHeroParallax } from "@/hooks/useHeroParallax";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { useSeo } from "@/hooks/useSeo";
@@ -7,6 +8,9 @@ import { FaqBlock } from "@/components/FaqBlock";
 import { FAQ_BANI, PRICE_FROM, fmtRub } from "@/data/faq";
 import { PROJECTS } from "@/data/projects";
 import { ProjectMiniCard } from "@/components/ProjectMiniCard";
+import bathHero from "@/assets/gallery/bath-40-1.webp";
+import bathDetail from "@/assets/gallery/bath-83-1.webp";
+import bathInterior from "@/assets/gallery/bath-83-2.webp";
 
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -35,6 +39,8 @@ const INCLUDED = [
 ];
 
 export default function ServicesBani() {
+  const { sectionRef, y } = useHeroParallax();
+
   useSeo({
     title: "Бани под ключ в Томске — строительство бань из бруса и бревна",
     description: `Строим бани под ключ в Томске и Томской области: из профилированного бруса от ${fmtRub(PRICE_FROM.bathBrus)} ₽/м², рубленые от ${fmtRub(PRICE_FROM.bathRubleny)} ₽/м². Своё производство, гарантия 5 лет, срок 1,5–3 месяца.`,
@@ -43,41 +49,110 @@ export default function ServicesBani() {
   const bathProjects = PROJECTS.filter((p) => p.category === "bath").slice(0, 3);
 
   return (
-    <div className="pt-20">
-      {/* Hero */}
-      <section className="py-16 md:py-24 bg-muted/30">
-        <div className="container mx-auto px-4 md:px-6">
-          <motion.div {...fade()} className="max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground font-medium mb-4">
-              Бани под ключ
-            </p>
-            <h1 className="font-serif text-3xl md:text-5xl font-bold mb-6">
-              Строительство бань в Томске
+    <div>
+      {/* ── Hero ── */}
+      <section ref={sectionRef as React.RefObject<HTMLElement>} className="relative min-h-[80vh] flex items-end overflow-hidden">
+        <motion.div className="absolute inset-x-0 -top-[20%] h-[140%] will-change-transform" style={{ y }}>
+          <img src={bathHero} alt="Баня из рубленого бревна" className="w-full h-full object-cover" />
+        </motion.div>
+        <div className="absolute inset-0 bg-black/45" />
+        <div className="relative z-10 container mx-auto px-4 md:px-6 pb-12 pt-28 md:pt-40">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
+          >
+            <span className="block text-xs uppercase tracking-[0.3em] text-yellow-400 font-medium mb-4">
+              Строительство
+            </span>
+            <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
+              Бани под ключ в Томске
             </h1>
-            <p className="text-lg text-muted-foreground mb-8">
-              Рубленые бани и бани из профилированного бруса под ключ — от фундамента
-              до готовой парной. Лес заготавливаем и обрабатываем сами, поэтому
-              держим цену и отвечаем за качество каждого венца.
+            <p className="text-white/75 text-lg leading-relaxed max-w-2xl">
+              Рубленые бани и бани из профилированного бруса под ключ —
+              от фундамента до готовой парной. Собственная заготовка леса,
+              точная сборка и ответственность за каждый венец.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button asChild size="lg" className="rounded-full px-8">
-                <Link href="/contacts#form">
-                  Рассчитать баню <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-full px-8">
-                <Link href="/projects">Смотреть проекты</Link>
-              </Button>
-            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Prices */}
-      <section className="py-16 md:py-24">
+      {/* ── Intro + image ── */}
+      <section className="py-16 md:py-24 border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div {...fade()} className="max-w-3xl">
-            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div {...fade()}>
+              <span className="text-xs uppercase tracking-[0.3em] text-yellow-600 font-medium">
+                Баня под ключ
+              </span>
+              <h2 className="mt-3 font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-6">
+                Тёплая баня, собранная под ваш ритм
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-8 text-lg">
+                Проектируем баню под участок и привычки вашей семьи: от компактной
+                парной до просторного комплекса с комнатой отдыха и террасой.
+                Все работы — от фундамента до печи и отделки — ведём одной командой.
+              </p>
+              <ul className="space-y-3">
+                {[
+                  "Рубленое бревно или профилированный брус",
+                  "Печь, дымоход и безопасная термоизоляция",
+                  "Парная, моечная и комната отдыха",
+                  "Соблюдение сроков и гарантия 5 лет",
+                ].map((adv) => (
+                  <li key={adv} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-foreground/80 leading-snug">{adv}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+            <motion.div {...fade(0.15)}>
+              <img src={bathDetail} alt="Угловое соединение рубленой бани" className="w-full rounded-2xl object-cover aspect-[4/3] shadow-xl" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Комплектация ── */}
+      <section className="py-16 md:py-24 border-b border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div {...fade()}>
+            <span className="text-xs uppercase tracking-[0.3em] text-yellow-600 font-medium">
+              Комплектация
+            </span>
+            <h2 className="mt-3 font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-10">
+              Всё необходимое для готовой парной
+            </h2>
+          </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <motion.div {...fade(0.1)} className="relative rounded-2xl overflow-hidden">
+              <img src={bathInterior} alt="Интерьер бани" className="w-full object-cover h-[42vh] md:h-[52vh]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent flex items-end">
+                <p className="p-7 md:p-10 text-white text-xl md:text-2xl font-serif leading-snug max-w-xl">
+                  От первого замера до первого пара — без разрозненных подрядчиков.
+                </p>
+              </div>
+            </motion.div>
+            <motion.ul {...fade(0.15)} className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
+              {INCLUDED.map((it) => (
+                <li key={it} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-foreground/80 leading-snug">{it}</span>
+                </li>
+              ))}
+            </motion.ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Стоимость ── */}
+      <section className="py-16 md:py-24 border-b border-border">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          <motion.div {...fade()}>
+            <span className="text-xs uppercase tracking-[0.3em] text-yellow-600 font-medium">Стоимость</span>
+            <h2 className="mt-3 font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-8">
               Сколько стоит баня
             </h2>
             <div className="rounded-2xl border border-border overflow-hidden mb-4">
@@ -89,79 +164,45 @@ export default function ServicesBani() {
                 { label: "Срок строительства", value: "1,5–3 месяца под ключ" },
                 { label: "Гарантия", value: "5 лет на сруб и монтаж" },
               ].map((row, i) => (
-                <div
-                  key={row.label}
-                  className={`flex flex-col sm:flex-row ${i % 2 === 0 ? "bg-muted/40" : "bg-card"}`}
-                >
-                  <div className="sm:w-72 px-6 py-4 text-xs font-semibold text-foreground uppercase tracking-wide border-b sm:border-b-0 sm:border-r border-border flex-shrink-0">
-                    {row.label}
-                  </div>
+                <div key={row.label} className={`flex flex-col sm:flex-row ${i % 2 === 0 ? "bg-muted/40" : "bg-card"}`}>
+                  <div className="sm:w-72 px-6 py-4 text-xs font-semibold text-foreground uppercase tracking-wide border-b sm:border-b-0 sm:border-r border-border flex-shrink-0">{row.label}</div>
                   <div className="flex-1 px-6 py-4 text-sm text-muted-foreground">{row.value}</div>
                 </div>
               ))}
             </div>
-            <p className="text-sm text-muted-foreground italic">
-              Цены ориентировочные. Точный расчёт — после консультации и составления сметы.
-            </p>
+            <p className="text-sm text-muted-foreground italic">Цены ориентировочные. Точный расчёт — после консультации и составления сметы.</p>
           </motion.div>
         </div>
       </section>
 
-      {/* Included */}
-      <section className="py-16 md:py-24 bg-muted/30">
+      {/* ── Этапы ── */}
+      <section className="py-16 md:py-24 border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div {...fade()} className="max-w-3xl">
-            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-8">
-              Что входит в баню под ключ
-            </h2>
-            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
-              {INCLUDED.map((it) => (
-                <li key={it} className="flex items-start gap-3 text-muted-foreground">
-                  <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                  <span>{it}</span>
-                </li>
-              ))}
-            </ul>
+          <motion.div {...fade()}>
+            <span className="text-xs uppercase tracking-[0.3em] text-yellow-600 font-medium">Процесс</span>
+            <h2 className="mt-3 font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-10">Как строится баня</h2>
           </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            {STEPS.map((s, i) => (
+              <motion.div key={s.t} {...fade(i * 0.08)} className="relative">
+                <span className="font-serif text-4xl font-bold text-yellow-600/70">0{i + 1}</span>
+                <h3 className="font-semibold mt-4 mb-2">{s.t}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{s.d}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Steps */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <motion.div {...fade()} className="max-w-3xl">
-            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-8">
-              Этапы работ
-            </h2>
-            <ol className="space-y-6">
-              {STEPS.map((s, i) => (
-                <li key={s.t} className="flex gap-5">
-                  <span className="font-serif text-2xl font-bold text-primary w-8 flex-shrink-0">
-                    {i + 1}
-                  </span>
-                  <div>
-                    <h3 className="font-semibold mb-1">{s.t}</h3>
-                    <p className="text-muted-foreground">{s.d}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Projects */}
+      {/* ── Projects ── */}
       {bathProjects.length > 0 && (
         <section className="py-16 md:py-24 bg-muted/30">
           <div className="container mx-auto px-4 md:px-6">
             <motion.div {...fade()}>
-              <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-8">
-                Проекты бань
-              </h2>
+              <span className="text-xs uppercase tracking-[0.3em] text-yellow-600 font-medium">Наши работы</span>
+              <h2 className="mt-3 font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-8">Проекты бань</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {bathProjects.map((p) => (
-                  <ProjectMiniCard key={p.id} project={p} />
-                ))}
+                {bathProjects.map((p) => <ProjectMiniCard key={p.id} project={p} />)}
               </div>
             </motion.div>
           </div>
@@ -170,20 +211,14 @@ export default function ServicesBani() {
 
       <FaqBlock items={FAQ_BANI} title="Вопросы о строительстве бань" />
 
-      {/* CTA */}
+      {/* ── CTA ── */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div {...fade()} className="max-w-2xl">
-            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
-              Посчитаем вашу баню
-            </h2>
-            <p className="text-muted-foreground mb-8 text-lg">
-              Оставьте заявку — подберём размер, печь и комплектацию под ваш бюджет.
-            </p>
+            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Посчитаем вашу баню</h2>
+            <p className="text-muted-foreground mb-8 text-lg">Оставьте заявку — подберём размер, печь и комплектацию под ваш бюджет.</p>
             <Button asChild size="lg" className="rounded-full px-8">
-              <Link href="/contacts#form">
-                Получить расчёт <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
+              <Link href="/contacts#form">Получить расчёт <ArrowRight className="w-4 h-4 ml-2" /></Link>
             </Button>
           </motion.div>
         </div>
