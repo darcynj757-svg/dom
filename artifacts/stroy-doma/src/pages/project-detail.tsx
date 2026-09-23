@@ -225,7 +225,7 @@ export default function ProjectDetail() {
                   <p className="text-xs text-muted-foreground mb-3 uppercase tracking-widest">
                     Написать напрямую
                   </p>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     <a
                       href="https://wa.me/79138534439"
                       target="_blank"
@@ -250,15 +250,6 @@ export default function ProjectDetail() {
                       <span className="text-foreground/80 group-hover:text-[#229ED9] transition-colors">Telegram</span>
                     </a>
 
-                    <a
-                      href="https://max.ru/79138534439"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-muted/50 hover:bg-[#5B5FEF]/10 hover:border-[#5B5FEF]/40 transition-all duration-200 py-2.5 text-xs font-medium group"
-                    >
-                      <img src="/max-icon.webp" alt="Макс" className="w-3.5 h-3.5 object-contain rounded-sm flex-shrink-0" />
-                      <span className="text-foreground/80 group-hover:text-[#5B5FEF] transition-colors">Макс</span>
-                    </a>
                   </div>
                 </div>
 
