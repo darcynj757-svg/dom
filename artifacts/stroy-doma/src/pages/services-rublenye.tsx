@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { RublenyeHeroVideo } from "@/components/RublenyeHeroVideo";
 import { useSeo } from "@/hooks/useSeo";
+import { FaqBlock } from "@/components/FaqBlock";
+import { FAQ_RUBLENYE } from "@/data/faq";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { useHeroParallax } from "@/hooks/useHeroParallax";
@@ -418,6 +420,9 @@ export default function ServicesRublenye() {
           </motion.div>
         </div>
       </section>
+
+      <FaqBlock items={FAQ_RUBLENYE} />
+
     </div>
   );
 }

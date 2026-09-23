@@ -6,6 +6,8 @@ import { Link, useLocation } from "wouter";
 import { ArrowRight, Phone } from "lucide-react";
 import Calculator from "@/components/Calculator";
 import { useSeo } from "@/hooks/useSeo";
+import { FaqBlock } from "@/components/FaqBlock";
+import { FAQ_GENERAL } from "@/data/faq";
 import railwayImg from "@assets/service-railway.webp";
 import proektImg from "@assets/service-proekt.webp";
 import lesImg from "@assets/service-planirovka.webp";
@@ -250,6 +252,9 @@ export default function Uslugi() {
           </motion.div>
         </div>
       </section>
+
+      <FaqBlock items={FAQ_GENERAL} />
+
     </div>
   );
 }

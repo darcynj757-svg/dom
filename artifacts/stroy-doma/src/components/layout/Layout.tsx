@@ -46,6 +46,8 @@ const NAV_LINKS: NavItem[] = [
     children: [
       { href: "/services/profilirovanny-brus", label: "Дома из профилированного бруса" },
       { href: "/services/rublenye-doma", label: "Рубленые дома" },
+      { href: "/services/bani", label: "Бани под ключ" },
+      { href: "/services/doma-iz-kedra", label: "Дома из кедра" },
     ],
   },
   { href: "/projects", label: "Проекты" },
@@ -409,10 +411,13 @@ export function Footer() {
               { href: "/services", label: "Строительство" },
               { href: "/services/profilirovanny-brus", label: "Дома из бруса" },
               { href: "/services/rublenye-doma", label: "Рубленые дома" },
+              { href: "/services/bani", label: "Бани под ключ" },
+              { href: "/services/doma-iz-kedra", label: "Дома из кедра" },
               { href: "/production/pilomaterial", label: "Пиломатериал" },
               { href: "/production", label: "Производство" },
               { href: "/projects", label: "Проекты" },
               { href: "/gallery", label: "Галерея" },
+              { href: "/objects", label: "Объекты" },
               { href: "/articles", label: "Статьи" },
               { href: "/contacts", label: "Контакты" },
             ].map((l) => (

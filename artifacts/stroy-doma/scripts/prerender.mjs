@@ -166,6 +166,8 @@ const SITE_NAVIGATION = [
   ["О компании", "/about"],
   ["Дома из профилированного бруса", "/services/profilirovanny-brus"],
   ["Рубленые дома", "/services/rublenye-doma"],
+  ["Бани под ключ", "/services/bani"],
+  ["Дома из кедра", "/services/doma-iz-kedra"],
   ["Проекты", "/projects"],
   ["Производство", "/production"],
   ["Галерея", "/gallery"],

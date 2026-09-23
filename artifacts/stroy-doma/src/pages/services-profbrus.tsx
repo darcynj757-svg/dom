@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { ProfbrusHeroVideo } from "@/components/ProfbrusHeroVideo";
 import { useSeo } from "@/hooks/useSeo";
+import { FaqBlock } from "@/components/FaqBlock";
+import { FAQ_BRUS } from "@/data/faq";
 import imgHouseWinter from "@assets/a404eeaf-94f9-41b7-a6a4-ed9de3b003e7_1784948204328.webp";
 import imgTimberSection from "@assets/generated_images/profbrus-material-hero.webp";
 import imgInterior from "@assets/9755231b-2745-41bb-afb1-7fb8016ce68e_1784948204327.webp";
@@ -278,6 +280,9 @@ export default function ServicesProfBrus() {
           </motion.div>
         </div>
       </section>
+
+      <FaqBlock items={FAQ_BRUS} />
+
     </div>
   );
 }
