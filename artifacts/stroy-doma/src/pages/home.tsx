@@ -622,13 +622,15 @@ export default function Home() {
         </div>
         <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
           <h2 className="font-display font-black text-white max-w-2xl mx-auto" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
-            Готовы начать строительство своего дома?
+            Узнайте стоимость дома до начала строительства
           </h2>
           <p className="mt-4 text-background/60 max-w-lg mx-auto">
-            Оставьте заявку — мы свяжемся с вами и поможем подобрать проект под ваш участок и бюджет.
+            Обсудим ваш проект и состав работ, чтобы подготовить предварительную смету. Оставьте заявку — специалист свяжется с вами.
           </p>
           <Button asChild size="lg" className="mt-8 rounded-full px-10 py-6 text-base font-bold bg-white text-foreground hover:bg-white/90">
-            <Link href="/contacts#form">Оставить заявку</Link>
+            <Link href={`/contacts?from=${encodeURIComponent("Предварительный расчёт стоимости дома")}#form`}>
+              Запросить расчёт
+            </Link>
           </Button>
         </div>
       </section>
