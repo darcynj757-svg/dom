@@ -242,7 +242,7 @@ export function Navbar() {
           {/* Phone + CTA */}
           <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
             <a
-              href="tel:+73822334439"
+              href="tel:+79138534439"
               className={`flex items-center gap-1 text-xs font-semibold transition-colors duration-200 ${
                 isWhiteText && !isScrolled
                   ? "text-white/90 hover:text-white"
@@ -250,7 +250,7 @@ export function Navbar() {
               }`}
             >
               <Phone className="w-3 h-3 flex-shrink-0" />
-              <span className="whitespace-nowrap">+7 (3822) 33-44-39</span>
+              <span className="whitespace-nowrap">+7 (913) 853-44-39</span>
             </a>
             {isWhiteText && !isScrolled ? (
               <button
@@ -367,10 +367,10 @@ export function Navbar() {
 
             <div className="pt-3 mt-2 border-t border-border">
               <a
-                href="tel:+73822334439"
+                href="tel:+79138534439"
                 className="flex items-center gap-2 px-4 py-2 text-sm text-muted-foreground"
               >
-                <Phone className="w-4 h-4" /> +7 (3822) 33-44-39
+                <Phone className="w-4 h-4" /> +7 (913) 853-44-39
               </a>
               <Button asChild className="w-full rounded-full mt-2">
                 <Link

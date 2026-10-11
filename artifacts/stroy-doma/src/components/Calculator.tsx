@@ -375,10 +375,10 @@ export default function Calculator() {
                     Получить точный расчёт <ArrowRight className="w-4 h-4" />
                   </Link>
                   <a
-                    href="tel:+73822334439"
+                    href="tel:+79138534439"
                     className="flex items-center justify-center gap-2 w-full border border-foreground/15 text-foreground/70 rounded-full py-3 text-sm hover:bg-foreground/5 transition-colors"
                   >
-                    +7 (3822) 33-44-39
+                    +7 (913) 853-44-39
                   </a>
                 </div>
               </div>

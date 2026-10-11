@@ -13,7 +13,7 @@ import { COMPANY } from "@/data/contacts";
 export default function Contacts() {
   useSeo({
     title: "Контакты",
-    description: "Свяжитесь с Кедр Томск: +7 (3822) 33-44-39, г. Томск, мкр. Черемошники. Оставьте заявку на строительство деревянного дома.",
+    description: `Свяжитесь с Кедр Томск: ${COMPANY.phoneFormatted}, г. Томск, мкр. Черемошники. Оставьте заявку на строительство деревянного дома.`,
   });
   const [form, setForm] = useState({ name: "", phone: "", message: "" });
   const [status, setStatus] = useState<"idle" | "pending" | "success" | "error">("idle");

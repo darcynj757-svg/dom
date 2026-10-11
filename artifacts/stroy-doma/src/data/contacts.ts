@@ -7,8 +7,8 @@ export const COMPANY = {
   legalName: "KedrTomsk",
   url: "https://kedr-tomsk.ru",
   email: "mail@kedr-tomsk.ru",
-  phone: "+73822334439",
-  phoneFormatted: "+7 (3822) 33-44-39",
+  phone: "+79138534439",
+  phoneFormatted: "+7 (913) 853-44-39",
   address: {
     street: "мкр. Черемошники, ул. Профсоюзная, 2/1с12",
     city: "Томск",

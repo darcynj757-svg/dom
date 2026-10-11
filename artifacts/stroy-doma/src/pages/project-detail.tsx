@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Check, User, Phone, MessageSquare, Send, Tag, CheckCircle2, AlertCircle } from "lucide-react";
 import { submitForm } from "@/lib/submitForm";
 import { useSeo } from "@/hooks/useSeo";
+import { COMPANY } from "@/data/contacts";
 
 export default function ProjectDetail() {
   const params = useParams<{ id: string }>();
@@ -299,7 +300,7 @@ export default function ProjectDetail() {
                   {status === "error" && (
                     <div className="flex items-center gap-2 text-destructive text-xs p-3 rounded-lg bg-destructive/10">
                       <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                      {errorMsg || "Не удалось отправить. Позвоните: +7 (3822) 33-44-39"}
+                      {errorMsg || `Не удалось отправить. Позвоните: ${COMPANY.phoneFormatted}`}
                     </div>
                   )}
 

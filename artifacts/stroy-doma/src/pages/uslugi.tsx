@@ -236,11 +236,11 @@ export default function Uslugi() {
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <a
-                href="tel:+73822334439"
+                href="tel:+79138534439"
                 className="inline-flex items-center gap-2 border border-background/30 text-background hover:bg-background/10 transition-colors rounded-full px-7 py-3 text-sm font-medium"
               >
                 <Phone className="w-4 h-4" />
-                +7 (3822) 33-44-39
+                +7 (913) 853-44-39
               </a>
               <Link
                 href="/contacts?from=%D0%A3%D1%81%D0%BB%D1%83%D0%B3%D0%B8#form"
