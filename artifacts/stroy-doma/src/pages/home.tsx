@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowUpRight, CalendarClock, Layers, Cog, Timer, Wallet, BadgeCheck, Phone, Calculator, FileSignature, HardHat, BookOpen, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CalendarClock, Layers, Cog, Timer, Wallet, BadgeCheck, Phone, FileSignature, HardHat, BookOpen, X, ChevronLeft, ChevronRight } from "lucide-react";
 import ScrollHouseBlock from "@/components/ScrollHouseBlock";
 import { useHeroParallax } from "@/hooks/useHeroParallax";
 import { useIsMobile } from "@/hooks/useIsMobile";
@@ -14,7 +14,6 @@ const heroPhoto = "/images/gallery/photo-1.webp";
 import ctaVideo from "@assets/generated_videos/profiled-timber-flythrough-v3.mp4";
 import { useSeo } from "@/hooks/useSeo";
 import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
-import CalculatorComponent from "@/components/Calculator";
 
 
 function StatCard({ value, suffix, label }: { value: number; suffix: string; label: string }) {
@@ -391,7 +390,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {[
                 { step: "01", icon: Phone, title: "Заявка", text: "Позвоните или напишите — обсудим ваши пожелания и ответим на вопросы." },
-                { step: "02", icon: Calculator, title: "Расчёт", text: "Сделаем первичный расчёт пиломатериала и стоимости строительных работ." },
+                { step: "02", icon: Wallet, title: "Расчёт", text: "Сделаем первичный расчёт пиломатериала и стоимости строительных работ." },
                 { step: "03", icon: FileSignature, title: "Договор и проект", text: "Заключим договор, подготовим и согласуем техническую документацию." },
                 { step: "04", icon: HardHat, title: "Производство и стройка", text: "Изготовим сруб на производстве и приступим к строительству на участке." },
               ].map((item, i) => (
@@ -415,9 +414,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* ── Calculator ──────────────────────────────────────────────────────── */}
-      <CalculatorComponent />
 
       {/* ── Block 7: Gallery preview ────────────────────────────────────────── */}
       <section className="py-20 md:py-28">

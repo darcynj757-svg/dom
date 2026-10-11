@@ -4,7 +4,6 @@ import { useHeroParallax } from "@/hooks/useHeroParallax";
 import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 import { Link, useLocation } from "wouter";
 import { ArrowRight, Phone } from "lucide-react";
-import Calculator from "@/components/Calculator";
 import { useSeo } from "@/hooks/useSeo";
 import { FaqBlock } from "@/components/FaqBlock";
 import { FAQ_GENERAL } from "@/data/faq";
@@ -211,9 +210,6 @@ export default function Uslugi() {
           ))}
         </div>
       </section>
-
-      {/* ── Калькулятор ── */}
-      <Calculator />
 
       {/* ── CTA ── */}
       <section className="py-20 bg-foreground text-background">

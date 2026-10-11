@@ -1,6 +1,6 @@
 export type FaqItem = { q: string; a: string };
 
-/** Base prices per m² — keep in sync with src/components/Calculator.tsx */
+/** Indicative starting prices per m² used in site content. */
 export const PRICE_FROM = {
   houseBrus: 10500,
   houseRubleny: 11500,
@@ -38,7 +38,7 @@ const common: FaqItem[] = [
 export const FAQ_BRUS: FaqItem[] = [
   {
     q: "Сколько стоит дом из профилированного бруса?",
-    a: `Коробка дома из профилированного бруса — от ${fmtRub(PRICE_FROM.houseBrus)} ₽ за м². Фундамент — от ${fmtRub(PRICE_FROM.foundation)} ₽/м², чистовая отделка под ключ — от ${fmtRub(PRICE_FROM.finishing)} ₽/м². Точную стоимость считаем по проекту — попробуйте онлайн-калькулятор.`,
+    a: `Коробка дома из профилированного бруса — от ${fmtRub(PRICE_FROM.houseBrus)} ₽ за м². Фундамент — от ${fmtRub(PRICE_FROM.foundation)} ₽/м², чистовая отделка под ключ — от ${fmtRub(PRICE_FROM.finishing)} ₽/м². Точную стоимость определяем по проекту и составу работ.`,
   },
   {
     q: "Нужно ли ждать усадку дома из бруса?",
@@ -110,7 +110,7 @@ export const FAQ_KEDR: FaqItem[] = [
 export const FAQ_GENERAL: FaqItem[] = [
   {
     q: "Сколько стоит построить деревянный дом?",
-    a: `Коробка дома из профилированного бруса — от ${fmtRub(PRICE_FROM.houseBrus)} ₽/м², рубленый дом — от ${fmtRub(PRICE_FROM.houseRubleny)} ₽/м², баня — от ${fmtRub(PRICE_FROM.bathBrus)} ₽/м². Рассчитать стоимость своего дома можно в онлайн-калькуляторе.`,
+    a: `Коробка дома из профилированного бруса — от ${fmtRub(PRICE_FROM.houseBrus)} ₽/м², рубленый дом — от ${fmtRub(PRICE_FROM.houseRubleny)} ₽/м², баня — от ${fmtRub(PRICE_FROM.bathBrus)} ₽/м². Чтобы узнать стоимость вашего проекта, свяжитесь с нами — учтём площадь, материал и комплектацию.`,
   },
   ...common,
 ];
