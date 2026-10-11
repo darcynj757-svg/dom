@@ -212,8 +212,8 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: "Kedr Tomsk — Строительство домов и бань",
-        short_name: "Kedr Tomsk",
+        name: "Kedr-Tomsk — Строительство домов и бань",
+        short_name: "Kedr-Tomsk",
         description: "Строительство деревянных домов и бань из профилированного бруса",
         theme_color: "#1c1a17",
         background_color: "#1c1a17",

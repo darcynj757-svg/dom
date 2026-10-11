@@ -74,7 +74,7 @@ function SceneHero() {
         transition={{ duration: 1.2, delay: 0.5 }}
         className="text-yellow-400/80 uppercase tracking-[0.5em] text-sm md:text-base font-medium mb-6"
       >
-        Kedr Tomsk
+        Kedr-Tomsk
       </motion.div>
 
       <div className="overflow-hidden mb-8">
@@ -404,7 +404,7 @@ function SceneCTA() {
           transition={{ duration: 1, delay: 1.5 }}
           className="text-[#B69D72] uppercase tracking-[0.3em] text-lg"
         >
-          Kedr Tomsk
+          Kedr-Tomsk
         </motion.p>
       </div>
     </motion.div>

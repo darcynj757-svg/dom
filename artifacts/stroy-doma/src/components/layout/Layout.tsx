@@ -183,7 +183,7 @@ export function Navbar() {
             <div className="w-9 h-8 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 -translate-y-1">
               <img
                 src={logoIcon}
-                alt="Kedr Tomsk"
+                alt="Kedr-Tomsk"
                 className={`w-full h-full object-contain transition-all duration-300 ${
                   isWhiteText && !isScrolled ? "" : "invert"
                 }`}
@@ -194,7 +194,7 @@ export function Navbar() {
                 isWhiteText && !isScrolled ? "text-white" : "text-foreground"
               }`}
             >
-              Kedr Tomsk
+              Kedr-Tomsk
             </span>
           </Link>
 
@@ -399,7 +399,7 @@ export function Footer() {
           <div className="flex items-center gap-3 md:w-48 shrink-0">
             <img src={logoIcon} alt="KedrTomsk" className="w-10 h-10 object-contain" />
             <div>
-              <span className="font-display text-sm font-bold text-white block leading-tight">Kedr Tomsk</span>
+              <span className="font-display text-sm font-bold text-white block leading-tight">Kedr-Tomsk</span>
               <span className="text-background/50 text-xs">с 2001 года</span>
             </div>
           </div>
